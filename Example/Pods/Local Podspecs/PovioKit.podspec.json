@@ -1,22 +1,36 @@
 {
   "name": "PovioKit",
   "version": "0.1.0",
-  "summary": "A short description of PovioKit.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/Toni Kocjan/PovioKit",
+  "summary": "PovioKit is a collection of useful tools, extensions and modules.",
+  "swift_version": "4.2",
+  "description": "PovioKit is a collection of useful tools, extensions and modules.\nTODO add description ...",
+  "homepage": "https://github.com/poviolabs/",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "Toni Kocjan": "toni.kocjan@poviolabs.com"
+    "Toni Kocjan w/ colaboration of other `PovioLabs` members": "toni.kocjan@poviolabs.com"
   },
   "source": {
-    "git": "https://github.com/Toni Kocjan/PovioKit.git",
+    "git": "git@github.com:poviolabs/PovioKit.git",
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "11.0"
   },
-  "source_files": "PovioKit/Classes/**/*"
+  "source_files": "PovioKit/Classes/**/*",
+  "frameworks": "UIKit",
+  "subspecs": [
+    {
+      "name": "Utilities",
+      "source_files": "PovioKit/Classes/Utilities/**/*",
+      "subspecs": [
+        {
+          "name": "AttributedStringBuilder",
+          "source_files": "PovioKit/Classes/Utilities/AttributedStringBuilder/**/*"
+        }
+      ]
+    }
+  ]
 }
