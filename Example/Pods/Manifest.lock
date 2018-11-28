@@ -1,0 +1,16 @@
+PODS:
+  - PovioKit (0.1.0)
+
+DEPENDENCIES:
+  - PovioKit (from `../`)
+
+EXTERNAL SOURCES:
+  PovioKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  PovioKit: 3e74a6a9488f2a4230cbd95c5098753f15142759
+
+PODFILE CHECKSUM: 7828bf8f48fc91af4482b5abcf89bb5164ef31f3
+
+COCOAPODS: 1.5.3
