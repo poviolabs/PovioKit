@@ -31,7 +31,7 @@ label.bd.apply {
 
 A common problem we can face is when we want to change attributes of only a specific substring of the text we are dealing with. Lets say we want to change the color of the word "custom" to blue with bigger font.
 
-Without using `AttributedStringBuilder` this would look something like:
+Without using `AttributedStringBuilder`, we would come up with something like this:
 
 ```Swift
 let text = "My custom text"
@@ -49,7 +49,7 @@ let label = UILabel()
 label.attributedText = attributedText
 ```
 
-Using `AttributedStringBuilder` we can simply into:
+Using `AttributedStringBuilder` we can simplify into:
 
 ```SWift
 let label = UILabel()
@@ -77,9 +77,10 @@ let attributedText = AttributedStringBuilder(text: "My custom text")
   .create()
 ```
 
-Here we are also aligning text to center and configuring some other `paragraph` parameters. If, for some reason, we need a `mutable` instance, we replace `.create()` with `.createMutable()`.
+If, for some reason, we need a `mutable` instance, we replace `.create()` with `.createMutable()`.
 
-We've shown how we can configure a couple of attributed parameters, like color, font, paragraph style, ... But what if we want to configure any other attribute? The methods shown through examples above are actually just convenience methods calling generic `addAttribute(key: NSAttributedString.Key, object: Any?)` methods. We can use this method to configure any other attributes we'd like. 
+We've shown how we can configure a couple of attributed parameters, like color, font, paragraph style, ... But what if we want to configure any other attribute? 
+The methods shown through examples above are actually just convenience methods calling generic `addAttribute(key: NSAttributedString.Key, object: Any?)` method. We can use this method instead to configure any other attributes we'd like. 
 
 ## Installation
 
