@@ -7,6 +7,66 @@
 //
 import UIKit
 
+protocol ParentProtocol: class {
+  var attributedText: NSAttributedString? { get set }
+  var text: String? { get }
+}
+
+class Builder {
+  internal let emptyAttributedString = NSAttributedString(string: "")
+  private let parent: ParentProtocol?
+  
+  init() {
+    self.parent = nil
+  }
+  
+  init(parent: ParentProtocol?) {
+    self.parent = parent
+  }
+  
+  @discardableResult
+  func apply(on text: String, _ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
+    let builder = AttributedStringBuilder(text: text)
+    closure(builder)
+    let attributedString = builder.create()
+    parent?.attributedText = attributedString
+    return attributedString
+  }
+  
+  @discardableResult
+  func apply(_ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
+    let builder = AttributedStringBuilder(text: parent?.text ?? "")
+    closure(builder)
+    let attributedString = builder.create()
+    parent?.attributedText = attributedString
+    return attributedString
+  }
+}
+
+var attributedString = Builder().apply(on: "Text") {
+  $0.setTextColor(UIColor.white)
+  $0.setFont(UIFont.init())
+}
+
+extension UILabel: ParentProtocol {
+  var bd: Builder { return Builder(parent: self) }
+}
+
+extension UITextView: ParentProtocol {
+  var attributedText: NSAttributedString? {
+    get { return attributedString }
+    set { attributedString = attributedText ?? bd.emptyAttributedString }
+  }
+  
+  var text: String? { return attributedString.string }
+  var bd: Builder { return Builder(parent: self) }
+}
+
+extension UITextField: ParentProtocol {
+  var bd: Builder { return Builder(parent: self) }
+}
+
+/// AttributedStringBuilder
 class AttributedStringBuilder {
   private enum StringBuilderError: Error {
     case invalidRange
