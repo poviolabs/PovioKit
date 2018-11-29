@@ -7,7 +7,51 @@
 //
 import UIKit
 
-class AttributedStringBuilder {
+public protocol BuilderCompatible: class {
+  var attributedText: NSAttributedString? { get set }
+  var text: String? { get }
+  var bd: Builder { get }
+}
+
+extension BuilderCompatible {
+  public var bd: Builder { return Builder(self) }
+}
+
+extension UILabel: BuilderCompatible {}
+extension UITextField: BuilderCompatible {}
+
+public class Builder {
+  internal let emptyAttributedString = NSAttributedString(string: "")
+  private let compatible: BuilderCompatible?
+  
+  public init() {
+    self.compatible = nil
+  }
+  
+  public init(_ compatible: BuilderCompatible?) {
+    self.compatible = compatible
+  }
+  
+  @discardableResult
+  open func apply(on text: String, _ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
+    let builder = AttributedStringBuilder(text: text)
+    closure(builder)
+    let attributedString = builder.create()
+    compatible?.attributedText = attributedString
+    return attributedString
+  }
+  
+  @discardableResult
+  open func apply(_ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
+    let builder = AttributedStringBuilder(text: compatible?.text ?? "")
+    closure(builder)
+    let attributedString = builder.create()
+    compatible?.attributedText = attributedString
+    return attributedString
+  }
+}
+
+open class AttributedStringBuilder {
   private enum StringBuilderError: Error {
     case invalidRange
     case substringNotFound
@@ -21,21 +65,21 @@ class AttributedStringBuilder {
   private var attributes = [NSAttributedString.Key: Any]()
   private var rangeAttributes = [(NSAttributedString.Key, Any, NSRange)]()
   
-  init(text: String) {
+  public init(text: String) {
     self.text = text
   }
 }
 
 // MARK: - Custom initializers
 extension AttributedStringBuilder {
-  func create() -> NSAttributedString {
+  open func create() -> NSAttributedString {
     if rangeAttributes.isEmpty {
       return NSAttributedString(string: text, attributes: attributes)
     }
     return createMutable() as NSAttributedString
   }
   
-  func createMutable() -> NSMutableAttributedString {
+  open func createMutable() -> NSMutableAttributedString {
     let mutableString = NSMutableAttributedString(string: text, attributes: attributes)
     for (key, value, range) in rangeAttributes {
       mutableString.addAttribute(key, value: value, range: range)
@@ -47,7 +91,7 @@ extension AttributedStringBuilder {
 // MARK: - Add Attribute Setters
 extension AttributedStringBuilder {
   @discardableResult
-  func addAttribute(key: NSAttributedString.Key, object: Any?) -> AttributedStringBuilder {
+  open func addAttribute(key: NSAttributedString.Key, object: Any?) -> AttributedStringBuilder {
     if let object = object {
       attributes[key] = object
     }
@@ -55,7 +99,7 @@ extension AttributedStringBuilder {
   }
   
   @discardableResult
-  func addAttribute(key: NSAttributedString.Key, object: Any?, range: NSRange) throws -> AttributedStringBuilder {
+  open func addAttribute(key: NSAttributedString.Key, object: Any?, range: NSRange) throws -> AttributedStringBuilder {
     try validate(range: range)
     if let object = object {
       rangeAttributes.append((key, object, range))
@@ -64,7 +108,7 @@ extension AttributedStringBuilder {
   }
   
   @discardableResult
-  func addAttribute(key: NSAttributedString.Key, object: Any?, substring: String) throws -> AttributedStringBuilder {
+  open func addAttribute(key: NSAttributedString.Key, object: Any?, substring: String) throws -> AttributedStringBuilder {
     guard let range = text.range(of: substring) else { throw StringBuilderError.substringNotFound }
     return try addAttribute(key: key, object: object, range: NSRange(range, in: text))
   }
@@ -73,22 +117,22 @@ extension AttributedStringBuilder {
 // MARK: - Other Setters
 extension AttributedStringBuilder {
   @discardableResult
-  func setFont(_ font: UIFont?) -> AttributedStringBuilder {
+  open func setFont(_ font: UIFont?) -> AttributedStringBuilder {
     return addAttribute(key: .font, object: font)
   }
   
   @discardableResult
-  func setTextColor(_ color: UIColor?) -> AttributedStringBuilder {
+  open func setTextColor(_ color: UIColor?) -> AttributedStringBuilder {
     return addAttribute(key: .foregroundColor, object: color)
   }
   
   @discardableResult
-  func setUnderlineStyle(_ style: Int?) -> AttributedStringBuilder {
-    return addAttribute(key: .underlineStyle, object: style)
+  open func setUnderlineStyle(_ style: NSUnderlineStyle) -> AttributedStringBuilder {
+    return addAttribute(key: .underlineStyle, object: style.rawValue)
   }
   
   @discardableResult
-  func setParagraphStyle(lineSpacing: CGFloat,
+  open func setParagraphStyle(lineSpacing: CGFloat,
                          heightMultiple: CGFloat = 1,
                          lineHeight: CGFloat,
                          lineBreakMode: NSLineBreakMode = .byWordWrapping,
@@ -103,22 +147,22 @@ extension AttributedStringBuilder {
   }
   
   @discardableResult
-  func setFont(_ font: UIFont?, range: NSRange) throws -> AttributedStringBuilder {
+  open func setFont(_ font: UIFont?, range: NSRange) throws -> AttributedStringBuilder {
     return try addAttribute(key: .font, object: font, range: range)
   }
   
   @discardableResult
-  func setTextColor(_ color: UIColor?, range: NSRange) throws  -> AttributedStringBuilder {
+  open func setTextColor(_ color: UIColor?, range: NSRange) throws  -> AttributedStringBuilder {
     return try addAttribute(key: .foregroundColor, object: color, range: range)
   }
   
   @discardableResult
-  func setUnderlineStyle(_ style: Int?, range: NSRange) throws  -> AttributedStringBuilder {
-    return try addAttribute(key: .underlineStyle, object: style, range: range)
+  open func setUnderlineStyle(_ style: NSUnderlineStyle, range: NSRange) throws  -> AttributedStringBuilder {
+    return try addAttribute(key: .underlineStyle, object: style.rawValue, range: range)
   }
   
   @discardableResult
-  func setParagraphStyle(lineSpacing: CGFloat,
+  open func setParagraphStyle(lineSpacing: CGFloat,
                          heightMultiple: CGFloat = 1,
                          lineHeight: CGFloat,
                          lineBreakMode: NSLineBreakMode = .byWordWrapping,
@@ -134,22 +178,22 @@ extension AttributedStringBuilder {
   }
   
   @discardableResult
-  func setFont(_ font: UIFont?, substring: String) throws -> AttributedStringBuilder {
+  open func setFont(_ font: UIFont?, substring: String) throws -> AttributedStringBuilder {
     return try addAttribute(key: .font, object: font, substring: substring)
   }
   
   @discardableResult
-  func setTextColor(_ color: UIColor?, substring: String) throws  -> AttributedStringBuilder {
+  open func setTextColor(_ color: UIColor?, substring: String) throws  -> AttributedStringBuilder {
     return try addAttribute(key: .foregroundColor, object: color, substring: substring)
   }
   
   @discardableResult
-  func setUnderlineStyle(_ style: Int?, substring: String) throws  -> AttributedStringBuilder {
-    return try addAttribute(key: .underlineStyle, object: style, substring: substring)
+  open func setUnderlineStyle(_ style: NSUnderlineStyle, substring: String) throws  -> AttributedStringBuilder {
+    return try addAttribute(key: .underlineStyle, object: style.rawValue, substring: substring)
   }
   
   @discardableResult
-  func setParagraphStyle(lineSpacing: CGFloat,
+  open func setParagraphStyle(lineSpacing: CGFloat,
                          heightMultiple: CGFloat = 1,
                          lineHeight: CGFloat,
                          lineBreakMode: NSLineBreakMode = .byWordWrapping,
