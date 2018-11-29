@@ -9,11 +9,10 @@
 /* Begin PBXBuildFile section */
 		0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D2EA815ACAC4B5D259E2F6131671AF /* PovioKit-dummy.m */; };
 		0E069D1EEA397611531B7B418ED92AFB /* Pods-PovioKit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9577E3D837BFC529422908DCF7041916 /* Pods-PovioKit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		37DB2CFF21B0129F0047CDC1 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DB2CFE21B0129F0047CDC1 /* AttributedStringBuilder.swift */; };
-		37DB2D0021B0129F0047CDC1 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DB2CFE21B0129F0047CDC1 /* AttributedStringBuilder.swift */; };
 		4DD1F879D4C7D2614235376EB0C37520 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		5E096F52E192D32E7F59B35D76B5B703 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		6393D66F5A5EBAC24A3AFA103EAC8004 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63C6A64CF66340668996F78DA6BB482 /* UIKit.framework */; };
+		C33321102EBEB7D3BEECBF5CE2314D24 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */; };
 		C9C2D87030D2D6620AEC3FF1B905C33B /* Pods-PovioKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 848CE8CF70ABF11C258700D421863D91 /* Pods-PovioKit_Tests-dummy.m */; };
 		F0ADB82E241667CC461BFF30FAE07039 /* PovioKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E21AD422858B5185A5A1D81EC0DC0F02 /* PovioKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -32,7 +31,7 @@
 		209DAB590A42BFA5A1F7924B6D34537B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E59929A37ADC54E187C75463CD188C6 /* Pods-PovioKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-PovioKit_Tests.modulemap"; sourceTree = "<group>"; };
 		31B446AD567750FC421ED7E3A5FAE69C /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		37DB2CFE21B0129F0047CDC1 /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AttributedStringBuilder.swift; path = PovioKit/Classes/Utilities/AttributedStringBuilder/AttributedStringBuilder.swift; sourceTree = "<group>"; };
+		37DB2D0121B027470047CDC1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = PovioKit/Classes/Utilities/AttributedStringBuilder/README.md; sourceTree = "<group>"; };
 		42F0349B7A49D8B4EFA78FFB8E2F965A /* PovioKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-prefix.pch"; sourceTree = "<group>"; };
 		493B7A5D67E3FE4D4FFB6697D7A7D889 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		503AC91565FD6ED6F35B1E6D3B0573BE /* Pods-PovioKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PovioKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
@@ -54,6 +53,7 @@
 		D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		DF30D4F61C8BD34ADE715A406491676A /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PovioKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AD422858B5185A5A1D81EC0DC0F02 /* PovioKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-umbrella.h"; sourceTree = "<group>"; };
+		F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AttributedStringBuilder.swift; path = PovioKit/Classes/Utilities/AttributedStringBuilder/AttributedStringBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +119,6 @@
 		3AD6CE21197F8F3B60EB322838BC2149 /* AttributedStringBuilder */ = {
 			isa = PBXGroup;
 			children = (
-				37DB2CFE21B0129F0047CDC1 /* AttributedStringBuilder.swift */,
 			);
 			name = AttributedStringBuilder;
 			sourceTree = "<group>";
@@ -127,9 +126,11 @@
 		3D26B2E2914CF8D77CE8B01AF953E77C /* PovioKit */ = {
 			isa = PBXGroup;
 			children = (
+				F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */,
 				E91D85F2F1D139D86365AC5E65A2361B /* Pod */,
 				032CE15B71DB529B318FDDA31428783F /* Support Files */,
 				B82C6A943C042F1F6938C517B7C13910 /* Utilities */,
+				37DB2D0121B027470047CDC1 /* README.md */,
 			);
 			name = PovioKit;
 			path = ../..;
@@ -288,7 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37DB2D0021B0129F0047CDC1 /* AttributedStringBuilder.swift in Sources */,
+				C33321102EBEB7D3BEECBF5CE2314D24 /* AttributedStringBuilder.swift in Sources */,
 				0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +298,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37DB2CFF21B0129F0047CDC1 /* AttributedStringBuilder.swift in Sources */,
 				C9C2D87030D2D6620AEC3FF1B905C33B /* Pods-PovioKit_Tests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

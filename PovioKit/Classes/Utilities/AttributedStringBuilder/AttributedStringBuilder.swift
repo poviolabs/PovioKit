@@ -20,7 +20,7 @@ extension BuilderCompatible {
 extension UILabel: BuilderCompatible {}
 extension UITextField: BuilderCompatible {}
 
-open class Builder {
+public class Builder {
   internal let emptyAttributedString = NSAttributedString(string: "")
   private let compatible: BuilderCompatible?
   
@@ -127,8 +127,8 @@ extension AttributedStringBuilder {
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: Int?) -> AttributedStringBuilder {
-    return addAttribute(key: .underlineStyle, object: style)
+  open func setUnderlineStyle(_ style: NSUnderlineStyle) -> AttributedStringBuilder {
+    return addAttribute(key: .underlineStyle, object: style.rawValue)
   }
   
   @discardableResult
@@ -157,8 +157,8 @@ extension AttributedStringBuilder {
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: Int?, range: NSRange) throws  -> AttributedStringBuilder {
-    return try addAttribute(key: .underlineStyle, object: style, range: range)
+  open func setUnderlineStyle(_ style: NSUnderlineStyle, range: NSRange) throws  -> AttributedStringBuilder {
+    return try addAttribute(key: .underlineStyle, object: style.rawValue, range: range)
   }
   
   @discardableResult
@@ -188,8 +188,8 @@ extension AttributedStringBuilder {
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: Int?, substring: String) throws  -> AttributedStringBuilder {
-    return try addAttribute(key: .underlineStyle, object: style, substring: substring)
+  open func setUnderlineStyle(_ style: NSUnderlineStyle, substring: String) throws  -> AttributedStringBuilder {
+    return try addAttribute(key: .underlineStyle, object: style.rawValue, substring: substring)
   }
   
   @discardableResult
