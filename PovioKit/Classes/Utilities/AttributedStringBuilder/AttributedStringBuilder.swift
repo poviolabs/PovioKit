@@ -24,16 +24,16 @@ open class Builder {
   internal let emptyAttributedString = NSAttributedString(string: "")
   private let compatible: BuilderCompatible?
   
-  init() {
+  public init() {
     self.compatible = nil
   }
   
-  init(_ compatible: BuilderCompatible?) {
+  public init(_ compatible: BuilderCompatible?) {
     self.compatible = compatible
   }
   
   @discardableResult
-  func apply(on text: String, _ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
+  open func apply(on text: String, _ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
     let builder = AttributedStringBuilder(text: text)
     closure(builder)
     let attributedString = builder.create()
@@ -42,7 +42,7 @@ open class Builder {
   }
   
   @discardableResult
-  func apply(_ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
+  open func apply(_ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
     let builder = AttributedStringBuilder(text: compatible?.text ?? "")
     closure(builder)
     let attributedString = builder.create()
@@ -65,7 +65,7 @@ open class AttributedStringBuilder {
   private var attributes = [NSAttributedString.Key: Any]()
   private var rangeAttributes = [(NSAttributedString.Key, Any, NSRange)]()
   
-  init(text: String) {
+  public init(text: String) {
     self.text = text
   }
 }
