@@ -10,7 +10,7 @@ Let's say we need to style a label with underlined text, custom color and font. 
 let attributedText = NSAttributedString(string: "My custom text",
                                         attributes: [.font: UIFont.boldSystemFont(ofSize: 14),
                                                      .foregroundColor: UIColor.red,
-                                                     .underlineStyle: NSUnderlineStyle.styleSingle])
+                                                     .underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
 let label = UILabel()
 label.attributedText = attributedText
 ```
@@ -22,8 +22,44 @@ let label = UILabel()
 label.text = "My custom text"
 label.bd.apply {
   $0.setTextColor(.red)
-  $0.setFont(UIFont.boldSystemFont(ofSize: 12))
+  $0.setFont(.boldSystemFont(ofSize: 14))
+  $0.setUnderlineStyle(.styleThick)
+}
+```
+
+## Advance usage
+
+A common problem we are usually solving with `NSAttributedString` is we want to change attributes of only specific substring of the text we are dealing with. Lets say we want to change the color of the word "custom" to blue with bigger font.
+
+Without using `AttributedStringBuilder` this would look something like:
+
+```Swift
+let text = "My custom text"
+let attributedText = NSMutableAttributedString(string: text,
+                                               attributes: [.font: UIFont.boldSystemFont(ofSize: 14), 
+                                                            .foregroundColor: UIColor.red,
+                                                            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
+if let range = text.range(of: "custom") {
+  let rangeInText = NSRange(range, in: text)
+  attributedText.addAttributes([.font: UIFont.boldSystemFont(ofSize: 18),
+                                .foregroundColor: UIColor.blue], 
+                               range: rangeInText)
+}
+let label = UILabel()
+label.attributedText = attributedText
+```
+
+Using `AttributedStringBuilder` we can simply into:
+
+```SWift
+let label = UILabel()
+label.text = "My custom text"
+label.bd.apply {
+  $0.setTextColor(.red)
+  $0.setFont(.boldSystemFont(ofSize: 12))
   $0.setUnderlineStyle(NSUnderlineStyle.styleThick.rawValue)
+  _ = try? $0.setFont(.boldSystemFont(ofSize: 18), substring: "custom")
+  _ = try? $0.setTextColor(.blue, substring: "custom")
 }
 ```
 
