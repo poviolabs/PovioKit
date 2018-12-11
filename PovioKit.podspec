@@ -40,5 +40,9 @@ TODO add description ...
     sp.subspec 'StartupService' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/StartupService/**/*'
     end
+    
+    sp.subspec 'Broadcast' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/**/*'
+    end
   end
 end
