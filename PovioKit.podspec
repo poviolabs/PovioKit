@@ -36,5 +36,9 @@ TODO add description ...
     sp.subspec 'AttributedStringBuilder' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/AttributedStringBuilder/**/*'
     end
+    
+    sp.subspec 'StartupService' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/StartupService/**/*'
+    end
   end
 end
