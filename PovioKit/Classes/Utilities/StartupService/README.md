@@ -4,7 +4,7 @@ Global configuration without making `AppDelegate` look like a mess.
 
 ## Problem
 
-`AppDelegate`'s `application(_ application:, didFinishLaunchingWithOptions:)` method is a place, where we usually do some app configuration, apply default UI settings, initialize outside dependencies and so on.
+`AppDelegate`'s `application(_ application:, didFinishLaunchingWithOptions:)` method is a place where we usually do some app configuration, apply default UI settings, initialize outside dependencies and so on.
 The code might look something like this:
 
 ```Swift
@@ -30,12 +30,15 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
   // Fabric setup
   Fabric.with([Crashlytics.self])
+  
+  ...
+  
   return true
 }
 ```
 
 There are two main issues with the code above:
-First of all, the method is doing to many things at the same time violating single responsibility principle. The second code smell is the importing of all kinds of modules. By using `StartupProcessService` we can refactor the code to:
+First of all, the method is doing too many things at the same time, violating single responsibility principle. The second code smell is that we have to import a great number of dependencies. By using `StartupProcessService` we can refactor the code:
 
 ```Swift
 import Foundation
