@@ -13,7 +13,7 @@ public final class StartupProcessService {
   public func execute(process: StartupProcess) -> StartupProcessService {
     process.run { (success) in
       guard success else { return }
-      Logger.debug("Successfully ran the \(type(of: process)) process.")
+      print("Successfully ran the \(type(of: process)) process.")
     }
     
     return self

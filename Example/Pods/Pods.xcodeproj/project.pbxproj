@@ -38,6 +38,7 @@
 		37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcess.swift; sourceTree = "<group>"; };
 		37330A9E21BFB57400AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
+		37330AA321BFBCD000AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37DB2D0121B027470047CDC1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		42F0349B7A49D8B4EFA78FFB8E2F965A /* PovioKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-prefix.pch"; sourceTree = "<group>"; };
 		493B7A5D67E3FE4D4FFB6697D7A7D889 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -153,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */,
+				37330AA321BFBCD000AE0BC8 /* README.md */,
 			);
 			path = Broadcast;
 			sourceTree = "<group>";
