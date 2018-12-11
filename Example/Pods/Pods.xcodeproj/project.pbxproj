@@ -53,7 +53,7 @@
 		D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		DF30D4F61C8BD34ADE715A406491676A /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PovioKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21AD422858B5185A5A1D81EC0DC0F02 /* PovioKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-umbrella.h"; sourceTree = "<group>"; };
-		F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AttributedStringBuilder.swift; path = PovioKit/Classes/Utilities/AttributedStringBuilder/AttributedStringBuilder.swift; sourceTree = "<group>"; };
+		F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AttributedStringBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,14 +119,14 @@
 		3AD6CE21197F8F3B60EB322838BC2149 /* AttributedStringBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */,
 			);
-			name = AttributedStringBuilder;
+			path = AttributedStringBuilder;
 			sourceTree = "<group>";
 		};
 		3D26B2E2914CF8D77CE8B01AF953E77C /* PovioKit */ = {
 			isa = PBXGroup;
 			children = (
-				F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */,
 				E91D85F2F1D139D86365AC5E65A2361B /* Pod */,
 				032CE15B71DB529B318FDDA31428783F /* Support Files */,
 				B82C6A943C042F1F6938C517B7C13910 /* Utilities */,
@@ -188,6 +188,7 @@
 				3AD6CE21197F8F3B60EB322838BC2149 /* AttributedStringBuilder */,
 			);
 			name = Utilities;
+			path = PovioKit/Classes/Utilities;
 			sourceTree = "<group>";
 		};
 		E91D85F2F1D139D86365AC5E65A2361B /* Pod */ = {
