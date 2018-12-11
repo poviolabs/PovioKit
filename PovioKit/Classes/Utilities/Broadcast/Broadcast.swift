@@ -1,5 +1,5 @@
 //
-//  MulticastDelegate.swift
+//  Broadcast.swift
 //  TSS
 //
 //  Created by Domagoj Kulundzic on 12/03/2018.
