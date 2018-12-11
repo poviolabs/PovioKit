@@ -35,14 +35,14 @@ class KeyboardBroadcast {
 Subsribing to keyboard notifications is as easy as:
 
 ```Swift
-let keyboardBrodcad = KeyboardBroadcast()
+let keyboardBrodcast = KeyboardBroadcast()
 
 ...
 
 class ViewController: UIViewController, AppEventObserver {
   func viewDidLoad() {
     super.viewDidLoad()
-    keyboardBrodcad.appEvents.add(self)
+    keyboardBrodcast.appEvents.add(self)
   }
   
   func keyboardWillShow(animationDuration: CGFloat, keyboardSize: CGSize) {
