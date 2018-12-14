@@ -14,7 +14,7 @@ class SearchWorker {
 
   func search(query: String, completion: (SearchResults) -> Void) {
     throttler.execute {
-      // this block will get executed after after `0.5` seconds. 
+      // this block will get executed after `0.5` seconds. 
       // if `search` is called multiple times during this period, only latest call will be dispatched 
       self.performApiRequest(query: query, completion: completion)
     }
