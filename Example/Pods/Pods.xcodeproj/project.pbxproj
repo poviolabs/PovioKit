@@ -13,6 +13,7 @@
 		37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */; };
 		37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */; };
 		37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */; };
+		37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0A21C3B64300AAC6CC /* GradientView.swift */; };
 		4DD1F879D4C7D2614235376EB0C37520 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		5E096F52E192D32E7F59B35D76B5B703 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		6393D66F5A5EBAC24A3AFA103EAC8004 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63C6A64CF66340668996F78DA6BB482 /* UIKit.framework */; };
@@ -43,6 +44,8 @@
 		37DB2D0121B027470047CDC1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
 		37DC7C0921C3AD6100AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37DC7C0A21C3B64300AAC6CC /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		37DC7C0C21C3B67C00AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		42F0349B7A49D8B4EFA78FFB8E2F965A /* PovioKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-prefix.pch"; sourceTree = "<group>"; };
 		493B7A5D67E3FE4D4FFB6697D7A7D889 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		503AC91565FD6ED6F35B1E6D3B0573BE /* Pods-PovioKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PovioKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
@@ -138,6 +141,8 @@
 		37330A9621BFB07400AE0BC8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				37DC7C0A21C3B64300AAC6CC /* GradientView.swift */,
+				37DC7C0C21C3B67C00AAC6CC /* README.md */,
 			);
 			name = Views;
 			path = PovioKit/Classes/Views;
@@ -359,6 +364,7 @@
 				37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */,
 				37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */,
 				37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */,
+				37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */,
 				0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */,
 				37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */,
 			);

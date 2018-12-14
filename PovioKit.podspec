@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
   s.version          = '0.1.0'
-  s.summary          = 'PovioKit is a collection of useful tools, extensions and modules.'
+  s.summary          = 'PovioKit is a collection of useful tools, extensions and other modules.'
   s.swift_version    = '4.2'
 
   s.description      = <<-DESC
@@ -47,6 +47,14 @@ TODO add description ...
     
     sp.subspec 'Throttler' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*'
+    end
+  end
+  
+  s.subspec 'Views' do |sp|
+    sp.source_files = 'PovioKit/Classes/Views/**/*'
+    
+    sp.subspec 'GradientView' do |cs|
+      cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*'
     end
   end
 end
