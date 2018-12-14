@@ -4,7 +4,7 @@ Implement `Observer / Listener` pattern with ease.
 
 ## Example
 
-In iOS, we often use `Delegate` pattern to delegate some responsibilites, or to notify objects of some events. But sometimes we don't want to limit ourselves to only one lister. Let's see an example of this in action:
+In iOS, we often use the `delegate` pattern to delegate some responsibilites, or to notify objects of some events. But sometimes we don't want to limit ourselves to only one listener. Let's see an example of this in action:
 
 ```Swift
 protocol AppEventObserver {
@@ -19,12 +19,12 @@ class KeyboardBroadcast {
   
   init() {
     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { 
-      appEvents {
+      appEvents.invoke {
         $0.keyboardWillShow(animationDuration: ..., keyboardSize: CGSize(...))
       }
     }
     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { 
-      appEvents {
+      appEvents.invoke {
         $0.keyboardWillHide(animationDuration: ..., keyboardSize: CGSize(...))
       }
     }
