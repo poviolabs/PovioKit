@@ -44,5 +44,9 @@ TODO add description ...
     sp.subspec 'Broadcast' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/**/*'
     end
+    
+    sp.subspec 'Throttler' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*'
+    end
   end
 end
