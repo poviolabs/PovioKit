@@ -8,6 +8,12 @@
 
 import UIKit
 
+public extension UIView {
+  static var identifier: String {
+    return String(describing: type(of: self))
+  }
+}
+
 // MARK: - Shadow and border
 public extension UIView {
   func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat, opacity: Float, offset: CGSize) {

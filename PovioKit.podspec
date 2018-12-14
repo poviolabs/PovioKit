@@ -37,6 +37,10 @@ Pod::Spec.new do |s|
     sp.subspec 'DispatchTimer' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/DispatchTimer/**/*'
     end
+    
+    sp.subspec 'Throttler' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*'
+    end
   end
   
   s.subspec 'Extensions' do |es|
