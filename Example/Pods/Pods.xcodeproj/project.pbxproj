@@ -12,6 +12,13 @@
 		37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */; };
 		37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */; };
 		37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */; };
+		37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */; };
+		37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0A21C3B64300AAC6CC /* GradientView.swift */; };
+		37DC7C1C21C3B8F400AAC6CC /* UICollectionView+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1121C3B8F300AAC6CC /* UICollectionView+Extra.swift */; };
+		37DC7C1D21C3B8F400AAC6CC /* UIView+extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1221C3B8F300AAC6CC /* UIView+extra.swift */; };
+		37DC7C2121C3B8F400AAC6CC /* UITableView+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1621C3B8F400AAC6CC /* UITableView+Extra.swift */; };
+		37DC7C2321C3B8F400AAC6CC /* UIColor+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1821C3B8F400AAC6CC /* UIColor+Extra.swift */; };
+		37DC7C2421C3B8F400AAC6CC /* UIFont+extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1921C3B8F400AAC6CC /* UIFont+extra.swift */; };
 		375E9DBD22735C29001E3D8F /* UILabel+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */; };
 		375E9DBF22735C34001E3D8F /* UITextField+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */; };
 		4DD1F879D4C7D2614235376EB0C37520 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
@@ -42,6 +49,15 @@
 		37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
 		37330AA321BFBCD000AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37DB2D0121B027470047CDC1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
+		37DC7C0921C3AD6100AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37DC7C0A21C3B64300AAC6CC /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		37DC7C0C21C3B67C00AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37DC7C1121C3B8F300AAC6CC /* UICollectionView+Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extra.swift"; sourceTree = "<group>"; };
+		37DC7C1221C3B8F300AAC6CC /* UIView+extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+extra.swift"; sourceTree = "<group>"; };
+		37DC7C1621C3B8F400AAC6CC /* UITableView+Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extra.swift"; sourceTree = "<group>"; };
+		37DC7C1821C3B8F400AAC6CC /* UIColor+Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extra.swift"; sourceTree = "<group>"; };
+		37DC7C1921C3B8F400AAC6CC /* UIFont+extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+extra.swift"; sourceTree = "<group>"; };
 		375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DC0227364DA001E3D8F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -132,6 +148,7 @@
 		37330A9521BFB06E00AE0BC8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				37DC7C0E21C3B8B700AAC6CC /* UIKit */,
 			);
 			name = Extensions;
 			path = PovioKit/Classes/Extensions;
@@ -162,6 +179,27 @@
 				37330AA321BFBCD000AE0BC8 /* README.md */,
 			);
 			path = Broadcast;
+			sourceTree = "<group>";
+		};
+		37DC7C0621C3AC4200AAC6CC /* Throttler */ = {
+			isa = PBXGroup;
+			children = (
+				37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */,
+				37DC7C0921C3AD6100AAC6CC /* README.md */,
+			);
+			path = Throttler;
+			sourceTree = "<group>";
+		};
+		37DC7C0E21C3B8B700AAC6CC /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				37DC7C1221C3B8F300AAC6CC /* UIView+extra.swift */,
+				37DC7C1621C3B8F400AAC6CC /* UITableView+Extra.swift */,
+				37DC7C1121C3B8F300AAC6CC /* UICollectionView+Extra.swift */,
+				37DC7C1821C3B8F400AAC6CC /* UIColor+Extra.swift */,
+				37DC7C1921C3B8F400AAC6CC /* UIFont+extra.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		3AD6CE21197F8F3B60EB322838BC2149 /* AttributedStringBuilder */ = {
@@ -351,8 +389,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				C33321102EBEB7D3BEECBF5CE2314D24 /* AttributedStringBuilder.swift in Sources */,
+				37DC7C2121C3B8F400AAC6CC /* UITableView+Extra.swift in Sources */,
+				37DC7C2421C3B8F400AAC6CC /* UIFont+extra.swift in Sources */,
 				37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */,
+				37DC7C1C21C3B8F400AAC6CC /* UICollectionView+Extra.swift in Sources */,
+				37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */,
 				37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */,
+				37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */,
+				37DC7C1D21C3B8F400AAC6CC /* UIView+extra.swift in Sources */,
+				37DC7C2321C3B8F400AAC6CC /* UIColor+Extra.swift in Sources */,
 				375E9DBD22735C29001E3D8F /* UILabel+BuilderCompatible.swift in Sources */,
 				0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */,
 				37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */,
