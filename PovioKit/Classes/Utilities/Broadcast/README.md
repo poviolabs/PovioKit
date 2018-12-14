@@ -32,7 +32,7 @@ class KeyboardBroadcast {
 }
 ```
 
-Subsribing to keyboard notifications is as easy as:
+Subscribing to keyboard notifications is as easy as:
 
 ```Swift
 let keyboardBrodcast = KeyboardBroadcast()
