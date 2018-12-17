@@ -71,6 +71,7 @@ TODO add description ...
   end
   
   s.subspec 'ShareKit' do |sp|
+    s.version          = '0.1.2'
     sp.source_files = 'PovioKit/Classes/ShareKit/**/*'
     sp.dependency 'FBSDKCoreKit', '~> 4.36.0'
     sp.dependency 'FBSDKLoginKit', '~> 4.36.0'

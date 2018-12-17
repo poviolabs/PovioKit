@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SKSocialMediaKind: CaseIterable {
+public enum SKSocialMediaKind: CaseIterable {
   case instagram
   case facebook
   case twitter

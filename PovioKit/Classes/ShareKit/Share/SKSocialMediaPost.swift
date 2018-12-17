@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SKSocialMediaPost {
+public struct SKSocialMediaPost {
   let id: String
   let title: String
   let content: String
