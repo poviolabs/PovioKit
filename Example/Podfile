@@ -1,6 +1,8 @@
 use_frameworks!
 target 'PovioKit_Tests' do
   pod 'PovioKit', :path => '../'
-  
+  pod 'FBSDKCoreKit', '4.36.0'
+  pod 'FBSDKLoginKit', '4.36.0'
+  pod 'FBSDKShareKit', '4.36.0'
   
 end

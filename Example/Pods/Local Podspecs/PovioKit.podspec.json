@@ -1,7 +1,7 @@
 {
   "name": "PovioKit",
   "version": "0.1.0",
-  "summary": "PovioKit is a collection of useful tools, extensions and modules.",
+  "summary": "PovioKit is a collection of useful tools, extensions and other modules.",
   "swift_version": "4.2",
   "description": "PovioKit is a collection of useful tools, extensions and modules.\nTODO add description ...",
   "homepage": "https://github.com/poviolabs/",
@@ -29,8 +29,59 @@
         {
           "name": "AttributedStringBuilder",
           "source_files": "PovioKit/Classes/Utilities/AttributedStringBuilder/**/*"
+        },
+        {
+          "name": "StartupService",
+          "source_files": "PovioKit/Classes/Utilities/StartupService/**/*"
+        },
+        {
+          "name": "Broadcast",
+          "source_files": "PovioKit/Classes/Utilities/Broadcast/**/*"
+        },
+        {
+          "name": "Throttler",
+          "source_files": "PovioKit/Classes/Utilities/Throttler/**/*"
         }
       ]
+    },
+    {
+      "name": "Views",
+      "source_files": "PovioKit/Classes/Views/**/*",
+      "subspecs": [
+        {
+          "name": "GradientView",
+          "source_files": "PovioKit/Classes/Views/GradientView/**/*"
+        }
+      ]
+    },
+    {
+      "name": "Extensions",
+      "source_files": "PovioKit/Classes/Extensions/**/*",
+      "subspecs": [
+        {
+          "name": "UIKit",
+          "source_files": "PovioKit/Classes/Extensions/UIKit/**/*"
+        },
+        {
+          "name": "Foundation",
+          "source_files": "PovioKit/Classes/Extensions/Foundation/**/*"
+        }
+      ]
+    },
+    {
+      "name": "ShareKit",
+      "source_files": "PovioKit/Classes/ShareKit/**/*",
+      "dependencies": {
+        "FBSDKCoreKit": [
+          "~> 4.36.0"
+        ],
+        "FBSDKLoginKit": [
+          "~> 4.36.0"
+        ],
+        "FBSDKShareKit": [
+          "~> 4.36.0"
+        ]
+      }
     }
   ]
 }
