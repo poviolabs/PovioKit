@@ -69,4 +69,11 @@ TODO add description ...
       cs.source_files = 'PovioKit/Classes/Extensions/Foundation/**/*'
     end
   end
+  
+  s.subspec 'ShareKit' do |sp|
+    sp.source_files = 'PovioKit/Classes/ShareKit/**/*'
+    sp.dependency 'FBSDKCoreKit', '~> 4.36.0'
+    sp.dependency 'FBSDKLoginKit', '~> 4.36.0'
+    sp.dependency 'FBSDKShareKit', '~> 4.36.0'
+  end
 end

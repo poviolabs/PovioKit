@@ -1,20 +1,67 @@
 PODS:
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
+  - FBSDKCoreKit (4.36.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.36.0):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.36.0):
+    - FBSDKCoreKit (~> 4.36.0)
   - PovioKit (0.1.0):
+    - PovioKit/Extensions (= 0.1.0)
+    - PovioKit/ShareKit (= 0.1.0)
     - PovioKit/Utilities (= 0.1.0)
+    - PovioKit/Views (= 0.1.0)
+  - PovioKit/Extensions (0.1.0):
+    - PovioKit/Extensions/Foundation (= 0.1.0)
+    - PovioKit/Extensions/UIKit (= 0.1.0)
+  - PovioKit/Extensions/Foundation (0.1.0)
+  - PovioKit/Extensions/UIKit (0.1.0)
+  - PovioKit/ShareKit (0.1.0):
+    - FBSDKCoreKit (~> 4.36.0)
+    - FBSDKLoginKit (~> 4.36.0)
+    - FBSDKShareKit (~> 4.36.0)
   - PovioKit/Utilities (0.1.0):
     - PovioKit/Utilities/AttributedStringBuilder (= 0.1.0)
+    - PovioKit/Utilities/Broadcast (= 0.1.0)
+    - PovioKit/Utilities/StartupService (= 0.1.0)
+    - PovioKit/Utilities/Throttler (= 0.1.0)
   - PovioKit/Utilities/AttributedStringBuilder (0.1.0)
+  - PovioKit/Utilities/Broadcast (0.1.0)
+  - PovioKit/Utilities/StartupService (0.1.0)
+  - PovioKit/Utilities/Throttler (0.1.0)
+  - PovioKit/Views (0.1.0):
+    - PovioKit/Views/GradientView (= 0.1.0)
+  - PovioKit/Views/GradientView (0.1.0)
 
 DEPENDENCIES:
+  - FBSDKCoreKit (= 4.36.0)
+  - FBSDKLoginKit (= 4.36.0)
+  - FBSDKShareKit (= 4.36.0)
   - PovioKit (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Bolts
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
 
 EXTERNAL SOURCES:
   PovioKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PovioKit: 916a6ed9cee642aa46393fa5f5b849c802ad9d92
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  FBSDKCoreKit: 3b8e6570eedb443f9fc4af196a7bf39f18e3a3d8
+  FBSDKLoginKit: 8bccb6064708ab2f4251a7fc4e3b6d8d00ad91ba
+  FBSDKShareKit: 7090fdd55c39b03941efddb64c83a64ff6b3949f
+  PovioKit: 764079bde7ee573dcbbbc62447d93f7d07f9e9ee
 
-PODFILE CHECKSUM: 7828bf8f48fc91af4482b5abcf89bb5164ef31f3
+PODFILE CHECKSUM: 57db2b25fe7aab5fe9f90be9460a2561d4576db4
 
 COCOAPODS: 1.5.3
