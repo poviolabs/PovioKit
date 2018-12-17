@@ -10,15 +10,15 @@ import FBSDKCoreKit
 
 public class ShareKit {
   // MARK: - Dependencies
-  var assetDownloader: SKAssetDownloaderProtocol? {
+  public var assetDownloader: SKAssetDownloaderProtocol? {
     didSet { initializeMediator() }
   }
-  var albumName: String = "Shared" {
+  public var albumName: String = "Shared" {
     didSet { initializeMediator() }
   }
   
   // MARK: - Delegate
-  weak var delegate: SKSocialMediaMediatorDelegate? {
+  public weak var delegate: SKSocialMediaMediatorDelegate? {
     didSet { mediator?.delegate = delegate }
   }
   
@@ -27,15 +27,15 @@ public class ShareKit {
   private let libraryProvider: SKAssetLibraryTemplate = SKAssetLibraryProvider()
   
   // MARK: - Shared
-  static let shared = ShareKit()
+  public static let shared = ShareKit()
   
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+  public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
     FBSDKApplicationDelegate
       .sharedInstance()
       .application(application, didFinishLaunchingWithOptions: launchOptions)
   }
   
-  func sharePost(_ post: SKSocialMediaPost, on socialMedia: SKSocialMediaKind, from: UIViewController, success: (() -> Void)?, failure: @escaping ((Error) -> Void)) {
+  public func sharePost(_ post: SKSocialMediaPost, on socialMedia: SKSocialMediaKind, from: UIViewController, success: (() -> Void)?, failure: @escaping ((Error) -> Void)) {
     mediator?.sharePost(post, on: socialMedia, from: from, success: success, failure: failure)
   }
 }
