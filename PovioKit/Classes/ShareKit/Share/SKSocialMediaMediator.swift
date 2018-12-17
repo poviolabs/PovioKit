@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum SKSocialMediaError: Error {
+public enum SKSocialMediaError: Error {
   case userCanceled
   case applicationNotInstalled(String)
   case unknown
@@ -37,7 +37,7 @@ protocol SKSocialMediaMediatorDelegate: class {
 
 class SKSocialMediaMediator {
   private var broadcast: SKSocialMediaBroadcast? // need to keep a strong reference, otherwise an instance will get immediately deinitialized, which means that the delegates inside the `broadcast` wouldn't get called!
-  private(set) weak var delegate: SKSocialMediaMediatorDelegate?
+  weak var delegate: SKSocialMediaMediatorDelegate?
   let factory: SKSocialMediaBroadcastFactory
   
   init(factory: SKSocialMediaBroadcastFactory, delegate: SKSocialMediaMediatorDelegate?) {
