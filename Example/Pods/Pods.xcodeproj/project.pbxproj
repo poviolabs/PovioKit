@@ -756,6 +756,7 @@
 			isa = PBXGroup;
 			children = (
 				3793450121C796C30015C5DF /* SKImagesDownloadWorker.swift */,
+				3793450C21C7C1500015C5DF /* SKAssetDownloader.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -766,10 +767,17 @@
 				702A8A70567447D2EA776DF3C76C15B9 /* SKSocialMediaAuthenticator.swift */,
 				84C9832B5F8BB9EC35EC621B60E078B4 /* SKSocialMediaBroadcastFactory.swift */,
 				CF6D2FA681A9D8558D529BB471FBEE87 /* SKSocialMediaMediator.swift */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
+		3793450E21C7C2380015C5DF /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				EF75C4B52D841EDEDACE416E6591D78E /* SKSocialMediaPost.swift */,
 				3793450521C798E90015C5DF /* SKSocialMediaKind.swift */,
 			);
-			path = Share;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		37A3620526CFA8CAAEA21A08374A068F /* Facebook */ = {
@@ -1028,6 +1036,7 @@
 		4F8672DDA3F751609A10F7E34FBFFF7F /* ShareKit */ = {
 			isa = PBXGroup;
 			children = (
+				3793450E21C7C2380015C5DF /* Model */,
 				3793450921C79B160015C5DF /* Share */,
 				3793450021C796940015C5DF /* Utilities */,
 				379344FB21C796560015C5DF /* Asset Library */,
