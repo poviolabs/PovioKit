@@ -25,12 +25,12 @@ public enum SKSocialMediaError: Error {
   }
 }
 
-protocol SKSocialMediaBroadcast: class {
+public protocol SKSocialMediaBroadcast: class {
   func sharePost(_ post: SKSocialMediaPost, from viewController: UIViewController, success: (() -> Void)?, failure: ((Error) -> Void)?)
   var delegate: SKSocialMediaMediatorDelegate? { get set }
 }
 
-protocol SKSocialMediaMediatorDelegate: class {
+public protocol SKSocialMediaMediatorDelegate: class {
   func didBeginLoading(socialMediaBroadcast broadcast: SKSocialMediaBroadcast)
   func didFinishLoading(socialMediaBroadcast broadcast: SKSocialMediaBroadcast)
 }
