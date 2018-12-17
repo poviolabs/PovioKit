@@ -122,6 +122,7 @@
 		3793450221C796C30015C5DF /* SKImagesDownloadWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3793450121C796C30015C5DF /* SKImagesDownloadWorker.swift */; };
 		3793450621C798E90015C5DF /* SKSocialMediaKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3793450521C798E90015C5DF /* SKSocialMediaKind.swift */; };
 		3793450B21C79BBB0015C5DF /* ShareKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3793450A21C79BBB0015C5DF /* ShareKit.swift */; };
+		3793450D21C7C1500015C5DF /* SKAssetDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3793450C21C7C1500015C5DF /* SKAssetDownloader.swift */; };
 		37C1DA77BDB87EDA7F71027BF78E95E6 /* FBSDKAccessTokenCacheV3_21.h in Headers */ = {isa = PBXBuildFile; fileRef = 86DAFD66CD612B65B5B845CA0EB8E535 /* FBSDKAccessTokenCacheV3_21.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		37D0C745CEA0D2301D1D9CCF34070475 /* FBSDKURLSessionTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B4214C887FBEF2AE9358A8040C403D /* FBSDKURLSessionTask.m */; };
 		38C883E92F87F2FBC5368E7509832C9C /* BFAppLinkReturnToRefererController.h in Headers */ = {isa = PBXBuildFile; fileRef = 604D3648423A90A216148E9643D909B6 /* BFAppLinkReturnToRefererController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -634,6 +635,7 @@
 		3793450121C796C30015C5DF /* SKImagesDownloadWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKImagesDownloadWorker.swift; sourceTree = "<group>"; };
 		3793450521C798E90015C5DF /* SKSocialMediaKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSocialMediaKind.swift; sourceTree = "<group>"; };
 		3793450A21C79BBB0015C5DF /* ShareKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareKit.swift; sourceTree = "<group>"; };
+		3793450C21C7C1500015C5DF /* SKAssetDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKAssetDownloader.swift; sourceTree = "<group>"; };
 		37A5E1DC33E808ABBB60CBBA0841E1F0 /* FBSDKGameRequestFrictionlessRecipientCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKGameRequestFrictionlessRecipientCache.m; path = FBSDKShareKit/FBSDKShareKit/Internal/FBSDKGameRequestFrictionlessRecipientCache.m; sourceTree = "<group>"; };
 		38FC1D909BF99A5F7BD123862E890878 /* _FBSDKLoginRecoveryAttempter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = _FBSDKLoginRecoveryAttempter.m; path = FBSDKLoginKit/FBSDKLoginKit/Internal/_FBSDKLoginRecoveryAttempter.m; sourceTree = "<group>"; };
 		397B9155A6581433DAA64EE0B4D518C0 /* FBSDKShareButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKShareButton.h; path = FBSDKShareKit/FBSDKShareKit/FBSDKShareButton.h; sourceTree = "<group>"; };
@@ -1201,6 +1203,7 @@
 			isa = PBXGroup;
 			children = (
 				3793450121C796C30015C5DF /* SKImagesDownloadWorker.swift */,
+				3793450C21C7C1500015C5DF /* SKAssetDownloader.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1211,10 +1214,17 @@
 				702A8A70567447D2EA776DF3C76C15B9 /* SKSocialMediaAuthenticator.swift */,
 				84C9832B5F8BB9EC35EC621B60E078B4 /* SKSocialMediaBroadcastFactory.swift */,
 				CF6D2FA681A9D8558D529BB471FBEE87 /* SKSocialMediaMediator.swift */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
+		3793450E21C7C2380015C5DF /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				EF75C4B52D841EDEDACE416E6591D78E /* SKSocialMediaPost.swift */,
 				3793450521C798E90015C5DF /* SKSocialMediaKind.swift */,
 			);
-			path = Share;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		37A3620526CFA8CAAEA21A08374A068F /* Facebook */ = {
@@ -1474,6 +1484,7 @@
 		4F8672DDA3F751609A10F7E34FBFFF7F /* ShareKit */ = {
 			isa = PBXGroup;
 			children = (
+				3793450E21C7C2380015C5DF /* Model */,
 				3793450921C79B160015C5DF /* Share */,
 				3793450021C796940015C5DF /* Utilities */,
 				379344FB21C796560015C5DF /* Asset Library */,
@@ -2255,6 +2266,7 @@
 				379344FF21C796750015C5DF /* SKAssetLibraryProvider.swift in Sources */,
 				053DC7B7784370D6B46D05C7C4141EED /* README.md in Sources */,
 				3793450221C796C30015C5DF /* SKImagesDownloadWorker.swift in Sources */,
+				3793450D21C7C1500015C5DF /* SKAssetDownloader.swift in Sources */,
 				053DC7B7784370D6B46D05C7C4141EED /* README.md in Sources */,
 				053DC7B7784370D6B46D05C7C4141EED /* README.md in Sources */,
 				053DC7B7784370D6B46D05C7C4141EED /* README.md in Sources */,
