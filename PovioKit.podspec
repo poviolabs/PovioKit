@@ -62,4 +62,11 @@ Pod::Spec.new do |s|
       cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*'
     end
   end
+  
+  s.subspec 'ShareKit' do |sp|
+    sp.source_files = 'PovioKit/Classes/ShareKit/**/*'
+    sp.dependency 'FBSDKCoreKit', '~> 4.36.0'
+    sp.dependency 'FBSDKLoginKit', '~> 4.36.0'
+    sp.dependency 'FBSDKShareKit', '~> 4.36.0'
+  end
 end
