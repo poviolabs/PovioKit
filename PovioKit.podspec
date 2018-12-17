@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.1.0'
+  s.version          = '0.1.2'
   s.summary          = 'PovioKit is a collection of useful tools, extensions and other modules.'
   s.swift_version    = '5.0'
 
@@ -64,7 +64,6 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'ShareKit' do |sp|
-    s.version          = '0.1.2'
     sp.source_files = 'PovioKit/Classes/ShareKit/**/*'
     sp.dependency 'FBSDKCoreKit', '~> 4.36.0'
     sp.dependency 'FBSDKLoginKit', '~> 4.36.0'
