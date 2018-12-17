@@ -53,7 +53,7 @@ extension SKFacebookAuthenticator {
   }
   
   var applicationUrl: URL {
-    return "fb://"
+    return URL(string: "fb://")!
   }
 }
 
