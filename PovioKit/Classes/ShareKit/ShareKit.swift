@@ -32,8 +32,8 @@ public class ShareKit {
 
 public extension ShareKit {
   public class Configuration {
-    var assetDownloader: SKAssetDownloaderProtocol = SKAssetDownloader()
-    var albumName = "Shared"
+    public var assetDownloader: SKAssetDownloaderProtocol = SKAssetDownloader()
+    public var albumName = "Shared"
   }
   
   public func configure(configurationBlock: (Configuration) -> Void) {
