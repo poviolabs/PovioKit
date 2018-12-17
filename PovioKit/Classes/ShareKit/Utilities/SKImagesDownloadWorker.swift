@@ -8,11 +8,6 @@
 
 import UIKit
 
-public protocol SKAssetDownloaderProtocol {
-  func downloadImage(from url: URL, success: ((UIImage) -> Void)?, failure: ((Error) -> Void)?)
-  func downloadVideo(from url: URL, success: ((Data) -> Void)?, failure: ((Error) -> Void)?)
-}
-
 protocol SKImagesDownloadWorker {
   func downloadImages(urls: [URL], success: (([UIImage]) -> Void)?, failure: ((Error) -> Void)?)
 }

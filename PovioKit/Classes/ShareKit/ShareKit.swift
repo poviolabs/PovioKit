@@ -10,10 +10,10 @@ import FBSDKCoreKit
 
 public class ShareKit {
   // MARK: - Dependencies
-  public var assetDownloader: SKAssetDownloaderProtocol? {
+  private var assetDownloader: SKAssetDownloaderProtocol = SKAssetDownloader() {
     didSet { initializeMediator() }
   }
-  public var albumName: String = "Shared" {
+  private var albumName: String = "Shared" {
     didSet { initializeMediator() }
   }
   
@@ -28,7 +28,23 @@ public class ShareKit {
   
   // MARK: - Shared
   public static let shared = ShareKit()
+}
+
+public extension ShareKit {
+  public class Configuration {
+    var assetDownloader: SKAssetDownloaderProtocol = SKAssetDownloader()
+    var albumName = "Shared"
+  }
   
+  public func configure(configurationBlock: (Configuration) -> Void) {
+    let configuration = Configuration()
+    configurationBlock(configuration)
+    self.assetDownloader = configuration.assetDownloader
+    self.albumName = configuration.albumName
+  }
+}
+
+public extension ShareKit {
   public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
     FBSDKApplicationDelegate
       .sharedInstance()
@@ -42,8 +58,10 @@ public class ShareKit {
 
 private extension ShareKit {
   func initializeMediator() {
-    guard let assetDownloader = assetDownloader else { return }
-    let factory = SKSocialMediaBroadcastFactory(albumName: albumName, libraryProvider: libraryProvider, assetDownloader: assetDownloader)
-    mediator = SKSocialMediaMediator(factory: factory, delegate: delegate)
+    let factory = SKSocialMediaBroadcastFactory(albumName: albumName,
+                                                libraryProvider: libraryProvider,
+                                                assetDownloader: assetDownloader)
+    mediator = SKSocialMediaMediator(factory: factory,
+                                     delegate: delegate)
   }
 }
