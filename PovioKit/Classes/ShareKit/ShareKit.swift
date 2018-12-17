@@ -11,7 +11,7 @@ import FBSDKCoreKit
 class ShareKit {
   // Dependencies
   var assetDownloader: SKAssetDownloaderProtocol!
-  var albumName: String = "Social Share"
+  var albumName: String = "Shared"
   
   static let shared = ShareKit()
   

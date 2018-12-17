@@ -30,7 +30,7 @@ class SKFacebookBroadcast: NSObject, SKSocialMediaBroadcast {
       shareMediaPost(post, from: viewController)
     } else {
       guard let _ = post.url else {
-        failure?(SKSocialMediaError.applicationNotInstalled("general_facebook".localized()))
+        failure?(SKSocialMediaError.applicationNotInstalled("facebook"))
         return
       }
       shareLinkPost(post, from: viewController)
