@@ -11,19 +11,19 @@ import FBSDKCoreKit
 public class ShareKit {
   // MARK: - Dependencies
   private var assetDownloader: SKAssetDownloaderProtocol = SKAssetDownloader() {
-    didSet { initializeMediator() }
+    didSet { mediator = initializeMediator() }
   }
   private var albumName: String = "Shared" {
-    didSet { initializeMediator() }
+    didSet { mediator = initializeMediator() }
   }
   
   // MARK: - Delegate
   public weak var delegate: SKSocialMediaMediatorDelegate? {
-    didSet { mediator?.delegate = delegate }
+    didSet { mediator.delegate = delegate }
   }
   
   // MARK: - Internal
-  private var mediator: SKSocialMediaMediator?
+  private lazy var mediator: SKSocialMediaMediator = self.initializeMediator()
   private let libraryProvider: SKAssetLibraryTemplate = SKAssetLibraryProvider()
   
   // MARK: - Shared
@@ -52,16 +52,18 @@ public extension ShareKit {
   }
   
   public func sharePost(_ post: SKSocialMediaPost, on socialMedia: SKSocialMediaKind, from: UIViewController, success: (() -> Void)?, failure: @escaping ((Error) -> Void)) {
-    mediator?.sharePost(post, on: socialMedia, from: from, success: success, failure: failure)
+    mediator.sharePost(post, on: socialMedia, from: from, success: success, failure: failure)
   }
 }
 
 private extension ShareKit {
-  func initializeMediator() {
+  func initializeMediator() -> SKSocialMediaMediator {
     let factory = SKSocialMediaBroadcastFactory(albumName: albumName,
                                                 libraryProvider: libraryProvider,
                                                 assetDownloader: assetDownloader)
-    mediator = SKSocialMediaMediator(factory: factory,
-                                     delegate: delegate)
+    let mediator = SKSocialMediaMediator(factory: factory,
+                                         delegate: delegate)
+    return mediator
+    
   }
 }
