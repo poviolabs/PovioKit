@@ -28,6 +28,6 @@ public struct SKSocialMediaPost {
   public init(id: String, title: String, content: String, imageUrls: [String], url: String?, videoUrls: [String]) {
     let imageURLs = imageUrls.compactMap { URL(string: $0) }
     let videoURLs = videoUrls.compactMap { URL(string: $0) }
-    self.init(id: id, title: title, content: content, imageUrls: imageURLs, url: URL(string: url), videoUrls: videoURLs)
+    self.init(id: id, title: title, content: content, imageUrls: imageURLs, url: URL(string: url ?? ""), videoUrls: videoURLs)
   }
 }
