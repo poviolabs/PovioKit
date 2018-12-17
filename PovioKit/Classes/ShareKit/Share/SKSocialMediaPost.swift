@@ -9,10 +9,10 @@
 import Foundation
 
 public struct SKSocialMediaPost {
-  let id: String
-  let title: String
-  let content: String
-  let imageUrls: [URL]
-  let url: URL?
-  let videoUrls: [URL]
+  public let id: String
+  public let title: String
+  public let content: String
+  public let imageUrls: [URL]
+  public let url: URL?
+  public let videoUrls: [URL]
 }
