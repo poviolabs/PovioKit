@@ -8,7 +8,7 @@
 import UIKit
 import FBSDKCoreKit
 
-class ShareKit {
+public class ShareKit {
   // Dependencies
   var assetDownloader: SKAssetDownloaderProtocol!
   var albumName: String = "Shared"
