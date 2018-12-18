@@ -21,8 +21,10 @@ class SKSocialMediaBroadcastFactory {
     switch socialmedia {
     case .facebook:
       return SKFacebookFacade(assetLibraryProvider: assetLibraryProvider)
+    case .instagram:
+      return SKInstagramBroadcast(assetLibraryProvider: assetLibraryProvider)
     default:
-      fatalError()
+      fatalError("not yet supported")
     }
   }
 }
