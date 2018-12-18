@@ -8,12 +8,12 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.1.7'
+  s.version          = '0.1.8'
   s.summary          = 'PovioKit is a collection of useful tools, extensions and other modules.'
   s.swift_version    = '4.2'
 
   s.description      = <<-DESC
-PovioKit is a collection of useful tools, extensions and modules.
+PovioKit is a collection of useful tools, views, extensions and modules.
 TODO add description ...
                        DESC
 
