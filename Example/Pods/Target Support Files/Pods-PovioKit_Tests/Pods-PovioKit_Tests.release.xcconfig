@@ -1,9 +1,9 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Bolts" "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit" "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit" "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKShareKit" "${PODS_CONFIGURATION_BUILD_DIR}/PovioKit"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Bolts" "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit" "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit" "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKShareKit" "${PODS_CONFIGURATION_BUILD_DIR}/PovioKit" "${PODS_ROOT}/TwitterCore/iOS" "${PODS_ROOT}/TwitterKit/iOS"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Bolts/Bolts.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/FBSDKShareKit/FBSDKShareKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/PovioKit/PovioKit.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "Bolts" -framework "FBSDKCoreKit" -framework "FBSDKLoginKit" -framework "FBSDKShareKit" -framework "PovioKit"
+OTHER_LDFLAGS = $(inherited) -framework "AVFoundation" -framework "Accounts" -framework "Bolts" -framework "CoreData" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreText" -framework "FBSDKCoreKit" -framework "FBSDKLoginKit" -framework "FBSDKShareKit" -framework "Foundation" -framework "PovioKit" -framework "QuartzCore" -framework "SafariServices" -framework "Security" -framework "Social" -framework "TwitterCore" -framework "TwitterKit" -framework "UIKit"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

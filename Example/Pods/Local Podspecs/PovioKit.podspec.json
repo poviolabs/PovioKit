@@ -1,9 +1,9 @@
 {
   "name": "PovioKit",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "summary": "PovioKit is a collection of useful tools, extensions and other modules.",
   "swift_version": "4.2",
-  "description": "PovioKit is a collection of useful tools, extensions and modules.\nTODO add description ...",
+  "description": "PovioKit is a collection of useful tools, views, extensions and modules.\nTODO add description ...",
   "homepage": "https://github.com/poviolabs/",
   "license": {
     "type": "MIT",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "git@github.com:poviolabs/PovioKit.git",
-    "tag": "0.1.0"
+    "tag": "0.1.11"
   },
   "platforms": {
     "ios": "11.0"
@@ -73,13 +73,16 @@
       "source_files": "PovioKit/Classes/ShareKit/**/*",
       "dependencies": {
         "FBSDKCoreKit": [
-          "~> 4.36.0"
+          "~> 4.38.0"
         ],
         "FBSDKLoginKit": [
-          "~> 4.36.0"
+          "~> 4.38.0"
         ],
         "FBSDKShareKit": [
-          "~> 4.36.0"
+          "~> 4.38.0"
+        ],
+        "TwitterKit": [
+          "~> 3.4.0"
         ]
       }
     }

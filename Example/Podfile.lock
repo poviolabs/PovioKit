@@ -5,44 +5,49 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - FBSDKCoreKit (4.36.0):
-    - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.36.0):
+  - FBSDKCoreKit (4.38.0):
+    - Bolts (~> 1.9)
+  - FBSDKLoginKit (4.38.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.36.0):
-    - FBSDKCoreKit (~> 4.36.0)
-  - PovioKit (0.1.0):
-    - PovioKit/Extensions (= 0.1.0)
-    - PovioKit/ShareKit (= 0.1.0)
-    - PovioKit/Utilities (= 0.1.0)
-    - PovioKit/Views (= 0.1.0)
-  - PovioKit/Extensions (0.1.0):
-    - PovioKit/Extensions/Foundation (= 0.1.0)
-    - PovioKit/Extensions/UIKit (= 0.1.0)
-  - PovioKit/Extensions/Foundation (0.1.0)
-  - PovioKit/Extensions/UIKit (0.1.0)
-  - PovioKit/ShareKit (0.1.0):
-    - FBSDKCoreKit (~> 4.36.0)
-    - FBSDKLoginKit (~> 4.36.0)
-    - FBSDKShareKit (~> 4.36.0)
-  - PovioKit/Utilities (0.1.0):
-    - PovioKit/Utilities/AttributedStringBuilder (= 0.1.0)
-    - PovioKit/Utilities/Broadcast (= 0.1.0)
-    - PovioKit/Utilities/StartupService (= 0.1.0)
-    - PovioKit/Utilities/Throttler (= 0.1.0)
-  - PovioKit/Utilities/AttributedStringBuilder (0.1.0)
-  - PovioKit/Utilities/Broadcast (0.1.0)
-  - PovioKit/Utilities/StartupService (0.1.0)
-  - PovioKit/Utilities/Throttler (0.1.0)
-  - PovioKit/Views (0.1.0):
-    - PovioKit/Views/GradientView (= 0.1.0)
-  - PovioKit/Views/GradientView (0.1.0)
+  - FBSDKShareKit (4.38.0):
+    - FBSDKCoreKit
+  - PovioKit (0.1.11):
+    - PovioKit/Extensions (= 0.1.11)
+    - PovioKit/ShareKit (= 0.1.11)
+    - PovioKit/Utilities (= 0.1.11)
+    - PovioKit/Views (= 0.1.11)
+  - PovioKit/Extensions (0.1.11):
+    - PovioKit/Extensions/Foundation (= 0.1.11)
+    - PovioKit/Extensions/UIKit (= 0.1.11)
+  - PovioKit/Extensions/Foundation (0.1.11)
+  - PovioKit/Extensions/UIKit (0.1.11)
+  - PovioKit/ShareKit (0.1.11):
+    - FBSDKCoreKit (~> 4.38.0)
+    - FBSDKLoginKit (~> 4.38.0)
+    - FBSDKShareKit (~> 4.38.0)
+    - TwitterKit (~> 3.4.0)
+  - PovioKit/Utilities (0.1.11):
+    - PovioKit/Utilities/AttributedStringBuilder (= 0.1.11)
+    - PovioKit/Utilities/Broadcast (= 0.1.11)
+    - PovioKit/Utilities/StartupService (= 0.1.11)
+    - PovioKit/Utilities/Throttler (= 0.1.11)
+  - PovioKit/Utilities/AttributedStringBuilder (0.1.11)
+  - PovioKit/Utilities/Broadcast (0.1.11)
+  - PovioKit/Utilities/StartupService (0.1.11)
+  - PovioKit/Utilities/Throttler (0.1.11)
+  - PovioKit/Views (0.1.11):
+    - PovioKit/Views/GradientView (= 0.1.11)
+  - PovioKit/Views/GradientView (0.1.11)
+  - TwitterCore (3.2.0)
+  - TwitterKit (3.4.0):
+    - TwitterCore (>= 3.1.0)
 
 DEPENDENCIES:
-  - FBSDKCoreKit (= 4.36.0)
-  - FBSDKLoginKit (= 4.36.0)
-  - FBSDKShareKit (= 4.36.0)
+  - FBSDKCoreKit (= 4.38.0)
+  - FBSDKLoginKit (= 4.38.0)
+  - FBSDKShareKit (= 4.38.0)
   - PovioKit (from `../`)
+  - TwitterKit (= 3.4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -50,6 +55,8 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
+    - TwitterCore
+    - TwitterKit
 
 EXTERNAL SOURCES:
   PovioKit:
@@ -57,11 +64,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  FBSDKCoreKit: 3b8e6570eedb443f9fc4af196a7bf39f18e3a3d8
-  FBSDKLoginKit: 8bccb6064708ab2f4251a7fc4e3b6d8d00ad91ba
-  FBSDKShareKit: 7090fdd55c39b03941efddb64c83a64ff6b3949f
-  PovioKit: 764079bde7ee573dcbbbc62447d93f7d07f9e9ee
+  FBSDKCoreKit: 2ab7fdbf600dc6b628ba7a49aa29d357a7b4c74e
+  FBSDKLoginKit: 634fa27e72e33620eb6389253337342c03d4a407
+  FBSDKShareKit: 00290e3db446eed603ff80ac629dcc5e80cf8b74
+  PovioKit: 60ca58020d1bf62fb00e2032cc8b440f5a3efae2
+  TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
+  TwitterKit: bc7bd086b9b724a1d888745a054e1d0b1ecc4f3f
 
-PODFILE CHECKSUM: 57db2b25fe7aab5fe9f90be9460a2561d4576db4
+PODFILE CHECKSUM: 7c4789aa231de6db34ad7512e9b1c3551696f065
 
 COCOAPODS: 1.5.3

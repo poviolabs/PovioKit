@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.1.11'
+  s.version          = '0.1.12'
   s.summary          = 'PovioKit is a collection of useful tools, extensions and other modules.'
   s.swift_version    = '4.2'
 
@@ -75,5 +75,6 @@ TODO add description ...
     sp.dependency 'FBSDKCoreKit', '~> 4.38.0'
     sp.dependency 'FBSDKLoginKit', '~> 4.38.0'
     sp.dependency 'FBSDKShareKit', '~> 4.38.0'
+    sp.dependency 'TwitterKit', '~> 3.4.0'
   end
 end

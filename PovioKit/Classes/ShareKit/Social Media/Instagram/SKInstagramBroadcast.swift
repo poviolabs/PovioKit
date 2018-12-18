@@ -1,9 +1,9 @@
 //
-//  InstagramBroadcast.swift
-//  Facelift
+//  SKInstagramBroadcast.swift
+//  PovioKit
 //
-//  Created by Toni Kocjan on 18/07/2018.
-//  Copyright © 2018 poviolabs. All rights reserved.
+//  Created by Toni Kocjan on 37/12/2018.
+//  Copyright © 2018 Povio Labs. All rights reserved.
 //
 
 import UIKit
