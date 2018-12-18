@@ -34,7 +34,7 @@ extension SKFacebookFacade: SKSocialMediaBroadcast {
     if authenticator.isAccessTokenValid {
       share()
     } else {
-      authenticator.login(readPermissions: SKFacebookAuthenticator.Permission.defaultPermissions, success: { _ in
+      authenticator.login(from: viewController, readPermissions: SKFacebookAuthenticator.Permission.defaultPermissions, success: { _ in
         share()
       }, failure: { error in
         print("Login to facebook failed with error: \(error.localizedDescription)")
