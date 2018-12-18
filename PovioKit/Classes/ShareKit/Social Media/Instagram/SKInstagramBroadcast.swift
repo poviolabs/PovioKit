@@ -19,7 +19,7 @@ class SKInstagramBroadcast: SKSocialMediaBroadcast {
     case noMedia
   }
   
-  let instagramURL: URL = "instagram://"
+  let instagramURL = URL(string: "instagram://")!
   let libraryProvider: SKAssetLibraryFacade
   weak var delegate: SKSocialMediaMediatorDelegate?
   
