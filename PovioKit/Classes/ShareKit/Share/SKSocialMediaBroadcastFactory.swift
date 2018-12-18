@@ -23,6 +23,8 @@ class SKSocialMediaBroadcastFactory {
       return SKFacebookFacade(assetLibraryProvider: assetLibraryProvider)
     case .instagram:
       return SKInstagramBroadcast(assetLibraryProvider: assetLibraryProvider)
+    case .twitter:
+      return SKTwitterFacade(assetDownloader: assetLibraryProvider.assetDownloader)
     default:
       fatalError("not yet supported")
     }
