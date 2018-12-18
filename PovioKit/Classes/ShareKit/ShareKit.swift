@@ -47,7 +47,7 @@ public extension ShareKit {
   
   // MARK: - `TwitterKit` configuration
   public enum Twitter {
-    static func configure(withConsumerKey: String, consumerSecret: String) {
+    public static func configure(withConsumerKey: String, consumerSecret: String) {
       TWTRTwitter.sharedInstance().start(withConsumerKey: withConsumerKey, consumerSecret: consumerSecret)
     }
   }
