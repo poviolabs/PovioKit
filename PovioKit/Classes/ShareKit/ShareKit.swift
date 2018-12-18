@@ -5,8 +5,8 @@
 //  Created by Toni Kocjan on 17/12/2018.
 //
 
-import UIKit
 import FBSDKCoreKit
+import TwitterKit
 
 public class ShareKit {
   // MARK: - Dependencies
@@ -30,7 +30,9 @@ public class ShareKit {
   public static let shared = ShareKit()
 }
 
+// MARK: - Configuration
 public extension ShareKit {
+  // MARK: - Global configuration
   public class Configuration {
     public var assetDownloader: SKAssetDownloaderProtocol = SKAssetDownloader()
     public var albumName = "Shared"
@@ -41,6 +43,13 @@ public extension ShareKit {
     configurationBlock(configuration)
     self.assetDownloader = configuration.assetDownloader
     self.albumName = configuration.albumName
+  }
+  
+  // MARK: - `TwitterKit` configuration
+  public enum Twitter {
+    static func configure(withConsumerKey: String, consumerSecret: String) {
+      TWTRTwitter.sharedInstance().start(withConsumerKey: withConsumerKey, consumerSecret: consumerSecret)
+    }
   }
 }
 
