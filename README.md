@@ -20,10 +20,6 @@ it, simply add the following line to your Podfile:
 pod 'PovioKit'
 ```
 
-## Author
-
-Toni Kocjan, toni.kocjan@poviolabs.com
-
 ## License
 
 PovioKit is available under the MIT license. See the LICENSE file for more info.

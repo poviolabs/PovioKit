@@ -19,7 +19,7 @@ TODO add description ...
 
   s.homepage         = 'https://github.com/poviolabs/'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Toni Kocjan w/ colaboration of other `PovioLabs` members' => 'toni.kocjan@poviolabs.com' }
+  s.author           = { 'Povio Inc.' => 'services@poviolabs.com' }
   s.source           = { :git => 'git@github.com:poviolabs/PovioKit.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.0'
