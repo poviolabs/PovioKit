@@ -18,9 +18,6 @@ extension BuilderCompatible {
   public var bd: AttributedStringBuilder { return AttributedStringBuilder(self) }
 }
 
-extension UILabel: BuilderCompatible {}
-extension UITextField: BuilderCompatible {}
-
 public class AttributedStringBuilder {
   private let compatible: BuilderCompatible?
   

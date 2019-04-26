@@ -66,7 +66,7 @@ label.bd.apply {
 What if we need an actual `NSAttributedString` instance, not just applying changes to a `UILabel`? We can do that as well:
 
 ```Swift
-let attributedText = AttributedStringBuilder(text: "My custom text")
+let attributedText = Builder(text: "My custom text")
   .setFont(.boldSystemFont(ofSize: 14))
   .setTextColor(.black)
   .setParagraphStyle(lineSpacing: 10,
@@ -98,7 +98,7 @@ pod 'PovioKit', :git => 'git@github.com:poviolabs/PovioKit.git', :branch => 'fea
 
 ## Author
 
-Toni Kocjan, toni.kocjan@poviolabs.com
+Povio Inc., services@poviolabs.com
 
 ## License
 
