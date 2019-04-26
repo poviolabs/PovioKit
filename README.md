@@ -1,6 +1,5 @@
 # PovioKit
 
-[![CI Status](https://img.shields.io/travis/Toni Kocjan/PovioKit.svg?style=flat)](https://travis-ci.org/Toni Kocjan/PovioKit)
 [![Version](https://img.shields.io/cocoapods/v/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
 [![License](https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
 [![Platform](https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
