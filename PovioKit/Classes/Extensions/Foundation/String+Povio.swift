@@ -1,5 +1,5 @@
 //
-//  Collection+Povio.swift
+//  String+Povio.swift
 //  PovioKit
 //
 //  Created by Povio on 12/03/2018.
