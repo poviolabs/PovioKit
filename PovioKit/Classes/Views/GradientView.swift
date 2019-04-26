@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by DK on 11/04/2018.
-//  Copyright © 2018 Povio Labs. All rights reserved.
+//  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
 import UIKit

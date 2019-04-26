@@ -3,7 +3,7 @@
 //  TSS
 //
 //  Created by Toni Kocjan on 04/07/2018.
-//  Copyright © 2018 Povio Labs. All rights reserved.
+//  Copyright © 2019 Povio Labs. All rights reserved.
 //
 import UIKit
 
