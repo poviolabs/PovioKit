@@ -24,8 +24,8 @@ extension UIImage {
     return tintedImage ?? self
   }
   
-  /// Initializes new image with given `color` and `size`
-  convenience init(color: UIColor, size: CGSize) {
+  /// Generates new *UIImage* tinted with given color and size
+  static func with(color: UIColor, size: CGSize) -> UIImage {
     UIGraphicsBeginImageContext(size)
     let path = UIBezierPath(rect: CGRect(origin: CGPoint.zero, size: size))
     color.setFill()
