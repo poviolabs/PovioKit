@@ -8,17 +8,6 @@
 
 import UIKit
 
-// MARK: - ReusableView
-public protocol ReusableView {
-  static var defaultReuseIdentifier: String { get }
-}
-
-extension UIView: ReusableView {
-  public static var defaultReuseIdentifier: String {
-    return String(describing: self)
-  }
-}
-
 // MARK: - Shadow and border
 public extension UIView {
   func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat, opacity: Float, offset: CGSize) {
