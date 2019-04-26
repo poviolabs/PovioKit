@@ -44,4 +44,16 @@ PovioKit is a collection of useful tools, extensions and modules.
       cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/**/*'
     end
   end
+  
+  s.subspec 'Extensions' do |sp|
+    sp.source_files = 'PovioKit/Classes/Extensions/**/*'
+    
+    sp.subspec 'UIKit' do |cs|
+      cs.source_files = 'PovioKit/Classes/Extensions/UIKit/**/*'
+    end
+    
+    sp.subspec 'Foundation' do |cs|
+      cs.source_files = 'PovioKit/Classes/Extensions/Foundation/**/*'
+    end
+  end
 end
