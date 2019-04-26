@@ -1,9 +1,9 @@
 //
-//  UIView+Extra.swift
+//  UIView+Povio.swift
 //  PovioKit
 //
-//  Created by Toni Kocjan on 14/12/2018.
-//  Copyright © 2018 Povio Labs. All rights reserved.
+//  Created by Povio on 26/4/2019.
+//  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
 import UIKit
@@ -19,17 +19,9 @@ extension UIView: ReusableView {
   }
 }
 
-// MARK: - AnimationKeys
-public extension UIView {
-  public struct AnimationKey {
-    static let rotation = "rotationAnimationKey"
-    static let shadowOpacity = "shadowOpacityKey"
-  }
-}
-
 // MARK: - Shadow and border
 public extension UIView {
-  func dropShadow(path: UIBezierPath? = nil, shadowColor: UIColor = UIColor.lightGray, radius: CGFloat = 2, opacity: Float = 0.45, offset: CGSize = CGSize(width: 0, height: 0.8)) {
+  func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat, opacity: Float, offset: CGSize) {
     layer.shadowPath = path?.cgPath
     layer.shadowColor = shadowColor.cgColor
     layer.shadowOffset = offset
@@ -59,15 +51,9 @@ public extension UIView {
 
 // MARK: - Animations
 public extension UIView {
-  func performTransition(duration: TimeInterval, options: UIView.AnimationOptions, animated: Bool, transition: (() -> Void)?, completion: ((Bool) -> Void)?) {
-    guard let transition = transition else {
-      return
-    }
-    guard animated else {
-      transition()
-      return
-    }
-    return UIView.transition(with: self, duration: duration, options: options, animations: transition, completion: completion)
+  struct AnimationKey {
+    static let rotation = "rotationAnimationKey"
+    static let shadowOpacity = "shadowOpacityKey"
   }
   
   func rotate() {
