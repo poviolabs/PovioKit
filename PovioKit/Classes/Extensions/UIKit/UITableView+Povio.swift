@@ -2,7 +2,7 @@
 //  UITableView+Povio.swift
 //  PovioKit
 //
-//  Created by Toni Kocjan on 26/4/2019.
+//  Created by Povio on 26/4/2019.
 //  Copyright © 2019 Povio Labs. All rights reserved.
 //
 import UIKit
