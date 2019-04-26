@@ -2,8 +2,8 @@
 //  UIView+Povio.swift
 //  PovioKit
 //
-//  Created by Povio on 14/12/2018.
-//  Copyright © 2018 Povio Labs. All rights reserved.
+//  Created by Povio on 26/4/2019.
+//  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
 import UIKit
