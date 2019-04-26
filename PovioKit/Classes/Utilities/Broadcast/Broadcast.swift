@@ -3,7 +3,7 @@
 //  TSS
 //
 //  Created by Domagoj Kulundzic on 26/04/2019.
-//  Copyright © 2018 Povio Labs. All rights reserved.
+//  Copyright © 2018 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -23,7 +23,7 @@ public class Broadcast<T> {
   
   func remove(delegate: T) {
     prune()
-    guard let index = delegates.index(where: {
+    guard let index = delegates.firstIndex(where: {
       guard let reference = $0.reference else { return false }
       return reference === delegate as AnyObject
     }) else { return }
