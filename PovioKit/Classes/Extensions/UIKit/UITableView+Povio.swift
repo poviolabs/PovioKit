@@ -5,6 +5,7 @@
 //  Created by Povio Team on 26/4/2019.
 //  Copyright © 2019 Povio Labs. All rights reserved.
 //
+
 import UIKit
 
 public extension UITableView {
@@ -44,5 +45,28 @@ public extension UITableView {
       return T()
     }
     return view
+  }
+  
+  /// Deselect row at selected index path
+  func deselectSelectedRow(animated: Bool = true) {
+    if let selectedRow = indexPathForSelectedRow {
+      deselectRow(at: selectedRow, animated: animated)
+    }
+  }
+  
+  /// Scroll table to first row at top
+  func scrollToTop(animated: Bool = true) {
+    if numberOfSections > 0 && numberOfRows(inSection: 0) > 0 {
+      scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: animated)
+    }
+  }
+  
+  /// Scroll table to last row in last section
+  func scrollToBottom(animated: Bool = true) {
+    guard numberOfSections > 0 else { return }
+    
+    let lastSection = max(0, numberOfSections - 1)
+    let lastRow = max(0, numberOfRows(inSection: lastSection) - 1)
+    scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: animated)
   }
 }
