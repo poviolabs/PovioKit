@@ -2,7 +2,7 @@
 //  String+Povio.swift
 //  PovioKit
 //
-//  Created by Povio on 12/03/2018.
+//  Created by Povio on 26/04/2019.
 //  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
