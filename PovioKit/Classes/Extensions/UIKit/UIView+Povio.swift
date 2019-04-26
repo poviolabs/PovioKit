@@ -19,17 +19,9 @@ extension UIView: ReusableView {
   }
 }
 
-// MARK: - AnimationKeys
-public extension UIView {
-  struct AnimationKey {
-    static let rotation = "rotationAnimationKey"
-    static let shadowOpacity = "shadowOpacityKey"
-  }
-}
-
 // MARK: - Shadow and border
 public extension UIView {
-  func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat = 2, opacity: Float = 0.45, offset: CGSize) {
+  func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat, opacity: Float, offset: CGSize) {
     layer.shadowPath = path?.cgPath
     layer.shadowColor = shadowColor.cgColor
     layer.shadowOffset = offset
@@ -59,6 +51,11 @@ public extension UIView {
 
 // MARK: - Animations
 public extension UIView {
+  struct AnimationKey {
+    static let rotation = "rotationAnimationKey"
+    static let shadowOpacity = "shadowOpacityKey"
+  }
+  
   func rotate() {
     if layer.animation(forKey: UIView.AnimationKey.rotation) == nil {
       let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
