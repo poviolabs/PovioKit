@@ -29,7 +29,7 @@ public extension UIView {
 
 // MARK: - Shadow and border
 public extension UIView {
-  func dropShadow(path: UIBezierPath? = nil, shadowColor: UIColor = UIColor.lightGray, radius: CGFloat = 2, opacity: Float = 0.45, offset: CGSize = CGSize(width: 0, height: 0.8)) {
+  func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat = 2, opacity: Float = 0.45, offset: CGSize) {
     layer.shadowPath = path?.cgPath
     layer.shadowColor = shadowColor.cgColor
     layer.shadowOffset = offset
@@ -59,17 +59,6 @@ public extension UIView {
 
 // MARK: - Animations
 public extension UIView {
-  func performTransition(duration: TimeInterval, options: UIView.AnimationOptions, animated: Bool, transition: (() -> Void)?, completion: ((Bool) -> Void)?) {
-    guard let transition = transition else {
-      return
-    }
-    guard animated else {
-      transition()
-      return
-    }
-    return UIView.transition(with: self, duration: duration, options: options, animations: transition, completion: completion)
-  }
-  
   func rotate() {
     if layer.animation(forKey: UIView.AnimationKey.rotation) == nil {
       let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
