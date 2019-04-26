@@ -2,7 +2,7 @@
 //  AttributedStringBuilder.swift
 //  TSS
 //
-//  Created by Povio on 04/07/2019.
+//  Created by Toni Kocjan on 04/07/2019.
 //  Copyright © 2019 Povio Inc. All rights reserved.
 //
 import UIKit
