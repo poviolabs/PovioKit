@@ -2,7 +2,7 @@
 //  UIDevice+Povio.swift
 //  PovioKit
 //
-//  Created by Povio on 26/4/2019.
+//  Created by Povio Team on 26/4/2019.
 //  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
