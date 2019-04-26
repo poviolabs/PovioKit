@@ -1,5 +1,5 @@
 //
-//  Collection+Extra.swift
+//  Collection+Povio.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 12/03/2018.
@@ -15,6 +15,6 @@ public extension Collection {
 	}
 	
 	func count(where clause: (Element) -> Bool) -> Int {
-		return filter(clause).count
+		return lazy.filter(clause).count
 	}
 }

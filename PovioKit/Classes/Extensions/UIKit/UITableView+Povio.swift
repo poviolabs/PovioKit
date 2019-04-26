@@ -1,5 +1,5 @@
 //
-//  UITableView+Extra.swift
+//  UITableView+Povio.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 14/12/2018.

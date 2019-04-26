@@ -1,5 +1,5 @@
 //
-//  Collection+Extra.swift
+//  Collection+Povio.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 12/03/2018.

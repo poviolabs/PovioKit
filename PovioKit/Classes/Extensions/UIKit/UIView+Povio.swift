@@ -1,8 +1,8 @@
 //
-//  UIView+Extra.swift
+//  UIView+Povio.swift
 //  PovioKit
 //
-//  Created by Toni Kocjan on 14/12/2018.
+//  Created by Povio on 14/12/2018.
 //  Copyright © 2018 Povio Labs. All rights reserved.
 //
 
@@ -21,7 +21,7 @@ extension UIView: ReusableView {
 
 // MARK: - AnimationKeys
 public extension UIView {
-  public struct AnimationKey {
+  struct AnimationKey {
     static let rotation = "rotationAnimationKey"
     static let shadowOpacity = "shadowOpacityKey"
   }
