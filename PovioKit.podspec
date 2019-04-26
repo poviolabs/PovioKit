@@ -35,5 +35,9 @@ PovioKit is a collection of useful tools, extensions and modules.
     sp.subspec 'AttributedStringBuilder' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/AttributedStringBuilder/**/*'
     end
+    
+    sp.subspec 'StartupService' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/StartupService/**/*'
+    end
   end
 end
