@@ -2,7 +2,7 @@
 //  StartupProcessService.swift
 //  Facelift
 //
-//  Created by Toni Kocjan on 04/07/2018.
+//  Created by Domagoj Kulundzic on 04/07/2018.
 //  Copyright © 2018 Povio Labs. All rights reserved.
 //
 
@@ -15,7 +15,6 @@ public final class StartupProcessService {
       guard success else { return }
       print("Successfully ran the \(type(of: process)) process.")
     }
-    
     return self
   }
 }
