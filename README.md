@@ -7,6 +7,7 @@
 [![Version](https://img.shields.io/cocoapods/v/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
 [![License](https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
 [![Platform](https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
+[![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/blog/swift-5-released/)
 
 Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in Swift.
 
