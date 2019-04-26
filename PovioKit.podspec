@@ -39,5 +39,9 @@ PovioKit is a collection of useful tools, extensions and modules.
     sp.subspec 'StartupService' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/StartupService/**/*'
     end
+    
+    sp.subspec 'Broadcast' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/**/*'
+    end
   end
 end

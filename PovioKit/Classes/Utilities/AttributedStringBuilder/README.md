@@ -58,8 +58,8 @@ label.bd.apply {
   $0.setTextColor(.red)
   $0.setFont(.boldSystemFont(ofSize: 12))
   $0.setUnderlineStyle(NSUnderlineStyle.styleThick.rawValue)
-  _ = try? $0.setFont(.boldSystemFont(ofSize: 18), substring: "custom")
-  _ = try? $0.setTextColor(.blue, substring: "custom")
+  _ = $0.setFont(.boldSystemFont(ofSize: 18), substring: "custom")
+  _ = $0.setTextColor(.blue, substring: "custom")
 }
 ```
 
@@ -88,7 +88,7 @@ PovioKit/Utilities/AttributedStringBuilder is available through PovioKit cocoapo
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'PovioKit/Utilities/AttributedStringBuilder', :git => 'git@github.com:poviolabs/PovioKit.git', :branch => 'feature/attributed-string-builder'
+pod 'PovioKit/Utilities/AttributedStringBuilder', :git => 'git@github.com:poviolabs/PovioKit.git'
 ```
 
 or if you want the whole PovioKit package:

@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D2EA815ACAC4B5D259E2F6131671AF /* PovioKit-dummy.m */; };
 		0E069D1EEA397611531B7B418ED92AFB /* Pods-PovioKit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9577E3D837BFC529422908DCF7041916 /* Pods-PovioKit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		375E9DBD22735C29001E3D8F /* UILabel+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */; };
-		375E9DBF22735C34001E3D8F /* UITextField+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */; };
 		37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */; };
 		37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */; };
+		37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */; };
+		375E9DBD22735C29001E3D8F /* UILabel+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */; };
+		375E9DBF22735C34001E3D8F /* UITextField+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */; };
 		4DD1F879D4C7D2614235376EB0C37520 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		5E096F52E192D32E7F59B35D76B5B703 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		6393D66F5A5EBAC24A3AFA103EAC8004 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63C6A64CF66340668996F78DA6BB482 /* UIKit.framework */; };
@@ -38,9 +39,12 @@
 		37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcessService.swift; sourceTree = "<group>"; };
 		37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcess.swift; sourceTree = "<group>"; };
 		37330A9E21BFB57400AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
+		37330AA321BFBCD000AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37DB2D0121B027470047CDC1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+BuilderCompatible.swift"; sourceTree = "<group>"; };
-		37DB2D0121B027470047CDC1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = PovioKit/Classes/Utilities/AttributedStringBuilder/README.md; sourceTree = "<group>"; };
+		375E9DC0227364DA001E3D8F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		42F0349B7A49D8B4EFA78FFB8E2F965A /* PovioKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-prefix.pch"; sourceTree = "<group>"; };
 		493B7A5D67E3FE4D4FFB6697D7A7D889 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		503AC91565FD6ED6F35B1E6D3B0573BE /* Pods-PovioKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PovioKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
@@ -151,11 +155,20 @@
 			path = StartupService;
 			sourceTree = "<group>";
 		};
+		37330AA021BFBB0100AE0BC8 /* Broadcast */ = {
+			isa = PBXGroup;
+			children = (
+				37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */,
+				37330AA321BFBCD000AE0BC8 /* README.md */,
+			);
+			path = Broadcast;
+			sourceTree = "<group>";
+		};
 		3AD6CE21197F8F3B60EB322838BC2149 /* AttributedStringBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				375E9DC0227364DA001E3D8F /* README.md */,
 				F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */,
-				37DB2D0121B027470047CDC1 /* README.md */,
 				375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */,
 				375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */,
 			);
@@ -224,6 +237,7 @@
 		B82C6A943C042F1F6938C517B7C13910 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				37330AA021BFBB0100AE0BC8 /* Broadcast */,
 				37330A9721BFB0A200AE0BC8 /* StartupService */,
 				3AD6CE21197F8F3B60EB322838BC2149 /* AttributedStringBuilder */,
 			);
@@ -341,6 +355,7 @@
 				37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */,
 				375E9DBD22735C29001E3D8F /* UILabel+BuilderCompatible.swift in Sources */,
 				0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */,
+				37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */,
 				375E9DBF22735C34001E3D8F /* UITextField+BuilderCompatible.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
