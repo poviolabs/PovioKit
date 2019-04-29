@@ -9,7 +9,7 @@
 import Foundation
 
 class Logger {
-  typealias Json = [String: Any]
+  typealias Parameters = [String: Any]
   static let shared = Logger()
   var logLevel: LogLevel = .info
   
@@ -41,42 +41,42 @@ extension Logger {
 // MARK: - Public Methods
 extension Logger {
   /// Log debug message
-  static func debug(_ message: String, params: Json?=nil, file: String = #file, function: String = #function, line: Int = #line) {
+  static func debug(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     if shared.logLevel.rawValue >= LogLevel.debug.rawValue {
       flush(.debug, message: message, params: params, file: file, function: function, line: line)
     }
   }
   
   /// Log info message
-  static func info(_ message: String, params: Json?=nil, file: String = #file, function: String = #function, line: Int = #line) {
+  static func info(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     if shared.logLevel.rawValue >= LogLevel.info.rawValue {
       flush(.info, message: message, params: params, file: file, function: function, line: line)
     }
   }
   
   /// Log warning message
-  static func warning(_ message: String, params: Json?=nil, file: String = #file, function: String = #function, line: Int = #line) {
+  static func warning(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     if shared.logLevel.rawValue >= LogLevel.warn.rawValue {
       flush(.warn, message: message, params: params, file: file, function: function, line: line)
     }
   }
   
   /// Log error message
-  static func error(_ message: String, params: Json?=nil, file: String = #file, function: String = #function, line: Int = #line) {
+  static func error(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     if shared.logLevel.rawValue >= LogLevel.error.rawValue {
       flush(.error, message: message, params: params, file: file, function: function, line: line)
     }
   }
   
   /// Log crash
-  static func crash(params: Json, file: String = #file, function: String = #function, line: Int = #line) {
+  static func crash(params: Parameters, file: String = #file, function: String = #function, line: Int = #line) {
     flush(.error, message: "app_crash", params: params, file: file, function: function, line: line)
   }
 }
 
 // MARK: - Private Methods
 private extension Logger {
-  static func flush(_ level: LogLevel, message: String, params: Json?=nil, file: String, function: String, line: Int) {
+  static func flush(_ level: LogLevel, message: String, params: Parameters? = nil, file: String, function: String, line: Int) {
     guard shared.logLevel.rawValue >= level.rawValue else { return }
     
     let fileName = URL(fileURLWithPath: file).lastPathComponent.components(separatedBy: ".").first ?? ""
