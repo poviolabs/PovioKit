@@ -18,9 +18,12 @@ Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in
 * [UITableView](/PovioKit/Classes/Extensions/UIKit/UITableView+Povio.swift)
 * [UIView](/PovioKit/Classes/Extensions/UIKit/UIView+Povio.swift)
 * [UIColor](/PovioKit/Classes/Extensions/UIKit/UIColor+Povio.swift)
+* [UIDevice](/PovioKit/Classes/Extensions/UIKit/UIDevice+Povio.swift)
+* [UIImage](/PovioKit/Classes/Extensions/UIKit/UIImage+Povio.swift)
 * [Collection](/PovioKit/Classes/Extensions/Foundation/Collection+Povio.swift)
 * [String](/PovioKit/Classes/Extensions/Foundation/String+Povio.swift)
 * [URL](/PovioKit/Classes/Extensions/Foundation/URL+Povio.swift)
+* [Optional](/PovioKit/Classes/Extensions/Foundation/Optional+Povio.swift)
 
 ### Utilities
 * [AttributedStringBuilder](/PovioKit/Classes/Utilities/AttributedStringBuilder/)
