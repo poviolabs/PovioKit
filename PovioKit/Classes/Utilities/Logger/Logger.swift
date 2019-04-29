@@ -19,7 +19,12 @@ class Logger {
 // MARK: - Log Levels
 extension Logger {
   enum LogLevel: Int {
-    case none = 0, error, warn, info, debug, all
+    case none = 0
+    case error
+    case warn
+    case info
+    case debug
+    case all
     
     var string: String {
       switch self {
