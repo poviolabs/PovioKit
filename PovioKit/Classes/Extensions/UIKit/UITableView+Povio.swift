@@ -10,38 +10,38 @@ import UIKit
 
 public extension UITableView {
   func register<T: UITableViewCell>(_: T.Type) {
-    register(T.self, forCellReuseIdentifier: T.defaultReuseIdentifier)
+    register(T.self, forCellReuseIdentifier: T.identifier)
   }
   
   func register<T: UITableViewHeaderFooterView>(_: T.Type) {
-    register(T.self, forHeaderFooterViewReuseIdentifier: T.defaultReuseIdentifier)
+    register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
   }
   
   func dequeueReusableCell<T: UITableViewCell>(forIndexPath indexPath: IndexPath) -> T {
-    guard let cell = dequeueReusableCell(withIdentifier: T.defaultReuseIdentifier, for: indexPath) as? T else {
-      fatalError("Could not dequeue cell with identifier: \(T.defaultReuseIdentifier)")
+    guard let cell = dequeueReusableCell(withIdentifier: T.identifier, for: indexPath) as? T else {
+      fatalError("Could not dequeue cell with identifier: \(T.identifier)")
     }
     return cell
   }
   
   func dequeueReusableCell<T: UITableViewCell>(_ cell: T.Type, at indexPath: IndexPath) -> T {
-    guard let cell = dequeueReusableCell(withIdentifier: T.defaultReuseIdentifier, for: indexPath) as? T else {
-      print("Could not dequeue cell with identifier: \(T.defaultReuseIdentifier). Creating new instance.")
+    guard let cell = dequeueReusableCell(withIdentifier: T.identifier, for: indexPath) as? T else {
+      print("Could not dequeue cell with identifier: \(T.identifier). Creating new instance.")
       return T()
     }
     return cell
   }
   
   func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
-    guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.defaultReuseIdentifier) as? T else {
-      fatalError("Could not dequeue headerFooter view with identifier: \(T.defaultReuseIdentifier)")
+    guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.identifier) as? T else {
+      fatalError("Could not dequeue headerFooter view with identifier: \(T.identifier)")
     }
     return view
   }
   
   func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(_ headerFooter: T.Type) -> T {
-    guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.defaultReuseIdentifier) as? T else {
-      print("Could not dequeue headerFooter view with identifier: \(T.defaultReuseIdentifier)")
+    guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.identifier) as? T else {
+      print("Could not dequeue headerFooter view with identifier: \(T.identifier)")
       return T()
     }
     return view
