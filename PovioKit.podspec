@@ -41,6 +41,10 @@ Pod::Spec.new do |s|
     sp.subspec 'Broadcast' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/**/*'
     end
+    
+    sp.subspec 'ColorInterpolator' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/ColorInterpolator/**/*'
+    end
   end
   
   s.subspec 'Extensions' do |sp|
