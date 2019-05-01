@@ -30,6 +30,7 @@ Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in
 * [AttributedStringBuilder](/PovioKit/Classes/Utilities/AttributedStringBuilder/)
 * [StartupService](/PovioKit/Classes/Utilities/StartupService/)
 * [Broadcast](/PovioKit/Classes/Utilities/Broadcast/)
+* [Broadcast](/PovioKit/Classes/Utilities/ColorInterpolator/)
 * [DispatchTimer](/PovioKit/Classes/Utilities/DispatchTimer/)
 * [Logger](/PovioKit/Classes/Utilities/Logger/)
 

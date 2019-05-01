@@ -15,6 +15,7 @@
 		37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */; };
 		375E9DC522736F43001E3D8F /* UILabel+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */; };
 		375E9DC622736F45001E3D8F /* UITextField+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */; };
+		375E9DCA2279E19B001E3D8F /* ColorInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DC92279E19B001E3D8F /* ColorInterpolator.swift */; };
 		37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0A21C3B64300AAC6CC /* GradientView.swift */; };
 		37DC7C1C21C3B8F400AAC6CC /* UICollectionView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1121C3B8F300AAC6CC /* UICollectionView+Povio.swift */; };
 		37DC7C1D21C3B8F400AAC6CC /* UIView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1221C3B8F300AAC6CC /* UIView+Povio.swift */; };
@@ -56,6 +57,8 @@
 		375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DC0227364DA001E3D8F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		375E9DC92279E19B001E3D8F /* ColorInterpolator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorInterpolator.swift; sourceTree = "<group>"; };
+		375E9DCB2279E4DD001E3D8F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37DC7C0A21C3B64300AAC6CC /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		37DC7C0C21C3B67C00AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37DC7C1121C3B8F300AAC6CC /* UICollectionView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Povio.swift"; sourceTree = "<group>"; };
@@ -205,6 +208,15 @@
 			path = GradientView;
 			sourceTree = "<group>";
 		};
+		375E9DC82279E185001E3D8F /* ColorInterpolator */ = {
+			isa = PBXGroup;
+			children = (
+				375E9DCB2279E4DD001E3D8F /* README.md */,
+				375E9DC92279E19B001E3D8F /* ColorInterpolator.swift */,
+			);
+			path = ColorInterpolator;
+			sourceTree = "<group>";
+		};
 		37DC7C0E21C3B8B700AAC6CC /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +311,7 @@
 		B82C6A943C042F1F6938C517B7C13910 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				375E9DC82279E185001E3D8F /* ColorInterpolator */,
 				37DC7C0621C3AC4200AAC6CC /* Throttler */,
 				37330AA021BFBB0100AE0BC8 /* Broadcast */,
 				37330A9721BFB0A200AE0BC8 /* StartupService */,
@@ -418,6 +431,7 @@
 				37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */,
 				37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */,
 				37DC7C1C21C3B8F400AAC6CC /* UICollectionView+Povio.swift in Sources */,
+				375E9DCA2279E19B001E3D8F /* ColorInterpolator.swift in Sources */,
 				375E9DC522736F43001E3D8F /* UILabel+BuilderCompatible.swift in Sources */,
 				37DC7C3221C3BC8800AAC6CC /* String+Povio.swift in Sources */,
 				37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */,
