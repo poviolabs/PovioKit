@@ -54,4 +54,12 @@ Pod::Spec.new do |s|
       cs.source_files = 'PovioKit/Classes/Extensions/Foundation/**/*'
     end
   end
+  
+  s.subspec 'Views' do |sp|
+    sp.source_files = 'PovioKit/Classes/Views/**/*'
+    
+    sp.subspec 'GradientView' do |cs|
+      cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*'
+    end
+  end
 end
