@@ -1,28 +1,16 @@
 <p align="center">
-    <img src="PovioKit.png" width="400" max-width="90%" alt="PovioKit" />
+  <img src="./PovioLabs_logo.png" alt="Povio Labs logo" height="180">
 </p>
 
-<p align="center">
-    <a href="https://cocoapods.org/pods/PovioKit">
-        <img src="https://img.shields.io/cocoapods/v/PovioKit.svg?style=flat" alt="Version" />
-    </a>
-    <a href="https://cocoapods.org/pods/PovioKit">
-        <img src="https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat" alt="License" />
-    </a>
-    <a href="https://cocoapods.org/pods/PovioKit">
-        <img src="https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat" alt="Platform" />
-    </a>
-    <a href="https://swift.org/blog/swift-5-released/">
-        <img src="https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat" alt="Swift" />
-    </a>
-    <a href="https://travis-ci.com/poviolabs/PovioKit/branches">
-        <img src="https://img.shields.io/travis/com/poviolabs/PovioKit.svg" alt="Travis status" />
-    </a>
-</p>
+# PovioKit
 
-<p align="center">
-    Welcome to <b>PovioKit</b>, a modular collection of cocoapods libraries, written in Swift.
-</p>
+[![Version](https://img.shields.io/cocoapods/v/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
+[![License](https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
+[![Platform](https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
+[![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/blog/swift-5-released/)
+[![TravisCI](https://img.shields.io/travis/com/poviolabs/PovioKit.svg)](https://travis-ci.com/poviolabs/PovioKit)
+
+Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in Swift.
 
 ## List of available libraries
 
@@ -42,7 +30,8 @@
 * [AttributedStringBuilder](/PovioKit/Classes/Utilities/AttributedStringBuilder/)
 * [StartupService](/PovioKit/Classes/Utilities/StartupService/)
 * [Broadcast](/PovioKit/Classes/Utilities/Broadcast/)
-* [Broadcast](/PovioKit/Classes/Utilities/ColorInterpolator/)
+* [PromiseKit](/PovioKit/Classes/Utilities/PromiseKit/)
+* [ColorInterpolator](/PovioKit/Classes/Utilities/ColorInterpolator/)
 * [DispatchTimer](/PovioKit/Classes/Utilities/DispatchTimer/)
 * [Logger](/PovioKit/Classes/Utilities/Logger/)
 * [Throttler](/PovioKit/Classes/Utilities/Throttler/)
