@@ -33,6 +33,10 @@ Pod::Spec.new do |s|
     sp.subspec 'Logger' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Logger/**/*'
     end
+
+    sp.subspec 'DispatchTimer' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/DispatchTimer/**/*'
+    end
   end
   
   s.subspec 'Extensions' do |es|
