@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Logger {
+public class Logger {
   typealias Parameters = [String: Any]
   static let shared = Logger()
   var logLevel: LogLevel = .info
@@ -17,7 +17,7 @@ class Logger {
 }
 
 // MARK: - Log Levels
-extension Logger {
+public extension Logger {
   enum LogLevel: Int {
     case none = 0
     case error
@@ -44,7 +44,7 @@ extension Logger {
 }
 
 // MARK: - Public Methods
-extension Logger {
+public extension Logger {
   /// Log debug message
   static func debug(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     if shared.logLevel.rawValue >= LogLevel.debug.rawValue {
