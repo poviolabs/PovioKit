@@ -30,6 +30,10 @@ Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in
 * [StartupService](/PovioKit/Classes/Utilities/StartupService/)
 * [Broadcast](/PovioKit/Classes/Utilities/Broadcast/)
 
+
+### UIViews
+* [GradientView](/PovioKit/Classes/Views/GradientView/)
+
 ## Installation
 
 PovioKit is available through [CocoaPods](https://cocoapods.org). To install
