@@ -29,6 +29,10 @@ Pod::Spec.new do |s|
     us.subspec 'Broadcast' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/*.swift'
     end
+
+    sp.subspec 'Logger' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/Logger/**/*'
+    end
   end
   
   s.subspec 'Extensions' do |es|
