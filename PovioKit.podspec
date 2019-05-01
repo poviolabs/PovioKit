@@ -1,11 +1,3 @@
-#
-# Be sure to run `pod lib lint PovioKit.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
   s.version          = '0.1.0'
@@ -20,38 +12,34 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/poviolabs/PovioKit.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.0'
-  s.source_files = 'PovioKit/Classes/**/*'
-  s.frameworks = 'UIKit'
-  
-  # s.resource_bundles = {
-  #   'PovioKit' => ['PovioKit/Assets/*.png']
-  # }
-  
-  s.subspec 'Utilities' do |sp|
-    sp.source_files = 'PovioKit/Classes/Utilities/**/*'
+  s.source_files = 'PovioKit/Classes/**/*.swift'
+  s.frameworks = 'UIKit', 'Foundation'
 
-    sp.subspec 'AttributedStringBuilder' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/AttributedStringBuilder/**/*'
+  s.subspec 'Utilities' do |us|
+    us.source_files = 'PovioKit/Classes/Utilities/**/*.swift'
+
+    us.subspec 'AttributedStringBuilder' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/AttributedStringBuilder/*.swift'
     end
     
-    sp.subspec 'StartupService' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/StartupService/**/*'
+    us.subspec 'StartupService' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/StartupService/*.swift'
     end
     
-    sp.subspec 'Broadcast' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/**/*'
+    us.subspec 'Broadcast' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/*.swift'
     end
   end
   
-  s.subspec 'Extensions' do |sp|
-    sp.source_files = 'PovioKit/Classes/Extensions/**/*'
+  s.subspec 'Extensions' do |es|
+    es.source_files = 'PovioKit/Classes/Extensions/**/*.swift'
     
-    sp.subspec 'UIKit' do |cs|
-      cs.source_files = 'PovioKit/Classes/Extensions/UIKit/**/*'
+    es.subspec 'UIKit' do |cs|
+      cs.source_files = 'PovioKit/Classes/Extensions/UIKit/*.swift'
     end
     
-    sp.subspec 'Foundation' do |cs|
-      cs.source_files = 'PovioKit/Classes/Extensions/Foundation/**/*'
+    es.subspec 'Foundation' do |cs|
+      cs.source_files = 'PovioKit/Classes/Extensions/Foundation/*.swift'
     end
   end
   
