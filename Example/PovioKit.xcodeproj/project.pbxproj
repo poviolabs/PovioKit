@@ -132,6 +132,7 @@
 				TargetAttributes = {
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 7G58AP3AJX;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -326,6 +327,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 95E3706EF4031F0CD83FCFAD /* Pods-PovioKit_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 7G58AP3AJX;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -348,6 +350,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6CF692F200FC66A4E7828FC5 /* Pods-PovioKit_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 7G58AP3AJX;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
