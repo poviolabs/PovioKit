@@ -4,7 +4,7 @@ Job manager executing only the latest scheduled job, delayed.
 
 ## Example
 
-We used `Throttler` for search functionality, where we delayed requesting search results. Executing a request each key press would be quite an overhead, and the throttler comes to the rescue.
+`Throttler` can be used to simplify search functionality implementation, where after inputing a query (via some input) string search request is executed. But executing a request on each key press would be quite an overhead, and the throttler comes to the rescue.
 
 ```Swift
 class SearchWorker {
