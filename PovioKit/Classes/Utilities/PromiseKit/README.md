@@ -43,6 +43,16 @@ let result = fetchUser(with: 10)
 
 ...
 
+result.onSuccess { value in
+  ...
+}
+
+result.onFailure { error in
+...
+}
+
+// or
+
 result.observe {
   switch $0 {
   case .success(let user):
@@ -55,6 +65,19 @@ result.observe {
 
 Both solutions are quite similar, the main advantage of using promises though is that the result can be observed by more than one actor. 
 Also, since a promise is just an object, we can also pass it around, whereas we can't do that when using closure pattern.
+
+### Advance usage
+
+PromiseKit also enables us to chain promises together to form a chain.  After fetching an entity from the API, we usually need to decode the data into a `Codable`  conforming structure, and for this example, let's say we also need to store it into a database:
+
+```Swift
+func fetchAndPersistUser(with id: User.ID) -> Promise<User> {
+  let requestPromise = restClient.request(url: url)
+  let decodingPromise = requestPromise.map { /* Decode into a `Decodable` entity */ }
+  let storingPromise = decodingPromise.chain { /* Store into a DB */ }
+  return storingPromise
+}
+```
 
 Promises also contain some usefull properties:
 
