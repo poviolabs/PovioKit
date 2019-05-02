@@ -41,6 +41,10 @@ Pod::Spec.new do |s|
     sp.subspec 'Throttler' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*'
     end
+    
+    sp.subspec 'PromiseKit' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/PromiseKit/**/*'
+    end
   end
   
   s.subspec 'Extensions' do |es|

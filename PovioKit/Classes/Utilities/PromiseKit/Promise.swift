@@ -54,7 +54,7 @@ public extension Promise {
     return result
   }
   
-  func transform<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
+  func map<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
     return chain {
       return Promise<TransformedValue, Error>(fulfil: transform($0))
     }
