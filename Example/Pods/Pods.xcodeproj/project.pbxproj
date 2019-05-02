@@ -51,6 +51,7 @@
 		37330A9E21BFB57400AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
 		37330AA321BFBCD000AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3745817B227AE09B004D4C26 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DC0227364DA001E3D8F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -199,6 +200,7 @@
 		375E9DCC2279E7F2001E3D8F /* PromiseKit */ = {
 			isa = PBXGroup;
 			children = (
+				3745817B227AE09B004D4C26 /* README.md */,
 				375E9DCE2279E809001E3D8F /* Future.swift */,
 				375E9DCD2279E809001E3D8F /* Promise.swift */,
 			);
