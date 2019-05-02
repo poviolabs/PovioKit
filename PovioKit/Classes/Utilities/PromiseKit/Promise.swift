@@ -33,6 +33,35 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
 }
 
 public extension Promise {
+  func chain<ChainedValue>(with transform: @escaping (Value) -> Promise<ChainedValue, Error>) -> Promise<ChainedValue, Error> {
+    let result = Promise<ChainedValue, Error>()
+    observe {
+      switch $0 {
+      case .success(let value):
+        let promise = transform(value)
+        promise.observe { res in
+          switch res {
+          case .success(let value):
+            result.resolve(with: value)
+          case .failure(let error):
+            result.reject(with: error)
+          }
+        }
+      case .failure(let error):
+        result.reject(with: error)
+      }
+    }
+    return result
+  }
+  
+  func map<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
+    return chain {
+      return Promise<TransformedValue, Error>(fulfil: transform($0))
+    }
+  }
+}
+
+public extension Promise {
   var isFulfiled: Bool {
     switch result {
     case .success?:

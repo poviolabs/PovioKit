@@ -1,6 +1,6 @@
 # PromiseKit
 
-Lightweight `Promise` pattern implementation inspired by (https://www.swiftbysundell.com/posts/under-the-hood-of-futures-and-promises-in-swift)
+Lightweight `Promise` pattern implementation inspired by https://www.swiftbysundell.com/posts/under-the-hood-of-futures-and-promises-in-swift
 
 ## Usage
 
@@ -8,20 +8,20 @@ A common pattern used by developers for handling API results is to inject a comp
 
 ```Swift
 func fetchUser(with id: User.ID, completion: @escaping (Result<User, Error>) -> Void) {
-	apiRequest {
-		completion($0)
-	}
+  apiRequest {
+    completion($0)
+  }
 }
 
 // call site:
 
 fetchUser(with: 10) { result in
-	switch result {
-	case .success(let user):
-		...
-	case .failure(let error):
-		...
-	}
+  switch result {
+  case .success(let user):
+    ...
+  case .failure(let error):
+    ...
+  }
 }
 ```
 
@@ -29,12 +29,12 @@ Using Promise pattern we can instead solve the problem with something like:
 
 ```Swift
 func fetchUser(with id: User.ID) -> Promise<User, Error> {
-	let promise = Promise<User, Error>()
-	apiRequest {
-		promise.resolve(with: $0)
-		// or promise.reject(with: error) if error occurred
-	}
-	return promise
+  let promise = Promise<User, Error>()
+  apiRequest {
+    promise.resolve(with: $0)
+    // or promise.reject(with: error) if error occurred
+  }
+  return promise
 }
 
 // call site:
@@ -43,18 +43,41 @@ let result = fetchUser(with: 10)
 
 ...
 
+result.onSuccess { value in
+  ...
+}
+
+result.onFailure { error in
+...
+}
+
+// or
+
 result.observe {
-	switch $0 {
-	case .success(let user):
-		...
-	case .failure(let error):
-		...
-	}
+  switch $0 {
+  case .success(let user):
+    ...
+  case .failure(let error):
+    ...
+  }
 }
 ```
 
 Both solutions are quite similar, the main advantage of using promises though is that the result can be observed by more than one actor. 
 Also, since a promise is just an object, we can also pass it around, whereas we can't do that when using closure pattern.
+
+### Advance usage
+
+PromiseKit also enables us to chain promises together to form a chain.  After fetching an entity from the API, we usually need to decode the data into a `Codable`  conforming structure, and for this example, let's say we also need to store it into a database:
+
+```Swift
+func fetchAndPersistUser(with id: User.ID) -> Promise<User> {
+  let requestPromise = restClient.request(url: url)
+  let decodingPromise = requestPromise.map { /* Decode into a `Decodable` entity */ }
+  let storingPromise = decodingPromise.chain { /* Store into a DB */ }
+  return storingPromise
+}
+```
 
 Promises also contain some usefull properties:
 
