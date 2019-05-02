@@ -55,9 +55,8 @@ public extension Promise {
   }
   
   func transform<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
-    return chain { value in
-      let transformed = transform(value)
-      return Promise(fulfil: transformed)
+    return chain {
+      return Promise<TransformedValue, Error>(fulfil: transform($0))
     }
   }
 }
