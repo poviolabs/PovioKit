@@ -7,4 +7,4 @@
 
 import UIKit
 
-extension UILabel: BuilderCompatible {}
+public extension UILabel: BuilderCompatible {}
