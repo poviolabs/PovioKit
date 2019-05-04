@@ -13,9 +13,9 @@ public final class StartupProcessService {
   
   @discardableResult
   public func execute(process: StartupProcess) -> StartupProcessService {
-    process.run { (success) in
-      guard success else { return }
-      print("Successfully ran the \(type(of: process)) process.")
+    process.run {
+      guard $0 else { return }
+      print("Successfully ran the \(type(of: $0)) process.")
     }
     return self
   }
