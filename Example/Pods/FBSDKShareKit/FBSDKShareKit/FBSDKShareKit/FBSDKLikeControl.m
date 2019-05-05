@@ -108,7 +108,7 @@ typedef CGSize (^fbsdk_like_control_sizing_block_t)(UIView *subview, CGSize cons
   return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [super initWithCoder:decoder])) {
     [self _initializeContent];
@@ -126,7 +126,7 @@ typedef CGSize (^fbsdk_like_control_sizing_block_t)(UIView *subview, CGSize cons
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
-  [super setBackgroundColor:backgroundColor];
+  super.backgroundColor = backgroundColor;
   _likeButtonContainer.backgroundColor = backgroundColor;
 }
 
@@ -207,7 +207,7 @@ typedef CGSize (^fbsdk_like_control_sizing_block_t)(UIView *subview, CGSize cons
 
 - (void)setOpaque:(BOOL)opaque
 {
-  [super setOpaque:opaque];
+  super.opaque = opaque;
   _likeButtonContainer.opaque = opaque;
 }
 
@@ -590,17 +590,17 @@ static CGSize FBSDKLikeControlCalculateContentSize(FBSDKLikeControlLayout layout
         view.frame = frame;
       };
       [UIView animateWithDuration:kFBLikeControlAnimationDuration animations:^{
-        hideView(_socialSentenceLabel);
+        hideView(self->_socialSentenceLabel);
       } completion:^(BOOL finished) {
-        _socialSentenceLabel.text = likeActionController.socialSentence;
+        self->_socialSentenceLabel.text = likeActionController.socialSentence;
         [self setNeedsLayout];
         [self setNeedsUpdateConstraints];
         [self invalidateIntrinsicContentSize];
         [self layoutIfNeeded];
-        hideView(_socialSentenceLabel);
+        hideView(self->_socialSentenceLabel);
 
         [UIView animateWithDuration:kFBLikeControlAnimationDuration animations:^{
-          _socialSentenceLabel.alpha = 1.0;
+          self->_socialSentenceLabel.alpha = 1.0;
           [self setNeedsLayout];
           [self layoutIfNeeded];
         }];
@@ -621,8 +621,8 @@ static CGSize FBSDKLikeControlCalculateContentSize(FBSDKLikeControlLayout layout
   BOOL enabled = (!_isExplicitlyDisabled &&
                   self.objectID &&
                   ![FBSDKLikeActionController isDisabled]);
-  BOOL currentEnabled = [self isEnabled];
-  [super setEnabled:enabled];
+  BOOL currentEnabled = self.enabled;
+  super.enabled = enabled;
   if (currentEnabled != enabled) {
     [self invalidateIntrinsicContentSize];
     [self setNeedsLayout];

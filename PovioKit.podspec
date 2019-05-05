@@ -30,15 +30,15 @@ Pod::Spec.new do |s|
       cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/*.swift'
     end
 
-    sp.subspec 'Logger' do |cs|
+    us.subspec 'Logger' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Logger/**/*'
     end
 
-    sp.subspec 'DispatchTimer' do |cs|
+    us.subspec 'DispatchTimer' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/DispatchTimer/**/*'
     end
     
-    sp.subspec 'Throttler' do |cs|
+    us.subspec 'Throttler' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*'
     end
   end
@@ -65,8 +65,8 @@ Pod::Spec.new do |s|
   
   s.subspec 'ShareKit' do |sp|
     sp.source_files = 'PovioKit/Classes/ShareKit/**/*'
-    sp.dependency 'FBSDKCoreKit', '~> 4.38.0'
-    sp.dependency 'FBSDKLoginKit', '~> 4.38.0'
-    sp.dependency 'FBSDKShareKit', '~> 4.38.0'
+    sp.dependency 'FBSDKCoreKit', '~> 4.39.0'
+    sp.dependency 'FBSDKLoginKit', '~> 4.39.0'
+    sp.dependency 'FBSDKShareKit', '~> 4.39.0'
   end
 end

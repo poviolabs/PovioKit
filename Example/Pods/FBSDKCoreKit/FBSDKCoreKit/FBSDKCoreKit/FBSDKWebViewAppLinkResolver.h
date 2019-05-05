@@ -18,34 +18,21 @@
 
 #import <Foundation/Foundation.h>
 
-@class FBSDKURLConnection;
+#import "FBSDKAppLinkResolving.h"
 
-typedef void (^FBSDKURLConnectionHandler)(FBSDKURLConnection *connection,
-                                          NSError *error,
-                                          NSURLResponse *response,
-                                          NSData *responseData);
+NS_ASSUME_NONNULL_BEGIN
 
-@protocol FBSDKURLConnectionDelegate <NSObject>
+/*!
+ A reference implementation for an App Link resolver that uses a hidden UIWebView
+ to parse the HTML containing App Link metadata.
+ */
+@interface FBSDKWebViewAppLinkResolver : NSObject <FBSDKAppLinkResolving>
 
-@optional
-
-- (void)facebookURLConnection:(FBSDKURLConnection *)connection
-              didSendBodyData:(NSInteger)bytesWritten
-            totalBytesWritten:(NSInteger)totalBytesWritten
-    totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
-
-@end
-
-@interface FBSDKURLConnection : NSObject
-
-- (FBSDKURLConnection *)initWithRequest:(NSURLRequest *)request
-                      completionHandler:(FBSDKURLConnectionHandler)handler
-NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, weak) id<FBSDKURLConnectionDelegate> delegate;
-
-- (void)cancel;
-- (void)start;
-- (void)setDelegateQueue:(NSOperationQueue *)queue;
+/*!
+ Gets the instance of a FBSDKWebViewAppLinkResolver.
+ */
++ (instancetype)sharedInstance;
 
 @end
+
+NS_ASSUME_NONNULL_END
