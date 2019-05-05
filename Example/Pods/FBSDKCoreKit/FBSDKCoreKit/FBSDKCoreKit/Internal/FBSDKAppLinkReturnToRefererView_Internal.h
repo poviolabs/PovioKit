@@ -16,29 +16,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "FBSDKAppLinkReturnToRefererView.h"
 
-#import <FBSDKCoreKit/FBSDKMacros.h>
+@interface FBSDKAppLinkReturnToRefererView (Internal)
 
-FBSDK_EXTERN NSString* const EMAIL;
-FBSDK_EXTERN NSString* const FIRST_NAME;
-FBSDK_EXTERN NSString* const LAST_NAME;
-FBSDK_EXTERN NSString* const PHONE;
-FBSDK_EXTERN NSString* const DATE_OF_BIRTH;
-FBSDK_EXTERN NSString* const GENDER;
-FBSDK_EXTERN NSString* const CITY;
-FBSDK_EXTERN NSString* const STATE;
-FBSDK_EXTERN NSString* const ZIP;
-FBSDK_EXTERN NSString* const COUNTRY;
-
-@interface FBSDKUserDataStore : NSObject
-
-+ (void)initStore;
-
-+ (void)initAndWait;
-
-+ (void) setUserDataAndHash:(NSDictionary*)ud;
-
-+ (NSString*) getHashedUserData;
+- (CGFloat)statusBarHeight;
 
 @end

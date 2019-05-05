@@ -65,8 +65,8 @@ Pod::Spec.new do |s|
   
   s.subspec 'ShareKit' do |sp|
     sp.source_files = 'PovioKit/Classes/ShareKit/**/*'
-    sp.dependency 'FBSDKCoreKit', '~> 4.38.0'
-    sp.dependency 'FBSDKLoginKit', '~> 4.38.0'
-    sp.dependency 'FBSDKShareKit', '~> 4.38.0'
+    sp.dependency 'FBSDKCoreKit', '~> 4.39.0'
+    sp.dependency 'FBSDKLoginKit', '~> 4.39.0'
+    sp.dependency 'FBSDKShareKit', '~> 4.39.0'
   end
 end

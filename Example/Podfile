@@ -1,4 +1,6 @@
 use_frameworks!
+platform :ios, '11.0'
+
 target 'PovioKit_Tests' do
   pod 'PovioKit', :path => '../'
   pod 'FBSDKCoreKit', '4.39.0'

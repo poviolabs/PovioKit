@@ -195,7 +195,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -212,7 +212,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FA9E138401B49E60133D5166 /* [CP] Check Pods Manifest.lock */ = {
