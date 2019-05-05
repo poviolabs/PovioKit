@@ -62,4 +62,13 @@ Pod::Spec.new do |s|
       cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*'
     end
   end
+  
+  s.subspec 'Networking' do |sp|
+    sp.source_files = 'PovioKit/Classes/Networking/**/*'
+    
+    sp.subspec 'RestClient' do |cs|
+      cs.source_files = 'PovioKit/Classes/Networking/RestClient/**/*'
+      cs.dependency 'Alamofire'
+    end
+  end
 end

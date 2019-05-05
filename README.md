@@ -33,6 +33,8 @@ Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in
 * [DispatchTimer](/PovioKit/Classes/Utilities/DispatchTimer/)
 * [Logger](/PovioKit/Classes/Utilities/Logger/)
 
+### Networking
+* [RestClient](/PovioKit/Classes/Networking/RestClient/)
 
 ### UIViews
 * [GradientView](/PovioKit/Classes/Views/GradientView/)
