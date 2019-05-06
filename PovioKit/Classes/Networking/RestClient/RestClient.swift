@@ -84,19 +84,47 @@ public class RestClient<NetworkError: NetworkErrorProtocol>: RestClientProtocol 
   }
   
   public func PUT(endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
-    
+    request(endpoint: endpoint, method: .put, parameters: parameters, headers: headers, result)
   }
   
   public func PUT<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
-    
+    request(endpoint: endpoint, method: .put, parameters: parameters, headers: headers) {
+      switch $0 {
+      case .success(let response):
+        DispatchQueue.global(qos: .background).async {
+          do {
+            let decodedObject = try self.jsonDecoder.decode(T.self, from: response.data)
+            DispatchQueue.main.async { result?(.success(decodedObject)) }
+          } catch {
+            DispatchQueue.main.async { result?(.failure(NetworkError(wrap: error))) }
+          }
+        }
+      case .failure(let error):
+        DispatchQueue.main.async { result?(.failure(error)) }
+      }
+    }
   }
   
   public func DELETE(endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
-    
+    request(endpoint: endpoint, method: .delete, parameters: parameters, headers: headers, result)
   }
   
   public func DELETE<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
-    
+    request(endpoint: endpoint, method: .delete, parameters: parameters, headers: headers) {
+      switch $0 {
+      case .success(let response):
+        DispatchQueue.global(qos: .background).async {
+          do {
+            let decodedObject = try self.jsonDecoder.decode(T.self, from: response.data)
+            DispatchQueue.main.async { result?(.success(decodedObject)) }
+          } catch {
+            DispatchQueue.main.async { result?(.failure(NetworkError(wrap: error))) }
+          }
+        }
+      case .failure(let error):
+        DispatchQueue.main.async { result?(.failure(error)) }
+      }
+    }
   }
 }
 
