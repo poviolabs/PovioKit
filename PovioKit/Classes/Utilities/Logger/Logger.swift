@@ -9,9 +9,9 @@
 import Foundation
 
 public class Logger {
-  typealias Parameters = [String: Any]
-  static let shared = Logger()
-  var logLevel: LogLevel = .info
+  public typealias Parameters = [String: Any]
+  public static let shared = Logger()
+  public var logLevel: LogLevel = .info
   
   private init() {}
 }
