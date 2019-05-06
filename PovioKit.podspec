@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
 
@@ -55,10 +55,10 @@ Pod::Spec.new do |s|
     end
   end
   
-  s.subspec 'Views' do |sp|
-    sp.source_files = 'PovioKit/Classes/Views/**/*'
+  s.subspec 'Views' do |vs|
+    vs.source_files = 'PovioKit/Classes/Views/**/*'
     
-    sp.subspec 'GradientView' do |cs|
+    vs.subspec 'GradientView' do |cs|
       cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*'
     end
   end
