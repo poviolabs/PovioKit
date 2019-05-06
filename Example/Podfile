@@ -1,6 +1,11 @@
 use_frameworks!
+
+def available_pods
+  pod 'Alamofire'
+end
+
 target 'PovioKit_Tests' do
   pod 'PovioKit', :path => '../'
-  
+  available_pods
   
 end
