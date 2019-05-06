@@ -22,7 +22,7 @@ public class DispatchTimer {
 // MARK: - Public Methods
 public extension DispatchTimer {
   /// Creates and schedules repeating timer or one time execution afer given time interval
-  public func schedule(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) {
+  func schedule(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) {
     timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
     switch repeating {
     case true:
@@ -41,14 +41,14 @@ public extension DispatchTimer {
   }
   
   /// Creates and returns `DispatchTimer` object and schedules repeating timer or one time execution after given time interval
-  public static func scheduled(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) -> DispatchTimer {
+  static func scheduled(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) -> DispatchTimer {
     let timer = DispatchTimer()
     timer.schedule(interval: interval, repeating: repeating, on: queue, completion)
     return timer
   }
   
   /// Stops dispatch scheduler
-  public func stop() {
+  func stop() {
     timer?.cancel()
     timer = nil
   }
