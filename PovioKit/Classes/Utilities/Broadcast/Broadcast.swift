@@ -15,6 +15,8 @@ public class Broadcast<T> {
   }
   
   private(set) var delegates = [Weak<AnyObject>]()
+
+  public init() {}
   
   public func add(delegate: T) {
     prune()

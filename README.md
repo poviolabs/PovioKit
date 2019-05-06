@@ -8,6 +8,7 @@
 [![License](https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
 [![Platform](https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat)](https://cocoapods.org/pods/PovioKit)
 [![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/blog/swift-5-released/)
+[![TravisCI](https://img.shields.io/travis/com/poviolabs/PovioKit.svg)](https://travis-ci.com/poviolabs/PovioKit)
 
 Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in Swift.
 
@@ -29,6 +30,12 @@ Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in
 * [AttributedStringBuilder](/PovioKit/Classes/Utilities/AttributedStringBuilder/)
 * [StartupService](/PovioKit/Classes/Utilities/StartupService/)
 * [Broadcast](/PovioKit/Classes/Utilities/Broadcast/)
+* [DispatchTimer](/PovioKit/Classes/Utilities/DispatchTimer/)
+* [Logger](/PovioKit/Classes/Utilities/Logger/)
+
+
+### UIViews
+* [GradientView](/PovioKit/Classes/Views/GradientView/)
 
 ## Installation
 
