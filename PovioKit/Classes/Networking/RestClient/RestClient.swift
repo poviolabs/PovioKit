@@ -82,6 +82,22 @@ public class RestClient<NetworkError: NetworkErrorProtocol>: RestClientProtocol 
       }
     }
   }
+  
+  public func PUT(endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
+    
+  }
+  
+  public func PUT<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
+    
+  }
+  
+  public func DELETE(endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
+    
+  }
+  
+  public func DELETE<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: RestClientProtocol.Params?, headers: RestClientProtocol.Headers?, _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
+    
+  }
 }
 
 // MARK: - Private Methods
