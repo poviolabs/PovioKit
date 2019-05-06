@@ -12,20 +12,26 @@
 		37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */; };
 		37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */; };
 		37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */; };
-		37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */; };
 		375E9DC522736F43001E3D8F /* UILabel+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */; };
 		375E9DC622736F45001E3D8F /* UITextField+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */; };
+		37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */; };
 		37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C0A21C3B64300AAC6CC /* GradientView.swift */; };
-		37DC7C1C21C3B8F400AAC6CC /* UICollectionView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1121C3B8F300AAC6CC /* UICollectionView+Povio.swift */; };
-		37DC7C1D21C3B8F400AAC6CC /* UIView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1221C3B8F300AAC6CC /* UIView+Povio.swift */; };
-		37DC7C2121C3B8F400AAC6CC /* UITableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1621C3B8F400AAC6CC /* UITableView+Povio.swift */; };
-		37DC7C2321C3B8F400AAC6CC /* UIColor+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C1821C3B8F400AAC6CC /* UIColor+Povio.swift */; };
 		37DC7C2F21C3BC8800AAC6CC /* URL+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C2821C3BC8800AAC6CC /* URL+Povio.swift */; };
 		37DC7C3221C3BC8800AAC6CC /* String+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C2B21C3BC8800AAC6CC /* String+Povio.swift */; };
 		37DC7C3321C3BC8800AAC6CC /* Collection+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DC7C2C21C3BC8800AAC6CC /* Collection+Povio.swift */; };
 		4DD1F879D4C7D2614235376EB0C37520 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		5E096F52E192D32E7F59B35D76B5B703 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */; };
 		6393D66F5A5EBAC24A3AFA103EAC8004 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63C6A64CF66340668996F78DA6BB482 /* UIKit.framework */; };
+		99B59C5A22802A0600079CAA /* Optional+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C5922802A0600079CAA /* Optional+Povio.swift */; };
+		99B59C6422802AD400079CAA /* UIView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C5B22802AD300079CAA /* UIView+Povio.swift */; };
+		99B59C6522802AD400079CAA /* UIColor+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C5C22802AD400079CAA /* UIColor+Povio.swift */; };
+		99B59C6622802AD400079CAA /* UICollectionReusableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C5D22802AD400079CAA /* UICollectionReusableView+Povio.swift */; };
+		99B59C6722802AD400079CAA /* UITableViewCell+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C5E22802AD400079CAA /* UITableViewCell+Povio.swift */; };
+		99B59C6822802AD400079CAA /* UICollectionView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C5F22802AD400079CAA /* UICollectionView+Povio.swift */; };
+		99B59C6922802AD400079CAA /* UIDevice+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C6022802AD400079CAA /* UIDevice+Povio.swift */; };
+		99B59C6A22802AD400079CAA /* UITableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C6122802AD400079CAA /* UITableView+Povio.swift */; };
+		99B59C6B22802AD400079CAA /* UITableViewHeaderFooterView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C6222802AD400079CAA /* UITableViewHeaderFooterView+Povio.swift */; };
+		99B59C6C22802AD400079CAA /* UIImage+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B59C6322802AD400079CAA /* UIImage+Povio.swift */; };
 		C33321102EBEB7D3BEECBF5CE2314D24 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D9B4B66A164E19AB01AF4C386705 /* AttributedStringBuilder.swift */; };
 		C9C2D87030D2D6620AEC3FF1B905C33B /* Pods-PovioKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 848CE8CF70ABF11C258700D421863D91 /* Pods-PovioKit_Tests-dummy.m */; };
 		F0ADB82E241667CC461BFF30FAE07039 /* PovioKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E21AD422858B5185A5A1D81EC0DC0F02 /* PovioKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -50,18 +56,13 @@
 		37330A9E21BFB57400AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
 		37330AA321BFBCD000AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		37DB2D0121B027470047CDC1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
-		37DC7C0921C3AD6100AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		375E9DBC22735C29001E3D8F /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DBE22735C34001E3D8F /* UITextField+BuilderCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		375E9DC0227364DA001E3D8F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
+		37DC7C0921C3AD6100AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37DC7C0A21C3B64300AAC6CC /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		37DC7C0C21C3B67C00AAC6CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		37DC7C1121C3B8F300AAC6CC /* UICollectionView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Povio.swift"; sourceTree = "<group>"; };
-		37DC7C1221C3B8F300AAC6CC /* UIView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Povio.swift"; sourceTree = "<group>"; };
-		37DC7C1621C3B8F400AAC6CC /* UITableView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Povio.swift"; sourceTree = "<group>"; };
-		37DC7C1821C3B8F400AAC6CC /* UIColor+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Povio.swift"; sourceTree = "<group>"; };
 		37DC7C2821C3BC8800AAC6CC /* URL+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Povio.swift"; sourceTree = "<group>"; };
 		37DC7C2B21C3BC8800AAC6CC /* String+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Povio.swift"; sourceTree = "<group>"; };
 		37DC7C2C21C3BC8800AAC6CC /* Collection+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Povio.swift"; sourceTree = "<group>"; };
@@ -75,6 +76,16 @@
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93FE04C9CB04D5ED98B2A776F021329F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9577E3D837BFC529422908DCF7041916 /* Pods-PovioKit_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PovioKit_Tests-umbrella.h"; sourceTree = "<group>"; };
+		99B59C5922802A0600079CAA /* Optional+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+Povio.swift"; sourceTree = "<group>"; };
+		99B59C5B22802AD300079CAA /* UIView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Povio.swift"; sourceTree = "<group>"; };
+		99B59C5C22802AD400079CAA /* UIColor+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Povio.swift"; sourceTree = "<group>"; };
+		99B59C5D22802AD400079CAA /* UICollectionReusableView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Povio.swift"; sourceTree = "<group>"; };
+		99B59C5E22802AD400079CAA /* UITableViewCell+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Povio.swift"; sourceTree = "<group>"; };
+		99B59C5F22802AD400079CAA /* UICollectionView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Povio.swift"; sourceTree = "<group>"; };
+		99B59C6022802AD400079CAA /* UIDevice+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Povio.swift"; sourceTree = "<group>"; };
+		99B59C6122802AD400079CAA /* UITableView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Povio.swift"; sourceTree = "<group>"; };
+		99B59C6222802AD400079CAA /* UITableViewHeaderFooterView+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewHeaderFooterView+Povio.swift"; sourceTree = "<group>"; };
+		99B59C6322802AD400079CAA /* UIImage+Povio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Povio.swift"; sourceTree = "<group>"; };
 		A11B486950B32C37A4A0B9910DCD0374 /* PovioKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PovioKit.xcconfig; sourceTree = "<group>"; };
 		A4D9C6FC293CF409AB98DE54650FA753 /* Pods-PovioKit_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PovioKit_Tests-resources.sh"; sourceTree = "<group>"; };
 		A7BC61F039735B0BBF5E0217FC904EF3 /* Pods-PovioKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PovioKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -187,15 +198,6 @@
 			path = Broadcast;
 			sourceTree = "<group>";
 		};
-		37DC7C0621C3AC4200AAC6CC /* Throttler */ = {
-			isa = PBXGroup;
-			children = (
-				37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */,
-				37DC7C0921C3AD6100AAC6CC /* README.md */,
-			);
-			path = Throttler;
-			sourceTree = "<group>";
-		};
 		375E9DC722798BD2001E3D8F /* GradientView */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,13 +207,27 @@
 			path = GradientView;
 			sourceTree = "<group>";
 		};
+		37DC7C0621C3AC4200AAC6CC /* Throttler */ = {
+			isa = PBXGroup;
+			children = (
+				37DC7C0721C3AD2B00AAC6CC /* Throttler.swift */,
+				37DC7C0921C3AD6100AAC6CC /* README.md */,
+			);
+			path = Throttler;
+			sourceTree = "<group>";
+		};
 		37DC7C0E21C3B8B700AAC6CC /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				37DC7C1221C3B8F300AAC6CC /* UIView+Povio.swift */,
-				37DC7C1621C3B8F400AAC6CC /* UITableView+Povio.swift */,
-				37DC7C1121C3B8F300AAC6CC /* UICollectionView+Povio.swift */,
-				37DC7C1821C3B8F400AAC6CC /* UIColor+Povio.swift */,
+				99B59C5D22802AD400079CAA /* UICollectionReusableView+Povio.swift */,
+				99B59C5F22802AD400079CAA /* UICollectionView+Povio.swift */,
+				99B59C5C22802AD400079CAA /* UIColor+Povio.swift */,
+				99B59C6022802AD400079CAA /* UIDevice+Povio.swift */,
+				99B59C6322802AD400079CAA /* UIImage+Povio.swift */,
+				99B59C6122802AD400079CAA /* UITableView+Povio.swift */,
+				99B59C5E22802AD400079CAA /* UITableViewCell+Povio.swift */,
+				99B59C6222802AD400079CAA /* UITableViewHeaderFooterView+Povio.swift */,
+				99B59C5B22802AD300079CAA /* UIView+Povio.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -220,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				37DC7C2C21C3BC8800AAC6CC /* Collection+Povio.swift */,
+				99B59C5922802A0600079CAA /* Optional+Povio.swift */,
 				37DC7C2B21C3BC8800AAC6CC /* String+Povio.swift */,
 				37DC7C2821C3BC8800AAC6CC /* URL+Povio.swift */,
 			);
@@ -387,6 +404,9 @@
 					DA5E7791223BD308356B686D58DCD827 = {
 						LastSwiftMigration = 1020;
 					};
+					F7889AAB8D9F2C849AA68DFEEDD7047D = {
+						LastSwiftMigration = 1020;
+					};
 				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
@@ -414,16 +434,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C33321102EBEB7D3BEECBF5CE2314D24 /* AttributedStringBuilder.swift in Sources */,
-				37DC7C2121C3B8F400AAC6CC /* UITableView+Povio.swift in Sources */,
 				37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */,
 				37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */,
-				37DC7C1C21C3B8F400AAC6CC /* UICollectionView+Povio.swift in Sources */,
 				375E9DC522736F43001E3D8F /* UILabel+BuilderCompatible.swift in Sources */,
 				37DC7C3221C3BC8800AAC6CC /* String+Povio.swift in Sources */,
 				37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */,
 				37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */,
-				37DC7C1D21C3B8F400AAC6CC /* UIView+Povio.swift in Sources */,
-				37DC7C2321C3B8F400AAC6CC /* UIColor+Povio.swift in Sources */,
 				0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */,
 				37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */,
 				37DC7C2F21C3BC8800AAC6CC /* URL+Povio.swift in Sources */,
@@ -436,7 +452,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99B59C5A22802A0600079CAA /* Optional+Povio.swift in Sources */,
+				99B59C6C22802AD400079CAA /* UIImage+Povio.swift in Sources */,
+				99B59C6422802AD400079CAA /* UIView+Povio.swift in Sources */,
 				C9C2D87030D2D6620AEC3FF1B905C33B /* Pods-PovioKit_Tests-dummy.m in Sources */,
+				99B59C6822802AD400079CAA /* UICollectionView+Povio.swift in Sources */,
+				99B59C6522802AD400079CAA /* UIColor+Povio.swift in Sources */,
+				99B59C6922802AD400079CAA /* UIDevice+Povio.swift in Sources */,
+				99B59C6622802AD400079CAA /* UICollectionReusableView+Povio.swift in Sources */,
+				99B59C6A22802AD400079CAA /* UITableView+Povio.swift in Sources */,
+				99B59C6B22802AD400079CAA /* UITableViewHeaderFooterView+Povio.swift in Sources */,
+				99B59C6722802AD400079CAA /* UITableViewCell+Povio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
