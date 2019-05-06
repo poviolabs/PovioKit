@@ -24,4 +24,8 @@ public protocol RestClientProtocol {
   func GET<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: Params?, headers: Headers?, _ result: GenericResult<T>)
   func POST(endpoint: EndpointProtocol, parameters: Params?, headers: Headers?, _ result: DataResult)
   func POST<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: Params?, headers: Headers?, _ result: GenericResult<T>)
+  func PUT(endpoint: EndpointProtocol, parameters: Params?, headers: Headers?, _ result: DataResult)
+  func PUT<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: Params?, headers: Headers?, _ result: GenericResult<T>)
+  func DELETE(endpoint: EndpointProtocol, parameters: Params?, headers: Headers?, _ result: DataResult)
+  func DELETE<T: Decodable>(decode: T.Type, endpoint: EndpointProtocol, parameters: Params?, headers: Headers?, _ result: GenericResult<T>)
 }
