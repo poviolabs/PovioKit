@@ -8,6 +8,6 @@
 
 import Foundation
 
-public enum Version: String {
-  case v1
+public protocol Version {
+  var version: String { get }
 }
