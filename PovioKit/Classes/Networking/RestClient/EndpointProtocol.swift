@@ -18,28 +18,6 @@ public protocol EndpointProtocol {
   var clientToken: String? { get }
 }
 
-public extension EndpointProtocol {
-  var url: String {
-    return "\(Host.current.baseURL)/\(path)"
-  }
-  
-  var retryCount: Int {
-    return 0
-  }
-  
-  var apiVersion: Version {
-    return .v1 // Currently not in use
-  }
-  
-  var authentication: Authentication {
-    return .authenticated // Currently not in use
-  }
-  
-  var clientToken: String? {
-    return nil
-  }
-}
-
 extension EndpointProtocol where Self: RawRepresentable, Self.RawValue == String {
   public var path: String {
     return rawValue
