@@ -7,4 +7,4 @@
 
 import UIKit
 
-public  extension UITextField: BuilderCompatible {}
+extension UITextField: BuilderCompatible {}
