@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./PovioLabs_logo.png" alt="Povio Labs logo" height="180">
+  <img src="PovioLabs_logo.png" alt="Povio Labs logo" height="180">
 </p>
 
 # PovioKit
@@ -32,6 +32,7 @@ Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in
 * [Broadcast](/PovioKit/Classes/Utilities/Broadcast/)
 * [DispatchTimer](/PovioKit/Classes/Utilities/DispatchTimer/)
 * [Logger](/PovioKit/Classes/Utilities/Logger/)
+* [Throttler](/PovioKit/Classes/Utilities/Throttler/)
 
 
 ### UIViews
@@ -39,14 +40,13 @@ Welcome to **PovioKit**, a modular collection of cocoapods libraries, written in
 
 ## Installation
 
-PovioKit is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+PovioKit is available through [CocoaPods](https://cocoapods.org). To install it, add the following line to your Podfile:
 
 ```ruby
 pod 'PovioKit'
 ```
 
-This way you'll install all subspecs available. However, you could option in to install only selected subspec. Her is an example how to install `StartupService`:
+This way you'll install all subspecs available. However, you could opt-out installing only selected subspec. Her is an example of how to install `StartupService`:
 
 ```ruby
 pod 'PovioKit/Utilities/StartupService'
