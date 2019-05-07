@@ -76,7 +76,7 @@ Pod::Spec.new do |s|
       
       cs.subspec 'URLSession' do |es|
         es.source_files = 'PovioKit/Classes/Networking/RestClient/Engine/URLSession/*'
-        es.dependency 'RestClient/Core'
+        es.dependency 'Networking/RestClient/Core'
       end
     end
   end
