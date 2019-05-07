@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.2.2.2'
+  s.version          = '0.2.2.3'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
 
@@ -14,6 +14,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.source_files = 'PovioKit/Classes/**/*.swift'
   s.frameworks = 'UIKit', 'Foundation'
+  s.default_subspecs = 'Utilities', 'Extensions', 'Views', 'Networking/RestClient/URLSession'
 
   s.subspec 'Utilities' do |us|
     us.source_files = 'PovioKit/Classes/Utilities/**/*'
@@ -71,6 +72,11 @@ Pod::Spec.new do |s|
       
       cs.subspec 'Core' do |es|
         es.source_files = 'PovioKit/Classes/Networking/RestClient/Core/*'
+      end
+      
+      cs.subspec 'URLSession' do |es|
+        es.source_files = 'PovioKit/Classes/Networking/RestClient/Engine/URLSession/*'
+        es.dependency 'PovioKit/Networking/RestClient/Core'
       end
     end
   end
