@@ -33,17 +33,17 @@ public class RestClient<Engine: RequestEngine>: RestClientProtocol {
 
 public extension RestClient {
   func GET(endpoint: EndpointProtocol,
-                  parameters: RestClientProtocol.Params? = nil,
-                  headers: RestClientProtocol.Headers? = nil,
-                  _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
+           parameters: RestClientProtocol.Params? = nil,
+           headers: RestClientProtocol.Headers? = nil,
+           _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
     requestEngine.request(endpoint: endpoint, method: .get, parameters: parameters, headers: headers, result)
   }
   
   func GET<T: Decodable>(decode: T.Type,
-                                endpoint: EndpointProtocol,
-                                parameters: RestClientProtocol.Params? = nil,
-                                headers: RestClientProtocol.Headers? = nil,
-                                _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
+                         endpoint: EndpointProtocol,
+                         parameters: RestClientProtocol.Params? = nil,
+                         headers: RestClientProtocol.Headers? = nil,
+                         _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
     requestEngine.request(endpoint: endpoint, method: .get, parameters: parameters, headers: headers) {
       switch $0 {
       case .success(let response):
@@ -62,17 +62,17 @@ public extension RestClient {
   }
   
   func POST(endpoint: EndpointProtocol,
-                   parameters: RestClientProtocol.Params? = nil,
-                   headers: RestClientProtocol.Headers? = nil,
-                   _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
+            parameters: RestClientProtocol.Params? = nil,
+            headers: RestClientProtocol.Headers? = nil,
+            _ result: ((Swift.Result<DataResponse, NetworkError>) -> Void)?) {
     requestEngine.request(endpoint: endpoint, method: .post, parameters: parameters, headers: headers, result)
   }
   
   func POST<T: Decodable>(decode: T.Type,
-                                 endpoint: EndpointProtocol,
-                                 parameters: RestClientProtocol.Params?,
-                                 headers: RestClientProtocol.Headers?,
-                                 _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
+                          endpoint: EndpointProtocol,
+                          parameters: RestClientProtocol.Params?,
+                          headers: RestClientProtocol.Headers?,
+                          _ result: ((Swift.Result<T, NetworkError>) -> Void)?) {
     requestEngine.request(endpoint: endpoint, method: .post, parameters: parameters, headers: headers) {
       switch $0 {
       case .success(let response):
