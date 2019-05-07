@@ -9,6 +9,8 @@
 import Foundation
 
 public class URLSessionRequestEngine<Error: NetworkErrorProtocol>: RequestEngine {
+  public init() {}
+  
   public func request(endpoint: EndpointProtocol, method: HTTPMethod, parameters: [String : Any]?, headers: [String : String]?, _ result: ((Result<DataResponse, Error>) -> Void)?) {
     guard let url = URL(string: endpoint.path) else {
       result?(.failure(Error(invalidUrl: endpoint.path)))
