@@ -1,20 +1,51 @@
 PODS:
-  - PovioKit (0.1.0):
-    - PovioKit/Utilities (= 0.1.0)
-  - PovioKit/Utilities (0.1.0):
-    - PovioKit/Utilities/AttributedStringBuilder (= 0.1.0)
-  - PovioKit/Utilities/AttributedStringBuilder (0.1.0)
+  - Alamofire (4.8.2)
+  - PovioKit (0.2.2.4):
+    - PovioKit/Extensions (= 0.2.2.4)
+    - PovioKit/Networking/RestClient/URLSession (= 0.2.2.4)
+    - PovioKit/Utilities (= 0.2.2.4)
+    - PovioKit/Views (= 0.2.2.4)
+  - PovioKit/Extensions (0.2.2.4):
+    - PovioKit/Extensions/Foundation (= 0.2.2.4)
+    - PovioKit/Extensions/UIKit (= 0.2.2.4)
+  - PovioKit/Extensions/Foundation (0.2.2.4)
+  - PovioKit/Extensions/UIKit (0.2.2.4)
+  - PovioKit/Networking/RestClient/Core (0.2.2.4)
+  - PovioKit/Networking/RestClient/URLSession (0.2.2.4):
+    - PovioKit/Networking/RestClient/Core
+  - PovioKit/Utilities (0.2.2.4):
+    - PovioKit/Utilities/AttributedStringBuilder (= 0.2.2.4)
+    - PovioKit/Utilities/Broadcast (= 0.2.2.4)
+    - PovioKit/Utilities/DispatchTimer (= 0.2.2.4)
+    - PovioKit/Utilities/Logger (= 0.2.2.4)
+    - PovioKit/Utilities/StartupService (= 0.2.2.4)
+    - PovioKit/Utilities/Throttler (= 0.2.2.4)
+  - PovioKit/Utilities/AttributedStringBuilder (0.2.2.4)
+  - PovioKit/Utilities/Broadcast (0.2.2.4)
+  - PovioKit/Utilities/DispatchTimer (0.2.2.4)
+  - PovioKit/Utilities/Logger (0.2.2.4)
+  - PovioKit/Utilities/StartupService (0.2.2.4)
+  - PovioKit/Utilities/Throttler (0.2.2.4)
+  - PovioKit/Views (0.2.2.4):
+    - PovioKit/Views/GradientView (= 0.2.2.4)
+  - PovioKit/Views/GradientView (0.2.2.4)
 
 DEPENDENCIES:
+  - Alamofire
   - PovioKit (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
 
 EXTERNAL SOURCES:
   PovioKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PovioKit: 916a6ed9cee642aa46393fa5f5b849c802ad9d92
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  PovioKit: d2ed79766cdef07baaf9e0bf1e87ecf5476832f4
 
-PODFILE CHECKSUM: 7828bf8f48fc91af4482b5abcf89bb5164ef31f3
+PODFILE CHECKSUM: b4ce367cce127a2b27129c010958c8cad6cf86e8
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

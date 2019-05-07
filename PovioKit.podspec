@@ -78,6 +78,12 @@ Pod::Spec.new do |s|
         es.source_files = 'PovioKit/Classes/Networking/RestClient/Engine/URLSession/*'
         es.dependency 'PovioKit/Networking/RestClient/Core'
       end
+      
+      cs.subspec 'Alamofire' do |es|
+        es.source_files = 'PovioKit/Classes/Networking/RestClient/Engine/Alamofire/*'
+        es.dependency 'PovioKit/Networking/RestClient/Core'
+        es.dependency 'Alamofire' 
+      end
     end
   end
 end

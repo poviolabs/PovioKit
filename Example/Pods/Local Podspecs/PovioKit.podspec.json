@@ -1,26 +1,35 @@
 {
   "name": "PovioKit",
-  "version": "0.1.0",
-  "summary": "PovioKit is a collection of useful tools, extensions and modules.",
-  "swift_version": "4.2",
-  "description": "PovioKit is a collection of useful tools, extensions and modules.\nTODO add description ...",
+  "version": "0.2.2.4",
+  "summary": "Modular cocoapods libraries collection.",
+  "swift_version": "5.0",
+  "description": "PovioKit is a collection of useful tools, extensions and modules.",
   "homepage": "https://github.com/poviolabs/",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "Toni Kocjan w/ colaboration of other `PovioLabs` members": "toni.kocjan@poviolabs.com"
+    "Povio Inc.": "services@poviolabs.com"
   },
   "source": {
-    "git": "git@github.com:poviolabs/PovioKit.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/poviolabs/PovioKit.git",
+    "tag": "0.2.2.4"
   },
   "platforms": {
     "ios": "11.0"
   },
-  "source_files": "PovioKit/Classes/**/*",
-  "frameworks": "UIKit",
+  "source_files": "PovioKit/Classes/**/*.swift",
+  "frameworks": [
+    "UIKit",
+    "Foundation"
+  ],
+  "default_subspecs": [
+    "Utilities",
+    "Extensions",
+    "Views",
+    "Networking/RestClient/URLSession"
+  ],
   "subspecs": [
     {
       "name": "Utilities",
@@ -29,6 +38,87 @@
         {
           "name": "AttributedStringBuilder",
           "source_files": "PovioKit/Classes/Utilities/AttributedStringBuilder/**/*"
+        },
+        {
+          "name": "StartupService",
+          "source_files": "PovioKit/Classes/Utilities/StartupService/**/*"
+        },
+        {
+          "name": "Broadcast",
+          "source_files": "PovioKit/Classes/Utilities/Broadcast/**/*"
+        },
+        {
+          "name": "Logger",
+          "source_files": "PovioKit/Classes/Utilities/Logger/**/*.swift"
+        },
+        {
+          "name": "DispatchTimer",
+          "source_files": "PovioKit/Classes/Utilities/DispatchTimer/**/*.swift"
+        },
+        {
+          "name": "Throttler",
+          "source_files": "PovioKit/Classes/Utilities/Throttler/**/*.swift"
+        }
+      ]
+    },
+    {
+      "name": "Extensions",
+      "source_files": "PovioKit/Classes/Extensions/**/*",
+      "subspecs": [
+        {
+          "name": "UIKit",
+          "source_files": "PovioKit/Classes/Extensions/UIKit/**/*"
+        },
+        {
+          "name": "Foundation",
+          "source_files": "PovioKit/Classes/Extensions/Foundation/**/*"
+        }
+      ]
+    },
+    {
+      "name": "Views",
+      "source_files": "PovioKit/Classes/Views/**/*.swift",
+      "subspecs": [
+        {
+          "name": "GradientView",
+          "source_files": "PovioKit/Classes/Views/GradientView/**/*.swift"
+        }
+      ]
+    },
+    {
+      "name": "Networking",
+      "source_files": "PovioKit/Classes/Networking/**/*",
+      "subspecs": [
+        {
+          "name": "RestClient",
+          "source_files": "PovioKit/Classes/Networking/RestClient/**/*",
+          "subspecs": [
+            {
+              "name": "Core",
+              "source_files": "PovioKit/Classes/Networking/RestClient/Core/*"
+            },
+            {
+              "name": "URLSession",
+              "source_files": "PovioKit/Classes/Networking/RestClient/Engine/URLSession/*",
+              "dependencies": {
+                "PovioKit/Networking/RestClient/Core": [
+
+                ]
+              }
+            },
+            {
+              "name": "Alamofire",
+              "source_files": "PovioKit/Classes/Networking/RestClient/Engine/Alamofire/*",
+              "dependencies": {
+                "PovioKit/Networking/RestClient/Core": [
+
+                ],
+                "Alamofire": [
+
+                ]
+              }
+            }
+          ]
         }
       ]
     }
