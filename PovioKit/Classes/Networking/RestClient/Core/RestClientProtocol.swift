@@ -9,7 +9,11 @@
 import Foundation
 
 public protocol NetworkErrorProtocol: Swift.Error {
-  init(wrap error: Swift.Error)
+  init(invalidUrl url: String)
+  init(_ error: Swift.Error)
+  
+  static var decoding: Self { get }
+  static var encoding: Self { get }
 }
 
 public protocol RestClientProtocol {

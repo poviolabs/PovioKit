@@ -51,7 +51,7 @@ public extension RestClient {
             let decodedObject = try self.jsonDecoder.decode(T.self, from: response.data)
             DispatchQueue.main.async { result?(.success(decodedObject)) }
           } catch {
-            DispatchQueue.main.async { result?(.failure(NetworkError(wrap: error))) }
+            DispatchQueue.main.async { result?(.failure(.decoding)) }
           }
         }
       case .failure(let error):
@@ -80,7 +80,7 @@ public extension RestClient {
             let decodedObject = try self.jsonDecoder.decode(T.self, from: response.data)
             DispatchQueue.main.async { result?(.success(decodedObject)) }
           } catch {
-            DispatchQueue.main.async { result?(.failure(NetworkError(wrap: error))) }
+            DispatchQueue.main.async { result?(.failure(.decoding)) }
           }
         }
       case .failure(let error):
@@ -102,7 +102,7 @@ public extension RestClient {
             let decodedObject = try self.jsonDecoder.decode(T.self, from: response.data)
             DispatchQueue.main.async { result?(.success(decodedObject)) }
           } catch {
-            DispatchQueue.main.async { result?(.failure(NetworkError(wrap: error))) }
+            DispatchQueue.main.async { result?(.failure(.decoding)) }
           }
         }
       case .failure(let error):
@@ -124,7 +124,7 @@ public extension RestClient {
             let decodedObject = try self.jsonDecoder.decode(T.self, from: response.data)
             DispatchQueue.main.async { result?(.success(decodedObject)) }
           } catch {
-            DispatchQueue.main.async { result?(.failure(NetworkError(wrap: error))) }
+            DispatchQueue.main.async { result?(.failure(.decoding)) }
           }
         }
       case .failure(let error):
