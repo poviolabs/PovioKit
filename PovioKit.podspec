@@ -16,18 +16,18 @@ Pod::Spec.new do |s|
   s.frameworks = 'UIKit', 'Foundation'
 
   s.subspec 'Utilities' do |us|
-    us.source_files = 'PovioKit/Classes/Utilities/**/*.swift'
+    us.source_files = 'PovioKit/Classes/Utilities/**/*'
 
     us.subspec 'AttributedStringBuilder' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/AttributedStringBuilder/*.swift'
+      cs.source_files = 'PovioKit/Classes/Utilities/AttributedStringBuilder/**/*'
     end
     
     us.subspec 'StartupService' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/StartupService/*.swift'
+      cs.source_files = 'PovioKit/Classes/Utilities/StartupService/**/*'
     end
     
     us.subspec 'Broadcast' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/*.swift'
+      cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/**/*'
     end
 
     us.subspec 'Logger' do |cs|
@@ -44,14 +44,14 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Extensions' do |es|
-    es.source_files = 'PovioKit/Classes/Extensions/**/*.swift'
+    es.source_files = 'PovioKit/Classes/Extensions/**/*'
     
     es.subspec 'UIKit' do |cs|
-      cs.source_files = 'PovioKit/Classes/Extensions/UIKit/*.swift'
+      cs.source_files = 'PovioKit/Classes/Extensions/UIKit/**/*'
     end
     
     es.subspec 'Foundation' do |cs|
-      cs.source_files = 'PovioKit/Classes/Extensions/Foundation/*.swift'
+      cs.source_files = 'PovioKit/Classes/Extensions/Foundation/**/*'
     end
   end
   
@@ -60,6 +60,18 @@ Pod::Spec.new do |s|
     
     vs.subspec 'GradientView' do |cs|
       cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*.swift'
+    end
+  end
+  
+  s.subspec 'Networking' do |vs|
+    vs.source_files = 'PovioKit/Classes/Networking/**/*'
+    
+    vs.subspec 'RestClient' do |cs|
+      cs.source_files = 'PovioKit/Classes/Networking/RestClient/**/*'
+      
+      es.subspec 'Core' do |cs|
+        cs.source_files = 'PovioKit/Classes/Networking/RestClient/Core/*'
+      end
     end
   end
 end

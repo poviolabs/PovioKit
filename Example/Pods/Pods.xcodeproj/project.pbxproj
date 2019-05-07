@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D2EA815ACAC4B5D259E2F6131671AF /* PovioKit-dummy.m */; };
 		0E069D1EEA397611531B7B418ED92AFB /* Pods-PovioKit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9577E3D837BFC529422908DCF7041916 /* Pods-PovioKit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3723278822815FF00008BACC /* RequestRetryCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278022815FF00008BACC /* RequestRetryCounter.swift */; };
+		3723278922815FF00008BACC /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278122815FF00008BACC /* Authentication.swift */; };
+		3723278A22815FF00008BACC /* EndpointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278222815FF00008BACC /* EndpointProtocol.swift */; };
+		3723278B22815FF00008BACC /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278322815FF00008BACC /* Version.swift */; };
+		3723278C22815FF00008BACC /* DataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278422815FF00008BACC /* DataResponse.swift */; };
+		3723278D22815FF00008BACC /* RestClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278522815FF00008BACC /* RestClientProtocol.swift */; };
+		3723278E22815FF00008BACC /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278622815FF00008BACC /* RestClient.swift */; };
+		3723278F22815FF00008BACC /* Host.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278722815FF00008BACC /* Host.swift */; };
+		372327912281602F0008BACC /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372327902281602F0008BACC /* HTTPMethod.swift */; };
 		37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */; };
 		37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */; };
 		37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */; };
@@ -51,6 +60,15 @@
 		209DAB590A42BFA5A1F7924B6D34537B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E59929A37ADC54E187C75463CD188C6 /* Pods-PovioKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-PovioKit_Tests.modulemap"; sourceTree = "<group>"; };
 		31B446AD567750FC421ED7E3A5FAE69C /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		3723278022815FF00008BACC /* RequestRetryCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestRetryCounter.swift; sourceTree = "<group>"; };
+		3723278122815FF00008BACC /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		3723278222815FF00008BACC /* EndpointProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndpointProtocol.swift; sourceTree = "<group>"; };
+		3723278322815FF00008BACC /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		3723278422815FF00008BACC /* DataResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataResponse.swift; sourceTree = "<group>"; };
+		3723278522815FF00008BACC /* RestClientProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestClientProtocol.swift; sourceTree = "<group>"; };
+		3723278622815FF00008BACC /* RestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
+		3723278722815FF00008BACC /* Host.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Host.swift; sourceTree = "<group>"; };
+		372327902281602F0008BACC /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcessService.swift; sourceTree = "<group>"; };
 		37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcess.swift; sourceTree = "<group>"; };
 		37330A9E21BFB57400AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -160,6 +178,47 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3723275B22815EE10008BACC /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				3723275C22815EE10008BACC /* RestClient */,
+			);
+			name = Networking;
+			path = PovioKit/Classes/Networking;
+			sourceTree = "<group>";
+		};
+		3723275C22815EE10008BACC /* RestClient */ = {
+			isa = PBXGroup;
+			children = (
+				3723277F22815FF00008BACC /* Core */,
+			);
+			path = RestClient;
+			sourceTree = "<group>";
+		};
+		3723277F22815FF00008BACC /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				37232792228162EE0008BACC /* Model */,
+				3723278022815FF00008BACC /* RequestRetryCounter.swift */,
+				3723278522815FF00008BACC /* RestClientProtocol.swift */,
+				3723278622815FF00008BACC /* RestClient.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		37232792228162EE0008BACC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				372327902281602F0008BACC /* HTTPMethod.swift */,
+				3723278722815FF00008BACC /* Host.swift */,
+				3723278322815FF00008BACC /* Version.swift */,
+				3723278222815FF00008BACC /* EndpointProtocol.swift */,
+				3723278122815FF00008BACC /* Authentication.swift */,
+				3723278422815FF00008BACC /* DataResponse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		37330A9521BFB06E00AE0BC8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +316,7 @@
 		3D26B2E2914CF8D77CE8B01AF953E77C /* PovioKit */ = {
 			isa = PBXGroup;
 			children = (
+				3723275B22815EE10008BACC /* Networking */,
 				E91D85F2F1D139D86365AC5E65A2361B /* Pod */,
 				032CE15B71DB529B318FDDA31428783F /* Support Files */,
 				B82C6A943C042F1F6938C517B7C13910 /* Utilities */,
@@ -433,18 +493,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3723278D22815FF00008BACC /* RestClientProtocol.swift in Sources */,
 				C33321102EBEB7D3BEECBF5CE2314D24 /* AttributedStringBuilder.swift in Sources */,
+				372327912281602F0008BACC /* HTTPMethod.swift in Sources */,
 				37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */,
+				3723278822815FF00008BACC /* RequestRetryCounter.swift in Sources */,
 				37DC7C0821C3AD2B00AAC6CC /* Throttler.swift in Sources */,
+				3723278E22815FF00008BACC /* RestClient.swift in Sources */,
 				375E9DC522736F43001E3D8F /* UILabel+BuilderCompatible.swift in Sources */,
 				37DC7C3221C3BC8800AAC6CC /* String+Povio.swift in Sources */,
 				37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */,
+				3723278922815FF00008BACC /* Authentication.swift in Sources */,
 				37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */,
+				3723278F22815FF00008BACC /* Host.swift in Sources */,
 				0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */,
 				37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */,
 				37DC7C2F21C3BC8800AAC6CC /* URL+Povio.swift in Sources */,
+				3723278A22815FF00008BACC /* EndpointProtocol.swift in Sources */,
 				37DC7C3321C3BC8800AAC6CC /* Collection+Povio.swift in Sources */,
+				3723278B22815FF00008BACC /* Version.swift in Sources */,
 				375E9DC622736F45001E3D8F /* UITextField+BuilderCompatible.swift in Sources */,
+				3723278C22815FF00008BACC /* DataResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
