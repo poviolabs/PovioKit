@@ -21,7 +21,6 @@ public protocol RequestEngine {
 public class RestClient<Engine: RequestEngine>: RestClientProtocol {
   public typealias NetworkError = Engine.NetworkError
   
-  private let retryCounter = RequestRetryCounter()
   let requestEngine: Engine
   let jsonDecoder: JSONDecoder
   
