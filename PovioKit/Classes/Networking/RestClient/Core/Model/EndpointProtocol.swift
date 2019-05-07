@@ -10,12 +10,7 @@ import Foundation
 
 public protocol EndpointProtocol {
   typealias Path = String
-  var path: Path { get }
-  var url: String { get }
-  var retryCount: Int { get }
-  var apiVersion: Version { get }
-  var authentication: Authentication { get }
-  var clientToken: String? { get }
+  var path: String { get }
 }
 
 extension EndpointProtocol where Self: RawRepresentable, Self.RawValue == String {
