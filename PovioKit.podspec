@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.source_files = 'PovioKit/Classes/**/*.swift'
   s.frameworks = 'UIKit', 'Foundation'
-  s.default_subspecs = 'Utilities', 'Extensions', 'Views', 'Networking/URLSession'
+  s.default_subspecs = 'Utilities', 'Extensions', 'Views', 'Networking/RestClient/URLSession'
 
   s.subspec 'Utilities' do |us|
     us.source_files = 'PovioKit/Classes/Utilities/**/*'
