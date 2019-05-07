@@ -11,4 +11,9 @@ import Foundation
 public struct DataResponse {
   let statusCode: Int
   let data: Data
+  
+  public init(statusCode: Int, data: Data) {
+    self.statusCode = statusCode
+    self.data = data
+  }
 }
