@@ -3,28 +3,30 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 07/05/2019.
+//  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
 import Alamofire
 
-public class AlamofireRequestEngine<NetworkError: NetworkErrorProtocol>: RequestEngine {
+public class AlamofireRequestEngine<Error: NetworkErrorProtocol>: RequestEngine {
+  public typealias Headers = HTTPHeaders
+  private let manager = SessionManager.default
   public init() {}
   
-  public func request(endpoint: EndpointProtocol, method: HTTPMethod, parameters: [String : Any]?, headers: [String : String]?, _ result: ((Result<DataResponse, NetworkError>) -> Void)?) {
+  public func request(endpoint: EndpointProtocol, method: HTTPMethod, parameters: [String : Any]?, headers: Headers?, _ result: ((Swift.Result<DataResponse, Error>) -> Void)?) {
     let requestHeaders = combineRequestHeaders(customHeaders: headers)
     let encoding: ParameterEncoding = method == .get ? URLEncoding.default : JSONEncoding.default
-    strongSelf.manager
-      .request(endpoint.url, method: method, parameters: parameters, encoding: encoding, headers: requestHeaders)
+    manager
+      .request(endpoint.path, method: Alamofire.HTTPMethod(rawValue: method.rawValue)!, parameters: parameters, encoding: encoding, headers: requestHeaders)
       .validate(statusCode: 200..<300)
       .responseData { response in
-        let statusCode = response.response?.statusCode ?? 0
+        let statusCode = response.response?.statusCode ?? 200
         switch response.result {
         case .success(let data):
-          let dataResponse = DataResponse(statusCode: response.response?.statusCode ?? 0, data: data)
-          self.retryCounter.clear(for: endpoint)
+          let dataResponse = DataResponse(statusCode: statusCode, data: data)
           result?(.success(dataResponse))
         case .failure(let error):
-          result?(.failure(.generic(error)))
+          result?(.failure(Error(error)))
         }
     }
   }
