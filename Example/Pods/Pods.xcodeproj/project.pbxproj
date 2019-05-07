@@ -17,6 +17,7 @@
 		3723278E22815FF00008BACC /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278622815FF00008BACC /* RestClient.swift */; };
 		3723278F22815FF00008BACC /* Host.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723278722815FF00008BACC /* Host.swift */; };
 		372327912281602F0008BACC /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372327902281602F0008BACC /* HTTPMethod.swift */; };
+		37232797228172050008BACC /* URLSessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37232796228172050008BACC /* URLSessionEngine.swift */; };
 		37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */; };
 		37330A9D21BFB0C800AE0BC8 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */; };
 		37330AA221BFBB1D00AE0BC8 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37330AA121BFBB1D00AE0BC8 /* Broadcast.swift */; };
@@ -67,6 +68,7 @@
 		3723278622815FF00008BACC /* RestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		3723278722815FF00008BACC /* Host.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Host.swift; sourceTree = "<group>"; };
 		372327902281602F0008BACC /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		37232796228172050008BACC /* URLSessionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionEngine.swift; sourceTree = "<group>"; };
 		37330A9821BFB0BE00AE0BC8 /* StartupProcessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcessService.swift; sourceTree = "<group>"; };
 		37330A9921BFB0BF00AE0BC8 /* StartupProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcess.swift; sourceTree = "<group>"; };
 		37330A9E21BFB57400AE0BC8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		3723275C22815EE10008BACC /* RestClient */ = {
 			isa = PBXGroup;
 			children = (
+				37232794228171EE0008BACC /* Engine */,
 				3723277F22815FF00008BACC /* Core */,
 			);
 			path = RestClient;
@@ -214,6 +217,22 @@
 				3723278422815FF00008BACC /* DataResponse.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		37232794228171EE0008BACC /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				37232795228171F70008BACC /* URLSession */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		37232795228171F70008BACC /* URLSession */ = {
+			isa = PBXGroup;
+			children = (
+				37232796228172050008BACC /* URLSessionEngine.swift */,
+			);
+			path = URLSession;
 			sourceTree = "<group>";
 		};
 		37330A9521BFB06E00AE0BC8 /* Extensions */ = {
@@ -500,6 +519,7 @@
 				37DC7C3221C3BC8800AAC6CC /* String+Povio.swift in Sources */,
 				37330A9C21BFB0C400AE0BC8 /* StartupProcess.swift in Sources */,
 				3723278922815FF00008BACC /* Authentication.swift in Sources */,
+				37232797228172050008BACC /* URLSessionEngine.swift in Sources */,
 				37DC7C0B21C3B64300AAC6CC /* GradientView.swift in Sources */,
 				3723278F22815FF00008BACC /* Host.swift in Sources */,
 				0249B7291F6502FAFD02095B023F4937 /* PovioKit-dummy.m in Sources */,
