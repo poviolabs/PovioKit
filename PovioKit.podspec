@@ -69,8 +69,8 @@ Pod::Spec.new do |s|
     vs.subspec 'RestClient' do |cs|
       cs.source_files = 'PovioKit/Classes/Networking/RestClient/**/*'
       
-      es.subspec 'Core' do |cs|
-        cs.source_files = 'PovioKit/Classes/Networking/RestClient/Core/*'
+      cs.subspec 'Core' do |es|
+        es.source_files = 'PovioKit/Classes/Networking/RestClient/Core/*'
       end
     end
   end
