@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.2.1'
+  s.version          = '0.3.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
 
@@ -31,15 +31,23 @@ Pod::Spec.new do |s|
     end
 
     us.subspec 'Logger' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/Logger/**/*'
+      cs.source_files = 'PovioKit/Classes/Utilities/Logger/**/*.swift'
     end
 
     us.subspec 'DispatchTimer' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/DispatchTimer/**/*'
+      cs.source_files = 'PovioKit/Classes/Utilities/DispatchTimer/**/*.swift'
     end
     
     us.subspec 'Throttler' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*'
+      cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*.swift'
+    end
+    
+    us.subspec 'ColorInterpolator' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/ColorInterpolator/**/*.swift'
+    end
+    
+    us.subspec 'PromiseKit' do |cs|
+      cs.source_files = 'PovioKit/Classes/Utilities/PromiseKit/**/*.swift'
     end
   end
   
@@ -56,10 +64,10 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Views' do |vs|
-    vs.source_files = 'PovioKit/Classes/Views/**/*'
+    vs.source_files = 'PovioKit/Classes/Views/**/*.swift'
     
     vs.subspec 'GradientView' do |cs|
-      cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*'
+      cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*.swift'
     end
   end
 end
