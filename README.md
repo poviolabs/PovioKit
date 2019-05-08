@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="PovioKit.png" width="400" max-width="90%" alt="PovioKit" />
+    <img src="https://raw.githubusercontent.com/poviolabs/PovioKit/master/PovioKit.png" width="400" max-width="90%" alt="PovioKit" />
 </p>
 
 <p align="center">
@@ -27,30 +27,30 @@
 ## List of available libraries
 
 ### Extensions
-* [UICollectionView](/PovioKit/Classes/Extensions/UIKit/UICollectionView+Povio.swift)
-* [UITableView](/PovioKit/Classes/Extensions/UIKit/UITableView+Povio.swift)
-* [UIView](/PovioKit/Classes/Extensions/UIKit/UIView+Povio.swift)
-* [UIColor](/PovioKit/Classes/Extensions/UIKit/UIColor+Povio.swift)
-* [UIDevice](/PovioKit/Classes/Extensions/UIKit/UIDevice+Povio.swift)
-* [UIImage](/PovioKit/Classes/Extensions/UIKit/UIImage+Povio.swift)
-* [Collection](/PovioKit/Classes/Extensions/Foundation/Collection+Povio.swift)
-* [String](/PovioKit/Classes/Extensions/Foundation/String+Povio.swift)
-* [URL](/PovioKit/Classes/Extensions/Foundation/URL+Povio.swift)
-* [Optional](/PovioKit/Classes/Extensions/Foundation/Optional+Povio.swift)
+* [UICollectionView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UICollectionView+Povio.swift)
+* [UITableView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UITableView+Povio.swift)
+* [UIView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIView+Povio.swift)
+* [UIColor](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIColor+Povio.swift)
+* [UIDevice](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIDevice+Povio.swift)
+* [UIImage](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIImage+Povio.swift)
+* [Collection](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Collection+Povio.swift)
+* [String](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/String+Povio.swift)
+* [URL](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/URL+Povio.swift)
+* [Optional](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Optional+Povio.swift)
 
 ### Utilities
-* [AttributedStringBuilder](/PovioKit/Classes/Utilities/AttributedStringBuilder/)
-* [StartupService](/PovioKit/Classes/Utilities/StartupService/)
-* [Broadcast](/PovioKit/Classes/Utilities/Broadcast/)
-* [PromiseKit](/PovioKit/Classes/Utilities/PromiseKit/)
-* [ColorInterpolator](/PovioKit/Classes/Utilities/ColorInterpolator/)
-* [DispatchTimer](/PovioKit/Classes/Utilities/DispatchTimer/)
-* [Logger](/PovioKit/Classes/Utilities/Logger/)
-* [Throttler](/PovioKit/Classes/Utilities/Throttler/)
+* [AttributedStringBuilder](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/AttributedStringBuilder/)
+* [StartupService](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/StartupService/)
+* [Broadcast](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/Broadcast/)
+* [PromiseKit](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/PromiseKit/)
+* [ColorInterpolator](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/ColorInterpolator/)
+* [DispatchTimer](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/DispatchTimer/)
+* [Logger](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/Logger/)
+* [Throttler](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/Throttler/)
 
 
 ### UIViews
-* [GradientView](/PovioKit/Classes/Views/GradientView/)
+* [GradientView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Views/GradientView/)
 
 ## Installation
 

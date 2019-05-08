@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.2.1'
+  s.version          = '0.3.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
 
@@ -43,11 +43,11 @@ Pod::Spec.new do |s|
     end
     
     us.subspec 'ColorInterpolator' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/ColorInterpolator/**/*'
+      cs.source_files = 'PovioKit/Classes/Utilities/ColorInterpolator/**/*.swift'
     end
     
     us.subspec 'PromiseKit' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/PromiseKit/**/*'
+      cs.source_files = 'PovioKit/Classes/Utilities/PromiseKit/**/*.swift'
     end
   end
   
