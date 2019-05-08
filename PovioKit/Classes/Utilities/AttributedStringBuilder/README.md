@@ -51,7 +51,7 @@ label.attributedText = attributedText
 
 Using `AttributedStringBuilder` we can simplify into:
 
-```SWift
+```Swift
 let label = UILabel()
 label.text = "My custom text"
 label.bd.apply {
@@ -78,6 +78,20 @@ let attributedText = Builder(text: "My custom text")
 ```
 
 If, for some reason, we need a `mutable` instance, we replace `.create()` with `.createMutable()`.
+
+Alternatively, if you dislike the old _builder_ pattern, you can directly use `AttributedStringBuilder` in a more _Swifty_ way:
+
+```Swift
+let attributedText = AttributedStringBuilder().apply(on: "My custom text") {
+  $0.setFont(.boldSystemFont(ofSize: 14))
+  $0.setTextColor(.black)
+  $0.setParagraphStyle(lineSpacing: 10,
+                       heightMultiple: 1,
+                       lineHeight: 7,
+                       lineBreakMode: .byWordWrapping,
+                       textAlignment: .center)
+}
+```
 
 We've shown how we can configure a couple of attributed parameters, like color, font, paragraph style, ... But what if we want to configure any other attribute? 
 The methods shown through examples above are actually just convenience methods calling generic `addAttribute(key: NSAttributedString.Key, object: Any?)` method. We can use this method instead to configure any other attributes we'd like. 
