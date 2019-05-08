@@ -46,7 +46,7 @@ Pod::Spec.new do |s|
       cs.source_files = 'PovioKit/Classes/Utilities/ColorInterpolator/**/*'
     end
     
-    sp.subspec 'PromiseKit' do |cs|
+    us.subspec 'PromiseKit' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/PromiseKit/**/*'
     end
   end
