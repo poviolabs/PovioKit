@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIDevice {
+public extension UIDevice {
   /// Returns app name
   var appName: String {
     return Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
