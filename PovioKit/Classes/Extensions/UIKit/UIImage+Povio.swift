@@ -6,7 +6,7 @@
 //  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
-extension UIImage {
+public extension UIImage {
   /// Tints image with given color
   func tinted(with color: UIColor) -> UIImage {
     UIGraphicsBeginImageContextWithOptions(size, false, 0)
