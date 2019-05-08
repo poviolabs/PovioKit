@@ -42,6 +42,7 @@
 * [AttributedStringBuilder](/PovioKit/Classes/Utilities/AttributedStringBuilder/)
 * [StartupService](/PovioKit/Classes/Utilities/StartupService/)
 * [Broadcast](/PovioKit/Classes/Utilities/Broadcast/)
+* [Broadcast](/PovioKit/Classes/Utilities/ColorInterpolator/)
 * [DispatchTimer](/PovioKit/Classes/Utilities/DispatchTimer/)
 * [Logger](/PovioKit/Classes/Utilities/Logger/)
 * [Throttler](/PovioKit/Classes/Utilities/Throttler/)
