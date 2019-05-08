@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-    Welcome to <b>PovioKit</b>, a modular collection of cocoapods libraries, written in Swift.
+    Welcome to <b>PovioKit</b>. A modular collection of cocoapods libraries. Written in Swift.
 </p>
 
 ## List of available libraries
