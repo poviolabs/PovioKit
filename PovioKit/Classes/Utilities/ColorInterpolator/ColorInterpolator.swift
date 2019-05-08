@@ -24,11 +24,11 @@ public struct LinearColorInterpolator: ColorInterpolator {
   }
   
   public func interpolate(colorPoints: [UIColor], percentage: CGFloat) throws -> UIColor {
-    guard colorPoints.count >= 2 else { throw Error.colorComponentsMissing }
+    guard colorPoints.count >= 2, let firstColor = colorPoints.first, let lastColor = colorPoints.last else { throw Error.colorComponentsMissing }
     let percentage = max(min(1, percentage), 0)
     
-    if percentage < 0.01 { return colorPoints.first! }
-    if percentage > 0.99 { return colorPoints.last! }
+    if percentage < 0.01 { return firstColor }
+    if percentage > 0.99 { return lastColor }
     
     let boxWidth = 1 / CGFloat(colorPoints.count - 1)
     let index = Int(ceil(percentage / boxWidth))

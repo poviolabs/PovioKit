@@ -42,7 +42,7 @@ Pod::Spec.new do |s|
       cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*'
     end
     
-    sp.subspec 'ColorInterpolator' do |cs|
+    us.subspec 'ColorInterpolator' do |cs|
       cs.source_files = 'PovioKit/Classes/Utilities/ColorInterpolator/**/*'
     end
   end
