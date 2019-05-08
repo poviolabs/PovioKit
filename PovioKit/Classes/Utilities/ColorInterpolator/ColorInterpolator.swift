@@ -14,6 +14,8 @@ public protocol ColorInterpolator {
 }
 
 public struct LinearColorInterpolator: ColorInterpolator {
+  public init() {}
+  
   public func interpolate(_ startColor: UIColor, with color: UIColor, percentage: CGFloat) throws -> UIColor {
     guard
       let startColorComponents = startColor.cgColor.components, startColorComponents.count >= 3,
