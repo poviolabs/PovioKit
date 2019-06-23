@@ -13,7 +13,7 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
     super.init()
   }
   
-  public init(fulfil value: Value) {
+  public init(fulfill value: Value) {
     super.init()
     result = .success(value)
   }
@@ -56,13 +56,13 @@ public extension Promise {
   
   func map<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
     return chain {
-      return Promise<TransformedValue, Error>(fulfil: transform($0))
+      return Promise<TransformedValue, Error>(fulfill: transform($0))
     }
   }
 }
 
 public extension Promise {
-  var isFulfiled: Bool {
+  var isFulfilled: Bool {
     switch result {
     case .success?:
       return true
