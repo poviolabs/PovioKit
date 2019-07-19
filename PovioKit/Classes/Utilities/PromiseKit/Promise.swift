@@ -24,7 +24,7 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
   }
   
   public func resolve(with value: Value) {
-    guard !isFulfiled else { return }
+    guard !isFulfilled else { return }
     result = .success(value)
   }
   
