@@ -24,10 +24,12 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
   }
   
   public func resolve(with value: Value) {
+    guard !isFulfiled else { return }
     result = .success(value)
   }
   
   public func reject(with error: Error) {
+    guard !isRejected else { return }
     result = .failure(error)
   }
 }
