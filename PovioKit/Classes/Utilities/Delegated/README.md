@@ -1,6 +1,8 @@
 #  Delegated
 
-## Very often we are required to delegate events from one entity to another. A common pattern in iOS is the so called `Delegate` pattern:
+## The problem
+
+Very often we are required to delegate events from one entity to another. A common pattern in iOS is the so called `Delegate` pattern:
 
 ```swift
 protocol SomeCellDelegate: AnyObject {
