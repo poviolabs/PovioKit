@@ -23,6 +23,11 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
     result = .failure(error)
   }
   
+  convenience init(_ future: (Promise) -> Void) {
+    self.init()
+    future(self)
+  }
+  
   public func resolve(with value: Value) {
     guard !isFulfilled else { return }
     result = .success(value)
@@ -60,6 +65,11 @@ public extension Promise {
     return chain {
       return Promise<TransformedValue, Error>(fulfill: transform($0))
     }
+  }
+  
+  func observe(promise: Promise) {
+    promise.onSuccess(resolve)
+    promise.onFailure(reject)
   }
 }
 
