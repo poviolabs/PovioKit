@@ -1,6 +1,6 @@
 #  Delegated
 
-## The problem
+## The Problem
 
 Very often we are required to delegate events from one entity to another. A common pattern in iOS is the so called `Delegate` pattern:
 
@@ -40,7 +40,7 @@ class Controller: UIViewController, UITableViewDataSource, SomeCellDelegate {
 
 The above example is fine, it works well, the API is clean and familiar. So what's the catch?
 The problem with the delegate pattern is is that there is a substantial amount of boilerplate code and it just doesn't look _modern_.
-A more modern approach used by developers nowadats is the _delegation through closures_ pattern. Let's see it in action:
+A more modern approach used by developers nowadays is the _delegation through closures_ pattern. Let's see it in action:
 
 ```swift
 class SomeCell: UITableViewCell {
@@ -88,9 +88,9 @@ class Controller: UIViewController, UITableViewDataSource {
 
 and there problem is gone, right?
 Indeed, we got rid of the memory leak, but in some sense, we made things worse, not better. In what way is that you might ask?
-Well, when using the `Delegate` pattern, it was the responsibility of the designer of the API for not introducing the memory leak, but now it is the user's of the API. And it is wery easi to overlook the `[weak self]`, especially by not experienced developers. And even if we never overlook it, it requires a great deal of code duplication.
+Well, when using the `Delegate` pattern, it was the responsibility of the designer of the API for not introducing the memory leak, but now it is the user's of the API. And it is very easy to overlook the `[weak self]`, especially by inexperienced developers. And even if we never overlook it, it requires a great deal of code duplication.
 
-## Solution
+## The Solution
 
 By using the `Delegated` module, we get the best of both worlds: automatic memory leak prevention and no boilerplate.
 
