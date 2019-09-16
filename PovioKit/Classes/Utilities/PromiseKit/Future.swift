@@ -11,6 +11,7 @@ import Foundation
 public class Future<Value, Error: Swift.Error> {
   private let dispatchQueue = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
   private var observers = [Observer]()
+  public var isEnabled = true
   private var internalResult: FutureResult?
 }
 
@@ -26,6 +27,7 @@ public extension Future {
     set {
       dispatchQueue.async {
         self.internalResult = newValue
+        guard self.isEnabled else { return }
         newValue.map { value in self.observers.forEach { $0.notifity(value) } }
       }
     }
