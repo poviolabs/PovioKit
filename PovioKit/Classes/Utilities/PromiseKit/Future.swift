@@ -9,9 +9,26 @@
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
+  private let dispatchQueue = DispatchQueue(label: "com.poviokit.future")
   private var observers = [Observer]()
-  public var result: FutureResult? {
-    didSet { result.map(invokeObservers) }
+  private var internalResult: FutureResult?
+}
+
+public extension Future {
+  var result: FutureResult? {
+    get {
+      var res: FutureResult?
+      dispatchQueue.sync {
+        res = internalResult
+      }
+      return res
+    }
+    set {
+      dispatchQueue.async {
+        self.internalResult = newValue
+        newValue.map { value in self.observers.forEach { $0.notifity(value) } }
+      }
+    }
   }
 }
 
@@ -19,18 +36,24 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func observe(with callback: @escaping (FutureResult) -> Void) {
-    observers.append(.both(callback))
-    result.map(callback)
+    dispatchQueue.async {
+      self.observers.append(.both(callback))
+      self.internalResult.map(callback)
+    }
   }
   
   func onSuccess(_ callback: @escaping (Value) -> Void) {
-    observers.append(.success(callback))
-    result.map { observers.last?.notifity($0) }
+    dispatchQueue.async {
+      self.observers.append(.success(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
+    }
   }
   
   func onFailure(_ callback: @escaping (Error) -> Void) {
-    observers.append(.failure(callback))
-    result.map { observers.last?.notifity($0) }
+    dispatchQueue.async {
+      self.observers.append(.failure(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
+    }
   }
 }
 
@@ -52,9 +75,5 @@ private extension Future {
         break
       }
     }
-  }
-  
-  func invokeObservers(_ result: FutureResult) {
-    DispatchQueue.main.async { self.observers.forEach { $0.notifity(result) } }
   }
 }
