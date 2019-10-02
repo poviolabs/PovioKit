@@ -1,9 +1,33 @@
 PODS:
-  - PovioKit (0.1.0):
-    - PovioKit/Utilities (= 0.1.0)
-  - PovioKit/Utilities (0.1.0):
-    - PovioKit/Utilities/AttributedStringBuilder (= 0.1.0)
-  - PovioKit/Utilities/AttributedStringBuilder (0.1.0)
+  - PovioKit (0.3.0):
+    - PovioKit/Extensions (= 0.3.0)
+    - PovioKit/Utilities (= 0.3.0)
+    - PovioKit/Views (= 0.3.0)
+  - PovioKit/Extensions (0.3.0):
+    - PovioKit/Extensions/Foundation (= 0.3.0)
+    - PovioKit/Extensions/UIKit (= 0.3.0)
+  - PovioKit/Extensions/Foundation (0.3.0)
+  - PovioKit/Extensions/UIKit (0.3.0)
+  - PovioKit/Utilities (0.3.0):
+    - PovioKit/Utilities/AttributedStringBuilder (= 0.3.0)
+    - PovioKit/Utilities/Broadcast (= 0.3.0)
+    - PovioKit/Utilities/ColorInterpolator (= 0.3.0)
+    - PovioKit/Utilities/DispatchTimer (= 0.3.0)
+    - PovioKit/Utilities/Logger (= 0.3.0)
+    - PovioKit/Utilities/PromiseKit (= 0.3.0)
+    - PovioKit/Utilities/StartupService (= 0.3.0)
+    - PovioKit/Utilities/Throttler (= 0.3.0)
+  - PovioKit/Utilities/AttributedStringBuilder (0.3.0)
+  - PovioKit/Utilities/Broadcast (0.3.0)
+  - PovioKit/Utilities/ColorInterpolator (0.3.0)
+  - PovioKit/Utilities/DispatchTimer (0.3.0)
+  - PovioKit/Utilities/Logger (0.3.0)
+  - PovioKit/Utilities/PromiseKit (0.3.0)
+  - PovioKit/Utilities/StartupService (0.3.0)
+  - PovioKit/Utilities/Throttler (0.3.0)
+  - PovioKit/Views (0.3.0):
+    - PovioKit/Views/GradientView (= 0.3.0)
+  - PovioKit/Views/GradientView (0.3.0)
 
 DEPENDENCIES:
   - PovioKit (from `../`)
@@ -13,8 +37,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PovioKit: 916a6ed9cee642aa46393fa5f5b849c802ad9d92
+  PovioKit: 1f6678cccba942bdbdc6d569e59c8040fd58c609
 
-PODFILE CHECKSUM: 7828bf8f48fc91af4482b5abcf89bb5164ef31f3
+PODFILE CHECKSUM: 91dcca6817db48cae87e2a22079e39f5de147a90
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4
