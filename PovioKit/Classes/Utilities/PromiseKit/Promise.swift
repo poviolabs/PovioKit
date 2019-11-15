@@ -114,3 +114,9 @@ public extension Promise {
     }
   }
 }
+
+extension Promise where Value == Void {
+  func resolve() {
+    resolve(with: ())
+  }
+}
