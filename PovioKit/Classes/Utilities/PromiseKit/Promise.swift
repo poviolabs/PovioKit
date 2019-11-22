@@ -49,14 +49,35 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
 }
 
 public extension Promise {
-  func map<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
+  
+  /// Returns a new promise, mapping any success value using the given
+  /// transformation.
+  ///
+  /// Use this method when you need to transform the value of a `Promise`
+  /// instance when it represents a success.
+  ///
+  /// - Parameter transform: A closure that takes the success value of this
+  ///   instance.
+  /// - Returns: A `Promise` instance with the result of evaluating `transform`
+  ///   as the new success value if this instance represents a success.
+  func map<NewValue>(with transform: @escaping (Value) -> NewValue) -> Promise<NewValue, Error> {
     return chain {
-      return Promise<TransformedValue, Error>(fulfill: transform($0))
+      return Promise<NewValue, Error>(fulfill: transform($0))
     }
   }
   
-  func mapError<TransformedError>(with transform: @escaping (Error) -> TransformedError) -> Promise<Value, TransformedError> where TransformedError: Swift.Error {
-    let result = Promise<Value, TransformedError>()
+  /// Returns a new promise, mapping any failure value using the given
+  /// transformation.
+  ///
+  /// Use this method when you need to transform the value of a `Promise`
+  /// instance when it represents a failure.
+  ///
+  /// - Parameter transform: A closure that takes the failure value of this
+  ///   instance.
+  /// - Returns: A `Promise` instance with the result of evaluating `transform`
+  ///   as the new failure value if this instance represents a failure.
+  func mapError<NewError>(with transform: @escaping (Error) -> NewError) -> Promise<Value, NewError> where NewError: Swift.Error {
+    let result = Promise<Value, NewError>()
     observe {
       switch $0 {
       case .success(let value):
@@ -68,8 +89,18 @@ public extension Promise {
     return result
   }
   
-  func mapResult<ChainedValue>(with transform: @escaping (Value) -> Result<ChainedValue, Error>) -> Promise<ChainedValue, Error> {
-    let result = Promise<ChainedValue, Error>()
+  /// Returns a new promise, mapping any success value using the given
+  /// transformation.
+  ///
+  /// Use this method when you need to transform the value of a `Promise`
+  /// instance when it represents a success.
+  ///
+  /// - Parameter transform: A closure that takes the success value of this
+  ///   instance.
+  /// - Returns: A `Promise` instance with the result of evaluating `transform`
+  ///   as the new success value if this instance represents a success.
+  func mapResult<NewValue>(with transform: @escaping (Value) -> Result<NewValue, Error>) -> Promise<NewValue, Error> {
+    let result = Promise<NewValue, Error>()
     observe {
       switch $0 {
       case .success(let value):
