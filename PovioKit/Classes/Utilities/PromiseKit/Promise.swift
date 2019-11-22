@@ -49,6 +49,25 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
 }
 
 public extension Promise {
+  func map<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
+    return chain {
+      return Promise<TransformedValue, Error>(fulfill: transform($0))
+    }
+  }
+  
+  func mapError<TransformedError>(with transform: @escaping (Error) -> TransformedError) -> Promise<Value, TransformedError> where TransformedError: Swift.Error {
+    let result = Promise<Value, TransformedError>()
+    observe {
+      switch $0 {
+      case .success(let value):
+        result.resolve(with: value)
+      case .failure(let error):
+        result.reject(with: transform(error))
+      }
+    }
+    return result
+  }
+  
   func mapResult<ChainedValue>(with transform: @escaping (Value) -> Result<ChainedValue, Error>) -> Promise<ChainedValue, Error> {
     let result = Promise<ChainedValue, Error>()
     observe {
@@ -83,10 +102,26 @@ public extension Promise {
     return result
   }
   
-  func map<TransformedValue>(with transform: @escaping (Value) -> TransformedValue) -> Promise<TransformedValue, Error> {
-    return chain {
-      return Promise<TransformedValue, Error>(fulfill: transform($0))
+  func chain<ChainedValue, ChainedError: Swift.Error>(with transform: @escaping (Value) -> Promise<ChainedValue, ChainedError>,
+                                                      transformError: @escaping (Error) -> ChainedError) -> Promise<ChainedValue, ChainedError> {
+    let result = Promise<ChainedValue, ChainedError>()
+    observe {
+      switch $0 {
+      case .success(let value):
+        let promise = transform(value)
+        promise.observe { res in
+          switch res {
+          case .success(let value):
+            result.resolve(with: value)
+          case .failure(let error):
+            result.reject(with: error)
+          }
+        }
+      case .failure(let error):
+        result.reject(with: transformError(error))
+      }
     }
+    return result
   }
   
   func observe(promise: Promise) {
