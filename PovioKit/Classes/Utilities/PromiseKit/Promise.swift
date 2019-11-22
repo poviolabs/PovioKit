@@ -37,9 +37,31 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
     guard !isRejected else { return }
     result = .failure(error)
   }
+  
+  public func resolve(with result: Result<Value, Error>) {
+    switch result {
+    case .success(let value):
+      resolve(with: value)
+    case .failure(let error):
+      reject(with: error)
+    }
+  }
 }
 
 public extension Promise {
+  func mapResult<ChainedValue>(with transform: @escaping (Value) -> Result<ChainedValue, Error>) -> Promise<ChainedValue, Error> {
+    let result = Promise<ChainedValue, Error>()
+    observe {
+      switch $0 {
+      case .success(let value):
+        result.resolve(with: transform(value))
+      case .failure(let error):
+        result.reject(with: error)
+      }
+    }
+    return result
+  }
+  
   func chain<ChainedValue>(with transform: @escaping (Value) -> Promise<ChainedValue, Error>) -> Promise<ChainedValue, Error> {
     let result = Promise<ChainedValue, Error>()
     observe {
