@@ -134,8 +134,8 @@ public extension Promise {
   }
   
   func chain<ChainedValue, ChainedError: Swift.Error>(with transform: @escaping (Value) -> Promise<ChainedValue, ChainedError>,
-                                                      transformError: @escaping (Error) -> ChainedError) -> Promise<ChainedValue, ChainedError> {
-    let result = Promise<ChainedValue, ChainedError>()
+                                                      transformError: @escaping (ChainedError) -> Error) -> Promise<ChainedValue, Error> {
+    let result = Promise<ChainedValue, Error>()
     observe {
       switch $0 {
       case .success(let value):
@@ -145,11 +145,11 @@ public extension Promise {
           case .success(let value):
             result.resolve(with: value)
           case .failure(let error):
-            result.reject(with: error)
+            result.reject(with: transformError(error))
           }
         }
       case .failure(let error):
-        result.reject(with: transformError(error))
+        result.reject(with: error)
       }
     }
     return result
