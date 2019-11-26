@@ -9,7 +9,7 @@
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
-  private let dispatchQueue = DispatchQueue(label: "com.poviokit.future")
+  private let dispatchQueue = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
   private var observers = [Observer]()
   private var internalResult: FutureResult?
 }
@@ -18,7 +18,7 @@ public extension Future {
   var result: FutureResult? {
     get {
       var res: FutureResult?
-      dispatchQueue.sync {
+      dispatchQueue.sync(flags: .barrier) {
         res = internalResult
       }
       return res
