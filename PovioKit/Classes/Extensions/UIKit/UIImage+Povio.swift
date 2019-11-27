@@ -6,6 +6,8 @@
 //  Copyright © 2019 Povio Labs. All rights reserved.
 //
 
+import UIKit
+
 public extension UIImage {
   /// Initializes a symbol image on iOS 13 or image from the given `bundle` for given `name`
   convenience init?(systemNameOr name: String, in bundle: Bundle? = Bundle.main, compatibleWith traitCollection: UITraitCollection? = nil) {
