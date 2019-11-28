@@ -24,6 +24,11 @@
     "UIKit",
     "Foundation"
   ],
+  "default_subspecs": [
+    "Utilities",
+    "Extensions",
+    "Views"
+  ],
   "subspecs": [
     {
       "name": "Utilities",
@@ -84,6 +89,21 @@
         {
           "name": "GradientView",
           "source_files": "PovioKit/Classes/Views/GradientView/**/*.swift"
+        }
+      ]
+    },
+    {
+      "name": "Networking",
+      "source_files": "PovioKit/Classes/Networking/**/*",
+      "subspecs": [
+        {
+          "name": "AlamofireNetworkClient",
+          "source_files": "PovioKit/Classes/Networking/AlamofireNetworkClient/**/*",
+          "dependencies": {
+            "Alamofire": [
+
+            ]
+          }
         }
       ]
     }

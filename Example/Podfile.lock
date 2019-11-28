@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.9.1)
   - PovioKit (0.3.0):
     - PovioKit/Extensions (= 0.3.0)
     - PovioKit/Utilities (= 0.3.0)
@@ -30,15 +31,21 @@ PODS:
   - PovioKit/Views/GradientView (0.3.0)
 
 DEPENDENCIES:
+  - Alamofire
   - PovioKit (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
 
 EXTERNAL SOURCES:
   PovioKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PovioKit: 1f6678cccba942bdbdc6d569e59c8040fd58c609
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  PovioKit: f8d615ac7341ea278034f76a736cd7672703f824
 
-PODFILE CHECKSUM: 91dcca6817db48cae87e2a22079e39f5de147a90
+PODFILE CHECKSUM: 348ddaa41e6d4884bba8dae2524c2479884418fb
 
 COCOAPODS: 1.8.4
