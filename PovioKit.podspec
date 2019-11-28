@@ -14,6 +14,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.source_files = 'PovioKit/Classes/**/*.swift'
   s.frameworks = 'UIKit', 'Foundation'
+  s.default_subspecs = 'Utilities', 'Extensions', 'Views'
 
   s.subspec 'Utilities' do |us|
     us.source_files = 'PovioKit/Classes/Utilities/**/*.swift'
@@ -68,6 +69,15 @@ Pod::Spec.new do |s|
     
     vs.subspec 'GradientView' do |cs|
       cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*.swift'
+    end
+  end
+  
+  s.subspec 'Networking' do |vs|
+    vs.source_files = 'PovioKit/Classes/Networking/**/*'
+    
+    vs.subspec 'AlamofireNetworkClient' do |cs|
+      cs.source_files = 'PovioKit/Classes/Networking/AlamofireNetworkClient/**/*'
+      cs.dependency 'Alamofire'
     end
   end
 end
