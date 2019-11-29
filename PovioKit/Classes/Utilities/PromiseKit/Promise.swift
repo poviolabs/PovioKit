@@ -172,7 +172,7 @@ public extension Promise {
         promise.observe {
           switch $0 {
           case .success:
-            if areAllSuccessful(promises) {
+            if areAllFulfilled(promises) {
               finalPromise.resolve(with: allResults(for: promises))
             }
           case .failure(let error):
@@ -234,11 +234,11 @@ extension Promise where Value == Void {
 
 // MARK: - Private methods
 private extension Promise {
-  static func areAllSuccessful(_ promises: [Promise<Value, Error>]) -> Bool {
-    return !promises.contains { $0.isRejected || $0.isAwaiting }
+  static func areAllFulfilled(_ promises: [Promise<Value, Error>]) -> Bool {
+    promises.allSatisfy { $0.isFulfilled }
   }
   
   static func allResults(for promises: [Promise<Value, Error>]) -> [Value] {
-    return promises.compactMap { $0.value }
+    promises.compactMap { $0.value }
   }
 }
