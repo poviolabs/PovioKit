@@ -159,6 +159,29 @@ public extension Promise {
     promise.onSuccess(resolve)
     promise.onFailure(reject)
   }
+  
+  /// Returns a new promise, combining n `Promise`.
+  ///
+  /// Use this method when you need to combine array `[Promise]` of the same type and run it concurrently.
+  ///
+  /// - Parameter promises: A list of `Promises` that you want to combine.
+  /// - Returns: A `Promise` instance with the result of an array of all the values of the combined promises.
+  static func combine(promises: [Promise<Value, Error>]) -> Promise<[Value], Error> {
+    return Promise<[Value], Error> { finalPromise in
+      for promise in promises {
+        promise.observe {
+          switch $0 {
+          case .success:
+            if areAllSuccessful(promises) {
+              finalPromise.resolve(with: allResults(for: promises))
+            }
+          case .failure(let error):
+            finalPromise.reject(with: error)
+          }
+        }
+      }
+    }
+  }
 }
 
 public extension Promise {
@@ -206,5 +229,16 @@ public extension Promise {
 extension Promise where Value == Void {
   func resolve() {
     resolve(with: ())
+  }
+}
+
+// MARK: - Private methods
+private extension Promise {
+  static func areAllSuccessful(_ promises: [Promise<Value, Error>]) -> Bool {
+    return !promises.contains { $0.isRejected || $0.isAwaiting }
+  }
+  
+  static func allResults(for promises: [Promise<Value, Error>]) -> [Value] {
+    return promises.compactMap { $0.value }
   }
 }
