@@ -8,12 +8,14 @@
 
 import Foundation
 
-public extension Collection {
+public extension Collection where Indices.Iterator.Element == Index {
   /// Returns the element at the specified `index` if it is within bounds, otherwise `nil`.
-  subscript (safe index: Index) -> Element? {
-    return indices.contains(index) ? self[index]: nil
+  subscript (safe index: Index) -> Iterator.Element? {
+    return (startIndex <= index && index < endIndex) ? self[index] : nil
   }
-  
+}
+
+public extension Collection {
   /// Conditional element count - https://github.com/apple/swift-evolution/blob/master/proposals/0220-count-where.md
   func count(where clause: (Element) -> Bool) -> Int {
     return lazy.filter(clause).count
