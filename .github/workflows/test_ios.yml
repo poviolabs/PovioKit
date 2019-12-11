@@ -1,0 +1,21 @@
+name: Swift
+
+on:
+  push:
+    branches: 
+      - master
+      - develop
+  check_run:
+    types: [rerequested, requested_action]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: XCPretty
+      run: gem install xcpretty
+    - name: Build
+      run: xcrun xcodebuild build -workspace 'Example/PovioKit.xcworkspace' -scheme 'PovioKit-Example' -destination='platform=iOS Simulator,name=iPhone Xs,OS=12.2' | xcpretty
+    - name: Run tests
+      run: xcrun xcodebuild test -workspace 'Example/PovioKit.xcworkspace' -scheme 'PovioKit-Example' -destination='platform=iOS Simulator,name=iPhone Xs,OS=12.2' | xcpretty
