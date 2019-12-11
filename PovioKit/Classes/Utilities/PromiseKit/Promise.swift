@@ -168,15 +168,18 @@ public extension Promise {
   /// - Returns: A `Promise` instance with the result of an array of all the values of the combined promises.
   static func combine(promises: [Promise<Value, Error>]) -> Promise<[Value], Error> {
     return Promise<[Value], Error> { finalPromise in
+      let combineQueue = DispatchQueue(label: "combineQueue", attributes: .concurrent)
       for promise in promises {
-        promise.observe {
-          switch $0 {
-          case .success:
-            if areAllFulfilled(promises) {
-              finalPromise.resolve(with: allResults(for: promises))
+        promise.observe { result in
+          combineQueue.async(flags: .barrier) {
+            switch result {
+            case .success:
+              if areAllFulfilled(promises) {
+                finalPromise.resolve(with: allResults(for: promises))
+              }
+            case .failure(let error):
+              finalPromise.reject(with: error)
             }
-          case .failure(let error):
-            finalPromise.reject(with: error)
           }
         }
       }
