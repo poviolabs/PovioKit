@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270E4952239A67DE0016FAB6 /* UIDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E4951239A67DE0016FAB6 /* UIDeviceTests.swift */; };
 		270E495D239A6ABB0016FAB6 /* BroadcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */; };
 		270E494F239A67150016FAB6 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E494E239A67150016FAB6 /* OptionalTests.swift */; };
 		990603F7227F620A00B0EFE2 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F6227F620A00B0EFE2 /* StringTests.swift */; };
@@ -21,6 +22,7 @@
 		03954EEF5980DBBBA006EEAB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1023CC6AFBB1353B97D9DE00 /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.debug.xcconfig"; path = "Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		1ADE6A5A7C4451B9DFD132EA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		270E4951239A67DE0016FAB6 /* UIDeviceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceTests.swift; sourceTree = "<group>"; };
 		270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastTests.swift; sourceTree = "<group>"; };
 		270E494E239A67150016FAB6 /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* PovioKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PovioKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +53,14 @@
 				02ABA4F7EA58105212236852 /* Pods_PovioKit_Tests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		270E4950239A67D10016FAB6 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				270E4951239A67DE0016FAB6 /* UIDeviceTests.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		270E495A239A6AA60016FAB6 /* Utilities */ = {
