@@ -88,11 +88,11 @@ class BroadcastTests: XCTestCase {
   
 }
 
-protocol MockedProtocol {
+private protocol MockedProtocol {
   func run()
 }
 
-class MockedListener: MockedProtocol {
+private class MockedListener: MockedProtocol {
   var executingCount = 0
   
   func run() {
