@@ -10,17 +10,15 @@ import XCTest
 @testable import PovioKit
 
 class StartupProcessServiceTests: XCTestCase {
-  
   func testShouldCompleteProccesWhenCallExecution() {
     let sut = StartupProcessService()
     let mock = MockedStartupService()
     sut.execute(process: mock)
     XCTAssertEqual(mock.completed, true)
   }
-  
 }
 
-class MockedStartupService: StartupProcess {
+private class MockedStartupService: StartupProcess {
   var completed: Bool = false
   func run(completion: @escaping (Bool) -> Void) {
     completed = true
