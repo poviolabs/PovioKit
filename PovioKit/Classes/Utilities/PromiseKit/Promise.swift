@@ -23,7 +23,7 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
     result = .failure(error)
   }
   
-  convenience init(_ future: (Promise) -> Void) {
+  public convenience init(_ future: (Promise) -> Void) {
     self.init()
     future(self)
   }
@@ -229,7 +229,7 @@ public extension Promise {
   }
 }
 
-extension Promise where Value == Void {
+public extension Promise where Value == Void {
   func resolve() {
     resolve(with: ())
   }
