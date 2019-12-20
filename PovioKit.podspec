@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.3.0'
+  s.version          = '0.4.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
 
