@@ -14,17 +14,14 @@ class ThrottlerTests: XCTestCase {
   func testShouldExecuteWhenDelayed() {
     let delay = 100
     let waiting = delay + 10
-    let sut = Throttler(delay: .milliseconds(delay))
-    let expectation = self.expectation(description: "Executed")
-    var output: [String] = []
-    sut.execute {
-      output.append("A")
-    }
-    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(waiting)) {
+    let sut = MockedThrottler(delay: .milliseconds(delay))
+    let expectation = self.expectation(description: "delay")
+    sut.execute(withId: "A") {
       expectation.fulfill()
     }
+    XCTAssertEqual(sut.outputIdentifiers, [])
     waitForExpectations(timeout: Double(waiting + 10) / 1000, handler: nil)
-    XCTAssertEqual(output, ["A"])
+    XCTAssertEqual(sut.outputIdentifiers, ["A"])
   }
   
   func testShouldNotExecuteWhenCanceled() {
@@ -40,45 +37,45 @@ class ThrottlerTests: XCTestCase {
     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(waiting)) {
       expectation.fulfill()
     }
-    waitForExpectations(timeout: Double(waiting + 10) / 1000, handler: nil)
+    waitForExpectations(timeout: Double(waiting) / 1000, handler: nil)
     XCTAssertEqual(output, [])
   }
   
   func testShouldSkipExecutionWhenThereIsAnotherOne() {
     let delay = 100
     let waiting = delay + 10
-    let sut = Throttler(delay: .milliseconds(delay))
+    let sut = MockedThrottler(delay: .milliseconds(delay))
     let expectation = self.expectation(description: "delay")
-    var output: [String] = []
-    sut.execute {
-      output.append("A")
-    }
-    sut.execute {
-      output.append("B")
-    }
-    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(waiting)) {
+    sut.execute(withId: "A") {}
+    sut.execute(withId: "B") {
       expectation.fulfill()
     }
-    waitForExpectations(timeout: Double(waiting + 10) / 1000, handler: nil)
-    XCTAssertEqual(output, ["B"])
+    waitForExpectations(timeout: Double(waiting) / 1000, handler: nil)
+    XCTAssertEqual(sut.outputIdentifiers, ["B"])
   }
   
   func testShouldExecuteTwiceWhenTwoSequentialCalls() {
     let delay = 100
     let waiting = 2 * delay + 10
-    let sut = Throttler(delay: .milliseconds(delay))
+    let sut = MockedThrottler(delay: .milliseconds(delay))
     let expectation = self.expectation(description: "delay")
-    var output: [String] = []
-    sut.execute {
-      output.append("A")
-      sut.execute {
-        output.append("B")
+    sut.execute(withId: "A") {
+      sut.execute(withId: "B") {
+        expectation.fulfill()
       }
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(waiting)) {
-      expectation.fulfill()
+    waitForExpectations(timeout: Double(waiting) / 1000, handler: nil)
+    XCTAssertEqual(sut.outputIdentifiers, ["A", "B"])
+  }
+}
+
+private class MockedThrottler: Throttler {
+  var outputIdentifiers: [String] = []
+  
+  func execute(withId id: String, completion: @escaping () -> Void) {
+    execute {
+      self.outputIdentifiers.append(id)
+      completion()
     }
-    waitForExpectations(timeout: Double(waiting + 10) / 1000, handler: nil)
-    XCTAssertEqual(output, ["A", "B"])
   }
 }
