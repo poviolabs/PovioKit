@@ -33,6 +33,7 @@
 * [UIColor](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIColor+Povio.swift)
 * [UIDevice](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIDevice+Povio.swift)
 * [UIImage](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIImage+Povio.swift)
+* [UIEdgeInsets](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIEdgeInsets+Povio.swift)
 * [Collection](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Collection+Povio.swift)
 * [String](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/String+Povio.swift)
 * [URL](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/URL+Povio.swift)
