@@ -11,6 +11,7 @@
 		990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F8227F63E700B0EFE2 /* CollectionTests.swift */; };
 		990603FB227F665200B0EFE2 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603FA227F665200B0EFE2 /* URLTests.swift */; };
 		E4B79AFD340C2BB316F86C99 /* Pods_PovioKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02ABA4F7EA58105212236852 /* Pods_PovioKit_Tests.framework */; };
+		99DC5FD323B0F45E007D1A54 /* UIEdgeInsetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DC5FD223B0F45E007D1A54 /* UIEdgeInsetsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		990603F8227F63E700B0EFE2 /* CollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTests.swift; sourceTree = "<group>"; };
 		990603FA227F665200B0EFE2 /* URLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTests.swift; sourceTree = "<group>"; };
 		9A9FA9DFFD899D52F951FDF3 /* Pods-PovioKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.release.xcconfig"; path = "Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		99DC5FD223B0F45E007D1A54 /* UIEdgeInsetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEdgeInsetsTests.swift; sourceTree = "<group>"; };
 		B044A8DA102A927F98D18671 /* PovioKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = PovioKit.podspec; path = ../PovioKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 		990603F4227F61F000B0EFE2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				99DC5FD123B0F3FC007D1A54 /* UIKit */,
 				990603F5227F620200B0EFE2 /* Foundation */,
 			);
 			path = Extensions;
@@ -119,6 +122,31 @@
 				990603FA227F665200B0EFE2 /* URLTests.swift */,
 			);
 			path = Foundation;
+			sourceTree = "<group>";
+		};
+		99DC5FD123B0F3FC007D1A54 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				99DC5FD223B0F45E007D1A54 /* UIEdgeInsetsTests.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		C654C9A6CA64718C243D9B4B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				95E3706EF4031F0CD83FCFAD /* Pods-PovioKit_Tests.debug.xcconfig */,
+				6CF692F200FC66A4E7828FC5 /* Pods-PovioKit_Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		FCB7BA18A710798B2FCA2B47 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DF728F8FF8F4282416BE370B /* Pods_PovioKit_Tests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +270,7 @@
 			files = (
 				990603F7227F620A00B0EFE2 /* StringTests.swift in Sources */,
 				990603FB227F665200B0EFE2 /* URLTests.swift in Sources */,
+				99DC5FD323B0F45E007D1A54 /* UIEdgeInsetsTests.swift in Sources */,
 				990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

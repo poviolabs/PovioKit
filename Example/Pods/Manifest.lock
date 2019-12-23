@@ -1,48 +1,48 @@
 PODS:
   - Alamofire (5.0.0-rc.3)
-  - PovioKit (0.3.0):
+  - PovioKit (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-    - PovioKit/Extensions (= 0.3.0)
-    - PovioKit/Utilities (= 0.3.0)
-    - PovioKit/Views (= 0.3.0)
-  - PovioKit/Extensions (0.3.0):
+    - PovioKit/Extensions (= 0.4.0)
+    - PovioKit/Utilities (= 0.4.0)
+    - PovioKit/Views (= 0.4.0)
+  - PovioKit/Extensions (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-    - PovioKit/Extensions/Foundation (= 0.3.0)
-    - PovioKit/Extensions/UIKit (= 0.3.0)
-  - PovioKit/Extensions/Foundation (0.3.0):
+    - PovioKit/Extensions/Foundation (= 0.4.0)
+    - PovioKit/Extensions/UIKit (= 0.4.0)
+  - PovioKit/Extensions/Foundation (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Extensions/UIKit (0.3.0):
+  - PovioKit/Extensions/UIKit (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities (0.3.0):
+  - PovioKit/Utilities (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-    - PovioKit/Utilities/AttributedStringBuilder (= 0.3.0)
-    - PovioKit/Utilities/Broadcast (= 0.3.0)
-    - PovioKit/Utilities/ColorInterpolator (= 0.3.0)
-    - PovioKit/Utilities/DispatchTimer (= 0.3.0)
-    - PovioKit/Utilities/Logger (= 0.3.0)
-    - PovioKit/Utilities/PromiseKit (= 0.3.0)
-    - PovioKit/Utilities/StartupService (= 0.3.0)
-    - PovioKit/Utilities/Throttler (= 0.3.0)
-  - PovioKit/Utilities/AttributedStringBuilder (0.3.0):
+    - PovioKit/Utilities/AttributedStringBuilder (= 0.4.0)
+    - PovioKit/Utilities/Broadcast (= 0.4.0)
+    - PovioKit/Utilities/ColorInterpolator (= 0.4.0)
+    - PovioKit/Utilities/DispatchTimer (= 0.4.0)
+    - PovioKit/Utilities/Logger (= 0.4.0)
+    - PovioKit/Utilities/PromiseKit (= 0.4.0)
+    - PovioKit/Utilities/StartupService (= 0.4.0)
+    - PovioKit/Utilities/Throttler (= 0.4.0)
+  - PovioKit/Utilities/AttributedStringBuilder (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities/Broadcast (0.3.0):
+  - PovioKit/Utilities/Broadcast (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities/ColorInterpolator (0.3.0):
+  - PovioKit/Utilities/ColorInterpolator (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities/DispatchTimer (0.3.0):
+  - PovioKit/Utilities/DispatchTimer (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities/Logger (0.3.0):
+  - PovioKit/Utilities/Logger (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities/PromiseKit (0.3.0):
+  - PovioKit/Utilities/PromiseKit (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities/StartupService (0.3.0):
+  - PovioKit/Utilities/StartupService (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Utilities/Throttler (0.3.0):
+  - PovioKit/Utilities/Throttler (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-  - PovioKit/Views (0.3.0):
+  - PovioKit/Views (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
-    - PovioKit/Views/GradientView (= 0.3.0)
-  - PovioKit/Views/GradientView (0.3.0):
+    - PovioKit/Views/GradientView (= 0.4.0)
+  - PovioKit/Views/GradientView (0.4.0):
     - Alamofire (= 5.0.0-rc.3)
   - SnapKit (5.0.1)
 
@@ -62,7 +62,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: ca8c0de6906873be89d6deec5c8de279e00bf872
-  PovioKit: 650529d4e31fa325db76c5b418d31f19459d7c20
+  PovioKit: 9e27207aa913fba20ecd4ed9b10c04dd7c3f2273
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
 PODFILE CHECKSUM: fdd657ece6ecf7e7dbda7e9fb9af50119b4934f5
