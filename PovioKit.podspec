@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
   s.source_files = 'PovioKit/Classes/**/*.swift'
   s.frameworks = 'UIKit', 'Foundation'
   s.default_subspecs = 'Utilities', 'Extensions', 'Views'
+  s.dependency 'Alamofire'
 
   s.subspec 'Utilities' do |us|
     us.source_files = 'PovioKit/Classes/Utilities/**/*.swift'
@@ -73,11 +74,10 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Networking' do |vs|
-    vs.source_files = 'PovioKit/Classes/Networking/**/*'
+    vs.source_files = 'PovioKit/Classes/Networking/**/*.swift'
     
     vs.subspec 'AlamofireNetworkClient' do |cs|
-      cs.source_files = 'PovioKit/Classes/Networking/AlamofireNetworkClient/**/*'
-      cs.dependency 'Alamofire'
+      cs.source_files = 'PovioKit/Classes/Networking/AlamofireNetworkClient/**/*.swift'
     end
   end
 end

@@ -29,6 +29,11 @@
     "Extensions",
     "Views"
   ],
+  "dependencies": {
+    "Alamofire": [
+
+    ]
+  },
   "subspecs": [
     {
       "name": "Utilities",
@@ -94,16 +99,11 @@
     },
     {
       "name": "Networking",
-      "source_files": "PovioKit/Classes/Networking/**/*",
+      "source_files": "PovioKit/Classes/Networking/**/*.swift",
       "subspecs": [
         {
           "name": "AlamofireNetworkClient",
-          "source_files": "PovioKit/Classes/Networking/AlamofireNetworkClient/**/*",
-          "dependencies": {
-            "Alamofire": [
-
-            ]
-          }
+          "source_files": "PovioKit/Classes/Networking/AlamofireNetworkClient/**/*.swift"
         }
       ]
     }

@@ -1,15 +1,20 @@
 PODS:
-  - Alamofire (4.9.1)
+  - Alamofire (5.0.0-rc.3)
   - PovioKit (0.3.0):
+    - Alamofire
     - PovioKit/Extensions (= 0.3.0)
     - PovioKit/Utilities (= 0.3.0)
     - PovioKit/Views (= 0.3.0)
   - PovioKit/Extensions (0.3.0):
+    - Alamofire
     - PovioKit/Extensions/Foundation (= 0.3.0)
     - PovioKit/Extensions/UIKit (= 0.3.0)
-  - PovioKit/Extensions/Foundation (0.3.0)
-  - PovioKit/Extensions/UIKit (0.3.0)
+  - PovioKit/Extensions/Foundation (0.3.0):
+    - Alamofire
+  - PovioKit/Extensions/UIKit (0.3.0):
+    - Alamofire
   - PovioKit/Utilities (0.3.0):
+    - Alamofire
     - PovioKit/Utilities/AttributedStringBuilder (= 0.3.0)
     - PovioKit/Utilities/Broadcast (= 0.3.0)
     - PovioKit/Utilities/ColorInterpolator (= 0.3.0)
@@ -18,34 +23,48 @@ PODS:
     - PovioKit/Utilities/PromiseKit (= 0.3.0)
     - PovioKit/Utilities/StartupService (= 0.3.0)
     - PovioKit/Utilities/Throttler (= 0.3.0)
-  - PovioKit/Utilities/AttributedStringBuilder (0.3.0)
-  - PovioKit/Utilities/Broadcast (0.3.0)
-  - PovioKit/Utilities/ColorInterpolator (0.3.0)
-  - PovioKit/Utilities/DispatchTimer (0.3.0)
-  - PovioKit/Utilities/Logger (0.3.0)
-  - PovioKit/Utilities/PromiseKit (0.3.0)
-  - PovioKit/Utilities/StartupService (0.3.0)
-  - PovioKit/Utilities/Throttler (0.3.0)
+  - PovioKit/Utilities/AttributedStringBuilder (0.3.0):
+    - Alamofire
+  - PovioKit/Utilities/Broadcast (0.3.0):
+    - Alamofire
+  - PovioKit/Utilities/ColorInterpolator (0.3.0):
+    - Alamofire
+  - PovioKit/Utilities/DispatchTimer (0.3.0):
+    - Alamofire
+  - PovioKit/Utilities/Logger (0.3.0):
+    - Alamofire
+  - PovioKit/Utilities/PromiseKit (0.3.0):
+    - Alamofire
+  - PovioKit/Utilities/StartupService (0.3.0):
+    - Alamofire
+  - PovioKit/Utilities/Throttler (0.3.0):
+    - Alamofire
   - PovioKit/Views (0.3.0):
+    - Alamofire
     - PovioKit/Views/GradientView (= 0.3.0)
-  - PovioKit/Views/GradientView (0.3.0)
+  - PovioKit/Views/GradientView (0.3.0):
+    - Alamofire
+  - SnapKit (5.0.1)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (= 5.0.0-rc.3)
   - PovioKit (from `../`)
+  - SnapKit
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - SnapKit
 
 EXTERNAL SOURCES:
   PovioKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  PovioKit: f8d615ac7341ea278034f76a736cd7672703f824
+  Alamofire: ca8c0de6906873be89d6deec5c8de279e00bf872
+  PovioKit: 76b08fabcf452ba75ec11e56e4122f6858b78f84
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 348ddaa41e6d4884bba8dae2524c2479884418fb
+PODFILE CHECKSUM: fdd657ece6ecf7e7dbda7e9fb9af50119b4934f5
 
 COCOAPODS: 1.8.4
