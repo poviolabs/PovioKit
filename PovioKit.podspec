@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.source_files = 'PovioKit/Classes/**/*.swift'
   s.frameworks = 'UIKit', 'Foundation'
   s.default_subspecs = 'Utilities', 'Extensions', 'Views'
-  s.dependency 'Alamofire'
+  s.dependency 'Alamofire', '5.0.0-rc.3'
 
   s.subspec 'Utilities' do |us|
     us.source_files = 'PovioKit/Classes/Utilities/**/*.swift'
