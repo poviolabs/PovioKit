@@ -22,13 +22,4 @@ class CollectionTests: XCTestCase {
     XCTAssertEqual(array.count(where: { $0 is String}), 2)
     XCTAssertEqual(array.count(where: { $0 is Int}), 2)
   }
-
-  func testSafeSubscriptAssign() {
-    var array = [1, 2]
-    array[safe: 1] = 3
-    XCTAssertEqual(array[safe: 0], 1)
-    XCTAssertEqual(array[safe: 1], 3)
-    array[safe: 1] = nil
-    XCTAssertEqual(array[safe: 1], 3)
-  }
 }

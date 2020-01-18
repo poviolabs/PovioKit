@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		96ACF2788BD2B0BDB56234F0 /* Pods_PovioKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF728F8FF8F4282416BE370B /* Pods_PovioKit_Tests.framework */; };
 		990603F7227F620A00B0EFE2 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F6227F620A00B0EFE2 /* StringTests.swift */; };
 		990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F8227F63E700B0EFE2 /* CollectionTests.swift */; };
 		990603FB227F665200B0EFE2 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603FA227F665200B0EFE2 /* URLTests.swift */; };
+		E4B79AFD340C2BB316F86C99 /* Pods_PovioKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02ABA4F7EA58105212236852 /* Pods_PovioKit_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02ABA4F7EA58105212236852 /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PovioKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03954EEF5980DBBBA006EEAB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		1023CC6AFBB1353B97D9DE00 /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.debug.xcconfig"; path = "Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		1ADE6A5A7C4451B9DFD132EA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* PovioKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PovioKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6CF692F200FC66A4E7828FC5 /* Pods-PovioKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		95E3706EF4031F0CD83FCFAD /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		990603F6227F620A00B0EFE2 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		990603F8227F63E700B0EFE2 /* CollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTests.swift; sourceTree = "<group>"; };
 		990603FA227F665200B0EFE2 /* URLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTests.swift; sourceTree = "<group>"; };
+		9A9FA9DFFD899D52F951FDF3 /* Pods-PovioKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.release.xcconfig"; path = "Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B044A8DA102A927F98D18671 /* PovioKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = PovioKit.podspec; path = ../PovioKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		DF728F8FF8F4282416BE370B /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PovioKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,21 +32,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96ACF2788BD2B0BDB56234F0 /* Pods_PovioKit_Tests.framework in Frameworks */,
+				E4B79AFD340C2BB316F86C99 /* Pods_PovioKit_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57AF345B1640ED1B9247F87D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02ABA4F7EA58105212236852 /* Pods_PovioKit_Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
-				C654C9A6CA64718C243D9B4B /* Pods */,
-				FCB7BA18A710798B2FCA2B47 /* Frameworks */,
+				909407E523E053F7CFEFB8A2 /* Pods */,
+				57AF345B1640ED1B9247F87D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +93,16 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		909407E523E053F7CFEFB8A2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1023CC6AFBB1353B97D9DE00 /* Pods-PovioKit_Tests.debug.xcconfig */,
+				9A9FA9DFFD899D52F951FDF3 /* Pods-PovioKit_Tests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		990603F4227F61F000B0EFE2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,23 +121,6 @@
 			path = Foundation;
 			sourceTree = "<group>";
 		};
-		C654C9A6CA64718C243D9B4B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				95E3706EF4031F0CD83FCFAD /* Pods-PovioKit_Tests.debug.xcconfig */,
-				6CF692F200FC66A4E7828FC5 /* Pods-PovioKit_Tests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		FCB7BA18A710798B2FCA2B47 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DF728F8FF8F4282416BE370B /* Pods_PovioKit_Tests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -127,11 +128,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "PovioKit_Tests" */;
 			buildPhases = (
-				FA9E138401B49E60133D5166 /* [CP] Check Pods Manifest.lock */,
+				0C057D3A6BE2BFFD08E41592 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
-				D976A826975770C220D7DB77 /* [CP] Embed Pods Frameworks */,
+				F72C564143BA00723F4FF70D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,40 +189,48 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D976A826975770C220D7DB77 /* [CP] Embed Pods Frameworks */ = {
+		0C057D3A6BE2BFFD08E41592 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/PovioKit/PovioKit.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PovioKit.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FA9E138401B49E60133D5166 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-PovioKit_Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F72C564143BA00723F4FF70D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/PovioKit/PovioKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PovioKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -349,7 +358,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95E3706EF4031F0CD83FCFAD /* Pods-PovioKit_Tests.debug.xcconfig */;
+			baseConfigurationReference = 1023CC6AFBB1353B97D9DE00 /* Pods-PovioKit_Tests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 7G58AP3AJX;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -371,7 +380,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6CF692F200FC66A4E7828FC5 /* Pods-PovioKit_Tests.release.xcconfig */;
+			baseConfigurationReference = 9A9FA9DFFD899D52F951FDF3 /* Pods-PovioKit_Tests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 7G58AP3AJX;
 				FRAMEWORK_SEARCH_PATHS = (
