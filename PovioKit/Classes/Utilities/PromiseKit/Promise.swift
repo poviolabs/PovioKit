@@ -55,7 +55,6 @@ public class Promise<Value, Error: Swift.Error>: Future<Value, Error> {
     }
   }
   
-  
   public func observe(promise other: Promise) {
     other.onSuccess(resolve)
     other.onFailure(reject)
@@ -82,7 +81,7 @@ public extension Promise {
   }
   
   var isAwaiting: Bool {
-    return result == nil
+    result == nil
   }
   
   var value: Value? {
@@ -122,8 +121,8 @@ public extension Promise {
   ///   instance.
   /// - Returns: A `Promise` with the result of evaluating `transform`
   ///   as the new success value if this instance represents a success.
-  func map<NewValue>(with transform: @escaping (Value) -> NewValue) -> Promise<NewValue, Error> {
-    chain { Promise<NewValue, Error>(fulfill: transform($0)) }
+  func map<U>(with transform: @escaping (Value) -> U) -> Promise<U, Error> {
+    chain { Promise<U, Error>(fulfill: transform($0)) }
   }
   
   /// Returns a new promise, mapping any failure value using the given
@@ -160,9 +159,9 @@ public extension Promise {
   /// - Returns: A `Promise` which is a composition of two Promises:
   ///   if this Promise succeeds, the `transform` closure is called to get a new Promise.
   ///   If any of the two promises at any point fail, the composition of them fails as well.
-  func chain<ChainedValue, ChainedError: Swift.Error>(with transform: @escaping (Value) -> Promise<ChainedValue, ChainedError>,
-                                                      transformError: @escaping (ChainedError) -> Error) -> Promise<ChainedValue, Error> {
-    let result = Promise<ChainedValue, Error>()
+  func chain<U, ChainedError: Swift.Error>(with transform: @escaping (Value) -> Promise<U, ChainedError>,
+                                                      transformError: @escaping (ChainedError) -> Error) -> Promise<U, Error> {
+    let result = Promise<U, Error>()
     observe {
       switch $0 {
       case .success(let value):
@@ -191,7 +190,7 @@ public extension Promise {
   /// - Returns: A `Promise` which is a composition of two Promises:
   ///   if this Promise succeeds, the `transform` closure is called to get a new Promise.
   ///   If any of the two promises at any point fail, the composition of them fails as well.
-  func chain<ChainedValue>(with transform: @escaping (Value) -> Promise<ChainedValue, Error>) -> Promise<ChainedValue, Error> {
+  func chain<U>(with transform: @escaping (Value) -> Promise<U, Error>) -> Promise<U, Error> {
     chain(with: transform, transformError: { $0 })
   }
   
@@ -315,15 +314,15 @@ public extension Promise where Value: Sequence {
   /// Returns a Promise combining the elements of the sequence using the
   /// given closure.
   ///
-  /// Use the `reduce` method to produce a single value from the elements
+  /// Use the `reduceValues` method to produce a single value from the elements
   /// of the entire sequence. For example, you can use this method to find the sum
   /// or product of the seqeuence:
   ///
   /// Promise<[Int], Error>.value([1, 2, 3, 4, 5, 6])
-  ///   .reduce(0, +)
+  ///   .reduceValues(0, +)
   ///   .onSuccess { /* $0 => 22 */ }
   ///
-  /// `reduce` is the most general of all the basic higher-order methods operating on sequences. For instance,
+  /// `reduce` (or `fold`) is the most general of all the basic higher-order methods operating on sequences. For instance,
   /// it can be used to implement `map`:
   ///
   /// Promise<[Int], Error>.value([1, 2, 3])
