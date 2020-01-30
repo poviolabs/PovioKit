@@ -122,7 +122,10 @@ public extension Promise {
   /// - Returns: A `Promise` which is a composition of two Promises:
   ///   If both promises succeed then their composition succeeds as well.
   ///   If any of the two promises at any point fail, their composition fails as well.
-  func chain<U>(on dispatchQueue: DispatchQueue = .main, with transform: @escaping (Value) throws -> Promise<U>) -> Promise<U> {
+  func chain<U>(
+    on dispatchQueue: DispatchQueue = .main,
+    with transform: @escaping (Value) throws -> Promise<U>) -> Promise<U>
+  {
     let result = Promise<U>()
     observe {
       switch $0 {
@@ -157,7 +160,10 @@ public extension Promise {
   ///   instance.
   /// - Returns: A `Promise` with the result of evaluating `transform`
   ///   as the new success value if this instance represents a success.
-  func map<U>(on dispatchQueue: DispatchQueue = .main, with transform: @escaping (Value) throws -> U) -> Promise<U> {
+  func map<U>(
+    on dispatchQueue: DispatchQueue = .main,
+    with transform: @escaping (Value) throws -> U) -> Promise<U>
+  {
     chain(on: dispatchQueue) {
       do {
         return Promise<U>.value(try transform($0))
@@ -178,8 +184,11 @@ public extension Promise {
   /// - Returns: A `Promise` with the result of evaluating `transform` if
   ///   it does not return `nil` as the new success value. If it returns `nil`
   ///   then the new Promise fails.
-  func compactMap<U>(_ transform: @escaping (Value) throws -> U?) -> Promise<U> {
-    map {
+  func compactMap<U>(
+    on dispatchQueue: DispatchQueue = .main,
+    _ transform: @escaping (Value) throws -> U?) -> Promise<U>
+  {
+    map(on: dispatchQueue) {
       switch try transform($0) {
       case let transformedValue?:
         return transformedValue
@@ -195,17 +204,23 @@ public extension Promise {
   ///
   /// - Parameter promises: A list of `Promises` that you want to combine.
   /// - Returns: A Promise with the result of an array of all the values of the combined promises.
-  static func combine(on dispatchQueue: DispatchQueue = .main, promises: [Promise<Value>]) -> Promise<[Value]> {
-    Promise<[Value]> { finalPromise in
+  static func combine(
+    on dispatchQueue: DispatchQueue = .main,
+    promises: [Promise<Value>]) -> Promise<[Value]>
+  {
+    Promise<[Value]> { seal in
+      let barrier = DispatchQueue(label: "combineQueue", attributes: .concurrent)
       for promise in promises {
         promise.observe { result in
           switch result {
           case .success:
-            if promises.allSatisfy({ $0.isFulfilled }) {
-              finalPromise.resolve(with: promises.compactMap { $0.value })
+            barrier.async(flags: .barrier) {
+              if promises.allSatisfy({ $0.isFulfilled }) {
+                seal.resolve(with: promises.compactMap { $0.value })
+              }
             }
           case .failure(let error):
-            finalPromise.reject(with: error)
+            seal.reject(with: error)
           }
         }
       }
@@ -228,7 +243,10 @@ public extension Promise where Value: Sequence {
   ///   value of the same or of a different type.
   /// - Returns: A Promise containing an array of the transformed elements of the
   ///   sequence.
-  func mapValues<U>(on dispatchQueue: DispatchQueue = .main, _ transform: @escaping (Value.Element) throws -> U) -> Promise<[U]> {
+  func mapValues<U>(
+    on dispatchQueue: DispatchQueue = .main,
+    _ transform: @escaping (Value.Element) throws -> U) -> Promise<[U]>
+  {
     map(on: dispatchQueue) { values in try values.map(transform) }
   }
   
@@ -250,7 +268,10 @@ public extension Promise where Value: Sequence {
   ///   sequence as its argument and returns an optional value.
   /// - Returns: A Promise containing an array of the non-`nil` results of calling `transform`
   ///   with each element of the sequence.
-  func compactMapValues<U>(on dispatchQueue: DispatchQueue = .main, _ transform: @escaping (Value.Element) throws -> U?) -> Promise<[U]> {
+  func compactMapValues<U>(
+    on dispatchQueue: DispatchQueue = .main,
+    _ transform: @escaping (Value.Element) throws -> U?) -> Promise<[U]>
+  {
     map(on: dispatchQueue) { values in
       try values.compactMap(transform)
     }
@@ -274,10 +295,12 @@ public extension Promise where Value: Sequence {
   ///   element of the sequence as its parameter and returns a Promise (having the same or different `Value` type)
   /// - Returns: A Promise containing the combined result of all the promises obtained by
   ///   mapping elements of this sequence.
-  func flatMapValues<U>(on dispatchQueue: DispatchQueue = .main, _ transform: @escaping (Value.Element) throws -> Promise<U>) -> Promise<[U]> {
+  func flatMapValues<U>(
+    on dispatchQueue: DispatchQueue = .main,
+    _ transform: @escaping (Value.Element) throws -> Promise<U>) -> Promise<[U]>
+  {
     chain(on: dispatchQueue) { values in
-      let promises: [Promise<U>] = try values.map(transform)
-      return Promise<U>.combine(promises: promises)
+      Promise<U>.combine(promises: try values.map(transform))
     }
   }
   
@@ -294,7 +317,10 @@ public extension Promise where Value: Sequence {
   ///   sequence as its argument and returns a Boolean value indicating
   ///   whether the element should be included in the result.
   /// - Returns: An Promise containing an array of the elements that `isIncluded` allowed.
-  func filterValues(on dispatchQueue: DispatchQueue = .main, _ isIncluded: @escaping (Value.Element) throws -> Bool) -> Promise<[Value.Element]> {
+  func filterValues(
+    on dispatchQueue: DispatchQueue = .main,
+    _ isIncluded: @escaping (Value.Element) throws -> Bool) -> Promise<[Value.Element]>
+  {
     map(on: dispatchQueue) { values in
       try values.filter(isIncluded)
     }
@@ -328,7 +354,11 @@ public extension Promise where Value: Sequence {
   ///     the caller.
   /// - Returns: A Promise containing the final accumulated value. If the sequence has no elements,
   ///   the result is `initialResult`.
-  func reduceValues<A>(on dispatchQueue: DispatchQueue = .main, _ initialResult: A, _ nextPartialResult: @escaping (A, Value.Element) throws -> A) -> Promise<A> {
+  func reduceValues<A>(
+    on dispatchQueue: DispatchQueue = .main,
+    _ initialResult: A,
+    _ nextPartialResult: @escaping (A, Value.Element) throws -> A) -> Promise<A>
+  {
     map(on: dispatchQueue) { values in
       try values.reduce(initialResult, nextPartialResult)
     }
@@ -341,7 +371,10 @@ public extension Promise where Value: Sequence {
   ///   first argument should be ordered before its second argument;
   ///   otherwise, `false`.
   /// - Returns: A Promise containing sorted array of the sequence's elements.
-  func sorted(on dispatchQueue: DispatchQueue = .main, by comparator: @escaping (Value.Element, Value.Element) throws -> Bool) -> Promise<[Value.Element]> {
+  func sorted(
+    on dispatchQueue: DispatchQueue = .main,
+    by comparator: @escaping (Value.Element, Value.Element) throws -> Bool) -> Promise<[Value.Element]>
+  {
     map(on: dispatchQueue) { values in
       try values.sorted(by: comparator)
     }
@@ -354,8 +387,13 @@ public extension Promise where Value: Sequence {
   ///   first argument should be ordered before its second argument;
   ///   otherwise, `false`.
   /// - Returns: A Promise containing sorted array of the sequence's elements.
-  func sortedValues(on dispatchQueue: DispatchQueue = .main, by comparator: @escaping (Value.Element, Value.Element) -> Bool) -> Promise<[Value.Element], Error> {
-    map { values in values.sorted(by: comparator) }
+  func sortedValues(
+    on dispatchQueue: DispatchQueue = .main,
+    by comparator: @escaping (Value.Element, Value.Element) throws -> Bool) -> Promise<[Value.Element]>
+  {
+    map { values in
+      try values.sorted(by: comparator)
+    }
   }
 }
 
@@ -377,7 +415,10 @@ public extension Promise where Value: Sequence, Value.Element: Sequence {
   /// - Parameter transform: A closure that accepts an element of the
   ///   sequence as its argument and returns a sequence or collection.
   /// - Returns: A Promise containing the resulting flattened array.
-  func flatMapValues<U>(on dispatchQueue: DispatchQueue = .main, _ transform: @escaping (Value.Element) throws -> [U]) -> Promise<[U]> {
+  func flatMapValues<U>(
+    on dispatchQueue: DispatchQueue = .main,
+    _ transform: @escaping (Value.Element) throws -> [U]) -> Promise<[U]>
+  {
     map(on: dispatchQueue) { values in
       try values.flatMap(transform)
     }
@@ -439,7 +480,10 @@ public extension Promise where Value: BidirectionalCollection {
 }
 
 public extension Promise where Value: Sequence, Value.Element == Int {
-  func reduceValues(on dispatchQueue: DispatchQueue = .main, _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element> {
+  func reduceValues(
+    on dispatchQueue: DispatchQueue = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
+  {
     map(on: dispatchQueue) { values in
       try values.reduce(0, nextPartialResult)
     }
@@ -447,7 +491,10 @@ public extension Promise where Value: Sequence, Value.Element == Int {
 }
 
 public extension Promise where Value: Sequence, Value.Element == Double {
-  func reduceValues(on dispatchQueue: DispatchQueue = .main, _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element> {
+  func reduceValues(
+    on dispatchQueue: DispatchQueue = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
+  {
     map(on: dispatchQueue) { values in
       try values.reduce(0, nextPartialResult)
     }
@@ -455,7 +502,10 @@ public extension Promise where Value: Sequence, Value.Element == Double {
 }
 
 public extension Promise where Value: Sequence, Value.Element == Float {
-  func reduceValues(on dispatchQueue: DispatchQueue = .main, _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element> {
+  func reduceValues(
+    on dispatchQueue: DispatchQueue = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
+  {
     map(on: dispatchQueue) { values in
       try values.reduce(0, nextPartialResult)
     }
@@ -463,7 +513,10 @@ public extension Promise where Value: Sequence, Value.Element == Float {
 }
 
 public extension Promise where Value: Sequence, Value.Element == String {
-  func reduceValues(on dispatchQueue: DispatchQueue = .main, _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element> {
+  func reduceValues(
+    on dispatchQueue: DispatchQueue = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
+  {
     map(on: dispatchQueue) { values in
       try values.reduce("", nextPartialResult)
     }
