@@ -157,8 +157,8 @@ public extension Promise {
   /// - Parameter transformError: A closure that takes the error of this Promise and
   ///   returns a new Promise transforming the error in some way.
   /// - Returns: A `Promise` which is a composition of two Promises:
-  ///   if this Promise succeeds, the `transform` closure is called to get a new Promise.
-  ///   If any of the two promises at any point fail, the composition of them fails as well.
+  ///   If both promises succeed then their composition succeeds as well.
+  ///   If any of the two promises at any point fail, their composition fails as well.
   func chain<U, ChainedError: Swift.Error>(with transform: @escaping (Value) -> Promise<U, ChainedError>,
                                                       transformError: @escaping (ChainedError) -> Error) -> Promise<U, Error> {
     let result = Promise<U, Error>()
