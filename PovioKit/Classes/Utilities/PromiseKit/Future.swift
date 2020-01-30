@@ -25,7 +25,7 @@ public extension Future {
       return res
     }
     set {
-      dispatchQueue.async {
+      dispatchQueue.sync(flags: .barrier) {
         self.internalResult = newValue
         guard self.isEnabled else { return }
         newValue.map { value in self.observers.forEach { $0.notifity(value) } }

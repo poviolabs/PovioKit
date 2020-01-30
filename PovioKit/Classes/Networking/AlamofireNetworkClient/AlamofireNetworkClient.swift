@@ -127,7 +127,7 @@ public extension AlamofireNetworkClient {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
-  func json() -> Promise<Any, AlamofireNetworkClient.Error> {
+  func json() -> Promise<Any> {
     Promise { promise in
       dataRequest.responseJSON {
         switch $0.result {
@@ -143,7 +143,7 @@ public extension AlamofireNetworkClient.Request {
   
   func decode<D: Decodable>(
     _ decodable: D.Type,
-    decoderConfigurator configurator: ((JSONDecoder) -> Void)? = nil) -> Promise<D, AlamofireNetworkClient.Error>
+    decoderConfigurator configurator: ((JSONDecoder) -> Void)? = nil) -> Promise<D>
   {
     let decoder = JSONDecoder()
     configurator?(decoder)
@@ -160,7 +160,7 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func data() -> Promise<Data, AlamofireNetworkClient.Error> {
+  func data() -> Promise<Data> {
     Promise { promise in
       dataRequest.responseData {
         switch $0.result {
@@ -174,7 +174,7 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func singleton() -> Promise<(), AlamofireNetworkClient.Error> {
+  func singleton() -> Promise<()> {
     Promise { promise in
       dataRequest.response {
         switch $0.result {
