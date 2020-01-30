@@ -111,6 +111,71 @@ public extension Promise {
 }
 
 public extension Promise {
+  /// Returns a composition of this Promise with the result of calling `transform`.
+  ///
+  /// Use this method when you want to execute another Promise after this Promise succeeds.
+  ///
+  /// - Parameter transform: A closure that takes the value of this Promise and
+  ///   returns a new Promise transforming the value in some way.
+  /// - Parameter transformError: A closure that takes the error of this Promise and
+  ///   returns a new Promise transforming the error in some way.
+  /// - Returns: A `Promise` which is a composition of two Promises:
+  ///   If both promises succeed then their composition succeeds as well.
+  ///   If any of the two promises at any point fail, their composition fails as well.
+  func chain<U, ChainedError: Swift.Error>(with transform: @escaping (Value) -> Promise<U, ChainedError>,
+                                           transformError: @escaping (ChainedError) -> Error) -> Promise<U, Error> {
+    let result = Promise<U, Error>()
+    observe {
+      switch $0 {
+      case .success(let value):
+        let promise = transform(value)
+        promise.observe { res in
+          switch res {
+          case .success(let value):
+            result.resolve(with: value)
+          case .failure(let error):
+            result.reject(with: transformError(error))
+          }
+        }
+      case .failure(let error):
+        result.reject(with: error)
+      }
+    }
+    return result
+  }
+  
+  /// Returns a composition of this Promise with the result of calling `transform`.
+  ///
+  /// Use this method when you want to execute another Promise after this Promise succeeds.
+  ///
+  /// - Parameter transform: A closure that takes the value of this Promise and
+  ///   returns a new Promise transforming the value in some way.
+  /// - Parameter transformError: A closure that takes the error of this Promise and
+  ///   returns a new Promise transforming the error in some way.
+  /// - Returns: A `Promise` which is a composition of two Promises:
+  ///   If both promises succeed then their composition succeeds as well.
+  ///   If any of the two promises at any point fail, their composition fails as well.
+  func chain<U>(with transform: @escaping (Value) -> Promise<U, Error>) -> Promise<U, Error> {
+    let result = Promise<U, Error>()
+    observe {
+      switch $0 {
+      case .success(let value):
+        let promise = transform(value)
+        promise.observe { res in
+          switch res {
+          case .success(let value):
+            result.resolve(with: value)
+          case .failure(let error):
+            result.reject(with: error)
+          }
+        }
+      case .failure(let error):
+        result.reject(with: error)
+      }
+    }
+    return result
+  }
+  
   /// Returns a new promise, mapping any success value using the given
   /// transformation.
   ///
@@ -146,52 +211,6 @@ public extension Promise {
       }
     }
     return result
-  }
-  
-  /// Returns a composition of this Promise with the result of calling `transform`.
-  ///
-  /// Use this method when you want to execute another Promise after this Promise succeeds.
-  ///
-  /// - Parameter transform: A closure that takes the value of this Promise and
-  ///   returns a new Promise transforming the value in some way.
-  /// - Parameter transformError: A closure that takes the error of this Promise and
-  ///   returns a new Promise transforming the error in some way.
-  /// - Returns: A `Promise` which is a composition of two Promises:
-  ///   If both promises succeed then their composition succeeds as well.
-  ///   If any of the two promises at any point fail, their composition fails as well.
-  func chain<U, ChainedError: Swift.Error>(with transform: @escaping (Value) -> Promise<U, ChainedError>,
-                                                      transformError: @escaping (ChainedError) -> Error) -> Promise<U, Error> {
-    let result = Promise<U, Error>()
-    observe {
-      switch $0 {
-      case .success(let value):
-        let promise = transform(value)
-        promise.observe { res in
-          switch res {
-          case .success(let value):
-            result.resolve(with: value)
-          case .failure(let error):
-            result.reject(with: transformError(error))
-          }
-        }
-      case .failure(let error):
-        result.reject(with: error)
-      }
-    }
-    return result
-  }
-  
-  /// Returns a composition of this Promise with the result of calling `transform`.
-  ///
-  /// Use this method when you want to execute another Promise after this Promise succeeds.
-  ///
-  /// - Parameter transform: A closure that takes the value of this Promise and
-  ///   returns a new Promise transforming the value in some way.
-  /// - Returns: A `Promise` which is a composition of two Promises:
-  ///   if this Promise succeeds, the `transform` closure is called to get a new Promise.
-  ///   If any of the two promises at any point fail, the composition of them fails as well.
-  func chain<U>(with transform: @escaping (Value) -> Promise<U, Error>) -> Promise<U, Error> {
-    chain(with: transform, transformError: { $0 })
   }
   
   /// Returns a new Promise, combining multiple `Promise`s.
@@ -341,6 +360,17 @@ public extension Promise where Value: Sequence {
   ///   the result is `initialResult`.
   func reduceValues<A>(_ initialResult: A, _ nextPartialResult: @escaping (A, Value.Element) -> A) -> Promise<A, Error> {
     map { values in values.reduce(initialResult, nextPartialResult) }
+  }
+  
+  /// Returns a Promise containing the elements of the sequence, sorted using the given `comparator` as
+  /// the comparison between elements.
+  ///
+  /// - Parameter comparator: A predicate that returns `true` if its
+  ///   first argument should be ordered before its second argument;
+  ///   otherwise, `false`.
+  /// - Returns: A Promise containing sorted array of the sequence's elements.
+  func sortedValues(on dispatchQueue: DispatchQueue = .main, by comparator: @escaping (Value.Element, Value.Element) -> Bool) -> Promise<[Value.Element], Error> {
+    map { values in values.sorted(by: comparator) }
   }
 }
 
