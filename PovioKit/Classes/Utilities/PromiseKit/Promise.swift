@@ -167,13 +167,35 @@ public extension Promise {
     }
   }
   
+  /// Returns a new promise, mapping any success value using the given
+  /// transformation which returns an Optionnal value.
+  ///
+  /// Use this method when you need to transform the value of a `Promise`
+  /// instance when it represents a success.
+  ///
+  /// - Parameter transform: A closure that takes the success value of this
+  ///   instance and returns an Optional value.
+  /// - Returns: A `Promise` with the result of evaluating `transform` if
+  ///   it does not return `nil` as the new success value. If it returns `nil`
+  ///   then the new Promise fails.
+  func compactMap<U>(_ transform: @escaping (Value) throws -> U?) -> Promise<U> {
+    map {
+      switch try transform($0) {
+      case let transformedValue?:
+        return transformedValue
+      case nil:
+        throw NSError()
+      }
+    }
+  }
+  
   /// Returns a new Promise, combining multiple `Promise`s.
   ///
   /// Use this method when you need to combine the result of several promises of some type `T`.
   ///
   /// - Parameter promises: A list of `Promises` that you want to combine.
   /// - Returns: A Promise with the result of an array of all the values of the combined promises.
-  static func combine<S: Sequence>(on dispatchQueue: DispatchQueue = .main, promises: S) -> Promise<[Value]> where S.Element == Promise<Value> {
+  static func combine(on dispatchQueue: DispatchQueue = .main, promises: [Promise<Value>]) -> Promise<[Value]> {
     Promise<[Value]> { finalPromise in
       for promise in promises {
         promise.observe { result in
@@ -210,7 +232,7 @@ public extension Promise where Value: Sequence {
     map(on: dispatchQueue) { values in try values.map(transform) }
   }
   
-  /// Returns an array containing the non-`nil` results of calling the given
+  /// Returns a new Promise containing an array containing the non-`nil` results of calling the given
   /// transformation with each element of this sequence.
   ///
   /// Use this method to receive a Promise containing an array of non-optional values when your
@@ -278,7 +300,7 @@ public extension Promise where Value: Sequence {
     }
   }
   
-  /// Returns a Promise combining the elements of the sequence using the
+  /// Returns a new Promise combining the elements of the sequence using the
   /// given closure.
   ///
   /// Use the `reduceValues` method to produce a single value from the elements
@@ -312,7 +334,7 @@ public extension Promise where Value: Sequence {
     }
   }
   
-  /// Returns a Promise containing the elements of the sequence, sorted using the given `comparator` as
+  /// Returns a new Promise containing the elements of the sequence, sorted using the given `comparator` as
   /// the comparison between elements.
   ///
   /// - Parameter comparator: A predicate that returns `true` if its
