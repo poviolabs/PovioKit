@@ -397,6 +397,60 @@ public extension Promise where Value: Sequence, Value.Element: Sequence {
   }
 }
 
+public extension Promise where Value: Collection {
+  /// Returns a new Promise containing the first element of the collection.
+  ///
+  /// If the collection is empty, the Promise fails.
+  var firstValue: Promise<Value.Element> {
+    map { values in
+      if let firstValue = values.first {
+        return firstValue
+      }
+      throw NSError()
+    }
+  }
+  
+  /// Returns a new Promise containing subsequence with all but the given number of initial
+  /// elements.
+  ///
+  /// - Parameter n: The number of elements to drop from the beginning of
+  ///   the collection. `n` must be greater than or equal to zero.
+  /// - Returns: A Promise containinng subsequence starting after the specified number of
+  ///   elements.
+  func dropFirstValues(_ n: Int = 1) -> Promise<Value.SubSequence> {
+    map { values in
+      values.dropFirst(n)
+    }
+  }
+  
+  /// Returns a new Promise containing subsequence with all but the given number of final
+  /// elements.
+  ///
+  /// - Parameter n: The number of elements to drop from the end of
+  ///   the collection. `n` must be greater than or equal to zero.
+  /// - Returns: A Promise containinng subsequence that leaves off the specified
+  ///   number of elements at the end.
+  func dropLastValues(_ n: Int = 1) -> Promise<Value.SubSequence> {
+    map { values in
+      values.dropLast(n)
+    }
+  }
+}
+
+public extension Promise where Value: BidirectionalCollection {
+  /// Returns a new Promise containing the last element of the collection.
+  ///
+  /// If the collection is empty, the Promise fails.
+  var lastValue: Promise<Value.Element> {
+    map { values in
+      if let lastValue = values.last {
+        return lastValue
+      }
+      throw NSError()
+    }
+  }
+}
+
 public extension Promise where Value: Sequence, Value.Element == Int {
   func reduceValues(_ nextPartialResult: @escaping (Value.Element, Value.Element) -> Value.Element) -> Promise<Value.Element, Error> {
     map { values in values.reduce(0, nextPartialResult) }
