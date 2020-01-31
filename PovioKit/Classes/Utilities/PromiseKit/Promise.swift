@@ -106,7 +106,7 @@ public extension Promise {
 public extension Promise {
   /// Convert this Promise to a new Promise where `Value` == ()
   var asVoid: Promise<()> {
-    map { _ in () }
+    map { _ in }
   }
 }
 
@@ -227,6 +227,26 @@ public extension Promise {
         }
       }
     }
+  }
+  
+  /// Returns a new Promise combineing the results of the two promises of possibly
+  /// different types.
+  ///
+  /// Use this method to combine the results of two promises.
+  ///
+  /// - Parameter p1: first Promise.
+  /// - Parameter p2: second Promise.
+  /// - Returns: A Promise with the result of given promises. If any of the promises fail
+  ///   than the new Promise fails as well.
+  ///
+  static func combine<T, U>(
+    on dispatchQueue: DispatchQueue = .main,
+    _ p1: Promise<T>,
+    _ p2: Promise<U>) -> Promise<(T, U)>
+  {
+    Promise<()>
+      .combine(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid])
+      .map { _ in (p1.value!, p2.value!) }
   }
 }
 
@@ -363,22 +383,6 @@ public extension Promise where Value: Sequence {
   {
     map(on: dispatchQueue) { values in
       try values.reduce(initialResult, nextPartialResult)
-    }
-  }
-  
-  /// Returns a new Promise containing the elements of the sequence, sorted using the given `comparator` as
-  /// the comparison between elements.
-  ///
-  /// - Parameter comparator: A predicate that returns `true` if its
-  ///   first argument should be ordered before its second argument;
-  ///   otherwise, `false`.
-  /// - Returns: A Promise containing sorted array of the sequence's elements.
-  func sorted(
-    on dispatchQueue: DispatchQueue = .main,
-    by comparator: @escaping (Value.Element, Value.Element) throws -> Bool) -> Promise<[Value.Element]>
-  {
-    map(on: dispatchQueue) { values in
-      try values.sorted(by: comparator)
     }
   }
   
