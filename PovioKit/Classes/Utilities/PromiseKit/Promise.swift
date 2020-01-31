@@ -130,21 +130,23 @@ public extension Promise {
     observe {
       switch $0 {
       case .success(let value):
-        do {
-          let promise = try transform(value)
-          promise.observe { res in
-            switch res {
-            case .success(let value):
-              result.resolve(with: value)
-            case .failure(let error):
-              result.reject(with: error)
+        dispatchQueue.async {
+          do {
+            let promise = try transform(value)
+            promise.observe {
+              switch $0 {
+              case .success(let value):
+                result.resolve(with: value)
+              case .failure(let error):
+                result.reject(with: error)
+              }
             }
+          } catch {
+            result.reject(with: error)
           }
-        } catch {
-          result.reject(with: error)
         }
       case .failure(let error):
-        result.reject(with: error)
+        dispatchQueue.async { result.reject(with: error) }
       }
     }
     return result
