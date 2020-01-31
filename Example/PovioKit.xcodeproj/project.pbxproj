@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3756C08F23E47423003C2510 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3756C08E23E47423003C2510 /* PromiseTests.swift */; };
 		270E494D239A65BE0016FAB6 /* StartupProcessServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E494C239A65BE0016FAB6 /* StartupProcessServiceTests.swift */; };
 		270E494F239A67150016FAB6 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E494E239A67150016FAB6 /* OptionalTests.swift */; };
 		270E495D239A6ABB0016FAB6 /* BroadcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */; };
@@ -25,6 +26,7 @@
 		03954EEF5980DBBBA006EEAB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1023CC6AFBB1353B97D9DE00 /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.debug.xcconfig"; path = "Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		1ADE6A5A7C4451B9DFD132EA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		3756C08E23E47423003C2510 /* PromiseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		270E494C239A65BE0016FAB6 /* StartupProcessServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcessServiceTests.swift; sourceTree = "<group>"; };
 		270E494E239A67150016FAB6 /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastTests.swift; sourceTree = "<group>"; };
@@ -53,6 +55,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3756C08D23E47410003C2510 /* PromiseKit */ = {
+			isa = PBXGroup;
+			children = (
+				3756C08E23E47423003C2510 /* PromiseTests.swift */,
+			);
+			path = PromiseKit;
+			sourceTree = "<group>";
+		};
 		270E494B239A65BE0016FAB6 /* StartupService */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +127,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3756C08D23E47410003C2510 /* PromiseKit */,
 				270E495A239A6AA60016FAB6 /* Utilities */,
 				990603F4227F61F000B0EFE2 /* Extensions */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -306,6 +317,7 @@
 				99DC5FD323B0F45E007D1A54 /* UIEdgeInsetsTests.swift in Sources */,
 				27D3B9B02399521300CA530F /* ThrottlerTests.swift in Sources */,
 				990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */,
+				3756C08F23E47423003C2510 /* PromiseTests.swift in Sources */,
 				270E494D239A65BE0016FAB6 /* StartupProcessServiceTests.swift in Sources */,
 				99F1B7B023FA7A4E002EC28D /* UIColorTests.swift in Sources */,
 				99F1B7AF23FA7A4E002EC28D /* UIDeviceTests.swift in Sources */,
