@@ -37,12 +37,12 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public func resolve(with value: Value) {
-    guard !isFulfilled else { return }
+    guard isAwaiting else { return }
     result = .success(value)
   }
   
   public func reject(with error: Error) {
-    guard !isRejected else { return }
+    guard isAwaiting else { return }
     result = .failure(error)
   }
   
@@ -88,7 +88,7 @@ public extension Promise {
     switch result {
     case .success(let value)?:
       return value
-    case .failure?, .none:
+    case _:
       return nil
     }
   }
@@ -97,7 +97,7 @@ public extension Promise {
     switch result {
     case .failure(let error)?:
       return error
-    case .success?, .none:
+    case _:
       return nil
     }
   }

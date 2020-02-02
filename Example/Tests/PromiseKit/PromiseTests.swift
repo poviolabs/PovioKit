@@ -10,6 +10,80 @@ import XCTest
 @testable import PovioKit
 
 class PromiseTests: XCTestCase {
+  // Covering some of the A+ spec (https://github.com/promises-aplus/promises-spec)
+  
+  func testIsFullfiled() {
+    var promise = Promise(fulfill: 10)
+    XCTAssertTrue(promise.isFulfilled)
+    XCTAssertFalse(promise.isRejected)
+    XCTAssertFalse(promise.isAwaiting)
+    
+    promise = Promise<Int>.value(10)
+    XCTAssertTrue(promise.isFulfilled)
+    XCTAssertFalse(promise.isRejected)
+    XCTAssertFalse(promise.isAwaiting)
+  }
+  
+  func testIsRejected() {
+    var promise = Promise<()>(reject: NSError())
+    XCTAssertFalse(promise.isFulfilled)
+    XCTAssertTrue(promise.isRejected)
+    XCTAssertFalse(promise.isAwaiting)
+    
+    promise = Promise<()>.error(NSError())
+    XCTAssertFalse(promise.isFulfilled)
+    XCTAssertTrue(promise.isRejected)
+    XCTAssertFalse(promise.isAwaiting)
+  }
+  
+  func testIsAwaiting() {
+    let promise = Promise<()>()
+    XCTAssertTrue(promise.isAwaiting)
+    XCTAssertFalse(promise.isFulfilled)
+    XCTAssertFalse(promise.isRejected)
+    
+    promise.resolve()
+    XCTAssertFalse(promise.isAwaiting)
+  }
+  
+  func testRejectedTransition() {
+    let promise = Promise<()>(reject: NSError())
+    XCTAssertTrue(promise.isRejected)
+    promise.resolve()
+    XCTAssertTrue(promise.isRejected)
+    XCTAssertFalse(promise.isFulfilled)
+  }
+  
+  func testResolvedTransition() {
+    let promise = Promise<()>(fulfill: ())
+    XCTAssertTrue(promise.isFulfilled)
+    promise.reject(with: NSError())
+    XCTAssertTrue(promise.isFulfilled)
+    XCTAssertFalse(promise.isRejected)
+  }
+  
+  func testObserversNotifiedOnceOnly() {
+    do {
+      let promise = Promise<()>()
+      var count = 0
+      promise.onSuccess { count += 1 }
+      promise.resolve()
+      promise.resolve()
+      XCTAssertEqual(count, 1)
+    }
+    
+    do {
+      let promise = Promise<()>()
+      var count = 0
+      promise.onFailure { _ in count += 1 }
+      promise.reject(with: NSError())
+      promise.reject(with: NSError())
+      XCTAssertEqual(count, 1)
+    }
+  }
+}
+
+extension PromiseTests {
   func testChain() {
     let ex = expectation(description: "")
     10.asyncPromise
