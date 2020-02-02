@@ -81,6 +81,23 @@ class PromiseTests: XCTestCase {
       XCTAssertEqual(count, 1)
     }
   }
+  
+  func testObserverCalledOnResolvedPromise() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    let ex3 = expectation(description: " ")
+    let ex4 = expectation(description: " ")
+    
+    var promise = Promise(fulfill: ())
+    promise.onSuccess { ex1.fulfill() }
+    promise.observe { _ in  ex2.fulfill() }
+    
+    promise = Promise(reject: NSError())
+    promise.onFailure { _ in ex3.fulfill() }
+    promise.observe { _ in  ex4.fulfill() }
+    
+    waitForExpectations(timeout: 1)
+  }
 }
 
 extension PromiseTests {
@@ -136,7 +153,7 @@ extension PromiseTests {
   func testCombineListAsync() {
     let ex = expectation(description: "")
     let promises = (0...5).map { $0.asyncPromise }
-    Promise<Int>
+    Promise
       .combine(promises: promises)
       .onSuccess { values in
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
@@ -148,7 +165,7 @@ extension PromiseTests {
   func testCombineList() {
     let ex = expectation(description: "")
     let promises = (0...5).map { $0.promise }
-    Promise<Int>
+    Promise
       .combine(promises: promises)
       .onSuccess { values in
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
@@ -159,7 +176,7 @@ extension PromiseTests {
   
   func testCombineTwo() {
     let ex = expectation(description: "")
-    Promise<Int>
+    Promise
       .combine(0.asyncPromise, 1.asyncPromise)
       .onSuccess { values in
         XCTAssertEqual(values.0, 0)
@@ -171,7 +188,7 @@ extension PromiseTests {
   
   func testCombineThree() {
     let ex = expectation(description: "")
-    Promise<Int>
+    Promise
       .combine(0.asyncPromise,
                1.asyncPromise,
                2.asyncPromise)
@@ -186,7 +203,7 @@ extension PromiseTests {
   
   func testCombineFour() {
     let ex = expectation(description: "")
-    Promise<Int>
+    Promise
       .combine(0.asyncPromise,
                1.asyncPromise,
                2.asyncPromise,
@@ -203,7 +220,7 @@ extension PromiseTests {
   
   func testCombineFive() {
     let ex = expectation(description: "")
-    Promise<Int>
+    Promise
       .combine(0.asyncPromise,
                1.asyncPromise,
                2.asyncPromise,

@@ -215,7 +215,7 @@ public extension Promise {
     _ p2: Promise<U>,
     _ p3: Promise<V>) -> Promise<(T, U, V)>
   {
-    Promise<()>
+    Promise
       .combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
       .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!) }
   }
@@ -237,7 +237,7 @@ public extension Promise {
     _ p3: Promise<V>,
     _ p4: Promise<Z>) -> Promise<(T, U, V, Z)>
   {
-    Promise<()>
+    Promise
       .combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
       .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
   }
@@ -260,7 +260,7 @@ public extension Promise {
     _ p4: Promise<Z>,
     _ p5: Promise<X>) -> Promise<(T, U, V, Z, X)>
   {
-    Promise<()>
+    Promise
       .combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
       .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
   }
