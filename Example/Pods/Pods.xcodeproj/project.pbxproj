@@ -28,6 +28,8 @@
 		2A1BBBC87AC2367BD14610A9D10D285E /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C350D3B45EB25FDC33F67A8AC0DEA0 /* ConstraintAttributes.swift */; };
 		2B5B2866EF9D391C880347FEA5B8FAAF /* ColorInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB6A9071DA959B87D35E8231D56B828 /* ColorInterpolator.swift */; };
 		2C06F2E972444D359754D21AC46BFFE2 /* ConstraintInsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2398090D82658FA7F581E0FD938E05B9 /* ConstraintInsetTarget.swift */; };
+		3756C09123E75056003C2510 /* Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3756C09023E75056003C2510 /* Combine.swift */; };
+		3B2AD54F01152D98D85AA325D894A959 /* Collection+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316E8FB4946BC52A979B9ECBF7C2CFD7 /* Collection+Povio.swift */; };
 		314215C5E3910D11833D71FFAD3941B1 /* UIColor+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = C313F98E9B3EFC1DE2520207D426F3A1 /* UIColor+Povio.swift */; };
 		3674F5D82E60F7613C9E313D7E13CFC3 /* Delegated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84FD18B3C568B19549E62FEB9BC7CB /* Delegated.swift */; };
 		3BFC243AB9BD579969F0D5756560BCAA /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FBAEC3F8F5725652BE22B361666ACB /* Constraint.swift */; };
@@ -160,7 +162,7 @@
 		07F1304F0018DD736A0BBB909327B023 /* Pods-PovioKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PovioKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		09A5ED3B746878E03124B02F0369C760 /* UIView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+Povio.swift"; sourceTree = "<group>"; };
 		0A3D858A335524D486BCDF7642643AE8 /* Pods-PovioKit_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PovioKit_Tests-Info.plist"; sourceTree = "<group>"; };
-		0A4515A9C155981DF1D9BD97B9F1FE71 /* PovioKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PovioKit.framework; path = PovioKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A4515A9C155981DF1D9BD97B9F1FE71 /* PovioKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PovioKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BEAF6E5C64562D3D096A4162C02763A /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		0DDE824F78193758C9C9B6FAFDC9B770 /* RequestTaskMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestTaskMap.swift; path = Source/RequestTaskMap.swift; sourceTree = "<group>"; };
 		0EBD999F55FE6C73F0D2DB576EAB32C9 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMultiplierTarget.swift; path = Source/ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
@@ -182,11 +184,13 @@
 		28616035C91635E3B3A763964AC94D54 /* Broadcast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
 		2AA9F6849A3FD25342C135B1DEBE3A6B /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerRelatable.swift; path = Source/ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
 		2FDA5EB785434B2B6A1126BE5974C2E8 /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Source/ConstraintMaker.swift; sourceTree = "<group>"; };
+		316E8FB4946BC52A979B9ECBF7C2CFD7 /* Collection+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Collection+Povio.swift"; sourceTree = "<group>"; };
+		31DCA4581536E4222C29571EDF37FB57 /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PovioKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		31526ACD6209D342EFD814F4B7F7DB4F /* UITableViewCell+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Povio.swift"; sourceTree = "<group>"; };
-		31DCA4581536E4222C29571EDF37FB57 /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PovioKit_Tests.framework; path = "Pods-PovioKit_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B387036612568AA92971715943D37D /* Alamofire-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Alamofire-Info.plist"; sourceTree = "<group>"; };
 		359EE74D1D03C3D54DC12C54BFF61593 /* ConstraintView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintView.swift; path = Source/ConstraintView.swift; sourceTree = "<group>"; };
 		35D46DDB75227F4CA351F98848AA8EF4 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		3756C09023E75056003C2510 /* Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combine.swift; sourceTree = "<group>"; };
 		3805B4FF1340B2EA18EF6CE94FADF263 /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
 		390121925BE1DD617BC4C3444A97C497 /* ConstraintMakerExtendable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerExtendable.swift; path = Source/ConstraintMakerExtendable.swift; sourceTree = "<group>"; };
 		3962B7135105B71FF3F6FA29CFDF816A /* PovioKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PovioKit-Info.plist"; sourceTree = "<group>"; };
@@ -196,7 +200,7 @@
 		43012B8739242E29AAA3C03C4341AAD7 /* SnapKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-umbrella.h"; sourceTree = "<group>"; };
 		43315F02D1DAF02EEA610CC06B202C76 /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Source/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
 		49FD6B56EB99D28F89B3F9E562E16DF9 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
-		4C86DCB2BDF75BFF1B3DCE024C5B19AF /* PovioKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = PovioKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4C86DCB2BDF75BFF1B3DCE024C5B19AF /* PovioKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = PovioKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		51847B670387F7D8F98C930CDF63C9E3 /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Source/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
 		52381A5479C6BFEBF45D72CA819A294F /* GradientView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		527BACCDBD4DE3827B2431870FC57068 /* ParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoder.swift; path = Source/ParameterEncoder.swift; sourceTree = "<group>"; };
@@ -204,7 +208,7 @@
 		582FF82721492726FBC7BA1603F6FE2A /* ConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintItem.swift; path = Source/ConstraintItem.swift; sourceTree = "<group>"; };
 		59FFCCA47F3C2FDB058F13F533B90341 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEA8EB169A9DCE67B279589C8D6BB9B /* AlamofireExtended.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AlamofireExtended.swift; path = Source/AlamofireExtended.swift; sourceTree = "<group>"; };
-		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64619C8559B5865BB4EF3CE92FDD2181 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		6481C68BC57ADBE6CE753AAAE0AAC28C /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
 		64C8EA46E64FBFCC56F3D54D5DBCB225 /* AlamofireNetworkClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkClient.swift; sourceTree = "<group>"; };
@@ -237,7 +241,7 @@
 		95D9E9BCF1708C56F425AFCF6D040D45 /* PovioKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PovioKit.xcconfig; sourceTree = "<group>"; };
 		965EC3069E16663CE85EBFEF011B465F /* Session.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Source/Session.swift; sourceTree = "<group>"; };
 		96E682922E78760B878802B9D231260E /* SnapKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SnapKit-dummy.m"; sourceTree = "<group>"; };
-		979486118B3E90C08386079D57962701 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SnapKit.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		979486118B3E90C08386079D57962701 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97B74FEE25C1A8924CC6343E902D644A /* ConstraintRelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelation.swift; path = Source/ConstraintRelation.swift; sourceTree = "<group>"; };
 		981EB3FBAE269209BEF84010001B3725 /* StartupProcessService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StartupProcessService.swift; sourceTree = "<group>"; };
 		99FBAEC3F8F5725652BE22B361666ACB /* Constraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constraint.swift; path = Source/Constraint.swift; sourceTree = "<group>"; };
@@ -277,7 +281,7 @@
 		EAECF855B8EF619687570DBA85DDFE78 /* Pods-PovioKit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PovioKit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		EE4B9F8CBC0D2D20086FCD2FBF76FDE8 /* Collection+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Collection+Povio.swift"; sourceTree = "<group>"; };
 		F037B8A3450AF10DE942900C18C8301E /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
-		F1177368747AEC740261BDAC67FEDF92 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		F1177368747AEC740261BDAC67FEDF92 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F4861EDBFFB20752060D0E1968A9583B /* Future.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		F55AD2BECDAB8AAA7EA998A3850B2330 /* HTTPHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPHeaders.swift; path = Source/HTTPHeaders.swift; sourceTree = "<group>"; };
 		F5C071A7679C8E61AFD4C04D300D177A /* ConstraintMakerFinalizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerFinalizable.swift; path = Source/ConstraintMakerFinalizable.swift; sourceTree = "<group>"; };
@@ -335,7 +339,6 @@
 			children = (
 				52381A5479C6BFEBF45D72CA819A294F /* GradientView.swift */,
 			);
-			name = GradientView;
 			path = GradientView;
 			sourceTree = "<group>";
 		};
@@ -353,7 +356,6 @@
 				028DCE6B72C8A9572ADD25B057535074 /* UITableViewHeaderFooterView+Povio.swift */,
 				09A5ED3B746878E03124B02F0369C760 /* UIView+Povio.swift */,
 			);
-			name = UIKit;
 			path = UIKit;
 			sourceTree = "<group>";
 		};
@@ -394,7 +396,6 @@
 				133B8189BBB7634EC3BFA544B56E05C9 /* Validation.swift */,
 				C32C0ACEDB3D2CD8A88C3615DAE47E7B /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -439,7 +440,6 @@
 				8B4BF57EFA3221A819AF4B860A21CCF7 /* UILayoutSupport+Extensions.swift */,
 				ACEFB17106498DB3F578003F930906FD /* Support Files */,
 			);
-			name = SnapKit;
 			path = SnapKit;
 			sourceTree = "<group>";
 		};
@@ -484,8 +484,8 @@
 			children = (
 				F4861EDBFFB20752060D0E1968A9583B /* Future.swift */,
 				92D9BA796B45F72DDDBD61CAF7508050 /* Promise.swift */,
+				3756C09023E75056003C2510 /* Combine.swift */,
 			);
-			name = PromiseKit;
 			path = PromiseKit;
 			sourceTree = "<group>";
 		};
@@ -496,7 +496,6 @@
 				0BEAF6E5C64562D3D096A4162C02763A /* UILabel+BuilderCompatible.swift */,
 				B2F6075BB68B1DF716E2D774661FB2A6 /* UITextField+BuilderCompatible.swift */,
 			);
-			name = AttributedStringBuilder;
 			path = AttributedStringBuilder;
 			sourceTree = "<group>";
 		};
@@ -538,7 +537,6 @@
 			children = (
 				3C84FD18B3C568B19549E62FEB9BC7CB /* Delegated.swift */,
 			);
-			name = Delegated;
 			path = Delegated;
 			sourceTree = "<group>";
 		};
@@ -583,7 +581,6 @@
 			children = (
 				6F0B62DD0A873D6E4DEEC6A02A8A0F96 /* DispatchTimer.swift */,
 			);
-			name = DispatchTimer;
 			path = DispatchTimer;
 			sourceTree = "<group>";
 		};
@@ -661,7 +658,6 @@
 			children = (
 				64C8EA46E64FBFCC56F3D54D5DBCB225 /* AlamofireNetworkClient.swift */,
 			);
-			name = AlamofireNetworkClient;
 			path = AlamofireNetworkClient;
 			sourceTree = "<group>";
 		};
@@ -670,7 +666,6 @@
 			children = (
 				9570272E4A3C4E05717DB088AB0C5FF6 /* Throttler.swift */,
 			);
-			name = Throttler;
 			path = Throttler;
 			sourceTree = "<group>";
 		};
@@ -712,7 +707,6 @@
 			children = (
 				FCB6A9071DA959B87D35E8231D56B828 /* ColorInterpolator.swift */,
 			);
-			name = ColorInterpolator;
 			path = ColorInterpolator;
 			sourceTree = "<group>";
 		};
@@ -721,7 +715,6 @@
 			children = (
 				28616035C91635E3B3A763964AC94D54 /* Broadcast.swift */,
 			);
-			name = Broadcast;
 			path = Broadcast;
 			sourceTree = "<group>";
 		};
@@ -730,7 +723,6 @@
 			children = (
 				35D46DDB75227F4CA351F98848AA8EF4 /* Logger.swift */,
 			);
-			name = Logger;
 			path = Logger;
 			sourceTree = "<group>";
 		};
@@ -740,7 +732,6 @@
 				7BE448828DB0710CB9C1D1426167A30E /* StartupProcess.swift */,
 				981EB3FBAE269209BEF84010001B3725 /* StartupProcessService.swift */,
 			);
-			name = StartupService;
 			path = StartupService;
 			sourceTree = "<group>";
 		};
@@ -1016,36 +1007,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A613EEF51D0FE217FD8565A48B669F8B /* AlamofireNetworkClient.swift in Sources */,
-				ABBBA283BED18F35353F09800D42F146 /* AttributedStringBuilder.swift in Sources */,
-				C98EF6E5751A84E05ECB5B5C92B93720 /* Broadcast.swift in Sources */,
-				61CADA94013508B2DFB7980F9EFEE63B /* Collection+Povio.swift in Sources */,
-				2B5B2866EF9D391C880347FEA5B8FAAF /* ColorInterpolator.swift in Sources */,
-				3674F5D82E60F7613C9E313D7E13CFC3 /* Delegated.swift in Sources */,
-				10D266A29C3D9D6556460E4DE1E268A8 /* DispatchTimer.swift in Sources */,
-				AA442C1621320175EEABFAF3200F2FFF /* Future.swift in Sources */,
-				E800FEF77AAFABF04711121B9C1A1F97 /* GradientView.swift in Sources */,
-				BCE27AEF4140055C9E8A6901CFF65197 /* Logger.swift in Sources */,
-				437D119E0006D3A0F48E3B603D6171AA /* Optional+Povio.swift in Sources */,
-				8AADBF70FFA177CA4DDC6BD653F88D4D /* PovioKit-dummy.m in Sources */,
-				42B88853A0C4DF8C8FA3F2F8EB8AD0CE /* Promise.swift in Sources */,
-				8A4980A3FBF77CF2582AFE8AC22457D5 /* StartupProcess.swift in Sources */,
-				4C8676800FDD77C6BD6FA14B86A234E0 /* StartupProcessService.swift in Sources */,
-				503B0AED8418C3C77CD6D61D5E97329B /* String+Povio.swift in Sources */,
-				97F9A16094CA29BDD0C490F5D27A61A8 /* Throttler.swift in Sources */,
-				13845FCA431267737DA276DB3AD2988D /* UICollectionReusableView+Povio.swift in Sources */,
-				49FC80B36C7965BCBA16411B48D9EEA6 /* UICollectionView+Povio.swift in Sources */,
-				314215C5E3910D11833D71FFAD3941B1 /* UIColor+Povio.swift in Sources */,
-				4035B097254DBBF5B112F1DA3E827739 /* UIDevice+Povio.swift in Sources */,
-				F98719533DEFBC318FD05CF2E0E54528 /* UIEdgeInsets+Povio.swift in Sources */,
-				B6542B2FE45AA5C808335477F115594A /* UIImage+Povio.swift in Sources */,
-				DEF16A53DF9EE2C6C90DB6EC5B5A77E1 /* UILabel+BuilderCompatible.swift in Sources */,
-				F3A06F83A7F4C03773678A2444E28B31 /* UITableView+Povio.swift in Sources */,
-				C236C3F59FD3A0592FA0EDF712AB8A97 /* UITableViewCell+Povio.swift in Sources */,
-				7498045A9D2F726E33DC90E658E3729F /* UITableViewHeaderFooterView+Povio.swift in Sources */,
-				BC4E0048B3B661D286E05FF65593F4C7 /* UITextField+BuilderCompatible.swift in Sources */,
-				7C78670D55F715B66C00A3599B75A94F /* UIView+Povio.swift in Sources */,
-				C3FEB68DBC9FA7EE8F1119B33493480C /* URL+Povio.swift in Sources */,
+				14391165ED7B44211DC5DBE3F8016D18 /* AlamofireNetworkClient.swift in Sources */,
+				D388B4D247F3D8C1C8AE70A3270157A6 /* AttributedStringBuilder.swift in Sources */,
+				F225B58C6D7CBAD9BE842C4D274598BE /* Broadcast.swift in Sources */,
+				3756C09123E75056003C2510 /* Combine.swift in Sources */,
+				3B2AD54F01152D98D85AA325D894A959 /* Collection+Povio.swift in Sources */,
+				0B09A4375DC534279489B40C8B9D7B8B /* ColorInterpolator.swift in Sources */,
+				3FAA4CAB9E0ABD58C9492E9128DFBBC4 /* Delegated.swift in Sources */,
+				0F4892FBF5CFC94964570CA3EF9398D0 /* DispatchTimer.swift in Sources */,
+				189BBA426ED679532BF52A50ADAC63FB /* Future.swift in Sources */,
+				5454A6444F43540C68B66157AD92B6FD /* GradientView.swift in Sources */,
+				FE19A693AE44D7680A421A52BF36E8AA /* Logger.swift in Sources */,
+				802B6A29F398F9DBD45E58F40FB42557 /* Optional+Povio.swift in Sources */,
+				BECC8B22690AAE0E2A532F7B31E5C426 /* PovioKit-dummy.m in Sources */,
+				C6FD9804B31523B9BCFC1DBA07EFB62A /* Promise.swift in Sources */,
+				091316CC6BA8CD46B14DA7AE4D46174A /* StartupProcess.swift in Sources */,
+				959901BE906B2BFEFB31F78954D8EF65 /* StartupProcessService.swift in Sources */,
+				AF8E3A318693D0A6F28389CB7697FF3B /* String+Povio.swift in Sources */,
+				858BF623FD35CDE25B2344CC48BA44BE /* Throttler.swift in Sources */,
+				EC9529A8501AD34D7654AC6E789D4342 /* UICollectionReusableView+Povio.swift in Sources */,
+				9F147D6312A584F662E51FAEFB25E6FB /* UICollectionView+Povio.swift in Sources */,
+				193EF83BC65596525E773266E55713D7 /* UIColor+Povio.swift in Sources */,
+				E0145533CD863D4A768A7ECC10FC1F2E /* UIDevice+Povio.swift in Sources */,
+				B562503C40680760091A9BE22E03A35F /* UIImage+Povio.swift in Sources */,
+				B5ED52D0F6162A757102115BDFD5AA6D /* UILabel+BuilderCompatible.swift in Sources */,
+				4128131EE1E18B3C3502BD6920A0EB11 /* UITableView+Povio.swift in Sources */,
+				F9A66CC7DEFF29F11430AB684361709E /* UITableViewCell+Povio.swift in Sources */,
+				DAAB98917A9B14EB2F0351319B88974C /* UITableViewHeaderFooterView+Povio.swift in Sources */,
+				ABF1CAE55D14EC6DA1998280C70547F0 /* UITextField+BuilderCompatible.swift in Sources */,
+				DD64A9FD82E483DD1620DC5758C0D75B /* UIView+Povio.swift in Sources */,
+				D7210FD6C781CB98E7CCC3E12AFE05E9 /* URL+Povio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,8 +1123,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
