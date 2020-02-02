@@ -203,8 +203,6 @@ public extension Promise {
   /// Returns a new Promise combining the results of three promises of possibly
   /// different types.
   ///
-  /// Use this method to combine the results of two promises.
-  ///
   /// - Parameter p1: first Promise.
   /// - Parameter p2: second Promise.
   /// - Parameter p3: third Promise.
@@ -218,14 +216,12 @@ public extension Promise {
     _ p3: Promise<V>) -> Promise<(T, U, V)>
   {
     Promise<()>
-      .combine(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
-      .map { _ in (p1.value!, p2.value!, p3.value!) }
+      .combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
+      .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!) }
   }
   
   /// Returns a new Promise combining the results of four promises of possibly
   /// different types.
-  ///
-  /// Use this method to combine the results of two promises.
   ///
   /// - Parameter p1: first Promise.
   /// - Parameter p2: second Promise.
@@ -242,14 +238,12 @@ public extension Promise {
     _ p4: Promise<Z>) -> Promise<(T, U, V, Z)>
   {
     Promise<()>
-      .combine(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
-      .map { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
+      .combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
+      .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
   }
   
   /// Returns a new Promise combining the results of four promises of possibly
   /// different types.
-  ///
-  /// Use this method to combine the results of two promises.
   ///
   /// - Parameter p1: first Promise.
   /// - Parameter p2: second Promise.
@@ -267,8 +261,8 @@ public extension Promise {
     _ p5: Promise<X>) -> Promise<(T, U, V, Z, X)>
   {
     Promise<()>
-      .combine(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
-      .map { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
+      .combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
+      .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
   }
 }
 
