@@ -145,18 +145,6 @@ extension PromiseTests {
     wait(for: [ex], timeout: 1)
   }
   
-  func testCombinePairAsync() {
-    let ex = expectation(description: "")
-    Promise<Int>
-      .combine(0.asyncPromise, 1.asyncPromise)
-      .onSuccess { values in
-        XCTAssertEqual(values.0, 0)
-        XCTAssertEqual(values.1, 1)
-        ex.fulfill()
-    }
-    wait(for: [ex], timeout: 1)
-  }
-  
   func testCombineList() {
     let ex = expectation(description: "")
     let promises = (0...5).map { $0.promise }
@@ -169,13 +157,64 @@ extension PromiseTests {
     wait(for: [ex], timeout: 1)
   }
   
-  func testCombinePair() {
+  func testCombineTwo() {
     let ex = expectation(description: "")
     Promise<Int>
-      .combine(0.promise, 1.promise)
+      .combine(0.asyncPromise, 1.asyncPromise)
       .onSuccess { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
+        ex.fulfill()
+    }
+    wait(for: [ex], timeout: 1)
+  }
+  
+  func testCombineThree() {
+    let ex = expectation(description: "")
+    Promise<Int>
+      .combine(0.asyncPromise,
+               1.asyncPromise,
+               2.asyncPromise)
+      .onSuccess { values in
+        XCTAssertEqual(values.0, 0)
+        XCTAssertEqual(values.1, 1)
+        XCTAssertEqual(values.2, 2)
+        ex.fulfill()
+    }
+    wait(for: [ex], timeout: 1)
+  }
+  
+  func testCombineFour() {
+    let ex = expectation(description: "")
+    Promise<Int>
+      .combine(0.asyncPromise,
+               1.asyncPromise,
+               2.asyncPromise,
+               3.asyncPromise)
+      .onSuccess { values in
+        XCTAssertEqual(values.0, 0)
+        XCTAssertEqual(values.1, 1)
+        XCTAssertEqual(values.2, 2)
+        XCTAssertEqual(values.3, 3)
+        ex.fulfill()
+    }
+    wait(for: [ex], timeout: 1)
+  }
+  
+  func testCombineFive() {
+    let ex = expectation(description: "")
+    Promise<Int>
+      .combine(0.asyncPromise,
+               1.asyncPromise,
+               2.asyncPromise,
+               3.asyncPromise,
+               4.asyncPromise)
+      .onSuccess { values in
+        XCTAssertEqual(values.0, 0)
+        XCTAssertEqual(values.1, 1)
+        XCTAssertEqual(values.2, 2)
+        XCTAssertEqual(values.3, 3)
+        XCTAssertEqual(values.4, 4)
         ex.fulfill()
     }
     wait(for: [ex], timeout: 1)
@@ -284,7 +323,7 @@ extension Int {
 extension Sequence {
   var asyncPromise: Promise<Self> {
     Promise { seal in
-      DispatchQueue.main.async {
+      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
         seal.resolve(with: self)
       }
     }
