@@ -206,11 +206,11 @@ public extension Promise {
   ///
   /// - Parameter promises: A list of `Promises` that you want to combine.
   /// - Returns: A Promise with the result of an array of all the values of the combined promises.
-  static func combine(
-    on dispatchQueue: DispatchQueue = .main,
-    promises: [Promise<Value>]) -> Promise<[Value]>
+  static func combine<T>(
+    on dispatchQueue: DispatchQueue? = .main,
+    promises: [Promise<T>]) -> Promise<[T]>
   {
-    Promise<[Value]> { seal in
+    Promise<[T]> { seal in
       let barrier = DispatchQueue(label: "combineQueue", attributes: .concurrent)
       for promise in promises {
         promise.observe { result in
@@ -244,7 +244,7 @@ public extension Promise {
     _ p1: Promise<T>,
     _ p2: Promise<U>) -> Promise<(T, U)>
   {
-    Promise<()>
+    Promise
       .combine(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid])
       .map { _ in (p1.value!, p2.value!) }
   }
