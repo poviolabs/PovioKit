@@ -304,6 +304,19 @@ extension PromiseTests {
     }
     wait(for: [ex], timeout: 1)
   }
+  
+  func testDecodable() {
+    let ex = expectation(description: "")
+    Promise<()>.value(())
+      .map { _ in try JSONSerialization.data(withJSONObject: ["x": 10, "y": 20], options: []) }
+      .decode(type: Point.self, decoder: JSONDecoder())
+      .onSuccess {
+        XCTAssertEqual($0.x, 10)
+        XCTAssertEqual($0.y, 20)
+        ex.fulfill()
+    }
+    wait(for: [ex], timeout: 1)
+  }
 }
 
 extension Int {
@@ -332,4 +345,9 @@ extension Sequence {
   var promise: Promise<Self> {
     Promise.value(self)
   }
+}
+
+struct Point: Decodable {
+  let x: Int
+  let y: Int
 }
