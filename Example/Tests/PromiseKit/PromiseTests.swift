@@ -153,8 +153,7 @@ extension PromiseTests {
   func testCombineListAsync() {
     let ex = expectation(description: "")
     let promises = (0...5).map { $0.asyncPromise }
-    Promise
-      .combine(promises: promises)
+    combine(promises: promises)
       .onSuccess { values in
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
         ex.fulfill()
@@ -165,8 +164,7 @@ extension PromiseTests {
   func testCombineList() {
     let ex = expectation(description: "")
     let promises = (0...5).map { $0.promise }
-    Promise
-      .combine(promises: promises)
+    combine(promises: promises)
       .onSuccess { values in
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
         ex.fulfill()
@@ -176,8 +174,7 @@ extension PromiseTests {
   
   func testCombineTwo() {
     let ex = expectation(description: "")
-    Promise
-      .combine(0.asyncPromise, 1.asyncPromise)
+    combine(0.asyncPromise, 1.asyncPromise)
       .onSuccess { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
@@ -188,10 +185,9 @@ extension PromiseTests {
   
   func testCombineThree() {
     let ex = expectation(description: "")
-    Promise
-      .combine(0.asyncPromise,
-               1.asyncPromise,
-               2.asyncPromise)
+    combine(0.asyncPromise,
+            1.asyncPromise,
+            2.asyncPromise)
       .onSuccess { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
@@ -203,11 +199,10 @@ extension PromiseTests {
   
   func testCombineFour() {
     let ex = expectation(description: "")
-    Promise
-      .combine(0.asyncPromise,
-               1.asyncPromise,
-               2.asyncPromise,
-               3.asyncPromise)
+    combine(0.asyncPromise,
+            1.asyncPromise,
+            2.asyncPromise,
+            3.asyncPromise)
       .onSuccess { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
@@ -220,12 +215,11 @@ extension PromiseTests {
   
   func testCombineFive() {
     let ex = expectation(description: "")
-    Promise
-      .combine(0.asyncPromise,
-               1.asyncPromise,
-               2.asyncPromise,
-               3.asyncPromise,
-               4.asyncPromise)
+    combine(0.asyncPromise,
+            1.asyncPromise,
+            2.asyncPromise,
+            3.asyncPromise,
+            4.asyncPromise)
       .onSuccess { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
