@@ -359,13 +359,6 @@ public extension Promise where Value: Sequence {
   ///   .reduceValues(0, +)
   ///   .onSuccess { /* $0 => 22 */ }
   ///
-  /// `reduce` (or `fold`) is the most general of all the basic higher-order methods operating on sequences. For instance,
-  /// it can be used to implement `map`:
-  ///
-  /// Promise<[Int], Error>.value([1, 2, 3])
-  ///   .reduceValues([]) { $0 + [$1 * 2] }
-  ///   .onSuccess { /* $0 => [2, 4, 6] */ }
-  ///
   /// - Parameters:
   ///   - initialResult: The value to use as the initial accumulating value.
   ///     `initialResult` is passed to `nextPartialResult` the first time the
@@ -481,6 +474,40 @@ public extension Promise where Value: BidirectionalCollection {
         return lastValue
       }
       throw NSError()
+    }
+  }
+}
+
+public extension Promise where Value: Collection, Value.Element: Comparable {
+  /// Returns a new Promise containing the minimum element of the collection.
+  ///
+  /// If the collection is empty, the Promise fails.
+  var min: Promise<Value.Element> {
+    map { values in
+      if let min = values.min() {
+        return min
+      }
+      throw NSError()
+    }
+  }
+  
+  /// Returns a new Promise containing the minimum element of the collection.
+  ///
+  /// If the collection is empty, the Promise fails.
+  var max: Promise<Value.Element> {
+    map { values in
+      if let min = values.max() {
+        return min
+      }
+      throw NSError()
+    }
+  }
+}
+
+public extension Promise where Value == Data {
+  func decode<D: Decodable>(type: D.Type, decoder: JSONDecoder) -> Promise<D> {
+    map {
+      try decoder.decode(type, from: $0)
     }
   }
 }
