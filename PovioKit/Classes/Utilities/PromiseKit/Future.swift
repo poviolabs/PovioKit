@@ -19,7 +19,7 @@ public extension Future {
   var result: FutureResult? {
     get {
       var res: FutureResult?
-      dispatchQueue.sync(flags: .barrier) {
+      dispatchQueue.sync {
         res = internalResult
       }
       return res
@@ -38,21 +38,21 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func observe(with callback: @escaping (FutureResult) -> Void) {
-    dispatchQueue.async {
+    dispatchQueue.sync(flags: .barrier) {
       self.observers.append(.both(callback))
       self.internalResult.map(callback)
     }
   }
   
   func onSuccess(_ callback: @escaping (Value) -> Void) {
-    dispatchQueue.async {
+    dispatchQueue.sync(flags: .barrier) {
       self.observers.append(.success(callback))
       self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
   
   func onFailure(_ callback: @escaping (Error) -> Void) {
-    dispatchQueue.async {
+    dispatchQueue.sync(flags: .barrier) {
       self.observers.append(.failure(callback))
       self.internalResult.map { self.observers.last?.notifity($0) }
     }
