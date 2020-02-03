@@ -510,3 +510,14 @@ public extension Promise where Value: Sequence, Value.Element == String {
 public extension Promise where Value == Void {
   func resolve() { resolve(with: ()) }
 }
+
+extension Optional where Wrapped == DispatchQueue {
+  func async(execute work: @escaping () -> Void) {
+    switch self {
+    case let queue?:
+      queue.async(execute: work)
+    case nil:
+      work()
+    }
+  }
+}
