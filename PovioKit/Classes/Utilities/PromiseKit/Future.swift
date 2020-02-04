@@ -26,8 +26,8 @@ public extension Future {
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
     barrier.sync(flags: .barrier) {
-      self.internalResult = result
-      guard self.isEnabled else { return }
+      internalResult = result
+      guard isEnabled else { return }
       dispatchQueue.async {
         result.map { value in self.observers.forEach { $0.notifity(value) } }
       }
@@ -40,22 +40,22 @@ public extension Future {
   
   func observe(with callback: @escaping (FutureResult) -> Void) {
     barrier.sync(flags: .barrier) {
-      self.observers.append(.both(callback))
-      self.internalResult.map(callback)
+      observers.append(.both(callback))
+      internalResult.map(callback)
     }
   }
   
   func onSuccess(_ callback: @escaping (Value) -> Void) {
     barrier.sync(flags: .barrier) {
-      self.observers.append(.success(callback))
-      self.internalResult.map { self.observers.last?.notifity($0) }
+      observers.append(.success(callback))
+      internalResult.map { observers.last?.notifity($0) }
     }
   }
   
   func onFailure(_ callback: @escaping (Error) -> Void) {
     barrier.sync(flags: .barrier) {
-      self.observers.append(.failure(callback))
-      self.internalResult.map { self.observers.last?.notifity($0) }
+      observers.append(.failure(callback))
+      internalResult.map { observers.last?.notifity($0) }
     }
   }
 }
