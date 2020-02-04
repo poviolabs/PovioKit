@@ -85,8 +85,8 @@ class PromiseTests: XCTestCase {
   func testObserverCalledOnResolvedPromise() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    let ex3 = expectation(description: " ")
-    let ex4 = expectation(description: " ")
+    let ex3 = expectation(description: "")
+    let ex4 = expectation(description: "")
     
     var promise = Promise(fulfill: ())
     promise.onSuccess { ex1.fulfill() }
@@ -97,6 +97,40 @@ class PromiseTests: XCTestCase {
     promise.observe { _ in  ex4.fulfill() }
     
     waitForExpectations(timeout: 1)
+  }
+  
+  func testChainResolvedOnMainThread() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    0.asyncPromise
+      .chain(on: .main) { $0.asyncPromise }
+      .onSuccess { _ in
+        XCTAssertTrue(Thread.isMainThread)
+        ex1.fulfill()
+    }
+    0.asyncFailurePromise
+      .chain(on: .main) { $0.asyncPromise }
+      .onFailure { _ in
+        XCTAssertTrue(Thread.isMainThread)
+        ex2.fulfill()
+    }
+    wait(for: [ex1, ex2], timeout: 1)
+  }
+  
+  func testCombineResolvedOnMainThread() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    combine(on: .main, promises: [0.asyncPromise, 1.asyncPromise])
+      .onSuccess { _ in
+        XCTAssertTrue(Thread.isMainThread)
+        ex1.fulfill()
+    }
+    combine(on: .main, promises: [0.asyncPromise, 1.asyncFailurePromise])
+      .onFailure { _ in
+        XCTAssertTrue(Thread.isMainThread)
+        ex2.fulfill()
+    }
+    wait(for: [ex1, ex2], timeout: 1)
   }
 }
 
@@ -332,25 +366,25 @@ extension PromiseTests {
 
 extension Int {
   var asyncPromise: Promise<Self> {
-    Promise { seal in
-      DispatchQueue.main.async {
-        seal.resolve(with: self)
-      }
-    }
+    after(.now() + 0.05, on: .global(), self)
   }
   
   var promise: Promise<Self> {
     Promise.value(self)
   }
+  
+  var asyncFailurePromise: Promise<Self> {
+    Promise { seal in
+      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
+        seal.reject(with: NSError())
+      }
+    }
+  }
 }
 
 extension Sequence {
   var asyncPromise: Promise<Self> {
-    Promise { seal in
-      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
-        seal.resolve(with: self)
-      }
-    }
+    after(.now() + 0.05, on: .global(), self)
   }
   
   var promise: Promise<Self> {
