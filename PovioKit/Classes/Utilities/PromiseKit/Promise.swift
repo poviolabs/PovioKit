@@ -37,7 +37,7 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = nil) {
-    guard isAwaiting else {  return }
+    guard isAwaiting else { return }
     setResult(.success(value), on: dispatchQueue)
   }
   
@@ -66,7 +66,7 @@ public extension Promise {
     switch result {
     case .success?:
       return true
-    case .failure?, .none:
+    case _:
       return false
     }
   }
@@ -75,7 +75,7 @@ public extension Promise {
     switch result {
     case .failure?:
       return true
-    case .success?, .none:
+    case _:
       return false
     }
   }
@@ -176,7 +176,7 @@ public extension Promise {
   }
   
   /// Returns a new promise, mapping any success value using the given
-  /// transformation which returns an Optionnal value.
+  /// transformation which returns an optional value.
   ///
   /// Use this method when you need to transform the value of a `Promise`
   /// instance when it represents a success.
@@ -207,7 +207,7 @@ public extension Promise where Value: Sequence {
   ///
   /// In this example, `mapValues` is used to square every number in the array:
   ///
-  /// Promise<[Int], Error>.value([1, 2, 3])
+  /// Promise<[Int]>.value([1, 2, 3])
   ///   .mapValues { $0 * 2 }
   ///   .onSuccess { /* $0 => [2, 4, 6] */ }
   ///
@@ -232,7 +232,7 @@ public extension Promise where Value: Sequence {
   /// In this example, first `compactMapValues` is used to convert String to Int
   /// and then `mapValues` is used to square every number:
   ///
-  /// Promise<[String], Error>.value(["1", "2", "not a number", "3"])
+  /// Promise<[String]>.value(["1", "2", "not a number", "3"])
   ///   .compactMapValues { Int($0) }
   ///   .mapValues { $0 * 2 }
   ///   .onSuccess { /* $0 => [2, 4, 6] */ }
@@ -256,11 +256,11 @@ public extension Promise where Value: Sequence {
   /// In this example, `flatMapValues` is used to combin three Promises obtained by calling the `fetch`
   /// method:
   ///
-  /// func fetch(by id: String) -> Promise<Model, Error> {
+  /// func fetch(by id: String) -> Promise<Model> {
   ///   /* ... */
   /// }
   ///
-  /// Promise<[String], Error>.value(["id1", "id2", "id3"])
+  /// Promise<[String]>.value(["id1", "id2", "id3"])
   ///   .flatMapValues(with: fetch)
   ///   .onSuccess { /* $0 contains results of all three `Promise`s */ }
   ///
@@ -282,7 +282,7 @@ public extension Promise where Value: Sequence {
   ///
   /// In this example, `filterValues` is used to include only even numbers:
   ///
-  /// Promise<[Int], Error>.value([1, 2, 3, 4, 5, 6])
+  /// Promise<[Int]>.value([1, 2, 3, 4, 5, 6])
   ///   .filter { $0 % 2 == 0 }
   ///   .onSuccess { /* $0 => [2, 3, 6] */ }
   ///
@@ -306,7 +306,7 @@ public extension Promise where Value: Sequence {
   /// of the entire sequence. For example, you can use this method to find the sum
   /// or product of the seqeuence:
   ///
-  /// Promise<[Int], Error>.value([1, 2, 3, 4, 5, 6])
+  /// Promise<[Int]>.value([1, 2, 3, 4, 5, 6])
   ///   .reduceValues(0, +)
   ///   .onSuccess { /* $0 => 22 */ }
   ///
@@ -357,7 +357,7 @@ public extension Promise where Value: Sequence, Value.Element: Sequence {
   /// In this example, first `flatMapValues` is used to convert flatten the array
   /// and then `mapValues` is used to square every number:
   ///
-  /// Promise<[[Int]], Error>.value([[1, 2], [3], [4, 5]])
+  /// Promise<[[Int]]>.value([[1, 2], [3], [4, 5]])
   ///   .flatMapValues { $0 }
   ///   .mapValues { $0 * 2 }
   ///   .onSuccess { /* $0 => [2, 4, 6, 8, 10] */ }
