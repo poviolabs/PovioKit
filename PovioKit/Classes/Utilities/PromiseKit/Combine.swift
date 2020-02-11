@@ -26,9 +26,7 @@ public func combine<T>(
         case .success:
           barrier.async(flags: .barrier) {
             if promises.allSatisfy({ $0.isFulfilled }) {
-              dispatchQueue.async {
-                seal.resolve(with: promises.compactMap { $0.value })
-              }
+              seal.resolve(with: promises.compactMap { $0.value }, on: dispatchQueue)
             }
           }
         case .failure(let error):
