@@ -1,5 +1,5 @@
-osx_image: xcode11
+osx_image: xcode11.3
 language: swift
 xcode_workspace: Example/PovioKit.xcworkspace
-xcode_scheme: PovioKit
-xcode_destination: platform=iOS Simulator,OS=13.0,name=iPhone 11 Pro
+xcode_scheme: PovioKit-Example
+xcode_destination: platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro
