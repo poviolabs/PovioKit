@@ -15,12 +15,12 @@ public class Promise<Value>: Future<Value, Error> {
   
   public init(fulfill value: Value) {
     super.init()
-    result = .success(value)
+    setResult(.success(value))
   }
   
   public init(reject error: Error) {
     super.init()
-    result = .failure(error)
+    setResult(.failure(error))
   }
   
   public convenience init(_ future: (Promise) -> Void) {
@@ -36,14 +36,14 @@ public class Promise<Value>: Future<Value, Error> {
     Promise<Value>(reject: error)
   }
   
-  public func resolve(with value: Value) {
-    guard !isFulfilled else { return }
-    result = .success(value)
+  public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = nil) {
+    guard isAwaiting else {  return }
+    setResult(.success(value), on: dispatchQueue)
   }
   
-  public func reject(with error: Error) {
-    guard !isRejected else { return }
-    result = .failure(error)
+  public func reject(with error: Error, on dispatchQueue: DispatchQueue? = nil) {
+    guard isAwaiting else { return }
+    setResult(.failure(error), on: dispatchQueue)
   }
   
   public func resolve(with result: Result<Value, Error>) {
@@ -56,8 +56,8 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public func observe(promise other: Promise) {
-    other.onSuccess(resolve)
-    other.onFailure(reject)
+    other.onSuccess { self.resolve(with: $0) }
+    other.onFailure { self.reject(with: $0) }
   }
 }
 
@@ -88,7 +88,7 @@ public extension Promise {
     switch result {
     case .success(let value)?:
       return value
-    case .failure?, .none:
+    case _:
       return nil
     }
   }
@@ -97,7 +97,7 @@ public extension Promise {
     switch result {
     case .failure(let error)?:
       return error
-    case .success?, .none:
+    case _:
       return nil
     }
   }
@@ -136,9 +136,9 @@ public extension Promise {
             promise.observe {
               switch $0 {
               case .success(let value):
-                result.resolve(with: value)
+                result.resolve(with: value, on: dispatchQueue)
               case .failure(let error):
-                result.reject(with: error)
+                result.reject(with: error, on: dispatchQueue)
               }
             }
           } catch {

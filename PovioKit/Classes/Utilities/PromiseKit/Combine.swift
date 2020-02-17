@@ -26,9 +26,7 @@ public func combine<T>(
         case .success:
           barrier.async(flags: .barrier) {
             if promises.allSatisfy({ $0.isFulfilled }) {
-              dispatchQueue.async {
-                seal.resolve(with: promises.compactMap { $0.value })
-              }
+              seal.resolve(with: promises.compactMap { $0.value }, on: dispatchQueue)
             }
           }
         case .failure(let error):
@@ -58,4 +56,67 @@ public func combine<T, U>(
 {
   combine(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid])
     .map { _ in (p1.value!, p2.value!) }
+}
+
+
+/// Returns a new Promise combining the results of three promises of possibly
+/// different types.
+///
+/// - Parameter p1: first Promise.
+/// - Parameter p2: second Promise.
+/// - Parameter p3: third Promise.
+/// - Returns: A Promise with the result of given promises. If any of the promises fail
+///   than the new Promise fails as well.
+///
+public func combine<T, U, V>(
+  on dispatchQueue: DispatchQueue = .main,
+  _ p1: Promise<T>,
+  _ p2: Promise<U>,
+  _ p3: Promise<V>) -> Promise<(T, U, V)>
+{
+  combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
+    .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!) }
+}
+
+/// Returns a new Promise combining the results of four promises of possibly
+/// different types.
+///
+/// - Parameter p1: first Promise.
+/// - Parameter p2: second Promise.
+/// - Parameter p3: third Promise.
+/// - Parameter p4: fourth Promise.
+/// - Returns: A Promise with the result of given promises. If any of the promises fail
+///   than the new Promise fails as well.
+///
+public func combine<T, U, V, Z>(
+  on dispatchQueue: DispatchQueue = .main,
+  _ p1: Promise<T>,
+  _ p2: Promise<U>,
+  _ p3: Promise<V>,
+  _ p4: Promise<Z>) -> Promise<(T, U, V, Z)>
+{
+  combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
+    .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
+}
+
+/// Returns a new Promise combining the results of four promises of possibly
+/// different types.
+///
+/// - Parameter p1: first Promise.
+/// - Parameter p2: second Promise.
+/// - Parameter p3: third Promise.
+/// - Parameter p4: fourth Promise.
+/// - Returns: A Promise with the result of given promises. If any of the promises fail
+///   than the new Promise fails as well.
+///
+public func combine<T, U, V, Z, X>(
+  on dispatchQueue: DispatchQueue = .main,
+  _ p1: Promise<T>,
+  _ p2: Promise<U>,
+  _ p3: Promise<V>,
+  _ p4: Promise<Z>,
+  _ p5: Promise<X>) -> Promise<(T, U, V, Z, X)>
+{
+  combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
+    .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
 }

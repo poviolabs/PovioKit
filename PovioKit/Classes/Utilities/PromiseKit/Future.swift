@@ -9,7 +9,7 @@
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
-  private let dispatchQueue = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
+  private let barrier = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
   private var observers = [Observer]()
   public var isEnabled = true
   private var internalResult: FutureResult?
@@ -17,18 +17,19 @@ public class Future<Value, Error: Swift.Error> {
 
 public extension Future {
   var result: FutureResult? {
-    get {
-      var res: FutureResult?
-      dispatchQueue.sync(flags: .barrier) {
-        res = internalResult
-      }
-      return res
+    var res: FutureResult?
+    barrier.sync {
+      res = internalResult
     }
-    set {
-      dispatchQueue.sync(flags: .barrier) {
-        self.internalResult = newValue
-        guard self.isEnabled else { return }
-        newValue.map { value in self.observers.forEach { $0.notifity(value) } }
+    return res
+  }
+  
+  func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
+    barrier.sync(flags: .barrier) {
+      internalResult = result
+      guard isEnabled else { return }
+      dispatchQueue.async {
+        result.map { value in self.observers.forEach { $0.notifity(value) } }
       }
     }
   }
@@ -38,23 +39,23 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func observe(with callback: @escaping (FutureResult) -> Void) {
-    dispatchQueue.async {
-      self.observers.append(.both(callback))
-      self.internalResult.map(callback)
+    barrier.sync(flags: .barrier) {
+      observers.append(.both(callback))
+      internalResult.map(callback)
     }
   }
   
   func onSuccess(_ callback: @escaping (Value) -> Void) {
-    dispatchQueue.async {
-      self.observers.append(.success(callback))
-      self.internalResult.map { self.observers.last?.notifity($0) }
+    barrier.sync(flags: .barrier) {
+      observers.append(.success(callback))
+      internalResult.map { observers.last?.notifity($0) }
     }
   }
   
   func onFailure(_ callback: @escaping (Error) -> Void) {
-    dispatchQueue.async {
-      self.observers.append(.failure(callback))
-      self.internalResult.map { self.observers.last?.notifity($0) }
+    barrier.sync(flags: .barrier) {
+      observers.append(.failure(callback))
+      internalResult.map { observers.last?.notifity($0) }
     }
   }
 }
