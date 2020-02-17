@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Povio Team on 26/04/2019.
-//  Copyright © 2019 Povio Labs. All rights reserved.
+//  Copyright © 2020 Povio Labs. All rights reserved.
 //
 
 import Foundation

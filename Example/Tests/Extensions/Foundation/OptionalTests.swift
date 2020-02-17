@@ -3,13 +3,12 @@
 //  PovioKit_Tests
 //
 //  Created by Klemen Zagar on 05/12/2019.
-//  Copyright © 2019 CocoaPods. All rights reserved.
+//  Copyright © 2020 Povio Labs. All rights reserved.
 //
 
 import XCTest
 
 class OptionalTests: XCTestCase {
-  
   func testArrayNilOrEmptyTrueWhenNil() {
     let sut: [String]? = nil
     XCTAssertTrue(sut.isNilOrEmpty, "Should not return false when collection is nil")
