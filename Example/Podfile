@@ -3,6 +3,5 @@ use_frameworks!
 
 target 'PovioKit_Tests' do
   pod 'PovioKit', :path => '../'
-  pod 'Alamofire', '5.0.0-rc.3'
   pod 'SnapKit'
 end
