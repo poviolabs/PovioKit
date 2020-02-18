@@ -21,7 +21,7 @@ open class AlamofireNetworkClient {
   private let session: Alamofire.Session
   private let logger: Writer
   
-  public init(session: Alamofire.Session = .default, logger: @escaping Writer = { Logger.debug($0) }) {
+  public init(session: Alamofire.Session = .default, logger: @escaping Writer = { PovioKit.Logger.debug($0) }) {
     self.session = session
     self.logger = logger
   }
@@ -143,11 +143,9 @@ public extension AlamofireNetworkClient.Request {
   
   func decode<D: Decodable>(
     _ decodable: D.Type,
-    decoderConfigurator configurator: ((JSONDecoder) -> Void)? = nil) -> Promise<D>
+    decoder: JSONDecoder) -> Promise<D>
   {
-    let decoder = JSONDecoder()
-    configurator?(decoder)
-    return Promise { promise in
+    Promise { promise in
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
@@ -174,7 +172,7 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func singleton() -> Promise<()> {
+  var asVoid: Promise<()> {
     Promise { promise in
       dataRequest.response {
         switch $0.result {
@@ -230,12 +228,15 @@ public extension AlamofireNetworkClient.Error {
 
 private extension AlamofireNetworkClient.Request {
   func handleError(_ error: Error, code: Int?) -> AlamofireNetworkClient.Error {
-    logger("Request failed with status code \(code ?? 0) due to \(error.localizedDescription)")
-    
     switch error {
+    case .responseSerializationFailed as AFError:
+      logger("Request failed with status code \(code ?? 0) due to serialization error: \(error.localizedDescription)")
+      return .other(error)
     case _ as AFError:
+      logger("Request failed with status code \(code ?? 0) due to: \(error.localizedDescription)")
       return .request(.init(code: code ?? 0))
     case _:
+      logger("Request failed with status code \(code ?? 0) due to: \(error.localizedDescription)")
       return .other(error)
     }
   }

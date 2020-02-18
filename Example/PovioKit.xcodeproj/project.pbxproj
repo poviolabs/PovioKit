@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3756C08F23E47423003C2510 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3756C08E23E47423003C2510 /* PromiseTests.swift */; };
 		270E494D239A65BE0016FAB6 /* StartupProcessServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E494C239A65BE0016FAB6 /* StartupProcessServiceTests.swift */; };
 		270E494F239A67150016FAB6 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E494E239A67150016FAB6 /* OptionalTests.swift */; };
 		270E495D239A6ABB0016FAB6 /* BroadcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */; };
 		27D3B9B02399521300CA530F /* ThrottlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D3B9AF2399521200CA530F /* ThrottlerTests.swift */; };
+		3756C08F23E47423003C2510 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3756C08E23E47423003C2510 /* PromiseTests.swift */; };
 		990603F7227F620A00B0EFE2 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F6227F620A00B0EFE2 /* StringTests.swift */; };
 		990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F8227F63E700B0EFE2 /* CollectionTests.swift */; };
 		990603FB227F665200B0EFE2 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603FA227F665200B0EFE2 /* URLTests.swift */; };
@@ -26,11 +26,11 @@
 		03954EEF5980DBBBA006EEAB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1023CC6AFBB1353B97D9DE00 /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PovioKit_Tests.debug.xcconfig"; path = "Target Support Files/Pods-PovioKit_Tests/Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		1ADE6A5A7C4451B9DFD132EA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		3756C08E23E47423003C2510 /* PromiseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		270E494C239A65BE0016FAB6 /* StartupProcessServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupProcessServiceTests.swift; sourceTree = "<group>"; };
 		270E494E239A67150016FAB6 /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastTests.swift; sourceTree = "<group>"; };
 		27D3B9AF2399521200CA530F /* ThrottlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottlerTests.swift; sourceTree = "<group>"; };
+		3756C08E23E47423003C2510 /* PromiseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* PovioKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PovioKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		990603F6227F620A00B0EFE2 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
@@ -55,14 +55,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3756C08D23E47410003C2510 /* PromiseKit */ = {
-			isa = PBXGroup;
-			children = (
-				3756C08E23E47423003C2510 /* PromiseTests.swift */,
-			);
-			path = PromiseKit;
-			sourceTree = "<group>";
-		};
 		270E494B239A65BE0016FAB6 /* StartupService */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +87,14 @@
 				27D3B9AF2399521200CA530F /* ThrottlerTests.swift */,
 			);
 			path = Throttler;
+			sourceTree = "<group>";
+		};
+		3756C08D23E47410003C2510 /* PromiseKit */ = {
+			isa = PBXGroup;
+			children = (
+				3756C08E23E47423003C2510 /* PromiseTests.swift */,
+			);
+			path = PromiseKit;
 			sourceTree = "<group>";
 		};
 		57AF345B1640ED1B9247F87D /* Frameworks */ = {
