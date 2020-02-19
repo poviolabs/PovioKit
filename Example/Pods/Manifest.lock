@@ -34,17 +34,14 @@ PODS:
   - PovioKit/Views (0.4.0):
     - PovioKit/Views/GradientView (= 0.4.0)
   - PovioKit/Views/GradientView (0.4.0)
-  - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - PovioKit (from `../`)
   - PovioKit/Networking (from `../`)
-  - SnapKit
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - SnapKit
 
 EXTERNAL SOURCES:
   PovioKit:
@@ -53,8 +50,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
   PovioKit: 1797278cedd3396e2cd87ee34eaa2a233f954530
-  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: e9898334025d334d9b81d34178a299c6f965785e
+PODFILE CHECKSUM: f8431f96a2bbfba7a7c54f82ffcdc4f3235daacd
 
 COCOAPODS: 1.8.4

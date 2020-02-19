@@ -4,5 +4,4 @@ use_frameworks!
 target 'PovioKit_Tests' do
   pod 'PovioKit', :path => '../'
   pod 'PovioKit/Networking', :path => '../'
-  pod 'SnapKit'
 end
