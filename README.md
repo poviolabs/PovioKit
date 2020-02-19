@@ -33,6 +33,7 @@
 * [UIColor](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIColor+Povio.swift)
 * [UIDevice](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIDevice+Povio.swift)
 * [UIImage](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIImage+Povio.swift)
+* [UIEdgeInsets](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIEdgeInsets+Povio.swift)
 * [Collection](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Collection+Povio.swift)
 * [String](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/String+Povio.swift)
 * [URL](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/URL+Povio.swift)
@@ -54,6 +55,8 @@
 
 ## Installation
 
+### Installation with CocoaPods
+
 PovioKit is available through [CocoaPods](https://cocoapods.org). To install it, add the following line to your Podfile:
 
 ```ruby
@@ -65,6 +68,14 @@ This way you'll install all subspecs available. However, you could opt-out insta
 ```ruby
 pod 'PovioKit/Utilities/StartupService'
 ```
+
+### Installation with Swift Package Manager (Xcode 11+)
+
+[Swift Package Manager](https://swift.org/package-manager/) (SwiftPM) is a tool for managing the distribution of Swift code as well as C-family dependency. From Xcode 11, SwiftPM got natively integrated with Xcode.
+
+To use SwiftPM, you should use Xcode 11 to open your project. Click `File` -> `Swift Packages` -> `Add Package Dependency`, enter [PovioKit repo's URL](git@github.com:poviolabs/PovioKit.git). Or you can login Xcode with your GitHub account and just type `PovioKit` to search.
+
+After select the package, you can choose the dependency type (tagged version, branch or commit). Then Xcode will setup all the stuff for you.
 
 ## Example
 

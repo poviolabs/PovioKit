@@ -1,20 +1,56 @@
 PODS:
-  - PovioKit (0.1.0):
-    - PovioKit/Utilities (= 0.1.0)
-  - PovioKit/Utilities (0.1.0):
-    - PovioKit/Utilities/AttributedStringBuilder (= 0.1.0)
-  - PovioKit/Utilities/AttributedStringBuilder (0.1.0)
+  - Alamofire (5.0.0)
+  - PovioKit (0.4.0):
+    - PovioKit/Extensions (= 0.4.0)
+    - PovioKit/Utilities (= 0.4.0)
+    - PovioKit/Views (= 0.4.0)
+  - PovioKit/Extensions (0.4.0):
+    - PovioKit/Extensions/Foundation (= 0.4.0)
+    - PovioKit/Extensions/UIKit (= 0.4.0)
+  - PovioKit/Extensions/Foundation (0.4.0)
+  - PovioKit/Extensions/UIKit (0.4.0)
+  - PovioKit/Networking (0.4.0):
+    - Alamofire (= 5.0.0)
+    - PovioKit/Networking/AlamofireNetworkClient (= 0.4.0)
+  - PovioKit/Networking/AlamofireNetworkClient (0.4.0):
+    - Alamofire (= 5.0.0)
+  - PovioKit/Utilities (0.4.0):
+    - PovioKit/Utilities/AttributedStringBuilder (= 0.4.0)
+    - PovioKit/Utilities/Broadcast (= 0.4.0)
+    - PovioKit/Utilities/ColorInterpolator (= 0.4.0)
+    - PovioKit/Utilities/DispatchTimer (= 0.4.0)
+    - PovioKit/Utilities/Logger (= 0.4.0)
+    - PovioKit/Utilities/PromiseKit (= 0.4.0)
+    - PovioKit/Utilities/StartupService (= 0.4.0)
+    - PovioKit/Utilities/Throttler (= 0.4.0)
+  - PovioKit/Utilities/AttributedStringBuilder (0.4.0)
+  - PovioKit/Utilities/Broadcast (0.4.0)
+  - PovioKit/Utilities/ColorInterpolator (0.4.0)
+  - PovioKit/Utilities/DispatchTimer (0.4.0)
+  - PovioKit/Utilities/Logger (0.4.0)
+  - PovioKit/Utilities/PromiseKit (0.4.0)
+  - PovioKit/Utilities/StartupService (0.4.0)
+  - PovioKit/Utilities/Throttler (0.4.0)
+  - PovioKit/Views (0.4.0):
+    - PovioKit/Views/GradientView (= 0.4.0)
+  - PovioKit/Views/GradientView (0.4.0)
 
 DEPENDENCIES:
   - PovioKit (from `../`)
+  - PovioKit/Networking (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
 
 EXTERNAL SOURCES:
   PovioKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PovioKit: 916a6ed9cee642aa46393fa5f5b849c802ad9d92
+  Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
+  PovioKit: 1797278cedd3396e2cd87ee34eaa2a233f954530
 
-PODFILE CHECKSUM: 7828bf8f48fc91af4482b5abcf89bb5164ef31f3
+PODFILE CHECKSUM: f8431f96a2bbfba7a7c54f82ffcdc4f3235daacd
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

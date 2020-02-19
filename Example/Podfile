@@ -1,6 +1,7 @@
+platform :ios, '11.0'
 use_frameworks!
+
 target 'PovioKit_Tests' do
   pod 'PovioKit', :path => '../'
-  
-  
+  pod 'PovioKit/Networking', :path => '../'
 end
