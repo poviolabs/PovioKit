@@ -12,8 +12,12 @@ PODS:
   - PovioKit/Networking (0.4.0):
     - Alamofire (= 5.0.0)
     - PovioKit/Networking/AlamofireNetworkClient (= 0.4.0)
+    - PovioKit/Utilities/Logger
+    - PovioKit/Utilities/PromiseKit
   - PovioKit/Networking/AlamofireNetworkClient (0.4.0):
     - Alamofire (= 5.0.0)
+    - PovioKit/Utilities/Logger
+    - PovioKit/Utilities/PromiseKit
   - PovioKit/Utilities (0.4.0):
     - PovioKit/Utilities/AttributedStringBuilder (= 0.4.0)
     - PovioKit/Utilities/Broadcast (= 0.4.0)
@@ -49,7 +53,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
-  PovioKit: 1797278cedd3396e2cd87ee34eaa2a233f954530
+  PovioKit: 98f0c020bcf85576d0112857accaf4c6138473ab
 
 PODFILE CHECKSUM: f8431f96a2bbfba7a7c54f82ffcdc4f3235daacd
 

@@ -19,7 +19,6 @@
   "platforms": {
     "ios": "11.0"
   },
-  "source_files": "PovioKit/Classes/**/*.swift",
   "frameworks": [
     "UIKit",
     "Foundation"
@@ -32,7 +31,6 @@
   "subspecs": [
     {
       "name": "Utilities",
-      "source_files": "PovioKit/Classes/Utilities/**/*.swift",
       "subspecs": [
         {
           "name": "AttributedStringBuilder",
@@ -70,7 +68,6 @@
     },
     {
       "name": "Extensions",
-      "source_files": "PovioKit/Classes/Extensions/**/*.swift",
       "subspecs": [
         {
           "name": "UIKit",
@@ -84,7 +81,6 @@
     },
     {
       "name": "Views",
-      "source_files": "PovioKit/Classes/Views/**/*.swift",
       "subspecs": [
         {
           "name": "GradientView",
@@ -97,9 +93,14 @@
       "dependencies": {
         "Alamofire": [
           "5.0.0"
+        ],
+        "PovioKit/Utilities/PromiseKit": [
+
+        ],
+        "PovioKit/Utilities/Logger": [
+
         ]
       },
-      "source_files": "PovioKit/Classes/Networking/**/*.swift",
       "subspecs": [
         {
           "name": "AlamofireNetworkClient",
