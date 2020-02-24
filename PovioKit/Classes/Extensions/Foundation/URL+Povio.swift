@@ -13,6 +13,17 @@ public extension URL {
     guard let string = string else { return nil }
     self.init(string: string)
   }
+  
+  /// Append parameter to the URL
+  func appending(_ name: String, value: String?) -> URL {
+    guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return absoluteURL }
+    var queryItems = components.queryItems ?? []
+    let newQueryItem = URLQueryItem(name: name, value: value)
+    queryItems.append(newQueryItem)
+    components.queryItems = queryItems
+    components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
+    return components.url ?? absoluteURL
+  }
 }
 
 extension URL: ExpressibleByStringLiteral {
