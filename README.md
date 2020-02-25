@@ -38,6 +38,7 @@
 * [String](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/String+Povio.swift)
 * [URL](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/URL+Povio.swift)
 * [Optional](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Optional+Povio.swift)
+* [Result](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Result+Povio.swift)
 
 ### Utilities
 * [AttributedStringBuilder](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/AttributedStringBuilder/)
