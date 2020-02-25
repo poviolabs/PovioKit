@@ -192,7 +192,7 @@ extension PromiseTests {
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testCombineList() {
