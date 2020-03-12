@@ -204,6 +204,16 @@ extension PromiseTests {
         ex.fulfill()
     }
     wait(for: [ex], timeout: 1)
+  
+  func testCombineEmptyList() {
+    let ex = expectation(description: "")
+    let promises: [Promise<Int>] = []
+    combine(promises: promises)
+      .onSuccess { values in
+        XCTAssertTrue(values.isEmpty)
+        ex.fulfill()
+    }
+    waitForExpectations(timeout: 5)
   }
   
   func testCombineTwo() {
