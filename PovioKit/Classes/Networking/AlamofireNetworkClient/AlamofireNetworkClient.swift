@@ -6,6 +6,7 @@
 //  Copyright © 2020 Povio Labs. All rights reserved.
 //
 
+import Foundation
 import Alamofire
 
 public typealias URLEncoding = Alamofire.URLEncoding
