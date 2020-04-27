@@ -10,23 +10,13 @@ let package = Package(
     .watchOS(.v3)
   ],
   products: [
-    .library(name: "PovioKit", targets: ["PovioKit"]),
-    .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"])
-  ],
-  dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("5.1.0"))
+    .library(name: "PovioKit", targets: ["PovioKit"])
   ],
   targets: [
     .target(
       name: "PovioKit",
       path: "Sources",
       exclude: ["Networking"]
-    ),
-    .target(
-      name: "PovioKitNetworking",
-      dependencies: ["PovioKit", "Alamofire"],
-      path: "Sources",
-      sources: ["Networking"]
     )
   ],
   swiftLanguageVersions: [.v5]
