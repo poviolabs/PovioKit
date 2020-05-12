@@ -18,17 +18,17 @@ public extension String {
   
   /// Trim white spaces from both ends
   var trimed: String {
-    return trimmingCharacters(in: .whitespacesAndNewlines)
+    trimmingCharacters(in: .whitespacesAndNewlines)
   }
   
   /// Returns digits only from string
   var digits: String {
-    return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+    components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
   }
   
   /// Returns base64 encoded string
   var base64: String? {
-    return data(using: .utf8)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+    data(using: .utf8)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
   }
   
   /// Email validation

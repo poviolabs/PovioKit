@@ -11,6 +11,6 @@ import UIKit
 public extension UICollectionReusableView {
   /// Returns cell's reuse identifier
   static var identifier: String {
-    return String(describing: self)
+    String(describing: self)
   }
 }

@@ -34,8 +34,7 @@ public extension UICollectionView {
   
   func dequeueReusableCell<T: UICollectionViewCell>(_ cell: T.Type, at indexPath: IndexPath) -> T {
     guard let cell = dequeueReusableCell(withReuseIdentifier: T.identifier, for: indexPath) as? T else {
-      print("Could not dequeue cell with identifier: \(T.identifier). Creating new instance.")
-      return T()
+      fatalError("Could not dequeue cell with identifier: \(T.identifier)")
     }
     return cell
   }

@@ -9,11 +9,21 @@
 import UIKit
 
 public extension UITableView {
+  @available(*, deprecated, message: "Use `register(cell: )` instead.")
   func register<T: UITableViewCell>(_: T.Type) {
     register(T.self, forCellReuseIdentifier: T.identifier)
   }
   
+  func register<T: UITableViewCell>(cell: T.Type) {
+    register(T.self, forCellReuseIdentifier: T.identifier)
+  }
+  
+  @available(*, deprecated, message: "Use `registerCell(headerFooterView: )` instead.")
   func register<T: UITableViewHeaderFooterView>(_: T.Type) {
+    register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
+  }
+  
+  func register<T: UITableViewHeaderFooterView>(headerFooterView: T.Type) {
     register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
   }
   
@@ -26,8 +36,7 @@ public extension UITableView {
   
   func dequeueReusableCell<T: UITableViewCell>(_ cell: T.Type, at indexPath: IndexPath) -> T {
     guard let cell = dequeueReusableCell(withIdentifier: T.identifier, for: indexPath) as? T else {
-      print("Could not dequeue cell with identifier: \(T.identifier). Creating new instance.")
-      return T()
+      fatalError("Could not dequeue cell with identifier: \(T.identifier)")
     }
     return cell
   }
@@ -41,17 +50,14 @@ public extension UITableView {
   
   func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(_ headerFooter: T.Type) -> T {
     guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.identifier) as? T else {
-      print("Could not dequeue headerFooter view with identifier: \(T.identifier)")
-      return T()
+      fatalError("Could not dequeue cell with identifier: \(T.identifier)")
     }
     return view
   }
   
   /// Deselect row at selected index path
   func deselectSelectedRow(animated: Bool = true) {
-    if let selectedRow = indexPathForSelectedRow {
-      deselectRow(at: selectedRow, animated: animated)
-    }
+    indexPathForSelectedRow.map { deselectRow(at: $0, animated: animated) }
   }
   
   /// Scroll table to first row at top

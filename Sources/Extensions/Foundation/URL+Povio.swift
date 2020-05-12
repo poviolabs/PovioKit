@@ -29,7 +29,7 @@ public extension URL {
 extension URL: ExpressibleByStringLiteral {
   public init(stringLiteral value: String) {
     guard let url = URL(string: value) else {
-      fatalError("Invalid URL string.")
+      fatalError("Invalid URL string!")
     }
     self = url
   }
