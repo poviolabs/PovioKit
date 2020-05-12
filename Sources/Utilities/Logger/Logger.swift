@@ -11,7 +11,7 @@ import Foundation
 public class Logger {
   public typealias Parameters = [String: Any]
   public static let shared = Logger()
-  public var logLevel: LogLevel = .info
+  public var logLevel: LogLevel = .none
   
   private init() {}
 }
