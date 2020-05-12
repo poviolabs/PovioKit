@@ -15,51 +15,51 @@ Pod::Spec.new do |s|
 
   s.subspec 'Utilities' do |us|
     us.subspec 'AttributedStringBuilder' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/AttributedStringBuilder/*.swift'
+      cs.source_files = 'Sources/Utilities/AttributedStringBuilder/*.swift'
     end
     
     us.subspec 'StartupService' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/StartupService/*.swift'
+      cs.source_files = 'Sources/Utilities/StartupService/*.swift'
     end
     
     us.subspec 'Broadcast' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/Broadcast/*.swift'
+      cs.source_files = 'Sources/Utilities/Broadcast/*.swift'
     end
 
     us.subspec 'Logger' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/Logger/**/*.swift'
+      cs.source_files = 'Sources/Utilities/Logger/**/*.swift'
     end
 
     us.subspec 'DispatchTimer' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/DispatchTimer/**/*.swift'
+      cs.source_files = 'Sources/Utilities/DispatchTimer/**/*.swift'
     end
     
     us.subspec 'Throttler' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/Throttler/**/*.swift'
+      cs.source_files = 'Sources/Utilities/Throttler/**/*.swift'
     end
     
     us.subspec 'ColorInterpolator' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/ColorInterpolator/**/*.swift'
+      cs.source_files = 'Sources/Utilities/ColorInterpolator/**/*.swift'
     end
     
     us.subspec 'PromiseKit' do |cs|
-      cs.source_files = 'PovioKit/Classes/Utilities/PromiseKit/**/*.swift'
+      cs.source_files = 'Sources/Utilities/PromiseKit/**/*.swift'
     end
   end
   
   s.subspec 'Extensions' do |es|
     es.subspec 'UIKit' do |cs|
-      cs.source_files = 'PovioKit/Classes/Extensions/UIKit/*.swift'
+      cs.source_files = 'Sources/Extensions/UIKit/*.swift'
     end
     
     es.subspec 'Foundation' do |cs|
-      cs.source_files = 'PovioKit/Classes/Extensions/Foundation/*.swift'
+      cs.source_files = 'Sources/Extensions/Foundation/*.swift'
     end
   end
   
   s.subspec 'Views' do |vs|
     vs.subspec 'GradientView' do |cs|
-      cs.source_files = 'PovioKit/Classes/Views/GradientView/**/*.swift'
+      cs.source_files = 'Sources/Views/GradientView/**/*.swift'
     end
   end
   
@@ -69,7 +69,7 @@ Pod::Spec.new do |s|
     ns.dependency 'PovioKit/Utilities/Logger'
     
     ns.subspec 'AlamofireNetworkClient' do |cs|
-      cs.source_files = 'PovioKit/Classes/Networking/AlamofireNetworkClient/**/*.swift'
+      cs.source_files = 'Sources/Networking/AlamofireNetworkClient/**/*.swift'
     end
   end
 end
