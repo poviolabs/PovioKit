@@ -5,7 +5,6 @@ let package = Package(
   name: "PovioKit",
   platforms: [
     .iOS(.v11),
-    .macOS(.v10_14),
     .tvOS(.v10),
     .watchOS(.v3)
   ],
