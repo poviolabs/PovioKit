@@ -34,35 +34,35 @@
       "subspecs": [
         {
           "name": "AttributedStringBuilder",
-          "source_files": "PovioKit/Classes/Utilities/AttributedStringBuilder/*.swift"
+          "source_files": "Sources/Utilities/AttributedStringBuilder/*.swift"
         },
         {
           "name": "StartupService",
-          "source_files": "PovioKit/Classes/Utilities/StartupService/*.swift"
+          "source_files": "Sources/Utilities/StartupService/*.swift"
         },
         {
           "name": "Broadcast",
-          "source_files": "PovioKit/Classes/Utilities/Broadcast/*.swift"
+          "source_files": "Sources/Utilities/Broadcast/*.swift"
         },
         {
           "name": "Logger",
-          "source_files": "PovioKit/Classes/Utilities/Logger/**/*.swift"
+          "source_files": "Sources/Utilities/Logger/**/*.swift"
         },
         {
           "name": "DispatchTimer",
-          "source_files": "PovioKit/Classes/Utilities/DispatchTimer/**/*.swift"
+          "source_files": "Sources/Utilities/DispatchTimer/**/*.swift"
         },
         {
           "name": "Throttler",
-          "source_files": "PovioKit/Classes/Utilities/Throttler/**/*.swift"
+          "source_files": "Sources/Utilities/Throttler/**/*.swift"
         },
         {
           "name": "ColorInterpolator",
-          "source_files": "PovioKit/Classes/Utilities/ColorInterpolator/**/*.swift"
+          "source_files": "Sources/Utilities/ColorInterpolator/**/*.swift"
         },
         {
           "name": "PromiseKit",
-          "source_files": "PovioKit/Classes/Utilities/PromiseKit/**/*.swift"
+          "source_files": "Sources/Utilities/PromiseKit/**/*.swift"
         }
       ]
     },
@@ -71,11 +71,11 @@
       "subspecs": [
         {
           "name": "UIKit",
-          "source_files": "PovioKit/Classes/Extensions/UIKit/*.swift"
+          "source_files": "Sources/Extensions/UIKit/*.swift"
         },
         {
           "name": "Foundation",
-          "source_files": "PovioKit/Classes/Extensions/Foundation/*.swift"
+          "source_files": "Sources/Extensions/Foundation/*.swift"
         }
       ]
     },
@@ -84,7 +84,7 @@
       "subspecs": [
         {
           "name": "GradientView",
-          "source_files": "PovioKit/Classes/Views/GradientView/**/*.swift"
+          "source_files": "Sources/Views/GradientView/**/*.swift"
         }
       ]
     },
@@ -104,7 +104,7 @@
       "subspecs": [
         {
           "name": "AlamofireNetworkClient",
-          "source_files": "PovioKit/Classes/Networking/AlamofireNetworkClient/**/*.swift"
+          "source_files": "Sources/Networking/AlamofireNetworkClient/**/*.swift"
         }
       ]
     }

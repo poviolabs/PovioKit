@@ -27,32 +27,34 @@
 ## List of available libraries
 
 ### Extensions
-* [UICollectionView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UICollectionView+Povio.swift)
-* [UITableView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UITableView+Povio.swift)
-* [UIView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIView+Povio.swift)
-* [UIColor](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIColor+Povio.swift)
-* [UIDevice](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIDevice+Povio.swift)
-* [UIImage](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIImage+Povio.swift)
-* [UIEdgeInsets](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/UIKit/UIEdgeInsets+Povio.swift)
-* [Collection](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Collection+Povio.swift)
-* [String](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/String+Povio.swift)
-* [URL](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/URL+Povio.swift)
-* [Optional](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Optional+Povio.swift)
-* [Result](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Extensions/Foundation/Result+Povio.swift)
+* [UICollectionView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UICollectionView+Povio.swift)
+* [UITableView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UITableView+Povio.swift)
+* [UIView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIView+Povio.swift)
+* [UIColor](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIColor+Povio.swift)
+* [UIDevice](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIDevice+Povio.swift)
+* [UIImage](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIImage+Povio.swift)
+* [UIEdgeInsets](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift)
+* [Collection](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Collection+Povio.swift)
+* [String](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/String+Povio.swift)
+* [URL](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/URL+Povio.swift)
+* [Optional](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Optional+Povio.swift)
+* [Result](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Result+Povio.swift)
 
 ### Utilities
-* [AttributedStringBuilder](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/AttributedStringBuilder/)
-* [StartupService](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/StartupService/)
-* [Broadcast](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/Broadcast/)
-* [PromiseKit](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/PromiseKit/)
-* [ColorInterpolator](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/ColorInterpolator/)
-* [DispatchTimer](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/DispatchTimer/)
-* [Logger](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/Logger/)
-* [Throttler](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Utilities/Throttler/)
+* [AttributedStringBuilder](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/AttributedStringBuilder/)
+* [StartupService](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/StartupService/)
+* [Broadcast](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Broadcast/)
+* [PromiseKit](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/PromiseKit/)
+* [ColorInterpolator](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/ColorInterpolator/)
+* [DispatchTimer](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/DispatchTimer/)
+* [Logger](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Logger/)
+* [Throttler](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Throttler/)
 
+### Networking
+* [AlamofireNetworkClient](https://github.com/poviolabs/PovioKit/blob/master/Resources/Networking/AlamofireNetworkClient/)
 
 ### UIViews
-* [GradientView](https://github.com/poviolabs/PovioKit/blob/master/PovioKit/Classes/Views/GradientView/)
+* [GradientView](https://github.com/poviolabs/PovioKit/blob/master/Resources/Views/GradientView/)
 
 ## Installation
 
@@ -72,11 +74,14 @@ pod 'PovioKit/Utilities/StartupService'
 
 ### Installation with Swift Package Manager (Xcode 11+)
 
-[Swift Package Manager](https://swift.org/package-manager/) (SwiftPM) is a tool for managing the distribution of Swift code as well as C-family dependency. From Xcode 11, SwiftPM got natively integrated with Xcode.
+[Swift Package Manager](https://swift.org/package-manager/) (SwiftPM) is a tool for managing the distribution of Swift code as well as C-family dependencies. From Xcode 11, SwiftPM got natively integrated with Xcode.
 
-To use SwiftPM, you should use Xcode 11 to open your project. Click `File` -> `Swift Packages` -> `Add Package Dependency`, enter [PovioKit repo's URL](git@github.com:poviolabs/PovioKit.git). Or you can login Xcode with your GitHub account and just type `PovioKit` to search.
+To use SwiftPM, you should use Xcode 11 to open your project. Click `File` -> `Swift Packages` -> `Add Package Dependency`, enter [PovioKit repo's URL](https://github.com/poviolabs/PovioKit). Or you can login Xcode with your GitHub account and just type `PovioKit` to search.
 
 After select the package, you can choose the dependency type (tagged version, branch or commit). Then Xcode will setup all the stuff for you.
+
+`AlamofireNetworkClient` is not available with SPM yet. Please use Cocoapods for that instead.
+
 
 ## Example
 
