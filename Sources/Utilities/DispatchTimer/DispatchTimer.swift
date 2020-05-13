@@ -14,9 +14,7 @@ public class DispatchTimer {
   
   public init() {}
   
-  deinit {
-    stop()
-  }
+  deinit { stop() }
 }
 
 // MARK: - Public Methods

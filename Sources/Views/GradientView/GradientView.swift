@@ -38,6 +38,7 @@ public class GradientView: UIView {
   }
 }
 
+// MARK: - Public Methods
 public extension GradientView {
   func setGradientColors(_ colors: [UIColor]?, locations: [NSNumber]? = nil, animated: Bool, animationDuration: Double = 0.3) {
     guard let colors = colors else {
@@ -77,6 +78,7 @@ public extension GradientView {
   }
 }
 
+// MARK: - Private Methods
 private extension GradientView {
   func setupViews() {
     layer.insertSublayer(gradientLayer, at: 0)

@@ -11,27 +11,27 @@ import UIKit
 public extension UIDevice {
   /// Returns app name
   var appName: String {
-    return Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
   }
   
   /// Returns App Store build, e.g. `84`
   var appBuild: String {
-    return Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "/"
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "/"
   }
   
   /// Returns App Store app version, e.g. `1.9.3`
   var appVersion: String {
-    return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "/"
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "/"
   }
   
   /// Returns current device OS version e.g. `12.1.0`
   var osVersion: String {
-    return systemVersion
+    systemVersion
   }
   
   /// Returns device name, e.g. `iPhone`
   var deviceName: String {
-    return model
+    model
   }
   
   /// Returns device code name, e.g. `iPhone8.4`
