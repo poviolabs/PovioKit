@@ -8,7 +8,6 @@
 
 import Foundation
 import Alamofire
-import PovioKit
 
 public typealias URLEncoding = Alamofire.URLEncoding
 public typealias JSONEncoding = Alamofire.JSONEncoding
