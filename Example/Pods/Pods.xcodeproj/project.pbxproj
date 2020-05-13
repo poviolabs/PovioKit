@@ -7,92 +7,86 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00999E0539343E4AC4297260893EFBA7 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C19782BB9FE10324527752164494B /* AttributedStringBuilder.swift */; };
 		00FA97D56201027AEB1C7692A2C3CF8B /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EA4B4103C215C2BBFE54F9B3E11A746 /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0419772A87B16DB7DCF405A9E77D671F /* Protector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC5CBF2B59E746F2F02DD75E048686 /* Protector.swift */; };
 		06507A26118BA5ACFBBC8C225776920E /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377FC5C4CFDAEB5B1EC1073D52575088 /* Validation.swift */; };
-		0A6461CDDF8F4510E0CD9250DE226FA0 /* String+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492628D4A95930DF346C04D3D935E01 /* String+Povio.swift */; };
 		0AE06C3AEA6CA45342BA703230ABD2CB /* CachedResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123C467E3221A135171B45ECC7CAE826 /* CachedResponseHandler.swift */; };
+		0BE7105DE33AD8A1C81DA2B528CE1020 /* StartupProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B814EB1653228AD0941DE08F7B301 /* StartupProcess.swift */; };
 		0CC43FF0E31AA320ACFEB0FE6239DF34 /* ServerTrustEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D745F1A3016486D4615B7A02D2CB414B /* ServerTrustEvaluation.swift */; };
-		0DB3A35B1B43EED2890C854235B7F57D /* AlamofireNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180F2923B2290DE028F90F998BB36A3 /* AlamofireNetworkClient.swift */; };
+		10BAE69F668C2ACDDA0C6744FF792C03 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FFCCA47F3C2FDB058F13F533B90341 /* Alamofire.framework */; };
+		10C7712B3A76E16005AC97E812F14043 /* String+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5537784561A076557FF78E3E5DD80D /* String+Povio.swift */; };
+		110E4EA9285FD03CED70048FF01CEE8F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */; };
 		13457FE4E607509A3B9527B0711033D5 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1F56CEC2ED01E871E94AD00939366B /* ResponseSerialization.swift */; };
 		14AB7976E100075ADEA0AB1DB833E72D /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846C77ADB53D7076F89586109B630559 /* ParameterEncoding.swift */; };
-		1521B30637F37E274DD9013C12D91714 /* UICollectionView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8BBCDA57CB653E3F68C2346D63DBF /* UICollectionView+Povio.swift */; };
-		15AFEEB0042EB79B1319D3B3829B2AF1 /* UIColor+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5093CB312D931B4233ABCF3F7D6F3EBC /* UIColor+Povio.swift */; };
+		14BCD6020690692FEE32E6823DB834D6 /* After.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD203783B2047A06EFFA4D6A67A2015 /* After.swift */; };
+		1683585279A65A676F85428E0C30FBB1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239609F85C9FB09B9272261476A88754 /* PaddingLabel.swift */; };
 		17953A9CF2E354B3E69B9ABC2F367AD9 /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD3415DB532E3A14F42BA07EFBE8872 /* AFError.swift */; };
 		225B56711D793C456DE08EE298C38B1B /* Pods-PovioKit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F79B50F774C5553224DE0F9BCA8BB39A /* Pods-PovioKit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		31715BD85D8B355E8AB827822CD4B6A9 /* PovioKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F22503F2CC349F22BB1D06CF8A0371A1 /* PovioKit-dummy.m */; };
-		357C010FA98303FCD39CDEB4ECAC018D /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E05F9794BBE5922D8B501C8E8911B /* Throttler.swift */; };
+		2533A70B7742E5943F7A36A5912BB7D5 /* UITableViewCell+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFEDB7A751896AF75E9FE935F149FC5 /* UITableViewCell+Povio.swift */; };
+		25A4CA6CBEFD6C92E41DD450B52C04D5 /* PovioKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 02F0FDF557238629750020A82012FC02 /* PovioKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		26090EB074729DCABCE1F721523ECC7C /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE566A85520CF064A99668FF450A0BF /* Broadcast.swift */; };
 		376D2699D97EE6D54C4E795CD57A4AEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */; };
-		3D822D73DE23385F816D44A7CC4B4448 /* UICollectionReusableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3D3A9FF367AD8B29AA49E3869952D4 /* UICollectionReusableView+Povio.swift */; };
-		3FDD22B547B9964D8967ED89E2F685D6 /* Result+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3660839EE923FD900C977F8FAE202 /* Result+Povio.swift */; };
+		3B1EC1A252211F563AECE9BB2AF6348A /* UICollectionReusableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B17AFF0FE0CE204AB08A13CD2591A /* UICollectionReusableView+Povio.swift */; };
+		3C564B379FE3D14B02FA08A4D6740FAB /* UIColor+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77466D7E6AE3E7183D434989FB0F65BD /* UIColor+Povio.swift */; };
 		4082513A35C682F2193D002C80F72B79 /* Result+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0AB0E2B8CFAFDAC4E6B99D1CB9819A /* Result+Alamofire.swift */; };
-		41D73A4EC42A822DA005F906B227DCB9 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590C8CBDEF76F0F97D91154299FBE7A /* Broadcast.swift */; };
 		42CDB5C986C78BBC8E5C0185F746CABF /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CFA38D17D2B6C5B1A3DA73E9F0AA7 /* SessionDelegate.swift */; };
-		42E856A23402247F16862254C0B15A73 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FFCCA47F3C2FDB058F13F533B90341 /* Alamofire.framework */; };
 		44127C4B989C9CC6A90D78B66A929A5E /* AlamofireExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D5B938E9683265DA46EF94E458832B /* AlamofireExtended.swift */; };
 		48D97BE7D5CAED273BD2341C239CC934 /* RequestTaskMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF10C4AA0828F4308EE62C6B322F9FC /* RequestTaskMap.swift */; };
-		50CBAA43727E85B2477E5FC33E3B0386 /* Optional+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AD3EA2C48FCFF3723B57BAC5629662 /* Optional+Povio.swift */; };
-		541946AA2CC14856DCD96A2AB9D1E7A8 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F51D9DABC9416B3780DBD79A9E29959 /* StartupProcessService.swift */; };
+		49731856DDA90E9D4511842277D83ABB /* UITableViewHeaderFooterView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC8141F0334E748094CA4AEC37E5B98 /* UITableViewHeaderFooterView+Povio.swift */; };
+		4C1A7E71E04FBAAE0273776B94BA7921 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB00EB5489ADBD2E2D600A8B12A5F94 /* Logger.swift */; };
+		51503C23C6617862A0FC23C2E8179A5D /* UITextField+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AC596B25E7C59124195C85601C7670 /* UITextField+BuilderCompatible.swift */; };
+		52843FC23B7C920A6A1B9217DEB752E4 /* DispatchTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7DE16C4071ECFFCFDC46341BB34BB /* DispatchTimer.swift */; };
+		54F22756553DB0C91D83DD5D73CADC65 /* UITableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFDB88083B3928638F9B7FD09A73EA9 /* UITableView+Povio.swift */; };
+		56CCF6FA5D9625CC27D91154E12A06AA /* Collection+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F498B333F7B2854605EE1C603F8DC619 /* Collection+Povio.swift */; };
 		56EC8ED1535DAB987F3D2B71D4C05773 /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB61134B3721F50E3B71B3B4326CD1CE /* HTTPHeaders.swift */; };
-		5AE20B8FE182AD4CE40FC613B3967735 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64619C8559B5865BB4EF3CE92FDD2181 /* UIKit.framework */; };
 		5BF17D2683BB01FC18E281A050566B02 /* Pods-PovioKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C855CA6758E9BBC4D2438C5A6BCAC8 /* Pods-PovioKit_Tests-dummy.m */; };
 		5C4A0685B5A201436AB52EF25829B333 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AA9BCB88616AEF32658ECCE36D4AC9 /* MultipartFormData.swift */; };
 		5D12235D061AEE7459279AAF8C348DFE /* URLEncodedFormEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A36EE3D2B1F68C408CAA0C1D74255E4 /* URLEncodedFormEncoder.swift */; };
 		5D61C8ED0DDCC9F8B576B6514B19EE50 /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA48DCA0FFEFDAF387F0E0F7FE851A4 /* ParameterEncoder.swift */; };
-		6814281C222DE3D7BD9FAF2A4F26981C /* StartupProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B15C7C50BB0E3CB9F5F54AA4BE93C /* StartupProcess.swift */; };
+		5FB283103A695A5ED4C7BF83156D27AF /* ColorInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7070595A8FD7E3F97D07EE3E73B0AE00 /* ColorInterpolator.swift */; };
 		69ACE4EEE5A8C1C618B22CC1F7B8EF01 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EB9FC9A2CB4B161F55B4D40B67DF08 /* Session.swift */; };
 		6A22C46CB1EDE471794D9AB2AC10327F /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0D49B7C55F872A4120AFC4B55D993 /* Request.swift */; };
-		6BA901EC199C790B89AEF300C71C532A /* DispatchTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0218DF62E68BC21C933E88A5742694A1 /* DispatchTimer.swift */; };
-		6DAF6DCE54E676B565D6003250C75FDF /* UITableViewCell+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC616888F65DF560B9C33C68800466 /* UITableViewCell+Povio.swift */; };
+		6BE68AE924C262BCEAA97B220D13B5B4 /* Optional+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120F587A803AE72EBFD0EFD8A4714C28 /* Optional+Povio.swift */; };
 		70517C3BAC2D6614347DEAC15299EB84 /* URLConvertible+URLRequestConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4945FA9ADF49DBCB46952B2029D8E97 /* URLConvertible+URLRequestConvertible.swift */; };
-		732F749A5D2A7A799ACEBE826BA714B9 /* UITableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC35A078E0067BCD5887343E1F6D12C /* UITableView+Povio.swift */; };
+		77402B272FDB08043FFB729338604A25 /* URL+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A9577E0BEA382DDBFABE210A88099 /* URL+Povio.swift */; };
+		7BE76FB60F00753B2ED00D557413CCFE /* UIImage+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D17216D0AF6374AD4EAC309A1A64BF /* UIImage+Povio.swift */; };
 		7CF8362BA31492053F5CB165637AE117 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C548BFB3DFAC6258D46310AA813AC77 /* NetworkReachabilityManager.swift */; };
-		8354AF5A5B63D5709C919D7C24C78514 /* UITableViewHeaderFooterView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3016CBA4C84CB419851DDD7DB89947C7 /* UITableViewHeaderFooterView+Povio.swift */; };
-		8E228A9EFBB59082DFABCB337E78F450 /* UIImage+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4579AF0963902B32E2ABEE8A434B93 /* UIImage+Povio.swift */; };
+		8D05474649C1A7D79E5532B59FCABDC1 /* PovioKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B27BFE274D775DD87D2807B020BBB4FB /* PovioKit-dummy.m */; };
 		92811AC5CD9A5004116AE43C4E8FD955 /* OperationQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6787EF6667281790961D3B190B5B07AB /* OperationQueue+Alamofire.swift */; };
 		97A168DFB6DB61770CE2DBF4FD39AA8D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A59533689A634251FF222CDCE1A2AE7 /* CFNetwork.framework */; };
-		9CDC400E8BF421905ADCCF635BC811CF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E960876532F4EC42E6CE614A13EC242 /* GradientView.swift */; };
-		A086F96D5ECBCF3E7E75DCC2E7C99342 /* UIView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B58EA19296C062AA68BFCC3A6F8FA7 /* UIView+Povio.swift */; };
-		A13FC19897FC9D9E1E8DE2A618CD7F6E /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2FA8E4349F2317CE877E67A39111EA /* Future.swift */; };
-		A445FC78B53F569F08540928B15CC4EA /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10545DBBAB85E1D7259276CF43E0ADF7 /* Promise.swift */; };
-		A6CD6784F31E7513B347D1D810267121 /* AttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B36D29D1F0B7228509EEE8C844E7DA /* AttributedStringBuilder.swift */; };
+		A62D31ADA8493854FC67D83C3AB2E962 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6574CD64B4470CEA3F9A1B763E2BFB /* GradientView.swift */; };
 		AD9899986955B2EC1EC20818C860C971 /* RequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D0FFF5107EC71E07B73B410E5D0575 /* RequestInterceptor.swift */; };
+		AF1FEB09B7DEAF92B231F5F8DB467633 /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72ED2522CD1AF71DAA3B3AE8F95BADF9 /* Future.swift */; };
 		AF92602937CA016548022C600B8CDC16 /* URLSessionConfiguration+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3040A430AED0E7E7EDD30F4CF6210592 /* URLSessionConfiguration+Alamofire.swift */; };
 		B1C58F6CED7B3E45170711D9ADF878AF /* Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A321E07D98EF0CD764E0C41A71DC1F0 /* Alamofire-dummy.m */; };
 		B23E9A5CDA31534491226F4C2EE8F8E6 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4273B75618FD26D469DB29DEAA8FC27 /* HTTPMethod.swift */; };
-		B4175A2877D09C23DCA2EE8257EED5DC /* URL+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E82508239CE64C803443CBF85CD439 /* URL+Povio.swift */; };
-		B4ABEA7D833B92B17CEFF9A976172943 /* After.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72A06E29B22EB3ED8F8617F1A1FF4D4 /* After.swift */; };
 		B788B3354CCEBE56DFDB963CAFD7F6C2 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10307F3F522E2028D9C66CE267B5EEEB /* Alamofire.swift */; };
-		B7A94276AE1CCE461D3815C10FB95C17 /* UITextField+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D67229160AC4922917FA79A0999BF5 /* UITextField+BuilderCompatible.swift */; };
-		BA9340D8759EFA49141DDBE13DB25272 /* Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2DB1D78C25040E3F4472756D9CD290 /* Combine.swift */; };
-		BC5EBA4CC5727E2D404EB050BC2C1F92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */; };
-		BD0EDF0BF6C0CCA4A40CBAA08ECA4EC0 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947AE22E818D3E4C4FBFB3467083D61C /* Logger.swift */; };
+		BAE8D05AE70E733AD5758D83974C888F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64619C8559B5865BB4EF3CE92FDD2181 /* UIKit.framework */; };
+		BDCC5993632C11D2F0D2CFB2B70466D7 /* UICollectionView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA4953F215DFC3243A7E5459A07C633 /* UICollectionView+Povio.swift */; };
 		BE82AE980F8C7EE28A6448959194F93A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */; };
-		C2B2AF928AC4F1A69A82909D140E1012 /* ColorInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C627031B4DCBEC60C707903B7CBC5AB0 /* ColorInterpolator.swift */; };
+		C447A750636355FEAC060924D13B8319 /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96847305D59A215388561A83FABC8B18 /* Throttler.swift */; };
 		C64AF152F7928CDB59385528DB65FE19 /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F063F517EEEF120A0A8B99BEC311B43 /* RedirectHandler.swift */; };
 		C7369563F6946D8984124E1A546B6425 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EE8A89E74355A0A158F7D102BDA24 /* Notifications.swift */; };
+		C8FC6B74FF05914AD2624711B3FC44A7 /* UILabel+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F9B6673E247957B49EC070D1E9FB40 /* UILabel+BuilderCompatible.swift */; };
 		CACBD166E573774FB5613C34AA6DA7A7 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1691E89132D1B058152A74BAB49986 /* EventMonitor.swift */; };
-		D0502155CC3A720D33350DD06B7DD9BF /* UIEdgeInsets+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1259528941BB003ED4176FCF2EE3D0C9 /* UIEdgeInsets+Povio.swift */; };
-		D6248A83D03BF68139914D6954661A1F /* PovioKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DC50C4DA2935EC6DA1828D33BEF979 /* PovioKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CD32BBAA65CEF6BBBE5039DB62045D5B /* UIView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212E4937A10D713AD6C83B5F321F74E8 /* UIView+Povio.swift */; };
+		CDB2031C23E402D5AA8E115DC8EF6570 /* StartupProcessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883DDFD655423EDF8C99B5729A78179D /* StartupProcessService.swift */; };
 		D6B2983389480F48F27A0704EEB5DC81 /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557B8D4A5FD4A7D0639084304D178AF0 /* RetryPolicy.swift */; };
-		DF6F551DA33915837AB3C5694EF19CF7 /* UIDevice+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F088C94B0DECD9DD3F2A06E53B5F4F /* UIDevice+Povio.swift */; };
+		DA58A5C209A8B2E3245C67D096221E94 /* UIDevice+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3524619A081F6235B83121CFFCBBBC3D /* UIDevice+Povio.swift */; };
 		E07BD425C4EA9ADF15DDFCDB10D0B2FB /* MultipartUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90AF07502E799707D12127D8D741A37 /* MultipartUpload.swift */; };
+		E247372F0B0253EFFC15012FC82FEF73 /* Result+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3E8B9F5FC44BB6B127F39D15A0ACCA /* Result+Povio.swift */; };
+		E43F49D2C450241C1BEE6F97894BBE9A /* AlamofireNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1147348DABFBF07686BB04FD5C2793 /* AlamofireNetworkClient.swift */; };
 		E4E12208D5246E64B7E6CCAE987ADB03 /* URLRequest+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = F317D8FEC0D10D736FC8B24821F6DDD1 /* URLRequest+Alamofire.swift */; };
+		E6A93FC479582BA1F1880C3E116F14AC /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A068D2D27460B1EB47D47678C2129 /* Promise.swift */; };
 		E9A5AC2F471699CCA516952A5FEB990B /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D8905A07A8C7DA4BA33CE444126B14 /* DispatchQueue+Alamofire.swift */; };
-		EAD50DF11E420DEC4EEA8A0334A80009 /* UILabel+BuilderCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EE354398811284BBF91D54AEA2CB5F /* UILabel+BuilderCompatible.swift */; };
+		F21BE8E00F385A1312FA55B058D41524 /* UIEdgeInsets+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D8BE206F7BF93202C52D0A5641A389 /* UIEdgeInsets+Povio.swift */; };
+		F2ABBB1AEC554BA570EDD511587BD491 /* Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E144D7E1FB6936F43602293D5310E9 /* Combine.swift */; };
 		F71789DC91A75033EFB79DB828676451 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9536A837D7E616B67849E3249D17A3BF /* Response.swift */; };
-		F9D43456B67FE61EB9627A8A1C48A4BA /* Collection+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8FFA2E193535A183DF923956E60AEB /* Collection+Povio.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		8163210F95EDA4D2C8314C47144F3A41 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
-			remoteInfo = Alamofire;
-		};
-		A43E4861A2F8BDEA3625850C73E5BFD4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -106,116 +100,124 @@
 			remoteGlobalIDString = CF6731057EF4C066A88B7C180B4A4125;
 			remoteInfo = PovioKit;
 		};
+		EDC072B3ACC6BD91FBBCC0C30FD028FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
+			remoteInfo = Alamofire;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0218DF62E68BC21C933E88A5742694A1 /* DispatchTimer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DispatchTimer.swift; path = Sources/Utilities/DispatchTimer/DispatchTimer.swift; sourceTree = "<group>"; };
+		02F0FDF557238629750020A82012FC02 /* PovioKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-umbrella.h"; sourceTree = "<group>"; };
 		068AE550BA03C7A368E15194212C32B8 /* Alamofire.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.debug.xcconfig; sourceTree = "<group>"; };
 		07F1304F0018DD736A0BBB909327B023 /* Pods-PovioKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PovioKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		09769A822AD56168595FF7B423194790 /* PovioKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-prefix.pch"; sourceTree = "<group>"; };
 		0A3D858A335524D486BCDF7642643AE8 /* Pods-PovioKit_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PovioKit_Tests-Info.plist"; sourceTree = "<group>"; };
 		0A4515A9C155981DF1D9BD97B9F1FE71 /* PovioKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PovioKit.framework; path = PovioKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0C8FFA2E193535A183DF923956E60AEB /* Collection+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Collection+Povio.swift"; path = "Sources/Extensions/Foundation/Collection+Povio.swift"; sourceTree = "<group>"; };
-		0F4579AF0963902B32E2ABEE8A434B93 /* UIImage+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Povio.swift"; path = "Sources/Extensions/UIKit/UIImage+Povio.swift"; sourceTree = "<group>"; };
+		0E3E8B9F5FC44BB6B127F39D15A0ACCA /* Result+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Result+Povio.swift"; path = "Sources/Extensions/Foundation/Result+Povio.swift"; sourceTree = "<group>"; };
 		0FAC00073F63D0AC0A7188428B551FFD /* Pods-PovioKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-PovioKit_Tests.modulemap"; sourceTree = "<group>"; };
 		10307F3F522E2028D9C66CE267B5EEEB /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
-		10545DBBAB85E1D7259276CF43E0ADF7 /* Promise.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Promise.swift; path = Sources/Utilities/PromiseKit/Promise.swift; sourceTree = "<group>"; };
-		11EE354398811284BBF91D54AEA2CB5F /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILabel+BuilderCompatible.swift"; path = "Sources/Utilities/AttributedStringBuilder/UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
+		120F587A803AE72EBFD0EFD8A4714C28 /* Optional+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Optional+Povio.swift"; path = "Sources/Extensions/Foundation/Optional+Povio.swift"; sourceTree = "<group>"; };
 		123C467E3221A135171B45ECC7CAE826 /* CachedResponseHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CachedResponseHandler.swift; path = Source/CachedResponseHandler.swift; sourceTree = "<group>"; };
-		1259528941BB003ED4176FCF2EE3D0C9 /* UIEdgeInsets+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+Povio.swift"; path = "Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift"; sourceTree = "<group>"; };
 		17D0FFF5107EC71E07B73B410E5D0575 /* RequestInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestInterceptor.swift; path = Source/RequestInterceptor.swift; sourceTree = "<group>"; };
-		1889C6EB076D28FEEF2BFCBC2561156C /* PovioKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PovioKit.modulemap; sourceTree = "<group>"; };
-		1B041782D743FAED587E706F225223FE /* PovioKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PovioKit-Info.plist"; sourceTree = "<group>"; };
 		1EA4B4103C215C2BBFE54F9B3E11A746 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
+		212E4937A10D713AD6C83B5F321F74E8 /* UIView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Povio.swift"; path = "Sources/Extensions/UIKit/UIView+Povio.swift"; sourceTree = "<group>"; };
+		239609F85C9FB09B9272261476A88754 /* PaddingLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PaddingLabel.swift; path = Sources/Views/PaddingLabel/PaddingLabel.swift; sourceTree = "<group>"; };
 		25E606545F14BA9B698A89FD5C271A48 /* Pods-PovioKit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PovioKit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		26B5D3E46E01BD3BA699B5D6C1C62F56 /* PovioKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PovioKit.modulemap; sourceTree = "<group>"; };
 		2A36EE3D2B1F68C408CAA0C1D74255E4 /* URLEncodedFormEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLEncodedFormEncoder.swift; path = Source/URLEncodedFormEncoder.swift; sourceTree = "<group>"; };
-		2FBC5017F131FA37F3842F42B72E33BA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
-		3016CBA4C84CB419851DDD7DB89947C7 /* UITableViewHeaderFooterView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITableViewHeaderFooterView+Povio.swift"; path = "Sources/Extensions/UIKit/UITableViewHeaderFooterView+Povio.swift"; sourceTree = "<group>"; };
+		2B1B814EB1653228AD0941DE08F7B301 /* StartupProcess.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StartupProcess.swift; path = Sources/Utilities/StartupService/StartupProcess.swift; sourceTree = "<group>"; };
 		3040A430AED0E7E7EDD30F4CF6210592 /* URLSessionConfiguration+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLSessionConfiguration+Alamofire.swift"; path = "Source/URLSessionConfiguration+Alamofire.swift"; sourceTree = "<group>"; };
 		31DCA4581536E4222C29571EDF37FB57 /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PovioKit_Tests.framework; path = "Pods-PovioKit_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31E144D7E1FB6936F43602293D5310E9 /* Combine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Combine.swift; path = Sources/Utilities/PromiseKit/Combine.swift; sourceTree = "<group>"; };
 		34B66924D93DCFE0FB953027EF6F595A /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
-		3590C8CBDEF76F0F97D91154299FBE7A /* Broadcast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Broadcast.swift; path = Sources/Utilities/Broadcast/Broadcast.swift; sourceTree = "<group>"; };
-		35B36D29D1F0B7228509EEE8C844E7DA /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AttributedStringBuilder.swift; path = Sources/Utilities/AttributedStringBuilder/AttributedStringBuilder.swift; sourceTree = "<group>"; };
+		3524619A081F6235B83121CFFCBBBC3D /* UIDevice+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIDevice+Povio.swift"; path = "Sources/Extensions/UIKit/UIDevice+Povio.swift"; sourceTree = "<group>"; };
 		377FC5C4CFDAEB5B1EC1073D52575088 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
-		38C8BBCDA57CB653E3F68C2346D63DBF /* UICollectionView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Povio.swift"; path = "Sources/Extensions/UIKit/UICollectionView+Povio.swift"; sourceTree = "<group>"; };
-		3CC1E02AB81D4C8C1CC86BC88940B7B8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		3E3D3A9FF367AD8B29AA49E3869952D4 /* UICollectionReusableView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UICollectionReusableView+Povio.swift"; path = "Sources/Extensions/UIKit/UICollectionReusableView+Povio.swift"; sourceTree = "<group>"; };
+		3CB00EB5489ADBD2E2D600A8B12A5F94 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Sources/Utilities/Logger/Logger.swift; sourceTree = "<group>"; };
 		3F063F517EEEF120A0A8B99BEC311B43 /* RedirectHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RedirectHandler.swift; path = Source/RedirectHandler.swift; sourceTree = "<group>"; };
-		3F51D9DABC9416B3780DBD79A9E29959 /* StartupProcessService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StartupProcessService.swift; path = Sources/Utilities/StartupService/StartupProcessService.swift; sourceTree = "<group>"; };
 		3F9CFA38D17D2B6C5B1A3DA73E9F0AA7 /* SessionDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDelegate.swift; path = Source/SessionDelegate.swift; sourceTree = "<group>"; };
-		40B58EA19296C062AA68BFCC3A6F8FA7 /* UIView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Povio.swift"; path = "Sources/Extensions/UIKit/UIView+Povio.swift"; sourceTree = "<group>"; };
-		4492628D4A95930DF346C04D3D935E01 /* String+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Povio.swift"; path = "Sources/Extensions/Foundation/String+Povio.swift"; sourceTree = "<group>"; };
-		4E960876532F4EC42E6CE614A13EC242 /* GradientView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GradientView.swift; path = Sources/Views/GradientView/GradientView.swift; sourceTree = "<group>"; };
-		5093CB312D931B4233ABCF3F7D6F3EBC /* UIColor+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+Povio.swift"; path = "Sources/Extensions/UIKit/UIColor+Povio.swift"; sourceTree = "<group>"; };
+		41F0EF9FCD1300594744FCE715466D38 /* PovioKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PovioKit-Info.plist"; sourceTree = "<group>"; };
+		4E30EE394CB518C9DE67D794819E7E58 /* PovioKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-prefix.pch"; sourceTree = "<group>"; };
+		52D17216D0AF6374AD4EAC309A1A64BF /* UIImage+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Povio.swift"; path = "Sources/Extensions/UIKit/UIImage+Povio.swift"; sourceTree = "<group>"; };
 		557B8D4A5FD4A7D0639084304D178AF0 /* RetryPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RetryPolicy.swift; path = Source/RetryPolicy.swift; sourceTree = "<group>"; };
-		55A307876030C23FC7EA144F810CE55D /* PovioKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PovioKit.release.xcconfig; sourceTree = "<group>"; };
-		55E3660839EE923FD900C977F8FAE202 /* Result+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Result+Povio.swift"; path = "Sources/Extensions/Foundation/Result+Povio.swift"; sourceTree = "<group>"; };
 		59FFCCA47F3C2FDB058F13F533B90341 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A4B15C7C50BB0E3CB9F5F54AA4BE93C /* StartupProcess.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StartupProcess.swift; path = Sources/Utilities/StartupService/StartupProcess.swift; sourceTree = "<group>"; };
 		5C1691E89132D1B058152A74BAB49986 /* EventMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EventMonitor.swift; path = Source/EventMonitor.swift; sourceTree = "<group>"; };
 		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DC35A078E0067BCD5887343E1F6D12C /* UITableView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITableView+Povio.swift"; path = "Sources/Extensions/UIKit/UITableView+Povio.swift"; sourceTree = "<group>"; };
+		607903DD2A308F5ACEB60D66C540EB62 /* PovioKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = PovioKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		63F9B6673E247957B49EC070D1E9FB40 /* UILabel+BuilderCompatible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILabel+BuilderCompatible.swift"; path = "Sources/Utilities/AttributedStringBuilder/UILabel+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		64619C8559B5865BB4EF3CE92FDD2181 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		6787EF6667281790961D3B190B5B07AB /* OperationQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OperationQueue+Alamofire.swift"; path = "Source/OperationQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		69C855CA6758E9BBC4D2438C5A6BCAC8 /* Pods-PovioKit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PovioKit_Tests-dummy.m"; sourceTree = "<group>"; };
+		6A1147348DABFBF07686BB04FD5C2793 /* AlamofireNetworkClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AlamofireNetworkClient.swift; path = Sources/Networking/AlamofireNetworkClient/AlamofireNetworkClient.swift; sourceTree = "<group>"; };
 		6A321E07D98EF0CD764E0C41A71DC1F0 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
 		6A59533689A634251FF222CDCE1A2AE7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
+		6D7772C100F86AA0B633DE31091A05ED /* PovioKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PovioKit.release.xcconfig; sourceTree = "<group>"; };
 		6EF10C4AA0828F4308EE62C6B322F9FC /* RequestTaskMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestTaskMap.swift; path = Source/RequestTaskMap.swift; sourceTree = "<group>"; };
-		799E05F9794BBE5922D8B501C8E8911B /* Throttler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Throttler.swift; path = Sources/Utilities/Throttler/Throttler.swift; sourceTree = "<group>"; };
-		7C2FA8E4349F2317CE877E67A39111EA /* Future.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Future.swift; path = Sources/Utilities/PromiseKit/Future.swift; sourceTree = "<group>"; };
+		7070595A8FD7E3F97D07EE3E73B0AE00 /* ColorInterpolator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorInterpolator.swift; path = Sources/Utilities/ColorInterpolator/ColorInterpolator.swift; sourceTree = "<group>"; };
+		72ED2522CD1AF71DAA3B3AE8F95BADF9 /* Future.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Future.swift; path = Sources/Utilities/PromiseKit/Future.swift; sourceTree = "<group>"; };
+		77466D7E6AE3E7183D434989FB0F65BD /* UIColor+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+Povio.swift"; path = "Sources/Extensions/UIKit/UIColor+Povio.swift"; sourceTree = "<group>"; };
 		7FEC5CBF2B59E746F2F02DD75E048686 /* Protector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Protector.swift; path = Source/Protector.swift; sourceTree = "<group>"; };
 		846C77ADB53D7076F89586109B630559 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
+		883DDFD655423EDF8C99B5729A78179D /* StartupProcessService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StartupProcessService.swift; path = Sources/Utilities/StartupService/StartupProcessService.swift; sourceTree = "<group>"; };
+		8AA4953F215DFC3243A7E5459A07C633 /* UICollectionView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Povio.swift"; path = "Sources/Extensions/UIKit/UICollectionView+Povio.swift"; sourceTree = "<group>"; };
+		8BFDB88083B3928638F9B7FD09A73EA9 /* UITableView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITableView+Povio.swift"; path = "Sources/Extensions/UIKit/UITableView+Povio.swift"; sourceTree = "<group>"; };
+		8BFEDB7A751896AF75E9FE935F149FC5 /* UITableViewCell+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITableViewCell+Povio.swift"; path = "Sources/Extensions/UIKit/UITableViewCell+Povio.swift"; sourceTree = "<group>"; };
 		8D0AB0E2B8CFAFDAC4E6B99D1CB9819A /* Result+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Result+Alamofire.swift"; path = "Source/Result+Alamofire.swift"; sourceTree = "<group>"; };
 		927EE8A89E74355A0A158F7D102BDA24 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
-		947AE22E818D3E4C4FBFB3467083D61C /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Sources/Utilities/Logger/Logger.swift; sourceTree = "<group>"; };
 		9536A837D7E616B67849E3249D17A3BF /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Response.swift; path = Source/Response.swift; sourceTree = "<group>"; };
-		95EC616888F65DF560B9C33C68800466 /* UITableViewCell+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITableViewCell+Povio.swift"; path = "Sources/Extensions/UIKit/UITableViewCell+Povio.swift"; sourceTree = "<group>"; };
+		96847305D59A215388561A83FABC8B18 /* Throttler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Throttler.swift; path = Sources/Utilities/Throttler/Throttler.swift; sourceTree = "<group>"; };
+		9BD203783B2047A06EFFA4D6A67A2015 /* After.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = After.swift; path = Sources/Utilities/PromiseKit/After.swift; sourceTree = "<group>"; };
 		9C548BFB3DFAC6258D46310AA813AC77 /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A180F2923B2290DE028F90F998BB36A3 /* AlamofireNetworkClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AlamofireNetworkClient.swift; path = Sources/Networking/AlamofireNetworkClient/AlamofireNetworkClient.swift; sourceTree = "<group>"; };
+		9DE566A85520CF064A99668FF450A0BF /* Broadcast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Broadcast.swift; path = Sources/Utilities/Broadcast/Broadcast.swift; sourceTree = "<group>"; };
+		A1F7DE16C4071ECFFCFDC46341BB34BB /* DispatchTimer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DispatchTimer.swift; path = Sources/Utilities/DispatchTimer/DispatchTimer.swift; sourceTree = "<group>"; };
 		A2AA9BCB88616AEF32658ECCE36D4AC9 /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
+		A99B17AFF0FE0CE204AB08A13CD2591A /* UICollectionReusableView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UICollectionReusableView+Povio.swift"; path = "Sources/Extensions/UIKit/UICollectionReusableView+Povio.swift"; sourceTree = "<group>"; };
 		AB5945DDD3290983BE3CBC4A2BDFEE7B /* Alamofire.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.release.xcconfig; sourceTree = "<group>"; };
+		AD1A068D2D27460B1EB47D47678C2129 /* Promise.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Promise.swift; path = Sources/Utilities/PromiseKit/Promise.swift; sourceTree = "<group>"; };
 		AE1F56CEC2ED01E871E94AD00939366B /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
-		AF2DB1D78C25040E3F4472756D9CD290 /* Combine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Combine.swift; path = Sources/Utilities/PromiseKit/Combine.swift; sourceTree = "<group>"; };
-		B0DC50C4DA2935EC6DA1828D33BEF979 /* PovioKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PovioKit-umbrella.h"; sourceTree = "<group>"; };
-		B0E82508239CE64C803443CBF85CD439 /* URL+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URL+Povio.swift"; path = "Sources/Extensions/Foundation/URL+Povio.swift"; sourceTree = "<group>"; };
-		B41B9A77645FE26661E6A7AEA829AEB4 /* PovioKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PovioKit.debug.xcconfig; sourceTree = "<group>"; };
+		B27BFE274D775DD87D2807B020BBB4FB /* PovioKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PovioKit-dummy.m"; sourceTree = "<group>"; };
 		B4945FA9ADF49DBCB46952B2029D8E97 /* URLConvertible+URLRequestConvertible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLConvertible+URLRequestConvertible.swift"; path = "Source/URLConvertible+URLRequestConvertible.swift"; sourceTree = "<group>"; };
+		B586BB918F76F8D4BC5743E517EBEF98 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		BD77DD176895531A72A2669539ABCBB9 /* Alamofire-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Alamofire-Info.plist"; sourceTree = "<group>"; };
 		BDA0D49B7C55F872A4120AFC4B55D993 /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
 		BEA48DCA0FFEFDAF387F0E0F7FE851A4 /* ParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoder.swift; path = Source/ParameterEncoder.swift; sourceTree = "<group>"; };
 		C4273B75618FD26D469DB29DEAA8FC27 /* HTTPMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPMethod.swift; path = Source/HTTPMethod.swift; sourceTree = "<group>"; };
-		C4F088C94B0DECD9DD3F2A06E53B5F4F /* UIDevice+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIDevice+Povio.swift"; path = "Sources/Extensions/UIKit/UIDevice+Povio.swift"; sourceTree = "<group>"; };
-		C627031B4DCBEC60C707903B7CBC5AB0 /* ColorInterpolator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorInterpolator.swift; path = Sources/Utilities/ColorInterpolator/ColorInterpolator.swift; sourceTree = "<group>"; };
 		C6D5B938E9683265DA46EF94E458832B /* AlamofireExtended.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AlamofireExtended.swift; path = Source/AlamofireExtended.swift; sourceTree = "<group>"; };
-		C72A06E29B22EB3ED8F8617F1A1FF4D4 /* After.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = After.swift; path = Sources/Utilities/PromiseKit/After.swift; sourceTree = "<group>"; };
-		D61E900F175E33985E1A2F78E434E51E /* PovioKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = PovioKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		CE8C19782BB9FE10324527752164494B /* AttributedStringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AttributedStringBuilder.swift; path = Sources/Utilities/AttributedStringBuilder/AttributedStringBuilder.swift; sourceTree = "<group>"; };
+		D51BBF5A74FA1AFE2492F23E480B9A8C /* PovioKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PovioKit.debug.xcconfig; sourceTree = "<group>"; };
 		D745F1A3016486D4615B7A02D2CB414B /* ServerTrustEvaluation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustEvaluation.swift; path = Source/ServerTrustEvaluation.swift; sourceTree = "<group>"; };
 		D799D50C0DEC8C667F29A81EBB218388 /* Pods-PovioKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PovioKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		D9AD3EA2C48FCFF3723B57BAC5629662 /* Optional+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Optional+Povio.swift"; path = "Sources/Extensions/Foundation/Optional+Povio.swift"; sourceTree = "<group>"; };
+		DD6574CD64B4470CEA3F9A1B763E2BFB /* GradientView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GradientView.swift; path = Sources/Views/GradientView/GradientView.swift; sourceTree = "<group>"; };
+		DFC8141F0334E748094CA4AEC37E5B98 /* UITableViewHeaderFooterView+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITableViewHeaderFooterView+Povio.swift"; path = "Sources/Extensions/UIKit/UITableViewHeaderFooterView+Povio.swift"; sourceTree = "<group>"; };
 		E0D8905A07A8C7DA4BA33CE444126B14 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
+		E3AC596B25E7C59124195C85601C7670 /* UITextField+BuilderCompatible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITextField+BuilderCompatible.swift"; path = "Sources/Utilities/AttributedStringBuilder/UITextField+BuilderCompatible.swift"; sourceTree = "<group>"; };
 		E40F5884D05955EA9108AFC76894F2D3 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Alamofire.modulemap; sourceTree = "<group>"; };
 		E90AF07502E799707D12127D8D741A37 /* MultipartUpload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartUpload.swift; path = Source/MultipartUpload.swift; sourceTree = "<group>"; };
 		EAECF855B8EF619687570DBA85DDFE78 /* Pods-PovioKit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PovioKit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		EDD3415DB532E3A14F42BA07EFBE8872 /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
+		F1D8BE206F7BF93202C52D0A5641A389 /* UIEdgeInsets+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+Povio.swift"; path = "Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift"; sourceTree = "<group>"; };
 		F1EB9FC9A2CB4B161F55B4D40B67DF08 /* Session.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Source/Session.swift; sourceTree = "<group>"; };
-		F22503F2CC349F22BB1D06CF8A0371A1 /* PovioKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PovioKit-dummy.m"; sourceTree = "<group>"; };
 		F317D8FEC0D10D736FC8B24821F6DDD1 /* URLRequest+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLRequest+Alamofire.swift"; path = "Source/URLRequest+Alamofire.swift"; sourceTree = "<group>"; };
+		F498B333F7B2854605EE1C603F8DC619 /* Collection+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Collection+Povio.swift"; path = "Sources/Extensions/Foundation/Collection+Povio.swift"; sourceTree = "<group>"; };
 		F79B50F774C5553224DE0F9BCA8BB39A /* Pods-PovioKit_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PovioKit_Tests-umbrella.h"; sourceTree = "<group>"; };
-		F7D67229160AC4922917FA79A0999BF5 /* UITextField+BuilderCompatible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITextField+BuilderCompatible.swift"; path = "Sources/Utilities/AttributedStringBuilder/UITextField+BuilderCompatible.swift"; sourceTree = "<group>"; };
+		F8863359982288A3AE47A3EAAA86CCE8 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		F8C0E2769567916307BEAAFB60726F1A /* Pods-PovioKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PovioKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		FA5537784561A076557FF78E3E5DD80D /* String+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Povio.swift"; path = "Sources/Extensions/Foundation/String+Povio.swift"; sourceTree = "<group>"; };
 		FB61134B3721F50E3B71B3B4326CD1CE /* HTTPHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPHeaders.swift; path = Source/HTTPHeaders.swift; sourceTree = "<group>"; };
+		FC2A9577E0BEA382DDBFABE210A88099 /* URL+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URL+Povio.swift"; path = "Sources/Extensions/Foundation/URL+Povio.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3DF153F525DFF46EB48AEFC4E24612B1 /* Frameworks */ = {
+		07F8DB488B9261EEC0E13B7517EA1577 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42E856A23402247F16862254C0B15A73 /* Alamofire.framework in Frameworks */,
-				BC5EBA4CC5727E2D404EB050BC2C1F92 /* Foundation.framework in Frameworks */,
-				5AE20B8FE182AD4CE40FC613B3967735 /* UIKit.framework in Frameworks */,
+				10BAE69F668C2ACDDA0C6744FF792C03 /* Alamofire.framework in Frameworks */,
+				110E4EA9285FD03CED70048FF01CEE8F /* Foundation.framework in Frameworks */,
+				BAE8D05AE70E733AD5758D83974C888F /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,12 +241,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		034D6474A636C8434AA021359F0CA4CB /* Logger */ = {
+		04FB36FF890A03955B9F8504DE5791EF /* PaddingLabel */ = {
 			isa = PBXGroup;
 			children = (
-				947AE22E818D3E4C4FBFB3467083D61C /* Logger.swift */,
+				239609F85C9FB09B9272261476A88754 /* PaddingLabel.swift */,
 			);
-			name = Logger;
+			name = PaddingLabel;
 			sourceTree = "<group>";
 		};
 		08C3CADBFE7473C8C2720B971358481C /* Pods */ = {
@@ -253,14 +255,6 @@
 				16E556D878739E286CF5888999BC9598 /* Alamofire */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		1614F58148A4C0A2EB78A7E7769862EF /* Throttler */ = {
-			isa = PBXGroup;
-			children = (
-				799E05F9794BBE5922D8B501C8E8911B /* Throttler.swift */,
-			);
-			name = Throttler;
 			sourceTree = "<group>";
 		};
 		16E556D878739E286CF5888999BC9598 /* Alamofire */ = {
@@ -304,6 +298,14 @@
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
+		1B5D8F4ADFFD6B7F4CD2B93B29F21701 /* DispatchTimer */ = {
+			isa = PBXGroup;
+			children = (
+				A1F7DE16C4071ECFFCFDC46341BB34BB /* DispatchTimer.swift */,
+			);
+			name = DispatchTimer;
+			sourceTree = "<group>";
+		};
 		1E53EB506FAC59DABEA38E6B050414F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,101 +331,100 @@
 			path = "../Target Support Files/Alamofire";
 			sourceTree = "<group>";
 		};
-		33F596497FE7F22B3F2BF389F4F7F66D /* Networking */ = {
+		26993E6117F28400C3E6DA9D5B8A04BA /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				E07C3AA8091886661D7D03F77BF776A8 /* AlamofireNetworkClient */,
-			);
-			name = Networking;
-			sourceTree = "<group>";
-		};
-		35DA10346672ECAB6987DC7C932CCC8D /* AttributedStringBuilder */ = {
-			isa = PBXGroup;
-			children = (
-				35B36D29D1F0B7228509EEE8C844E7DA /* AttributedStringBuilder.swift */,
-				11EE354398811284BBF91D54AEA2CB5F /* UILabel+BuilderCompatible.swift */,
-				F7D67229160AC4922917FA79A0999BF5 /* UITextField+BuilderCompatible.swift */,
-			);
-			name = AttributedStringBuilder;
-			sourceTree = "<group>";
-		};
-		4485C75934F79CD20CC3B39CC6DE348A /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				3CC1E02AB81D4C8C1CC86BC88940B7B8 /* LICENSE */,
-				D61E900F175E33985E1A2F78E434E51E /* PovioKit.podspec */,
-				2FBC5017F131FA37F3842F42B72E33BA /* README.md */,
-			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
-		5402E88441845196742B190AC7A3539F /* Broadcast */ = {
-			isa = PBXGroup;
-			children = (
-				3590C8CBDEF76F0F97D91154299FBE7A /* Broadcast.swift */,
-			);
-			name = Broadcast;
-			sourceTree = "<group>";
-		};
-		568589F31A5C9BDB5D99451FA50973A8 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				5F51D86DE04C82FF8ACDECDD0375518E /* Foundation */,
-				CB85455EEBB528AA2641AFD73D4218EE /* UIKit */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
-		5F51D86DE04C82FF8ACDECDD0375518E /* Foundation */ = {
-			isa = PBXGroup;
-			children = (
-				0C8FFA2E193535A183DF923956E60AEB /* Collection+Povio.swift */,
-				D9AD3EA2C48FCFF3723B57BAC5629662 /* Optional+Povio.swift */,
-				55E3660839EE923FD900C977F8FAE202 /* Result+Povio.swift */,
-				4492628D4A95930DF346C04D3D935E01 /* String+Povio.swift */,
-				B0E82508239CE64C803443CBF85CD439 /* URL+Povio.swift */,
+				F498B333F7B2854605EE1C603F8DC619 /* Collection+Povio.swift */,
+				120F587A803AE72EBFD0EFD8A4714C28 /* Optional+Povio.swift */,
+				0E3E8B9F5FC44BB6B127F39D15A0ACCA /* Result+Povio.swift */,
+				FA5537784561A076557FF78E3E5DD80D /* String+Povio.swift */,
+				FC2A9577E0BEA382DDBFABE210A88099 /* URL+Povio.swift */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
 		};
-		666754231ED425882C283E9CD82051B8 /* Views */ = {
+		2D1E488D8E3950C54E5361062FB05447 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				7B4DEB141CC7687ACF389406194ACE2A /* GradientView */,
+				D6F054CCF3D7569D93FF6CDA6C79E15D /* AttributedStringBuilder */,
+				D235E1190C2C174A26B0E07044CE0DF2 /* Broadcast */,
+				F80D953EA6A5C396C51F2B7EB0169312 /* ColorInterpolator */,
+				1B5D8F4ADFFD6B7F4CD2B93B29F21701 /* DispatchTimer */,
+				64A5C2463B9C09DDC6BC61A1B77AD799 /* Logger */,
+				681C11D425090CC6072A524A206B1186 /* PromiseKit */,
+				F21EF54F675520C200061048740BD7DA /* StartupService */,
+				9B030E37F12A77837DE660D7A9A47F4E /* Throttler */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		32829F89053A8429663687FE63812107 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				B586BB918F76F8D4BC5743E517EBEF98 /* LICENSE */,
+				607903DD2A308F5ACEB60D66C540EB62 /* PovioKit.podspec */,
+				F8863359982288A3AE47A3EAAA86CCE8 /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		393CC60A1FFE49D4305F0C9B3AE64EDD /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				92F8A1A223CD02366B7F6AAAF244C019 /* AlamofireNetworkClient */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		3E8A03E40BC9EADD7C08BA9CE6101EB4 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				26B5D3E46E01BD3BA699B5D6C1C62F56 /* PovioKit.modulemap */,
+				B27BFE274D775DD87D2807B020BBB4FB /* PovioKit-dummy.m */,
+				41F0EF9FCD1300594744FCE715466D38 /* PovioKit-Info.plist */,
+				4E30EE394CB518C9DE67D794819E7E58 /* PovioKit-prefix.pch */,
+				02F0FDF557238629750020A82012FC02 /* PovioKit-umbrella.h */,
+				D51BBF5A74FA1AFE2492F23E480B9A8C /* PovioKit.debug.xcconfig */,
+				6D7772C100F86AA0B633DE31091A05ED /* PovioKit.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/PovioKit";
+			sourceTree = "<group>";
+		};
+		42ED4D1450FC18958652C5793F270090 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9BFD468CCFB0949545638B14C2A71902 /* GradientView */,
+				04FB36FF890A03955B9F8504DE5791EF /* PaddingLabel */,
 			);
 			name = Views;
 			sourceTree = "<group>";
 		};
-		669E4232099FFDDF504A1CEA56B35BCD /* DispatchTimer */ = {
+		64A5C2463B9C09DDC6BC61A1B77AD799 /* Logger */ = {
 			isa = PBXGroup;
 			children = (
-				0218DF62E68BC21C933E88A5742694A1 /* DispatchTimer.swift */,
+				3CB00EB5489ADBD2E2D600A8B12A5F94 /* Logger.swift */,
 			);
-			name = DispatchTimer;
+			name = Logger;
+			sourceTree = "<group>";
+		};
+		681C11D425090CC6072A524A206B1186 /* PromiseKit */ = {
+			isa = PBXGroup;
+			children = (
+				9BD203783B2047A06EFFA4D6A67A2015 /* After.swift */,
+				31E144D7E1FB6936F43602293D5310E9 /* Combine.swift */,
+				72ED2522CD1AF71DAA3B3AE8F95BADF9 /* Future.swift */,
+				AD1A068D2D27460B1EB47D47678C2129 /* Promise.swift */,
+			);
+			name = PromiseKit;
 			sourceTree = "<group>";
 		};
 		6906D7FB551796D9F6CAD4E07FA4CEF5 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AC43AA79ED9645DD1E8E4DD048E69A53 /* PovioKit */,
+				960904D06D9A167BB6526431A8F7F86E /* PovioKit */,
 			);
 			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		71140EA932F13AF56242E0F5129566CD /* ColorInterpolator */ = {
-			isa = PBXGroup;
-			children = (
-				C627031B4DCBEC60C707903B7CBC5AB0 /* ColorInterpolator.swift */,
-			);
-			name = ColorInterpolator;
-			sourceTree = "<group>";
-		};
-		7B4DEB141CC7687ACF389406194ACE2A /* GradientView */ = {
-			isa = PBXGroup;
-			children = (
-				4E960876532F4EC42E6CE614A13EC242 /* GradientView.swift */,
-			);
-			name = GradientView;
 			sourceTree = "<group>";
 		};
 		8A5680F32026CA0B90B8C4B781473ACA /* Targets Support Files */ = {
@@ -443,53 +444,42 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9893FEAE0D62D7086E3868263E9E806C /* StartupService */ = {
+		92F8A1A223CD02366B7F6AAAF244C019 /* AlamofireNetworkClient */ = {
 			isa = PBXGroup;
 			children = (
-				5A4B15C7C50BB0E3CB9F5F54AA4BE93C /* StartupProcess.swift */,
-				3F51D9DABC9416B3780DBD79A9E29959 /* StartupProcessService.swift */,
+				6A1147348DABFBF07686BB04FD5C2793 /* AlamofireNetworkClient.swift */,
 			);
-			name = StartupService;
+			name = AlamofireNetworkClient;
 			sourceTree = "<group>";
 		};
-		9C685B286B2DF9A5EDADD1C817552D22 /* PromiseKit */ = {
+		960904D06D9A167BB6526431A8F7F86E /* PovioKit */ = {
 			isa = PBXGroup;
 			children = (
-				C72A06E29B22EB3ED8F8617F1A1FF4D4 /* After.swift */,
-				AF2DB1D78C25040E3F4472756D9CD290 /* Combine.swift */,
-				7C2FA8E4349F2317CE877E67A39111EA /* Future.swift */,
-				10545DBBAB85E1D7259276CF43E0ADF7 /* Promise.swift */,
-			);
-			name = PromiseKit;
-			sourceTree = "<group>";
-		};
-		AC43AA79ED9645DD1E8E4DD048E69A53 /* PovioKit */ = {
-			isa = PBXGroup;
-			children = (
-				568589F31A5C9BDB5D99451FA50973A8 /* Extensions */,
-				33F596497FE7F22B3F2BF389F4F7F66D /* Networking */,
-				4485C75934F79CD20CC3B39CC6DE348A /* Pod */,
-				EECE5B4D7193994F184BC3BCA3CB2CFE /* Support Files */,
-				B5A68010B830B1EF653A83CFF2A483C9 /* Utilities */,
-				666754231ED425882C283E9CD82051B8 /* Views */,
+				BF63F38F2BFD7BC142563C579E4E5236 /* Extensions */,
+				393CC60A1FFE49D4305F0C9B3AE64EDD /* Networking */,
+				32829F89053A8429663687FE63812107 /* Pod */,
+				3E8A03E40BC9EADD7C08BA9CE6101EB4 /* Support Files */,
+				2D1E488D8E3950C54E5361062FB05447 /* Utilities */,
+				42ED4D1450FC18958652C5793F270090 /* Views */,
 			);
 			name = PovioKit;
 			path = ../..;
 			sourceTree = "<group>";
 		};
-		B5A68010B830B1EF653A83CFF2A483C9 /* Utilities */ = {
+		9B030E37F12A77837DE660D7A9A47F4E /* Throttler */ = {
 			isa = PBXGroup;
 			children = (
-				35DA10346672ECAB6987DC7C932CCC8D /* AttributedStringBuilder */,
-				5402E88441845196742B190AC7A3539F /* Broadcast */,
-				71140EA932F13AF56242E0F5129566CD /* ColorInterpolator */,
-				669E4232099FFDDF504A1CEA56B35BCD /* DispatchTimer */,
-				034D6474A636C8434AA021359F0CA4CB /* Logger */,
-				9C685B286B2DF9A5EDADD1C817552D22 /* PromiseKit */,
-				9893FEAE0D62D7086E3868263E9E806C /* StartupService */,
-				1614F58148A4C0A2EB78A7E7769862EF /* Throttler */,
+				96847305D59A215388561A83FABC8B18 /* Throttler.swift */,
 			);
-			name = Utilities;
+			name = Throttler;
+			sourceTree = "<group>";
+		};
+		9BFD468CCFB0949545638B14C2A71902 /* GradientView */ = {
+			isa = PBXGroup;
+			children = (
+				DD6574CD64B4470CEA3F9A1B763E2BFB /* GradientView.swift */,
+			);
+			name = GradientView;
 			sourceTree = "<group>";
 		};
 		BDA1ED38218F38339685F3ACD9795E8E /* iOS */ = {
@@ -500,6 +490,32 @@
 				64619C8559B5865BB4EF3CE92FDD2181 /* UIKit.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		BF63F38F2BFD7BC142563C579E4E5236 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				26993E6117F28400C3E6DA9D5B8A04BA /* Foundation */,
+				C3476E139098CCC1E0DF6CE67D505BB1 /* UIKit */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C3476E139098CCC1E0DF6CE67D505BB1 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				A99B17AFF0FE0CE204AB08A13CD2591A /* UICollectionReusableView+Povio.swift */,
+				8AA4953F215DFC3243A7E5459A07C633 /* UICollectionView+Povio.swift */,
+				77466D7E6AE3E7183D434989FB0F65BD /* UIColor+Povio.swift */,
+				3524619A081F6235B83121CFFCBBBC3D /* UIDevice+Povio.swift */,
+				F1D8BE206F7BF93202C52D0A5641A389 /* UIEdgeInsets+Povio.swift */,
+				52D17216D0AF6374AD4EAC309A1A64BF /* UIImage+Povio.swift */,
+				8BFDB88083B3928638F9B7FD09A73EA9 /* UITableView+Povio.swift */,
+				8BFEDB7A751896AF75E9FE935F149FC5 /* UITableViewCell+Povio.swift */,
+				DFC8141F0334E748094CA4AEC37E5B98 /* UITableViewHeaderFooterView+Povio.swift */,
+				212E4937A10D713AD6C83B5F321F74E8 /* UIView+Povio.swift */,
+			);
+			name = UIKit;
 			sourceTree = "<group>";
 		};
 		C9C8AD968165068209C1921F1576DD47 /* Pods-PovioKit_Tests */ = {
@@ -519,23 +535,6 @@
 			path = "Target Support Files/Pods-PovioKit_Tests";
 			sourceTree = "<group>";
 		};
-		CB85455EEBB528AA2641AFD73D4218EE /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				3E3D3A9FF367AD8B29AA49E3869952D4 /* UICollectionReusableView+Povio.swift */,
-				38C8BBCDA57CB653E3F68C2346D63DBF /* UICollectionView+Povio.swift */,
-				5093CB312D931B4233ABCF3F7D6F3EBC /* UIColor+Povio.swift */,
-				C4F088C94B0DECD9DD3F2A06E53B5F4F /* UIDevice+Povio.swift */,
-				1259528941BB003ED4176FCF2EE3D0C9 /* UIEdgeInsets+Povio.swift */,
-				0F4579AF0963902B32E2ABEE8A434B93 /* UIImage+Povio.swift */,
-				5DC35A078E0067BCD5887343E1F6D12C /* UITableView+Povio.swift */,
-				95EC616888F65DF560B9C33C68800466 /* UITableViewCell+Povio.swift */,
-				3016CBA4C84CB419851DDD7DB89947C7 /* UITableViewHeaderFooterView+Povio.swift */,
-				40B58EA19296C062AA68BFCC3A6F8FA7 /* UIView+Povio.swift */,
-			);
-			name = UIKit;
-			sourceTree = "<group>";
-		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
@@ -548,40 +547,44 @@
 			);
 			sourceTree = "<group>";
 		};
-		E07C3AA8091886661D7D03F77BF776A8 /* AlamofireNetworkClient */ = {
+		D235E1190C2C174A26B0E07044CE0DF2 /* Broadcast */ = {
 			isa = PBXGroup;
 			children = (
-				A180F2923B2290DE028F90F998BB36A3 /* AlamofireNetworkClient.swift */,
+				9DE566A85520CF064A99668FF450A0BF /* Broadcast.swift */,
 			);
-			name = AlamofireNetworkClient;
+			name = Broadcast;
 			sourceTree = "<group>";
 		};
-		EECE5B4D7193994F184BC3BCA3CB2CFE /* Support Files */ = {
+		D6F054CCF3D7569D93FF6CDA6C79E15D /* AttributedStringBuilder */ = {
 			isa = PBXGroup;
 			children = (
-				1889C6EB076D28FEEF2BFCBC2561156C /* PovioKit.modulemap */,
-				F22503F2CC349F22BB1D06CF8A0371A1 /* PovioKit-dummy.m */,
-				1B041782D743FAED587E706F225223FE /* PovioKit-Info.plist */,
-				09769A822AD56168595FF7B423194790 /* PovioKit-prefix.pch */,
-				B0DC50C4DA2935EC6DA1828D33BEF979 /* PovioKit-umbrella.h */,
-				B41B9A77645FE26661E6A7AEA829AEB4 /* PovioKit.debug.xcconfig */,
-				55A307876030C23FC7EA144F810CE55D /* PovioKit.release.xcconfig */,
+				CE8C19782BB9FE10324527752164494B /* AttributedStringBuilder.swift */,
+				63F9B6673E247957B49EC070D1E9FB40 /* UILabel+BuilderCompatible.swift */,
+				E3AC596B25E7C59124195C85601C7670 /* UITextField+BuilderCompatible.swift */,
 			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/PovioKit";
+			name = AttributedStringBuilder;
+			sourceTree = "<group>";
+		};
+		F21EF54F675520C200061048740BD7DA /* StartupService */ = {
+			isa = PBXGroup;
+			children = (
+				2B1B814EB1653228AD0941DE08F7B301 /* StartupProcess.swift */,
+				883DDFD655423EDF8C99B5729A78179D /* StartupProcessService.swift */,
+			);
+			name = StartupService;
+			sourceTree = "<group>";
+		};
+		F80D953EA6A5C396C51F2B7EB0169312 /* ColorInterpolator */ = {
+			isa = PBXGroup;
+			children = (
+				7070595A8FD7E3F97D07EE3E73B0AE00 /* ColorInterpolator.swift */,
+			);
+			name = ColorInterpolator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		106D105B545D189B9CE5961B53F1905E /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D6248A83D03BF68139914D6954661A1F /* PovioKit-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		637C657D2B8F136482E984A1A5D10DA4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -595,6 +598,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				00FA97D56201027AEB1C7692A2C3CF8B /* Alamofire-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B8F2837AE301FDDDB456BA65EA3F575E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25A4CA6CBEFD6C92E41DD450B52C04D5 /* PovioKit-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,17 +634,17 @@
 		};
 		CF6731057EF4C066A88B7C180B4A4125 /* PovioKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0017DBF418EE4FB3690020885539811D /* Build configuration list for PBXNativeTarget "PovioKit" */;
+			buildConfigurationList = FA15619B689B18B0D6C43816D56F3561 /* Build configuration list for PBXNativeTarget "PovioKit" */;
 			buildPhases = (
-				106D105B545D189B9CE5961B53F1905E /* Headers */,
-				9330E90DD1112556EA67386C2C009164 /* Sources */,
-				3DF153F525DFF46EB48AEFC4E24612B1 /* Frameworks */,
-				B5C3D3661B3051109D0F995AC6041DBA /* Resources */,
+				B8F2837AE301FDDDB456BA65EA3F575E /* Headers */,
+				4F56856B404F5D978954768D6ED7BEA6 /* Sources */,
+				07F8DB488B9261EEC0E13B7517EA1577 /* Frameworks */,
+				887AA517FB418C76F295C3352E926541 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4BD3A3927AB0BA7FAC76A611145B23A7 /* PBXTargetDependency */,
+				1B1AB66C595439A1C430B043BF1A4620 /* PBXTargetDependency */,
 			);
 			name = PovioKit;
 			productName = PovioKit;
@@ -695,7 +706,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B5C3D3661B3051109D0F995AC6041DBA /* Resources */ = {
+		887AA517FB418C76F295C3352E926541 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -717,6 +728,46 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BF17D2683BB01FC18E281A050566B02 /* Pods-PovioKit_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F56856B404F5D978954768D6ED7BEA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14BCD6020690692FEE32E6823DB834D6 /* After.swift in Sources */,
+				E43F49D2C450241C1BEE6F97894BBE9A /* AlamofireNetworkClient.swift in Sources */,
+				00999E0539343E4AC4297260893EFBA7 /* AttributedStringBuilder.swift in Sources */,
+				26090EB074729DCABCE1F721523ECC7C /* Broadcast.swift in Sources */,
+				56CCF6FA5D9625CC27D91154E12A06AA /* Collection+Povio.swift in Sources */,
+				5FB283103A695A5ED4C7BF83156D27AF /* ColorInterpolator.swift in Sources */,
+				F2ABBB1AEC554BA570EDD511587BD491 /* Combine.swift in Sources */,
+				52843FC23B7C920A6A1B9217DEB752E4 /* DispatchTimer.swift in Sources */,
+				AF1FEB09B7DEAF92B231F5F8DB467633 /* Future.swift in Sources */,
+				A62D31ADA8493854FC67D83C3AB2E962 /* GradientView.swift in Sources */,
+				4C1A7E71E04FBAAE0273776B94BA7921 /* Logger.swift in Sources */,
+				6BE68AE924C262BCEAA97B220D13B5B4 /* Optional+Povio.swift in Sources */,
+				1683585279A65A676F85428E0C30FBB1 /* PaddingLabel.swift in Sources */,
+				8D05474649C1A7D79E5532B59FCABDC1 /* PovioKit-dummy.m in Sources */,
+				E6A93FC479582BA1F1880C3E116F14AC /* Promise.swift in Sources */,
+				E247372F0B0253EFFC15012FC82FEF73 /* Result+Povio.swift in Sources */,
+				0BE7105DE33AD8A1C81DA2B528CE1020 /* StartupProcess.swift in Sources */,
+				CDB2031C23E402D5AA8E115DC8EF6570 /* StartupProcessService.swift in Sources */,
+				10C7712B3A76E16005AC97E812F14043 /* String+Povio.swift in Sources */,
+				C447A750636355FEAC060924D13B8319 /* Throttler.swift in Sources */,
+				3B1EC1A252211F563AECE9BB2AF6348A /* UICollectionReusableView+Povio.swift in Sources */,
+				BDCC5993632C11D2F0D2CFB2B70466D7 /* UICollectionView+Povio.swift in Sources */,
+				3C564B379FE3D14B02FA08A4D6740FAB /* UIColor+Povio.swift in Sources */,
+				DA58A5C209A8B2E3245C67D096221E94 /* UIDevice+Povio.swift in Sources */,
+				F21BE8E00F385A1312FA55B058D41524 /* UIEdgeInsets+Povio.swift in Sources */,
+				7BE76FB60F00753B2ED00D557413CCFE /* UIImage+Povio.swift in Sources */,
+				C8FC6B74FF05914AD2624711B3FC44A7 /* UILabel+BuilderCompatible.swift in Sources */,
+				54F22756553DB0C91D83DD5D73CADC65 /* UITableView+Povio.swift in Sources */,
+				2533A70B7742E5943F7A36A5912BB7D5 /* UITableViewCell+Povio.swift in Sources */,
+				49731856DDA90E9D4511842277D83ABB /* UITableViewHeaderFooterView+Povio.swift in Sources */,
+				51503C23C6617862A0FC23C2E8179A5D /* UITextField+BuilderCompatible.swift in Sources */,
+				CD32BBAA65CEF6BBBE5039DB62045D5B /* UIView+Povio.swift in Sources */,
+				77402B272FDB08043FFB729338604A25 /* URL+Povio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,59 +811,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9330E90DD1112556EA67386C2C009164 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B4ABEA7D833B92B17CEFF9A976172943 /* After.swift in Sources */,
-				0DB3A35B1B43EED2890C854235B7F57D /* AlamofireNetworkClient.swift in Sources */,
-				A6CD6784F31E7513B347D1D810267121 /* AttributedStringBuilder.swift in Sources */,
-				41D73A4EC42A822DA005F906B227DCB9 /* Broadcast.swift in Sources */,
-				F9D43456B67FE61EB9627A8A1C48A4BA /* Collection+Povio.swift in Sources */,
-				C2B2AF928AC4F1A69A82909D140E1012 /* ColorInterpolator.swift in Sources */,
-				BA9340D8759EFA49141DDBE13DB25272 /* Combine.swift in Sources */,
-				6BA901EC199C790B89AEF300C71C532A /* DispatchTimer.swift in Sources */,
-				A13FC19897FC9D9E1E8DE2A618CD7F6E /* Future.swift in Sources */,
-				9CDC400E8BF421905ADCCF635BC811CF /* GradientView.swift in Sources */,
-				BD0EDF0BF6C0CCA4A40CBAA08ECA4EC0 /* Logger.swift in Sources */,
-				50CBAA43727E85B2477E5FC33E3B0386 /* Optional+Povio.swift in Sources */,
-				31715BD85D8B355E8AB827822CD4B6A9 /* PovioKit-dummy.m in Sources */,
-				A445FC78B53F569F08540928B15CC4EA /* Promise.swift in Sources */,
-				3FDD22B547B9964D8967ED89E2F685D6 /* Result+Povio.swift in Sources */,
-				6814281C222DE3D7BD9FAF2A4F26981C /* StartupProcess.swift in Sources */,
-				541946AA2CC14856DCD96A2AB9D1E7A8 /* StartupProcessService.swift in Sources */,
-				0A6461CDDF8F4510E0CD9250DE226FA0 /* String+Povio.swift in Sources */,
-				357C010FA98303FCD39CDEB4ECAC018D /* Throttler.swift in Sources */,
-				3D822D73DE23385F816D44A7CC4B4448 /* UICollectionReusableView+Povio.swift in Sources */,
-				1521B30637F37E274DD9013C12D91714 /* UICollectionView+Povio.swift in Sources */,
-				15AFEEB0042EB79B1319D3B3829B2AF1 /* UIColor+Povio.swift in Sources */,
-				DF6F551DA33915837AB3C5694EF19CF7 /* UIDevice+Povio.swift in Sources */,
-				D0502155CC3A720D33350DD06B7DD9BF /* UIEdgeInsets+Povio.swift in Sources */,
-				8E228A9EFBB59082DFABCB337E78F450 /* UIImage+Povio.swift in Sources */,
-				EAD50DF11E420DEC4EEA8A0334A80009 /* UILabel+BuilderCompatible.swift in Sources */,
-				732F749A5D2A7A799ACEBE826BA714B9 /* UITableView+Povio.swift in Sources */,
-				6DAF6DCE54E676B565D6003250C75FDF /* UITableViewCell+Povio.swift in Sources */,
-				8354AF5A5B63D5709C919D7C24C78514 /* UITableViewHeaderFooterView+Povio.swift in Sources */,
-				B7A94276AE1CCE461D3815C10FB95C17 /* UITextField+BuilderCompatible.swift in Sources */,
-				A086F96D5ECBCF3E7E75DCC2E7C99342 /* UIView+Povio.swift in Sources */,
-				B4175A2877D09C23DCA2EE8257EED5DC /* URL+Povio.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1B1AB66C595439A1C430B043BF1A4620 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Alamofire;
+			target = EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */;
+			targetProxy = EDC072B3ACC6BD91FBBCC0C30FD028FF /* PBXContainerItemProxy */;
+		};
 		2C47DD7787500914A4D71D1904E47A8D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = PovioKit;
 			target = CF6731057EF4C066A88B7C180B4A4125 /* PovioKit */;
 			targetProxy = D925D3D7C40CD0E5B2B130978F4BC49C /* PBXContainerItemProxy */;
-		};
-		4BD3A3927AB0BA7FAC76A611145B23A7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Alamofire;
-			target = EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */;
-			targetProxy = A43E4861A2F8BDEA3625850C73E5BFD4 /* PBXContainerItemProxy */;
 		};
 		8425BEE028976FC0F565F7CA2C8E3E12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -883,9 +895,9 @@
 			};
 			name = Release;
 		};
-		64C4C477589E8A7D7BE8EA4583E90139 /* Release */ = {
+		4B57A5486802CB74A720C0502E9D52B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55A307876030C23FC7EA144F810CE55D /* PovioKit.release.xcconfig */;
+			baseConfigurationReference = D51BBF5A74FA1AFE2492F23E480B9A8C /* PovioKit.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -911,11 +923,10 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 		65BEFD193890BFFB93BA263D91B403EE /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -988,9 +999,9 @@
 			};
 			name = Release;
 		};
-		ACBC827A7CC437E9AC71B73D26FFCCA1 /* Debug */ = {
+		AD918927A6ACE76EE8B30F3A12E739D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B41B9A77645FE26661E6A7AEA829AEB4 /* PovioKit.debug.xcconfig */;
+			baseConfigurationReference = 6D7772C100F86AA0B633DE31091A05ED /* PovioKit.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1016,10 +1027,11 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 		B5896F3CE4EEDB170FF986ED5C227A46 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1155,15 +1167,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0017DBF418EE4FB3690020885539811D /* Build configuration list for PBXNativeTarget "PovioKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ACBC827A7CC437E9AC71B73D26FFCCA1 /* Debug */,
-				64C4C477589E8A7D7BE8EA4583E90139 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1187,6 +1190,15 @@
 			buildConfigurations = (
 				65BEFD193890BFFB93BA263D91B403EE /* Debug */,
 				888CDFF980C3F2AC049C62B47A1E11BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA15619B689B18B0D6C43816D56F3561 /* Build configuration list for PBXNativeTarget "PovioKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B57A5486802CB74A720C0502E9D52B1 /* Debug */,
+				AD918927A6ACE76EE8B30F3A12E739D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

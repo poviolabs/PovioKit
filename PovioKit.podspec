@@ -58,8 +58,12 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Views' do |vs|
-    vs.subspec 'GradientView' do |cs|
-      cs.source_files = 'Sources/Views/GradientView/**/*.swift'
+    vs.subspec 'GradientView' do |gvs|
+      gvs.source_files = 'Sources/Views/GradientView/*.swift'
+    end
+    
+    vs.subspec 'PaddingLabel' do |pds|
+      pds.source_files = 'Sources/Views/PaddingLabel/*.swift'
     end
   end
   

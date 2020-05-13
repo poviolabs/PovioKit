@@ -84,7 +84,11 @@
       "subspecs": [
         {
           "name": "GradientView",
-          "source_files": "Sources/Views/GradientView/**/*.swift"
+          "source_files": "Sources/Views/GradientView/*.swift"
+        },
+        {
+          "name": "PaddingLabel",
+          "source_files": "Sources/Views/PaddingLabel/*.swift"
         }
       ]
     },
