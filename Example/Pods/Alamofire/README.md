@@ -58,8 +58,8 @@ In order to keep Alamofire focused specifically on core networking implementatio
 ## Requirements
 
 - iOS 10.0+ / macOS 10.12+ / tvOS 10.0+ / watchOS 3.0+
-- Xcode 10.2+
-- Swift 5+
+- Xcode 11+
+- Swift 5.1+
 
 ## Migration Guides
 
@@ -84,7 +84,7 @@ In order to keep Alamofire focused specifically on core networking implementatio
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate Alamofire into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'Alamofire', '~> 5.0'
+pod 'Alamofire', '~> 5.1'
 ```
 
 ### Carthage
@@ -92,7 +92,7 @@ pod 'Alamofire', '~> 5.0'
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate Alamofire into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Alamofire/Alamofire" "5.0"
+github "Alamofire/Alamofire" ~> 5.1
 ```
 
 ### Swift Package Manager
@@ -103,7 +103,7 @@ Once you have your Swift package set up, adding Alamofire as a dependency is as 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.0")
+    .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.1.0"))
 ]
 ```
 
@@ -152,6 +152,7 @@ The following radars have some effect on the current implementation of Alamofire
 - [`rdar://21349340`](http://www.openradar.me/radar?id=5517037090635776) - Compiler throwing warning due to toll-free bridging issue in test case
 - `rdar://26870455` - Background URL Session Configurations do not work in the simulator
 - `rdar://26849668` - Some URLProtocol APIs do not properly handle `URLRequest`
+- `FB7624529` - `urlSession(_:task:didFinishCollecting:)` never called on watchOS
 
 ## Resolved Radars
 
@@ -161,7 +162,11 @@ The following radars have been resolved over time after being filed against the 
   - (Resolved): 9/1/17 in Xcode 9 beta 6.
 - [`rdar://36082113`](http://openradar.appspot.com/radar?id=4942308441063424) - `URLSessionTaskMetrics` failing to link on watchOS 3.0+
   - (Resolved): Just add `CFNetwork` to your linked frameworks.
-  
+
+## Workarounds
+
+- Collection of `URLSessionTaskMetrics` is currently disabled on watchOS due to `FB7624529`.
+
 ## FAQ
 
 ### What's the origin of the name Alamofire?
@@ -179,7 +184,7 @@ If you believe you have identified a security vulnerability with Alamofire, you 
 ## Donations
 
 The [ASF](https://github.com/Alamofire/Foundation#members) is looking to raise money to officially stay registered as a federal non-profit organization.
-Registering will allow us members to gain some legal protections and also allow us to put donations to use, tax free.
+Registering will allow us members to gain some legal protections and also allow us to put donations to use, tax-free.
 Donating to the ASF will enable us to:
 
 - Pay our yearly legal fees to keep the non-profit in good status
@@ -188,7 +193,7 @@ Donating to the ASF will enable us to:
 - Potentially fund developers to work on one of our projects full-time
 
 The community adoption of the ASF libraries has been amazing.
-We are greatly humbled by your enthusiasm around the projects, and want to continue to do everything we can to move the needle forward.
+We are greatly humbled by your enthusiasm around the projects and want to continue to do everything we can to move the needle forward.
 With your continued support, the ASF will be able to improve its reach and also provide better legal safety for the core members.
 If you use any of our libraries for work, see if your employers would be interested in donating.
 Any amount you can donate today to help us reach our goal would be greatly appreciated.

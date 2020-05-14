@@ -13,10 +13,7 @@ public final class StartupProcessService {
   
   @discardableResult
   public func execute(process: StartupProcess) -> StartupProcessService {
-    process.run {
-      guard $0 else { return }
-      Logger.debug("Successfully ran the \(type(of: $0)) process.")
-    }
+    process.run { guard $0 else { return } }
     return self
   }
 }
