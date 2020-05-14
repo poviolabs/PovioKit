@@ -114,7 +114,7 @@ class PromiseTests: XCTestCase {
         XCTAssertTrue(Thread.isMainThread)
         ex2.fulfill()
     }
-    wait(for: [ex1, ex2], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCombineResolvedOnMainThread() {
@@ -130,7 +130,7 @@ class PromiseTests: XCTestCase {
         XCTAssertTrue(Thread.isMainThread)
         ex2.fulfill()
     }
-    wait(for: [ex1, ex2], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
 }
 
@@ -143,7 +143,7 @@ extension PromiseTests {
         XCTAssertEqual(30, $0)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testMap() {
@@ -154,7 +154,7 @@ extension PromiseTests {
         XCTAssertEqual("10", $0)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testMapThrows() {
@@ -164,7 +164,7 @@ extension PromiseTests {
       .onFailure { _ in
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCompactMap() {
@@ -181,7 +181,7 @@ extension PromiseTests {
       .onFailure { _ in
         ex2.fulfill()
     }
-    wait(for: [ex1, ex2], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCombineListAsync() {
@@ -192,7 +192,7 @@ extension PromiseTests {
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCombineList() {
@@ -203,7 +203,18 @@ extension PromiseTests {
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testCombineEmptyList() {
+    let ex = expectation(description: "")
+    let promises: [Promise<Int>] = []
+    combine(promises: promises)
+      .onSuccess { values in
+        XCTAssertTrue(values.isEmpty)
+        ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
   }
   
   func testCombineTwo() {
@@ -214,7 +225,7 @@ extension PromiseTests {
         XCTAssertEqual(values.1, 1)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCombineThree() {
@@ -228,7 +239,7 @@ extension PromiseTests {
         XCTAssertEqual(values.2, 2)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCombineFour() {
@@ -244,7 +255,7 @@ extension PromiseTests {
         XCTAssertEqual(values.3, 3)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCombineFive() {
@@ -262,7 +273,7 @@ extension PromiseTests {
         XCTAssertEqual(values.4, 4)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testMapValues() {
@@ -275,7 +286,7 @@ extension PromiseTests {
         XCTAssertEqual($0[2], 6)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testCompactMapValues() {
@@ -288,7 +299,7 @@ extension PromiseTests {
         XCTAssertEqual($0[2], 3)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testFlatMapValues() {
@@ -301,7 +312,7 @@ extension PromiseTests {
         XCTAssertEqual($0[2], 3)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testFilterValues() {
@@ -314,7 +325,7 @@ extension PromiseTests {
         XCTAssertEqual($0[2], 6)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testReduceValues() {
@@ -332,7 +343,7 @@ extension PromiseTests {
         XCTAssertEqual($0, 35)
         ex2.fulfill()
     }
-    wait(for: [ex1, ex2], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testSortedValues() {
@@ -347,7 +358,7 @@ extension PromiseTests {
         XCTAssertEqual($0[4], 10)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
   
   func testDecodable() {
@@ -360,7 +371,7 @@ extension PromiseTests {
         XCTAssertEqual($0.y, 20)
         ex.fulfill()
     }
-    wait(for: [ex], timeout: 1)
+    waitForExpectations(timeout: 1)
   }
 }
 

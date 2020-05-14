@@ -1,6 +1,6 @@
 {
   "name": "PovioKit",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "summary": "Modular cocoapods libraries collection.",
   "swift_versions": "5.0",
   "description": "PovioKit is a collection of useful tools, extensions and modules.",
@@ -14,12 +14,11 @@
   },
   "source": {
     "git": "https://github.com/poviolabs/PovioKit.git",
-    "tag": "0.4.0"
+    "tag": "0.5.0"
   },
   "platforms": {
     "ios": "11.0"
   },
-  "source_files": "PovioKit/Classes/**/*.swift",
   "frameworks": [
     "UIKit",
     "Foundation"
@@ -32,63 +31,64 @@
   "subspecs": [
     {
       "name": "Utilities",
-      "source_files": "PovioKit/Classes/Utilities/**/*.swift",
       "subspecs": [
         {
           "name": "AttributedStringBuilder",
-          "source_files": "PovioKit/Classes/Utilities/AttributedStringBuilder/*.swift"
+          "source_files": "Sources/Utilities/AttributedStringBuilder/*.swift"
         },
         {
           "name": "StartupService",
-          "source_files": "PovioKit/Classes/Utilities/StartupService/*.swift"
+          "source_files": "Sources/Utilities/StartupService/*.swift"
         },
         {
           "name": "Broadcast",
-          "source_files": "PovioKit/Classes/Utilities/Broadcast/*.swift"
+          "source_files": "Sources/Utilities/Broadcast/*.swift"
         },
         {
           "name": "Logger",
-          "source_files": "PovioKit/Classes/Utilities/Logger/**/*.swift"
+          "source_files": "Sources/Utilities/Logger/**/*.swift"
         },
         {
           "name": "DispatchTimer",
-          "source_files": "PovioKit/Classes/Utilities/DispatchTimer/**/*.swift"
+          "source_files": "Sources/Utilities/DispatchTimer/**/*.swift"
         },
         {
           "name": "Throttler",
-          "source_files": "PovioKit/Classes/Utilities/Throttler/**/*.swift"
+          "source_files": "Sources/Utilities/Throttler/**/*.swift"
         },
         {
           "name": "ColorInterpolator",
-          "source_files": "PovioKit/Classes/Utilities/ColorInterpolator/**/*.swift"
+          "source_files": "Sources/Utilities/ColorInterpolator/**/*.swift"
         },
         {
           "name": "PromiseKit",
-          "source_files": "PovioKit/Classes/Utilities/PromiseKit/**/*.swift"
+          "source_files": "Sources/Utilities/PromiseKit/**/*.swift"
         }
       ]
     },
     {
       "name": "Extensions",
-      "source_files": "PovioKit/Classes/Extensions/**/*.swift",
       "subspecs": [
         {
           "name": "UIKit",
-          "source_files": "PovioKit/Classes/Extensions/UIKit/*.swift"
+          "source_files": "Sources/Extensions/UIKit/*.swift"
         },
         {
           "name": "Foundation",
-          "source_files": "PovioKit/Classes/Extensions/Foundation/*.swift"
+          "source_files": "Sources/Extensions/Foundation/*.swift"
         }
       ]
     },
     {
       "name": "Views",
-      "source_files": "PovioKit/Classes/Views/**/*.swift",
       "subspecs": [
         {
           "name": "GradientView",
-          "source_files": "PovioKit/Classes/Views/GradientView/**/*.swift"
+          "source_files": "Sources/Views/GradientView/*.swift"
+        },
+        {
+          "name": "PaddingLabel",
+          "source_files": "Sources/Views/PaddingLabel/*.swift"
         }
       ]
     },
@@ -96,14 +96,19 @@
       "name": "Networking",
       "dependencies": {
         "Alamofire": [
-          "5.0.0"
+          "5.1.0"
+        ],
+        "PovioKit/Utilities/PromiseKit": [
+
+        ],
+        "PovioKit/Utilities/Logger": [
+
         ]
       },
-      "source_files": "PovioKit/Classes/Networking/**/*.swift",
       "subspecs": [
         {
           "name": "AlamofireNetworkClient",
-          "source_files": "PovioKit/Classes/Networking/AlamofireNetworkClient/**/*.swift"
+          "source_files": "Sources/Networking/AlamofireNetworkClient/**/*.swift"
         }
       ]
     }
