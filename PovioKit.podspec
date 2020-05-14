@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.4.0'
+  s.version          = '0.5.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
   s.description      = 'PovioKit is a collection of useful tools, extensions and modules.'
@@ -68,7 +68,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Networking' do |ns|
-    ns.dependency 'Alamofire', '5.0.0'
+    ns.dependency 'Alamofire', '5.1.0'
     ns.dependency 'PovioKit/Utilities/PromiseKit'
     ns.dependency 'PovioKit/Utilities/Logger'
     
