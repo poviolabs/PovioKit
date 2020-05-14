@@ -20,9 +20,7 @@ public func combine<T>(
   promises: [Promise<T>]) -> Promise<[T]>
 {
   guard !promises.isEmpty else {
-    let promise = Promise<[T]>()
-    promise.resolve(with: [], on: dispatchQueue)
-    return promise
+    return Promise.value([])
   }
   
   return Promise<[T]> { seal in
