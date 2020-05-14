@@ -37,7 +37,9 @@ PODS:
   - PovioKit/Utilities/Throttler (0.4.0)
   - PovioKit/Views (0.4.0):
     - PovioKit/Views/GradientView (= 0.4.0)
+    - PovioKit/Views/PaddingLabel (= 0.4.0)
   - PovioKit/Views/GradientView (0.4.0)
+  - PovioKit/Views/PaddingLabel (0.4.0)
 
 DEPENDENCIES:
   - PovioKit (from `../`)
@@ -53,7 +55,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
-  PovioKit: d9a5b845d61a8548c2e07c21943898cafb00478d
+  PovioKit: 3125a8d4c17b07f016a1615ceefed8a29c29e6e5
 
 PODFILE CHECKSUM: f8431f96a2bbfba7a7c54f82ffcdc4f3235daacd
 

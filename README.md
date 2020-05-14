@@ -55,6 +55,7 @@
 
 ### UIViews
 * [GradientView](https://github.com/poviolabs/PovioKit/blob/master/Resources/Views/GradientView/)
+* [PaddingLabel](https://github.com/poviolabs/PovioKit/blob/master/Resources/Views/PaddingLabel/)
 
 ## Installation
 
