@@ -19,7 +19,11 @@ public func combine<T>(
   on dispatchQueue: DispatchQueue? = .main,
   promises: [Promise<T>]) -> Promise<[T]>
 {
-  Promise<[T]> { seal in
+  guard !promises.isEmpty else {
+    return Promise.value([])
+  }
+  
+  return Promise<[T]> { seal in
     let barrier = DispatchQueue(label: "combineQueue", attributes: .concurrent)
     for promise in promises {
       promise.observe { result in
