@@ -98,7 +98,7 @@ public extension AlamofireNetworkClient {
                        fileName: fileName,
                        mimeType: mimeType)
         parameters?
-          .compactMap { ($0.value as! String, $0.key) }
+          .compactMap { (key, value) in (value as? String).map { (key, $0) } }
           .forEach { builder.append($0.0.data(using: .utf8)!, withName: $0.1) }
       },
               to: endpoint,
