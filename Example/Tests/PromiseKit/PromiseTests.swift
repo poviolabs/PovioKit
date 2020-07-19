@@ -208,6 +208,21 @@ extension PromiseTests {
     waitForExpectations(timeout: 1)
   }
   
+  func testFold() {
+    let ex = expectation(description: "")
+    "abc".asyncPromise
+      .fold(10.asyncPromise,
+            with: { s, i in
+              XCTAssertEqual("abc", s)
+              XCTAssertEqual(10, i)
+              return "efg".asyncPromise
+      }).onSuccess {
+        XCTAssertEqual("efg", $0)
+        ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
   func testCombineListAsync() {
     let ex = expectation(description: "")
     let promises = (0...5).map { $0.asyncPromise }
@@ -355,6 +370,7 @@ extension PromiseTests {
   func testReduceValues() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
+    let ex3 = expectation(description: "")
     [1, 2, 3, 4, 5].asyncPromise
       .reduceValues(+)
       .onSuccess {
@@ -366,6 +382,12 @@ extension PromiseTests {
       .onSuccess {
         XCTAssertEqual($0, 35)
         ex2.fulfill()
+    }
+    Promise
+      .reduce(0, [1, 2, 3, 4, 5].map { $0.asyncPromise }, +)
+      .onSuccess {
+        XCTAssertEqual(15, $0)
+        ex3.fulfill()
     }
     waitForExpectations(timeout: 1)
   }
