@@ -199,6 +199,27 @@ public extension Promise {
       }
     }
   }
+  
+  /// Return a new promise that succeeds when this and another promise both succeed.
+  ///
+  /// This is equivalent to calling `combine(:)`.
+  ///
+  /// - Parameter `other`: A second `Promise`.
+  /// - Returns: A Promise with the result of given promises. If any of the promises fail
+  ///   than the returned Promise fails as well with the first error encountered.
+  ///
+  func and<U>(_ other: Promise<U>) -> Promise<(Value, U)> {
+    combine(self, other)
+  }
+  
+  /// Return a new promise that contains this and another value.
+  ///
+  /// - Parameter `other`: Some other value.
+  /// - Returns: A Promise containing a pair of values.
+  ///
+  func and<U>(_ value: U) -> Promise<(Value, U)> {
+    map { ($0, value) }
+  }
 }
 
 public extension Promise where Value: Sequence {

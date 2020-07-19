@@ -17,11 +17,7 @@ public class Future<Value, Error: Swift.Error> {
 
 public extension Future {
   var result: FutureResult? {
-    var res: FutureResult?
-    barrier.sync {
-      res = internalResult
-    }
-    return res
+    barrier.sync { internalResult }
   }
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
