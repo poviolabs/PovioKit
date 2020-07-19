@@ -184,6 +184,30 @@ extension PromiseTests {
     waitForExpectations(timeout: 1)
   }
   
+  func testAndPromise() {
+    let ex = expectation(description: "")
+    10.asyncPromise
+      .and(20.asyncPromise)
+      .onSuccess {
+        XCTAssertEqual(10, $0.0)
+        XCTAssertEqual(20, $0.1)
+        ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnd() {
+    let ex = expectation(description: "")
+    10.asyncPromise
+      .and(20)
+      .onSuccess {
+        XCTAssertEqual(10, $0.0)
+        XCTAssertEqual(20, $0.1)
+        ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
   func testCombineListAsync() {
     let ex = expectation(description: "")
     let promises = (0...5).map { $0.asyncPromise }

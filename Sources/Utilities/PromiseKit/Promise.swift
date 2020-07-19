@@ -59,6 +59,11 @@ public class Promise<Value>: Future<Value, Error> {
     other.onSuccess { self.resolve(with: $0) }
     other.onFailure { self.reject(with: $0) }
   }
+  
+  public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue) {
+    onSuccess { promise.resolve(with: $0, on: dispatchQueue) }
+    onFailure { promise.reject(with: $0, on: dispatchQueue) }
+  }
 }
 
 public extension Promise {
@@ -117,8 +122,6 @@ public extension Promise {
   ///
   /// - Parameter transform: A closure that takes the value of this Promise and
   ///   returns a new Promise transforming the value in some way.
-  /// - Parameter transformError: A closure that takes the error of this Promise and
-  ///   returns a new Promise transforming the error in some way.
   /// - Returns: A `Promise` which is a composition of two Promises:
   ///   If both promises succeed then their composition succeeds as well.
   ///   If any of the two promises at any point fail, their composition fails as well.
@@ -168,9 +171,9 @@ public extension Promise {
   {
     chain(on: dispatchQueue) {
       do {
-        return Promise<U>.value(try transform($0))
+        return .value(try transform($0))
       } catch {
-        return Promise<U>.error(error)
+        return .error(error)
       }
     }
   }
@@ -477,6 +480,7 @@ public extension Promise where Value: Collection, Value.Element: Comparable {
 }
 
 public extension Promise where Value == Data {
+  /// Returns a new Promise containing a decoded value.
   func decode<D: Decodable>(type: D.Type, decoder: JSONDecoder) -> Promise<D> {
     map {
       try decoder.decode(type, from: $0)
@@ -529,6 +533,7 @@ public extension Promise where Value: Sequence, Value.Element == String {
 }
 
 public extension Promise where Value == Void {
+  static func value() -> Promise<Value> { value(()) }
   func resolve() { resolve(with: ()) }
 }
 
