@@ -203,6 +203,58 @@ public extension Promise {
     }
   }
   
+  /// Returns a new promise that fires only when this promise and
+  /// all the provided promises complete. It then provides the result of folding the value of this
+  /// promise with the values of all the provided promises.
+  ///
+  /// - Parameter promises: A list of promises to wait for.
+  /// - Parameter with: A function that will be used to fold the values of two promises and return a new value wrapped in a promise.
+  /// - Returns: A new promise with the folded value.
+  func fold<U>(
+    _ promises: [Promise<U>],
+    on dispatchQueue: DispatchQueue = .main,
+    with combiningFunction: @escaping (Value, U) -> Promise<Value>) -> Promise<Value>
+  {
+    promises.reduce(self) { p1, p2 in
+      p1.and(p2).chain(on: dispatchQueue, with: combiningFunction)
+    }
+  }
+  
+  /// Returns a new promise that fires only when this promise and
+  /// all the provided promises complete. It then provides the result of folding the value of this
+  /// promise with the values of all the provided promises.
+  ///
+  /// - Parameter promise: A promise to wait for.
+  /// - Parameter with: A function that will be used to fold the values of two promises and return a new value wrapped in a promise.
+  /// - Returns: A new promise with the folded value.
+  func fold<U>(
+    _ promise: Promise<U>,
+    on dispatchQueue: DispatchQueue = .main,
+    with combiningFunction: @escaping (Value, U) -> Promise<Value>) -> Promise<Value>
+  {
+    fold([promise], on: dispatchQueue, with: combiningFunction)
+  }
+  
+  /// Returns a new promise that fires only when all the provided promises complete.
+  /// The new promise contains the result of reducing the `initialResult` with the
+  /// values of the provided promises.
+  ///
+  /// - Parameters:
+  ///     - initialResult: An initial result to begin the reduction.
+  ///     - promises: An array of promises to wait for.
+  ///     - nextPartialResult: The bifunction used to produce partial results.
+  /// - Returns: A new promise with the reduced value.
+  static func reduce<U>(
+    _ initialValue: Value,
+    _ promises: [Promise<U>],
+    on dispatchQueue: DispatchQueue = .main,
+    _ nextPartialResult: @escaping (Value, U) -> Value) -> Promise<Value>
+  {
+    Promise
+      .value(initialValue)
+      .fold(promises, on: dispatchQueue) { .value(nextPartialResult($0, $1)) }
+  }
+  
   /// Return a new promise that succeeds when this and another promise both succeed.
   ///
   /// This is equivalent to calling `combine(:)`.
