@@ -91,7 +91,6 @@ private extension OAuthRequestInterceptor {
     switch storage.oauth {
     case let oauth?:
       Logger.debug("Access token already fetched. Skip fetching ...!")
-      lock.unlock()
       return .value(oauth)
     case nil:
       Logger.debug("Fetching access token!")
