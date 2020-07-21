@@ -203,6 +203,36 @@ public extension Promise {
     }
   }
   
+  func mapError(
+    _ transform: @escaping (Error) -> Error,
+    on dispatchQueue: DispatchQueue = .main) -> Promise<Value>
+  {
+    let promise = Promise<Value>()
+    self.observe {
+      switch $0 {
+      case .success(let value):
+        promise.resolve(with: value)
+      case .failure(let error):
+        promise.reject(with: transform(error))
+      }
+    }
+    return promise
+  }
+  
+  func mapResult<U, E: Error>(
+    _ transform: @escaping (Value) -> Result<U, E>,
+    on dispatchQueue: DispatchQueue = .main) -> Promise<U>
+  {
+    map {
+      switch transform($0) {
+      case .success(let res):
+        return res
+      case .failure(let error):
+        throw error
+      }
+    }
+  }
+  
   /// Returns a new promise that fires only when this promise and
   /// all the provided promises complete. It then provides the result of folding the value of this
   /// promise with the values of all the provided promises.
