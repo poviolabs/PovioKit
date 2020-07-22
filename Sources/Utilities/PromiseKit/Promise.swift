@@ -28,6 +28,16 @@ public class Promise<Value>: Future<Value, Error> {
     future(self)
   }
   
+  public convenience init<E: Error>(result: Result<Value, E>) {
+    self.init()
+    switch result {
+    case .success(let value):
+      self.resolve(with: value)
+    case .failure(let error):
+      self.reject(with: error)
+    }
+  }
+  
   public static func value(_ value: Value) -> Promise<Value> {
     Promise<Value>(fulfill: value)
   }
