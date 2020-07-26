@@ -30,6 +30,7 @@
 		37651E4724C755FC0018D15E /* Wrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37651E4624C755FB0018D15E /* Wrap.swift */; };
 		376D2699D97EE6D54C4E795CD57A4AEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */; };
 		37A2FCD24ED22C8D670188930CE4CA5D /* RequestTaskMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF53DA4B90203AC1F38EFC48C2E121F /* RequestTaskMap.swift */; };
+		37C7EDD124CD53F6008CB93F /* UIViewController+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C7EDD024CD53F6008CB93F /* UIViewController+Povio.swift */; };
 		37C7EDCF24CD5249008CB93F /* ImageSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C7EDCE24CD5249008CB93F /* ImageSource.swift */; };
 		37E00A8424DA7A9400B07F05 /* Delegated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E00A8324DA7A9300B07F05 /* Delegated.swift */; };
 		3B1EC1A252211F563AECE9BB2AF6348A /* UICollectionReusableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B17AFF0FE0CE204AB08A13CD2591A /* UICollectionReusableView+Povio.swift */; };
@@ -141,6 +142,7 @@
 		3754EAFE24C5825000EA6B83 /* OAuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthInterceptor.swift; sourceTree = "<group>"; };
 		37651E4624C755FB0018D15E /* Wrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wrap.swift; path = Sources/Utilities/PromiseKit/Wrap.swift; sourceTree = "<group>"; };
 		3799DFCC7C762ADF5BA2044F367ED220 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
+		37C7EDD024CD53F6008CB93F /* UIViewController+Povio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+Povio.swift"; path = "Sources/Extensions/UIKit/UIViewController+Povio.swift"; sourceTree = "<group>"; };
 		37C7EDCE24CD5249008CB93F /* ImageSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSource.swift; sourceTree = "<group>"; };
 		37E00A8324DA7A9300B07F05 /* Delegated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegated.swift; sourceTree = "<group>"; };
 		3CB00EB5489ADBD2E2D600A8B12A5F94 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Sources/Utilities/Logger/Logger.swift; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 				8BFEDB7A751896AF75E9FE935F149FC5 /* UITableViewCell+Povio.swift */,
 				DFC8141F0334E748094CA4AEC37E5B98 /* UITableViewHeaderFooterView+Povio.swift */,
 				212E4937A10D713AD6C83B5F321F74E8 /* UIView+Povio.swift */,
+				37C7EDD024CD53F6008CB93F /* UIViewController+Povio.swift */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -777,6 +780,7 @@
 			files = (
 				14BCD6020690692FEE32E6823DB834D6 /* After.swift in Sources */,
 				E43F49D2C450241C1BEE6F97894BBE9A /* AlamofireNetworkClient.swift in Sources */,
+				37C7EDD124CD53F6008CB93F /* UIViewController+Povio.swift in Sources */,
 				00999E0539343E4AC4297260893EFBA7 /* AttributedStringBuilder.swift in Sources */,
 				26090EB074729DCABCE1F721523ECC7C /* Broadcast.swift in Sources */,
 				56CCF6FA5D9625CC27D91154E12A06AA /* Collection+Povio.swift in Sources */,
