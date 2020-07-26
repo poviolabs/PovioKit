@@ -8,44 +8,67 @@
 import UIKit
 
 public extension UIViewController {
-  struct BarButton {
-    let image: UIImage?
-    let title: Title?
+  class BarButton {
+    let content: Content
     let action: Selector
+    
+    init(content: Content, action: Selector) {
+      self.content = content
+      self.action = action
+    }
   }
   
-  func setLeftBarButton(_ barButton: BarButton) {
-    navigationItem.leftBarButtonItem = createButton(using: barButton)
+  enum Content {
+    case icon(UIImage)
+    case title(Title)
+    
+    static func icon(_ image: UIImage?) -> Content {
+      .icon(image ?? UIImage())
+    }
   }
   
-  func setRightBarButton(_ barButton: BarButton) {
-    navigationItem.rightBarButtonItem = createButton(using: barButton)
+  enum Title {
+    case `default`(String)
+    case attributed(normal: NSAttributedString, disabled: NSAttributedString?)
+    
+    static func attributed(normal: NSAttributedString) -> Title {
+      .attributed(normal: normal, disabled: nil)
+    }
   }
 }
 
-public extension UIViewController.BarButton {
-  enum Title {
-    case text(String)
-    case attributed(normal: NSAttributedString, disabled: NSAttributedString?)
+extension UIViewController {
+  @discardableResult
+  func setLeftBarButton(_ barButton: BarButton) -> UIBarButtonItem {
+    let button = createButton(using: barButton)
+    navigationItem.leftBarButtonItem = button
+    return button
+  }
+  
+  @discardableResult
+  func setRightBarButton(_ barButton: BarButton) -> UIBarButtonItem {
+    let button = createButton(using: barButton)
+    navigationItem.rightBarButtonItem = button
+    return button
   }
 }
 
 private extension UIViewController {
   func createButton(using barButton: BarButton) -> UIBarButtonItem {
-    let button = UIButton()
-    button.setImage(barButton.image, for: .normal)
-    button.addTarget(self, action: barButton.action, for: .touchUpInside)
-    
-    switch barButton.title {
-    case .text(let string):
-      button.setTitle(string, for: .normal)
+    switch barButton.content {
+    case .title(.default(let title)):
+      let button = UIButton()
+      button.addTarget(self, action: barButton.action, for: .touchUpInside)
+      button.setTitle(title, for: .normal)
       return UIBarButtonItem(customView: button)
-    case let .attributed(normal, disabled):
+    case let .title(.attributed(normal, disabled)):
+      let button = UIButton()
+      button.addTarget(self, action: barButton.action, for: .touchUpInside)
       button.setAttributedTitle(normal, for: .normal)
       button.setAttributedTitle(disabled, for: .disabled)
       return UIBarButtonItem(customView: button)
-    case .none:
-      return UIBarButtonItem(image: barButton.image,
+    case .icon(let image):
+      return UIBarButtonItem(image: image.withRenderingMode(.alwaysOriginal),
                              style: .plain,
                              target: self,
                              action: barButton.action)
