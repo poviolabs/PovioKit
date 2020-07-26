@@ -19,6 +19,10 @@ public extension ImageSource {
   static func remote(_ urlString: String) -> ImageSource? {
     URL(string: urlString).map(ImageSource.remote)
   }
+  
+  static func image(_ image: UIImage?) -> ImageSource {
+    .image(image ?? UIImage())
+  }
 }
 
 extension ImageSource: Equatable {}
