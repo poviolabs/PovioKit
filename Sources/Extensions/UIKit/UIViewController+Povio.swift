@@ -12,7 +12,7 @@ public extension UIViewController {
     let content: Content
     let action: Selector
     
-    init(content: Content, action: Selector) {
+    required init(content: Content, action: Selector) {
       self.content = content
       self.action = action
     }
