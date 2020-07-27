@@ -205,7 +205,7 @@ extension PromiseTests {
   
   func testMapError() {
     let ex = expectation(description: "")
-    10.asyncPromise
+    NSError().asyncPromise
       .mapError { _ in DummyError() }
       .onFailure {
         XCTAssertTrue($0 is DummyError)
