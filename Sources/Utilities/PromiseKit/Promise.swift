@@ -201,10 +201,10 @@ public extension Promise {
   /// - Returns: A `Promise` containing either the transformed value or an error.
 
   func chainResult<U, E: Error>(
-    _ transform: @escaping (Value) -> Result<U, E>,
+    with transform: @escaping (Value) -> Result<U, E>,
     on dispatchQueue: DispatchQueue = .main) -> Promise<U>
   {
-    map {
+    map(on: dispatchQueue) {
       switch transform($0) {
       case .success(let res):
         return res
@@ -341,8 +341,8 @@ public extension Promise {
   /// - Returns: A Promise with the result of given promises. If any of the promises fail
   ///   than the returned Promise fails as well with the first error encountered.
   ///
-  func and<U>(_ other: Promise<U>) -> Promise<(Value, U)> {
-    combine(self, other)
+  func and<U>(_ other: Promise<U>, on dispatchQueue: DispatchQueue = .main) -> Promise<(Value, U)> {
+    combine(on: dispatchQueue, self, other)
   }
   
   /// Return a new promise that contains this and another value.
@@ -350,8 +350,8 @@ public extension Promise {
   /// - Parameter `other`: Some other value.
   /// - Returns: A Promise containing a pair of values.
   ///
-  func and<U>(_ value: U) -> Promise<(Value, U)> {
-    map { ($0, value) }
+  func and<U>(_ value: U, on dispatchQueue: DispatchQueue = .main) -> Promise<(Value, U)> {
+    map(on: dispatchQueue) { ($0, value) }
   }
 }
 
@@ -495,7 +495,7 @@ public extension Promise where Value: Sequence {
     on dispatchQueue: DispatchQueue = .main,
     by comparator: @escaping (Value.Element, Value.Element) throws -> Bool) -> Promise<[Value.Element]>
   {
-    map { values in
+    map(on: dispatchQueue) { values in
       try values.sorted(by: comparator)
     }
   }
@@ -611,8 +611,8 @@ public extension Promise where Value: Collection, Value.Element: Comparable {
 
 public extension Promise where Value == Data {
   /// Returns a new Promise containing a decoded value.
-  func decode<D: Decodable>(type: D.Type, decoder: JSONDecoder) -> Promise<D> {
-    map {
+  func decode<D: Decodable>(type: D.Type, decoder: JSONDecoder, on dispatchQueue: DispatchQueue = .main) -> Promise<D> {
+    map(on: dispatchQueue) {
       try decoder.decode(type, from: $0)
     }
   }
