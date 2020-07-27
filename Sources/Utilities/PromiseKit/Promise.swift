@@ -159,13 +159,62 @@ public extension Promise {
           }
         }
       case .failure(let error):
-        dispatchQueue.async { result.reject(with: error) }
+        dispatchQueue.async { result.reject(with: error, on: dispatchQueue) }
       }
     }
     return result
   }
   
-  /// Returns a new promise, mapping any success value using the given
+  /// When the current Promise fails (is in error state), run the transformation callback
+  /// which may recover from the error by returning a new Promise.
+  ///
+  /// Use this method when you want to execute another Promise after this Promise fails to
+  /// potentially recover from the error.
+  ///
+  /// - Parameter transform: A closure that takes the error of this Promise and
+  ///   returns a new Promise potentially recovering from the error state.
+  /// - Returns: A `Promise` that will contain either the value of this promise or the result
+  ///   of the recovering promise.
+  func chainError(
+    with transform: @escaping (Error) -> Promise<Value>,
+    on dispatchQueue: DispatchQueue = .main) -> Promise<Value>
+  {
+    let promise = Promise<Value>()
+    self.observe {
+      switch $0 {
+      case .success(let value):
+        promise.resolve(with: value, on: dispatchQueue)
+      case .failure(let error):
+        promise.observe(promise: transform(error))
+      }
+    }
+    return promise
+  }
+  
+  /// When the current Promise is fullfiled, run the transformation callback which returns either
+  /// a new value or an error (based on the return Result).
+  ///
+  /// Use this method for simple data transformation that can result in an error.
+  ///
+  /// - Parameter transform: A closure that takes the value of this Promise and
+  ///   returns a Result transforming the value in some way.
+  /// - Returns: A `Promise` containing either the transformed value or an error.
+
+  func chainResult<U, E: Error>(
+    _ transform: @escaping (Value) -> Result<U, E>,
+    on dispatchQueue: DispatchQueue = .main) -> Promise<U>
+  {
+    map {
+      switch transform($0) {
+      case .success(let res):
+        return res
+      case .failure(let error):
+        throw error
+      }
+    }
+  }
+  
+  /// Returns a new Promise, mapping any success value using the given
   /// transformation.
   ///
   /// Use this method when you need to transform the value of a `Promise`
@@ -185,6 +234,25 @@ public extension Promise {
       } catch {
         return .error(error)
       }
+    }
+  }
+  
+  /// Returns a new Promise, mapping any error value using the given
+  /// transformation.
+  ///
+  /// Use this method when you need to transform the error of a `Promise`
+  /// instance when it represents a failure.
+  ///
+  /// - Parameter transform: A closure that takes the error value of this
+  ///   instance.
+  /// - Returns: A `Promise` with the result of evaluating `transform`
+  ///   as the new error value if this instance represents a failure.
+  func mapError(
+    with transform: @escaping (Error) -> Error,
+    on dispatchQueue: DispatchQueue = .main) -> Promise<Value>
+  {
+    chainError(on: dispatchQueue) {
+      .error(transform($0))
     }
   }
   
@@ -208,37 +276,7 @@ public extension Promise {
       case let transformedValue?:
         return transformedValue
       case nil:
-        throw NSError()
-      }
-    }
-  }
-  
-  func mapError(
-    _ transform: @escaping (Error) -> Error,
-    on dispatchQueue: DispatchQueue = .main) -> Promise<Value>
-  {
-    let promise = Promise<Value>()
-    self.observe {
-      switch $0 {
-      case .success(let value):
-        promise.resolve(with: value)
-      case .failure(let error):
-        promise.reject(with: transform(error))
-      }
-    }
-    return promise
-  }
-  
-  func mapResult<U, E: Error>(
-    _ transform: @escaping (Value) -> Result<U, E>,
-    on dispatchQueue: DispatchQueue = .main) -> Promise<U>
-  {
-    map {
-      switch transform($0) {
-      case .success(let res):
-        return res
-      case .failure(let error):
-        throw error
+        throw NSError(domain: "com.poviokit.promisekit", code: 100, userInfo: ["description": "`nil` value found after transformation!"])
       }
     }
   }

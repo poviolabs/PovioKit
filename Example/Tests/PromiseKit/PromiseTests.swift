@@ -146,6 +146,42 @@ extension PromiseTests {
     waitForExpectations(timeout: 1)
   }
   
+  func testChainError() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    10.asyncPromise
+      .chain { _ in Promise<Int>.error(DummyError()) }
+      .onFailure {
+        XCTAssertTrue($0 is DummyError)
+        ex1.fulfill()
+    }
+    DummyError().asyncPromise
+      .chain { 10.asyncPromise }
+      .onFailure {
+        XCTAssertTrue($0 is DummyError)
+        ex2.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testChainResult() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    10.asyncPromise
+      .chainResult { Result<Int, Error>.success($0 * 2) }
+      .onSuccess {
+        XCTAssertEqual(20, $0)
+        ex1.fulfill()
+    }
+    10.asyncPromise
+      .chainResult { _ in Result<Int, Error>.failure(DummyError()) }
+      .onFailure {
+        XCTAssertTrue($0 is DummyError)
+        ex2.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
   func testMap() {
     let ex = expectation(description: "")
     10.asyncPromise
@@ -162,6 +198,17 @@ extension PromiseTests {
     10.asyncPromise
       .map { _ in throw NSError() }
       .onFailure { _ in
+        ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testMapError() {
+    let ex = expectation(description: "")
+    10.asyncPromise
+      .mapError { _ in DummyError() }
+      .onFailure {
+        XCTAssertTrue($0 is DummyError)
         ex.fulfill()
     }
     waitForExpectations(timeout: 1)
@@ -186,8 +233,7 @@ extension PromiseTests {
   
   func testAndPromise() {
     let ex = expectation(description: "")
-    10.asyncPromise
-      .and(20.asyncPromise)
+    10.asyncPromise.and(20.asyncPromise)
       .onSuccess {
         XCTAssertEqual(10, $0.0)
         XCTAssertEqual(20, $0.1)
@@ -198,8 +244,7 @@ extension PromiseTests {
   
   func testAnd() {
     let ex = expectation(description: "")
-    10.asyncPromise
-      .and(20)
+    10.asyncPromise.and(20)
       .onSuccess {
         XCTAssertEqual(10, $0.0)
         XCTAssertEqual(20, $0.1)
@@ -445,9 +490,21 @@ extension Sequence {
   }
   
   var promise: Promise<Self> {
-    Promise.value(self)
+    .value(self)
   }
 }
+
+extension Error {
+  var promise: Promise<()> {
+    .error(self)
+  }
+  
+  var asyncPromise: Promise<()> {
+    after(.now() + 0.05, on: .global()).map { throw self }
+  }
+}
+
+struct DummyError: Error {}
 
 struct Point: Decodable {
   let x: Int
