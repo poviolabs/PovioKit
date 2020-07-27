@@ -139,30 +139,30 @@ public extension Promise {
     on dispatchQueue: DispatchQueue = .main,
     with transform: @escaping (Value) throws -> Promise<U>) -> Promise<U>
   {
-    let result = Promise<U>()
-    observe {
-      switch $0 {
-      case .success(let value):
-        dispatchQueue.async {
-          do {
-            let promise = try transform(value)
-            promise.observe {
-              switch $0 {
-              case .success(let value):
-                result.resolve(with: value, on: dispatchQueue)
-              case .failure(let error):
-                result.reject(with: error, on: dispatchQueue)
+    Promise<U> { seal in
+      self.observe {
+        switch $0 {
+        case .success(let value):
+          dispatchQueue.async {
+            do {
+              let promise = try transform(value)
+              promise.observe {
+                switch $0 {
+                case .success(let value):
+                  seal.resolve(with: value, on: dispatchQueue)
+                case .failure(let error):
+                  seal.reject(with: error, on: dispatchQueue)
+                }
               }
+            } catch {
+              seal.reject(with: error)
             }
-          } catch {
-            result.reject(with: error)
           }
+        case .failure(let error):
+          seal.reject(with: error, on: dispatchQueue)
         }
-      case .failure(let error):
-        dispatchQueue.async { result.reject(with: error, on: dispatchQueue) }
       }
     }
-    return result
   }
   
   /// When the current Promise fails (is in error state), run the transformation callback
@@ -179,16 +179,16 @@ public extension Promise {
     with transform: @escaping (Error) -> Promise<Value>,
     on dispatchQueue: DispatchQueue = .main) -> Promise<Value>
   {
-    let promise = Promise<Value>()
-    self.observe {
-      switch $0 {
-      case .success(let value):
-        promise.resolve(with: value, on: dispatchQueue)
-      case .failure(let error):
-        promise.observe(promise: transform(error))
+    Promise { seal in
+      self.observe {
+        switch $0 {
+        case .success(let value):
+          seal.resolve(with: value, on: dispatchQueue)
+        case .failure(let error):
+          seal.observe(promise: transform(error))
+        }
       }
     }
-    return promise
   }
   
   /// When the current Promise is fullfiled, run the transformation callback which returns either
