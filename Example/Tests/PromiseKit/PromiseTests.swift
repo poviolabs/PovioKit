@@ -464,6 +464,24 @@ extension PromiseTests {
     }
     waitForExpectations(timeout: 1)
   }
+  
+  func testUnwrap() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    Optional<Int>.some(10).asyncPromise
+      .unwrap(or: DummyError())
+      .onSuccess {
+        XCTAssertEqual(10, $0)
+        ex1.fulfill()
+    }
+    Optional<Int>.none.asyncPromise
+      .unwrap(or: DummyError())
+      .onFailure {
+        XCTAssertTrue($0 is DummyError)
+        ex2.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
 }
 
 extension Int {
@@ -501,6 +519,12 @@ extension Error {
   
   var asyncPromise: Promise<()> {
     after(.now() + 0.05, on: .global()).map { throw self }
+  }
+}
+
+extension OptionalType {
+  var asyncPromise: Promise<WrappedType?> {
+    after(.now() + 0.05, on: .global()).map { self.wrapped }
   }
 }
 
