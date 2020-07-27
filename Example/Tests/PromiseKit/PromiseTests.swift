@@ -217,6 +217,7 @@ extension PromiseTests {
   func testCompactMap() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
+    let ex3 = expectation(description: "")
     "10".asyncPromise
       .compactMap { Int($0) }
       .onSuccess {
@@ -227,6 +228,12 @@ extension PromiseTests {
       .compactMap { Int($0) }
       .onFailure { _ in
         ex2.fulfill()
+    }
+    "a".asyncPromise
+      .compactMap(or: DummyError()) { Int($0) }
+      .onFailure {
+        XCTAssertTrue($0 is DummyError)
+        ex3.fulfill()
     }
     waitForExpectations(timeout: 1)
   }

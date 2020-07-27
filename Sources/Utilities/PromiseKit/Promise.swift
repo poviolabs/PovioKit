@@ -269,14 +269,15 @@ public extension Promise {
   ///   then the new Promise fails.
   func compactMap<U>(
     on dispatchQueue: DispatchQueue = .main,
-    _ transform: @escaping (Value) throws -> U?) -> Promise<U>
+    or error: @autoclosure @escaping () -> Error = NSError(domain: "com.poviokit.promisekit", code: 100, userInfo: ["description": "`nil` value found after transformation!"]),
+    with transform: @escaping (Value) throws -> U?) -> Promise<U>
   {
     map(on: dispatchQueue) {
       switch try transform($0) {
       case let transformedValue?:
         return transformedValue
       case nil:
-        throw NSError(domain: "com.poviokit.promisekit", code: 100, userInfo: ["description": "`nil` value found after transformation!"])
+        throw error()
       }
     }
   }
