@@ -70,7 +70,7 @@ public class Promise<Value>: Future<Value, Error> {
     other.onFailure { self.reject(with: $0) }
   }
   
-  public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue) {
+  public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue = .main) {
     onSuccess { promise.resolve(with: $0, on: dispatchQueue) }
     onFailure { promise.reject(with: $0, on: dispatchQueue) }
   }
