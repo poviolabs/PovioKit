@@ -16,12 +16,16 @@ public extension ImageSource {
     .remote(url, placeholder: nil)
   }
   
-  static func remote(_ urlString: String) -> ImageSource? {
-    URL(string: urlString).map(ImageSource.remote)
+  static func remote(_ urlString: String, placeholder: UIImage? = nil) -> ImageSource? {
+    URL(string: urlString).map { ImageSource.remote($0, placeholder: placeholder) }
   }
   
   static func image(_ image: UIImage?) -> ImageSource {
     .image(image ?? UIImage())
+  }
+  
+  static func image(_ named: String) -> ImageSource {
+    .image(UIImage(named: named))
   }
 }
 
