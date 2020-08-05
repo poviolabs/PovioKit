@@ -7,33 +7,33 @@
 
 import Foundation
 
-public func wrap(_ f: (@escaping () -> Void) -> Void) -> Promise<()> {
+public func wrap(on dispatchQueue: DispatchQueue = .main, _ f: (@escaping () -> Void) -> Void) -> Promise<()> {
   Promise { seal in
-    f { seal.resolve() }
+    f { seal.resolve(on: dispatchQueue) }
   }
 }
 
-public func wrap<A, E: Error>(_ f: (@escaping (Result<A, E>) -> Void) -> Void) -> Promise<A> {
+public func wrap<A, E: Error>(on dispatchQueue: DispatchQueue = .main, _ f: (@escaping (Result<A, E>) -> Void) -> Void) -> Promise<A> {
   Promise { seal in
     f {
       switch $0 {
       case .success(let res):
-        seal.resolve(with: res)
+        seal.resolve(with: res, on: dispatchQueue)
       case .failure(let error):
-        seal.reject(with: error)
+        seal.reject(with: error, on: dispatchQueue)
       }
     }
   }
 }
 
-public func wrap<A, E: Error>(_ f: (@escaping (A?, E?) -> Void) -> Void) -> Promise<A> {
+public func wrap<A, E: Error>(on dispatchQueue: DispatchQueue = .main, _ f: (@escaping (A?, E?) -> Void) -> Void) -> Promise<A> {
   Promise { seal in
     f {
       switch ($0, $1) {
       case (let a?, nil):
-        seal.resolve(with: a)
+        seal.resolve(with: a, on: dispatchQueue)
       case (nil, let error?):
-        seal.reject(with: error)
+        seal.reject(with: error, on: dispatchQueue)
       case _:
         fatalError()
       }
@@ -41,10 +41,10 @@ public func wrap<A, E: Error>(_ f: (@escaping (A?, E?) -> Void) -> Void) -> Prom
   }
 }
 
-public func wrap<A, E: Error>(_ f: (@escaping (A) -> Void) -> Void, _ g: (@escaping (E) -> Void) -> Void) -> Promise<A> {
+public func wrap<A, E: Error>(on dispatchQueue: DispatchQueue = .main, _ f: (@escaping (A) -> Void) -> Void, _ g: (@escaping (E) -> Void) -> Void) -> Promise<A> {
   Promise { seal in
-    f { seal.resolve(with: $0) }
-    g { seal.reject(with: $0) }
+    f { seal.resolve(with: $0, on: dispatchQueue) }
+    g { seal.reject(with: $0, on: dispatchQueue) }
   }
 }
 

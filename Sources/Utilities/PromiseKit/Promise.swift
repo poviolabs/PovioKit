@@ -46,12 +46,12 @@ public class Promise<Value>: Future<Value, Error> {
     Promise<Value>(reject: error)
   }
   
-  public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = nil) {
+  public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = .main) {
     guard isAwaiting else { return }
     setResult(.success(value), on: dispatchQueue)
   }
   
-  public func reject(with error: Error, on dispatchQueue: DispatchQueue? = nil) {
+  public func reject(with error: Error, on dispatchQueue: DispatchQueue? = .main) {
     guard isAwaiting else { return }
     setResult(.failure(error), on: dispatchQueue)
   }
@@ -676,7 +676,7 @@ public extension Promise where Value: OptionalType {
 
 public extension Promise where Value == Void {
   static func value() -> Promise<Value> { value(()) }
-  func resolve() { resolve(with: ()) }
+  func resolve(on dispatchQueue: DispatchQueue = .main) { resolve(with: (), on: dispatchQueue) }
 }
 
 extension Optional where Wrapped == DispatchQueue {
