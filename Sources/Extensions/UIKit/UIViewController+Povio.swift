@@ -11,10 +11,12 @@ public extension UIViewController {
   class BarButton {
     let content: Content
     let action: Selector
+    let target: Any?
     
-    required init(content: Content, action: Selector) {
+    required init(content: Content, action: Selector, target: Any? = nil) {
       self.content = content
       self.action = action
+      self.target = target
     }
   }
   
@@ -58,12 +60,12 @@ private extension UIViewController {
     switch barButton.content {
     case .title(.default(let title)):
       let button = UIButton()
-      button.addTarget(self, action: barButton.action, for: .touchUpInside)
+      button.addTarget(barButton.target ?? self, action: barButton.action, for: .touchUpInside)
       button.setTitle(title, for: .normal)
       return UIBarButtonItem(customView: button)
     case let .title(.attributed(normal, disabled)):
       let button = UIButton()
-      button.addTarget(self, action: barButton.action, for: .touchUpInside)
+      button.addTarget(barButton.target ?? self, action: barButton.action, for: .touchUpInside)
       button.setAttributedTitle(normal, for: .normal)
       button.setAttributedTitle(disabled, for: .disabled)
       return UIBarButtonItem(customView: button)
