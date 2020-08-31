@@ -252,7 +252,7 @@ public extension Promise {
     on dispatchQueue: DispatchQueue? = .main
   ) -> Promise<Value> {
     chainError(on: dispatchQueue) {
-      .error(transform($0))
+      Promise<Value>.error(transform($0))
     }
   }
   
