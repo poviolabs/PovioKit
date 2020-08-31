@@ -30,6 +30,7 @@
 		37651E4724C755FC0018D15E /* Wrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37651E4624C755FB0018D15E /* Wrap.swift */; };
 		376D2699D97EE6D54C4E795CD57A4AEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */; };
 		37A2FCD24ED22C8D670188930CE4CA5D /* RequestTaskMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF53DA4B90203AC1F38EFC48C2E121F /* RequestTaskMap.swift */; };
+		37E00A8424DA7A9400B07F05 /* Delegated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E00A8324DA7A9300B07F05 /* Delegated.swift */; };
 		3B1EC1A252211F563AECE9BB2AF6348A /* UICollectionReusableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B17AFF0FE0CE204AB08A13CD2591A /* UICollectionReusableView+Povio.swift */; };
 		3C564B379FE3D14B02FA08A4D6740FAB /* UIColor+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77466D7E6AE3E7183D434989FB0F65BD /* UIColor+Povio.swift */; };
 		408258CCC9DF9A5BD371EBEC8286CD81 /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DC39DD1C21E95EC4C2DB4053B34EF1 /* RetryPolicy.swift */; };
@@ -139,6 +140,7 @@
 		3754EAFE24C5825000EA6B83 /* OAuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthInterceptor.swift; sourceTree = "<group>"; };
 		37651E4624C755FB0018D15E /* Wrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wrap.swift; path = Sources/Utilities/PromiseKit/Wrap.swift; sourceTree = "<group>"; };
 		3799DFCC7C762ADF5BA2044F367ED220 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
+		37E00A8324DA7A9300B07F05 /* Delegated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegated.swift; sourceTree = "<group>"; };
 		3CB00EB5489ADBD2E2D600A8B12A5F94 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Sources/Utilities/Logger/Logger.swift; sourceTree = "<group>"; };
 		3F05DA6A2EE406E4AEA37F4F1894FF81 /* Session.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Source/Session.swift; sourceTree = "<group>"; };
 		41F0EF9FCD1300594744FCE715466D38 /* PovioKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PovioKit-Info.plist"; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 		2D1E488D8E3950C54E5361062FB05447 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				37E00A8224DA7A9300B07F05 /* Delegated */,
 				D6F054CCF3D7569D93FF6CDA6C79E15D /* AttributedStringBuilder */,
 				D235E1190C2C174A26B0E07044CE0DF2 /* Broadcast */,
 				F80D953EA6A5C396C51F2B7EB0169312 /* ColorInterpolator */,
@@ -316,6 +319,15 @@
 				F8863359982288A3AE47A3EAAA86CCE8 /* README.md */,
 			);
 			name = Pod;
+			sourceTree = "<group>";
+		};
+		37E00A8224DA7A9300B07F05 /* Delegated */ = {
+			isa = PBXGroup;
+			children = (
+				37E00A8324DA7A9300B07F05 /* Delegated.swift */,
+			);
+			name = Delegated;
+			path = Sources/Utilities/Delegated;
 			sourceTree = "<group>";
 		};
 		3754EAFD24C5824000EA6B83 /* OAuth */ = {
@@ -773,6 +785,7 @@
 				10C7712B3A76E16005AC97E812F14043 /* String+Povio.swift in Sources */,
 				C447A750636355FEAC060924D13B8319 /* Throttler.swift in Sources */,
 				3B1EC1A252211F563AECE9BB2AF6348A /* UICollectionReusableView+Povio.swift in Sources */,
+				37E00A8424DA7A9400B07F05 /* Delegated.swift in Sources */,
 				BDCC5993632C11D2F0D2CFB2B70466D7 /* UICollectionView+Povio.swift in Sources */,
 				3C564B379FE3D14B02FA08A4D6740FAB /* UIColor+Povio.swift in Sources */,
 				DA58A5C209A8B2E3245C67D096221E94 /* UIDevice+Povio.swift in Sources */,
