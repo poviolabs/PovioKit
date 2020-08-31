@@ -52,6 +52,6 @@ public class Broadcast<T> {
 
 private extension Broadcast {
   func prune() {
-    delegates = delegates.filter { $0.reference != nil }
+    delegates.removeAll(where: { $0.reference == nil })
   }
 }
