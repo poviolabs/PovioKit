@@ -312,7 +312,7 @@ private extension AlamofireNetworkClient.RequestError {
 
 public extension HTTPHeaders {
   static func authorization(bearer: String) -> Self {
-    ["Authorization": "Bearer \(bearer)"]
+    [.authorization(bearerToken: bearer)]
   }
   
   static func basic(basic: String) -> Self {
