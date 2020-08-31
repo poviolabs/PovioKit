@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// Returns a new Promise, combining multiple `Promise`s.
 ///
 /// Use this method when you need to combine the result of several promises of some type `T`.
@@ -17,8 +16,8 @@ import Foundation
 /// - Returns: A Promise with the result of an array of all the values of the combined promises.
 public func combine<T>(
   on dispatchQueue: DispatchQueue? = .main,
-  promises: [Promise<T>]) -> Promise<[T]>
-{
+  promises: [Promise<T>]
+) -> Promise<[T]> {
   guard !promises.isEmpty else {
     return Promise.value([])
   }
@@ -55,10 +54,10 @@ public func combine<T>(
 ///   than the new Promise fails as well.
 ///
 public func combine<T, U>(
-  on dispatchQueue: DispatchQueue = .main,
+  on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
-  _ p2: Promise<U>) -> Promise<(T, U)>
-{
+  _ p2: Promise<U>
+) -> Promise<(T, U)> {
   combine(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid])
     .map { _ in (p1.value!, p2.value!) }
 }
@@ -74,11 +73,11 @@ public func combine<T, U>(
 ///   than the new Promise fails as well.
 ///
 public func combine<T, U, V>(
-  on dispatchQueue: DispatchQueue = .main,
+  on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
   _ p2: Promise<U>,
-  _ p3: Promise<V>) -> Promise<(T, U, V)>
-{
+  _ p3: Promise<V>
+) -> Promise<(T, U, V)> {
   combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!) }
 }
@@ -94,12 +93,12 @@ public func combine<T, U, V>(
 ///   than the new Promise fails as well.
 ///
 public func combine<T, U, V, Z>(
-  on dispatchQueue: DispatchQueue = .main,
+  on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
   _ p2: Promise<U>,
   _ p3: Promise<V>,
-  _ p4: Promise<Z>) -> Promise<(T, U, V, Z)>
-{
+  _ p4: Promise<Z>
+) -> Promise<(T, U, V, Z)> {
   combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
 }
@@ -115,13 +114,13 @@ public func combine<T, U, V, Z>(
 ///   than the new Promise fails as well.
 ///
 public func combine<T, U, V, Z, X>(
-  on dispatchQueue: DispatchQueue = .main,
+  on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
   _ p2: Promise<U>,
   _ p3: Promise<V>,
   _ p4: Promise<Z>,
-  _ p5: Promise<X>) -> Promise<(T, U, V, Z, X)>
-{
+  _ p5: Promise<X>
+) -> Promise<(T, U, V, Z, X)> {
   combine(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
 }

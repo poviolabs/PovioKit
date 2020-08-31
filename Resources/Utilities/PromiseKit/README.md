@@ -127,7 +127,7 @@ func downloadA() -> Promise<A> {
 func downloadB(input: A) -> Promise<B> {
 }
 
-func downloadC(input: C) -> Promise<C> {
+func downloadC(input: B) -> Promise<C> {
 }
 ```
 
@@ -163,10 +163,10 @@ Example:
 
 ```swift
 Promise<String>.value("10")
-  .compactMap { Int($) } // -> transforms into Promise<Int>
+  .compactMap { Int($0) } // -> transforms into Promise<Int>
   .onSuccess { print($0 } // -> output is "10"
 Promise<String>.value("not a number")
-  .compactMap { Int($) } // -> transforms into Promise<Int>
+  .compactMap { Int($0) } // -> transforms into Promise<Int>
   .onSuccess { print($0 } // -> will not get called!
 ```
 
