@@ -176,8 +176,8 @@ public extension Promise {
   /// - Returns: A `Promise` that will contain either the value of this promise or the result
   ///   of the recovering promise.
   func chainError(
-    with transform: @escaping (Error) -> Promise<Value>,
-    on dispatchQueue: DispatchQueue? = .main
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Error) -> Promise<Value>
   ) -> Promise<Value> {
     Promise { seal in
       self.observe {
@@ -199,10 +199,9 @@ public extension Promise {
   /// - Parameter transform: A closure that takes the value of this Promise and
   ///   returns a Result transforming the value in some way.
   /// - Returns: A `Promise` containing either the transformed value or an error.
-  
   func chainResult<U, E: Error>(
-    with transform: @escaping (Value) -> Result<U, E>,
-    on dispatchQueue: DispatchQueue? = .main
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Value) -> Result<U, E>
   ) -> Promise<U> {
     map(on: dispatchQueue) {
       switch transform($0) {
@@ -248,8 +247,8 @@ public extension Promise {
   /// - Returns: A `Promise` with the result of evaluating `transform`
   ///   as the new error value if this instance represents a failure.
   func mapError(
-    with transform: @escaping (Error) -> Error,
-    on dispatchQueue: DispatchQueue? = .main
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Error) -> Error
   ) -> Promise<Value> {
     chainError(on: dispatchQueue) {
       Promise<Value>.error(transform($0))
