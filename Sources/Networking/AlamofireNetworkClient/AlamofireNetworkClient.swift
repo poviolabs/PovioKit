@@ -15,6 +15,7 @@ public typealias HTTPHeaders = Alamofire.HTTPHeaders
 public typealias HTTPMethod = Alamofire.HTTPMethod
 public typealias URLConvertible = Alamofire.URLConvertible
 public typealias Parameters = [String: Any]
+public typealias MultipartBuilder = (MultipartFormData) -> Void
 
 public typealias Writer = (String) -> Void
 
@@ -35,7 +36,7 @@ public extension AlamofireNetworkClient {
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to \(endpoint)!")
+    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let request = session
       .request(endpoint,
                method: method,
@@ -50,7 +51,7 @@ public extension AlamofireNetworkClient {
     parameters: Parameters,
     parameterEncoding: ParameterEncoding) -> Request
   {
-    logger("Starting \(method.rawValue) request to \(endpoint)!")
+    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let request = session
       .request(endpoint,
                method: method,
@@ -67,7 +68,7 @@ public extension AlamofireNetworkClient {
     encode: E,
     encoderConfigurator configurator: ((JSONEncoder) -> Void)? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to \(endpoint)!")
+    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let encoder = JSONEncoder()
     configurator?(encoder)
     let request = session
@@ -89,12 +90,32 @@ public extension AlamofireNetworkClient {
     parameters: Parameters? = nil,
     headers: HTTPHeaders? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to \(endpoint)!")
+    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let request = session
-      .upload(multipartFormData: { $0.append(data,
-                                             withName: name,
-                                             fileName: fileName,
-                                             mimeType: mimeType) },
+      .upload(multipartFormData: { builder in
+        builder.append(data,
+                       withName: name,
+                       fileName: fileName,
+                       mimeType: mimeType)
+        parameters?
+          .compactMap { (key, value) in (value as? String).map { (key, $0) } }
+          .forEach { builder.append($0.0.data(using: .utf8)!, withName: $0.1) }
+      },
+              to: endpoint,
+              method: method,
+              headers: headers)
+    return .init(dataRequest: request, logger: logger)
+  }
+  
+  func upload(
+    method: HTTPMethod,
+    endpoint: URLConvertible,
+    multipartFormBuilder: @escaping MultipartBuilder,
+    headers: HTTPHeaders? = nil) -> Request
+  {
+    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
+    let request = session
+      .upload(multipartFormData: multipartFormBuilder,
               to: endpoint,
               method: method,
               headers: headers)
@@ -128,12 +149,27 @@ public extension AlamofireNetworkClient {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
+  @available(*, deprecated, message: "Use `asJson` instead!")
   func json() -> Promise<Any> {
     Promise { promise in
       dataRequest.responseJSON {
         switch $0.result {
         case .success(let json):
-          self.logger("Request succeded with JSON!")
+          self.logger("Request succeded with `JSON`!")
+          promise.resolve(with: json)
+        case .failure(let error):
+          promise.reject(with: self.handleError(error, code: $0.response?.statusCode))
+        }
+      }
+    }
+  }
+  
+  var asJson: Promise<Any> {
+    Promise { promise in
+      dataRequest.responseJSON {
+        switch $0.result {
+        case .success(let json):
+          self.logger("Request succeded with `JSON`!")
           promise.resolve(with: json)
         case .failure(let error):
           promise.reject(with: self.handleError(error, code: $0.response?.statusCode))
@@ -150,8 +186,24 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
-          self.logger("Request succededed with \(type(of: decodedObject))!")
+          self.logger("Request succededed with `\(type(of: decodedObject))`!")
           promise.resolve(with: decodedObject)
+        case .failure(let error):
+          self.logger(error.localizedDescription)
+          promise.reject(with: self.handleError(error, code: response.response?.statusCode))
+        }
+      }
+    }
+  }
+  
+  @available(*, deprecated, message: "Use `asData` instead!")
+  func data() -> Promise<Data> {
+    Promise { promise in
+      dataRequest.responseData { (response: AFDataResponse<Data>) in
+        switch response.result {
+        case .success(let data):
+          self.logger("Request succededed with `Data`!")
+          promise.resolve(with: data)
         case .failure(let error):
           promise.reject(with: self.handleError(error, code: response.response?.statusCode))
         }
@@ -159,15 +211,15 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func data() -> Promise<Data> {
+  var asData: Promise<Data> {
     Promise { promise in
-      dataRequest.responseData {
-        switch $0.result {
+      dataRequest.responseData { (response: AFDataResponse<Data>) in
+        switch response.result {
         case .success(let data):
-          self.logger("Request succededed with Data!")
+          self.logger("Request succededed with `Data`!")
           promise.resolve(with: data)
         case .failure(let error):
-          promise.reject(with: self.handleError(error, code: $0.response?.statusCode))
+          promise.reject(with: self.handleError(error, code: response.response?.statusCode))
         }
       }
     }
@@ -178,7 +230,7 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.response {
         switch $0.result {
         case .success:
-          self.logger("Request succededed with ())!")
+          self.logger("Request succededed with `()`)!")
           promise.resolve(with: ())
         case .failure(let error):
           promise.reject(with: self.handleError(error, code: $0.response?.statusCode))
