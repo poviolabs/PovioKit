@@ -67,8 +67,8 @@ class PromiseTests: XCTestCase {
       let promise = Promise<()>()
       var count = 0
       promise.onSuccess { count += 1 }
-      promise.resolve()
-      promise.resolve()
+      promise.resolve(on: nil)
+      promise.resolve(on: nil)
       XCTAssertEqual(count, 1)
     }
     
@@ -76,8 +76,8 @@ class PromiseTests: XCTestCase {
       let promise = Promise<()>()
       var count = 0
       promise.onFailure { _ in count += 1 }
-      promise.reject(with: NSError())
-      promise.reject(with: NSError())
+      promise.reject(with: NSError(), on: nil)
+      promise.reject(with: NSError(), on: nil)
       XCTAssertEqual(count, 1)
     }
   }
@@ -255,21 +255,6 @@ extension PromiseTests {
       .onSuccess {
         XCTAssertEqual(10, $0.0)
         XCTAssertEqual(20, $0.1)
-        ex.fulfill()
-    }
-    waitForExpectations(timeout: 1)
-  }
-  
-  func testFold() {
-    let ex = expectation(description: "")
-    "abc".asyncPromise
-      .fold(10.asyncPromise,
-            with: { s, i in
-              XCTAssertEqual("abc", s)
-              XCTAssertEqual(10, i)
-              return "efg".asyncPromise
-      }).onSuccess {
-        XCTAssertEqual("efg", $0)
         ex.fulfill()
     }
     waitForExpectations(timeout: 1)

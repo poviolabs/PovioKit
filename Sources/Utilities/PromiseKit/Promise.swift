@@ -70,7 +70,7 @@ public class Promise<Value>: Future<Value, Error> {
     other.onFailure { self.reject(with: $0) }
   }
   
-  public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue = .main) {
+  public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue? = .main) {
     onSuccess { promise.resolve(with: $0, on: dispatchQueue) }
     onFailure { promise.reject(with: $0, on: dispatchQueue) }
   }
@@ -136,9 +136,9 @@ public extension Promise {
   ///   If both promises succeed then their composition succeeds as well.
   ///   If any of the two promises at any point fail, their composition fails as well.
   func chain<U>(
-    on dispatchQueue: DispatchQueue = .main,
-    with transform: @escaping (Value) throws -> Promise<U>) -> Promise<U>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Value) throws -> Promise<U>
+  ) -> Promise<U> {
     Promise<U> { seal in
       self.observe {
         switch $0 {
@@ -177,8 +177,8 @@ public extension Promise {
   ///   of the recovering promise.
   func chainError(
     with transform: @escaping (Error) -> Promise<Value>,
-    on dispatchQueue: DispatchQueue = .main) -> Promise<Value>
-  {
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<Value> {
     Promise { seal in
       self.observe {
         switch $0 {
@@ -199,11 +199,11 @@ public extension Promise {
   /// - Parameter transform: A closure that takes the value of this Promise and
   ///   returns a Result transforming the value in some way.
   /// - Returns: A `Promise` containing either the transformed value or an error.
-
+  
   func chainResult<U, E: Error>(
     with transform: @escaping (Value) -> Result<U, E>,
-    on dispatchQueue: DispatchQueue = .main) -> Promise<U>
-  {
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<U> {
     map(on: dispatchQueue) {
       switch transform($0) {
       case .success(let res):
@@ -225,9 +225,9 @@ public extension Promise {
   /// - Returns: A `Promise` with the result of evaluating `transform`
   ///   as the new success value if this instance represents a success.
   func map<U>(
-    on dispatchQueue: DispatchQueue = .main,
-    with transform: @escaping (Value) throws -> U) -> Promise<U>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Value) throws -> U
+  ) -> Promise<U> {
     chain(on: dispatchQueue) {
       do {
         return .value(try transform($0))
@@ -249,8 +249,8 @@ public extension Promise {
   ///   as the new error value if this instance represents a failure.
   func mapError(
     with transform: @escaping (Error) -> Error,
-    on dispatchQueue: DispatchQueue = .main) -> Promise<Value>
-  {
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<Value> {
     chainError(on: dispatchQueue) {
       .error(transform($0))
     }
@@ -268,10 +268,10 @@ public extension Promise {
   ///   it does not return `nil` as the new success value. If it returns `nil`
   ///   then the new Promise fails.
   func compactMap<U>(
-    on dispatchQueue: DispatchQueue = .main,
+    on dispatchQueue: DispatchQueue? = .main,
     or error: @autoclosure @escaping () -> Error = NSError(domain: "com.poviokit.promisekit", code: 100, userInfo: ["description": "`nil` value found after transformation!"]),
-    with transform: @escaping (Value) throws -> U?) -> Promise<U>
-  {
+    with transform: @escaping (Value) throws -> U?
+  ) -> Promise<U> {
     map(on: dispatchQueue) {
       switch try transform($0) {
       case let transformedValue?:
@@ -291,27 +291,12 @@ public extension Promise {
   /// - Returns: A new promise with the folded value.
   func fold<U>(
     _ promises: [Promise<U>],
-    on dispatchQueue: DispatchQueue = .main,
-    with combiningFunction: @escaping (Value, U) -> Promise<Value>) -> Promise<Value>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    with combiningFunction: @escaping (Value, U) -> Promise<Value>
+  ) -> Promise<Value> {
     promises.reduce(self) { p1, p2 in
       p1.and(p2).chain(on: dispatchQueue, with: combiningFunction)
     }
-  }
-  
-  /// Returns a new promise that fires only when this promise and
-  /// all the provided promises complete. It then provides the result of folding the value of this
-  /// promise with the values of all the provided promises.
-  ///
-  /// - Parameter promise: A promise to wait for.
-  /// - Parameter with: A function that will be used to fold the values of two promises and return a new value wrapped in a promise.
-  /// - Returns: A new promise with the folded value.
-  func fold<U>(
-    _ promise: Promise<U>,
-    on dispatchQueue: DispatchQueue = .main,
-    with combiningFunction: @escaping (Value, U) -> Promise<Value>) -> Promise<Value>
-  {
-    fold([promise], on: dispatchQueue, with: combiningFunction)
   }
   
   /// Returns a new promise that fires only when all the provided promises complete.
@@ -326,9 +311,9 @@ public extension Promise {
   static func reduce<U>(
     _ initialValue: Value,
     _ promises: [Promise<U>],
-    on dispatchQueue: DispatchQueue = .main,
-    _ nextPartialResult: @escaping (Value, U) -> Value) -> Promise<Value>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ nextPartialResult: @escaping (Value, U) -> Value
+  ) -> Promise<Value> {
     Promise
       .value(initialValue)
       .fold(promises, on: dispatchQueue) { .value(nextPartialResult($0, $1)) }
@@ -342,7 +327,7 @@ public extension Promise {
   /// - Returns: A Promise with the result of given promises. If any of the promises fail
   ///   than the returned Promise fails as well with the first error encountered.
   ///
-  func and<U>(_ other: Promise<U>, on dispatchQueue: DispatchQueue = .main) -> Promise<(Value, U)> {
+  func and<U>(_ other: Promise<U>, on dispatchQueue: DispatchQueue? = .main) -> Promise<(Value, U)> {
     combine(on: dispatchQueue, self, other)
   }
   
@@ -351,7 +336,7 @@ public extension Promise {
   /// - Parameter `other`: Some other value.
   /// - Returns: A Promise containing a pair of values.
   ///
-  func and<U>(_ value: U, on dispatchQueue: DispatchQueue = .main) -> Promise<(Value, U)> {
+  func and<U>(_ value: U, on dispatchQueue: DispatchQueue? = .main) -> Promise<(Value, U)> {
     map(on: dispatchQueue) { ($0, value) }
   }
 }
@@ -372,9 +357,9 @@ public extension Promise where Value: Sequence {
   /// - Returns: A Promise containing an array of the transformed elements of the
   ///   sequence.
   func mapValues<U>(
-    on dispatchQueue: DispatchQueue = .main,
-    _ transform: @escaping (Value.Element) throws -> U) -> Promise<[U]>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ transform: @escaping (Value.Element) throws -> U
+  ) -> Promise<[U]> {
     map(on: dispatchQueue) { values in try values.map(transform) }
   }
   
@@ -397,9 +382,9 @@ public extension Promise where Value: Sequence {
   /// - Returns: A Promise containing an array of the non-`nil` results of calling `transform`
   ///   with each element of the sequence.
   func compactMapValues<U>(
-    on dispatchQueue: DispatchQueue = .main,
-    _ transform: @escaping (Value.Element) throws -> U?) -> Promise<[U]>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ transform: @escaping (Value.Element) throws -> U?
+  ) -> Promise<[U]> {
     map(on: dispatchQueue) { values in
       try values.compactMap(transform)
     }
@@ -424,9 +409,9 @@ public extension Promise where Value: Sequence {
   /// - Returns: A Promise containing the combined result of all the promises obtained by
   ///   mapping elements of this sequence.
   func flatMapValues<U>(
-    on dispatchQueue: DispatchQueue = .main,
-    _ transform: @escaping (Value.Element) throws -> Promise<U>) -> Promise<[U]>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ transform: @escaping (Value.Element) throws -> Promise<U>
+  ) -> Promise<[U]> {
     chain(on: dispatchQueue) { values in
       combine(promises: try values.map(transform))
     }
@@ -446,9 +431,9 @@ public extension Promise where Value: Sequence {
   ///   whether the element should be included in the result.
   /// - Returns: An Promise containing an array of the elements that `isIncluded` allowed.
   func filterValues(
-    on dispatchQueue: DispatchQueue = .main,
-    _ isIncluded: @escaping (Value.Element) throws -> Bool) -> Promise<[Value.Element]>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ isIncluded: @escaping (Value.Element) throws -> Bool
+  ) -> Promise<[Value.Element]> {
     map(on: dispatchQueue) { values in
       try values.filter(isIncluded)
     }
@@ -476,10 +461,10 @@ public extension Promise where Value: Sequence {
   /// - Returns: A Promise containing the final accumulated value. If the sequence has no elements,
   ///   the result is `initialResult`.
   func reduceValues<A>(
-    on dispatchQueue: DispatchQueue = .main,
+    on dispatchQueue: DispatchQueue? = .main,
     _ initialResult: A,
-    _ nextPartialResult: @escaping (A, Value.Element) throws -> A) -> Promise<A>
-  {
+    _ nextPartialResult: @escaping (A, Value.Element) throws -> A
+  ) -> Promise<A> {
     map(on: dispatchQueue) { values in
       try values.reduce(initialResult, nextPartialResult)
     }
@@ -493,9 +478,9 @@ public extension Promise where Value: Sequence {
   ///   otherwise, `false`.
   /// - Returns: A Promise containing sorted array of the sequence's elements.
   func sortedValues(
-    on dispatchQueue: DispatchQueue = .main,
-    by comparator: @escaping (Value.Element, Value.Element) throws -> Bool) -> Promise<[Value.Element]>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    by comparator: @escaping (Value.Element, Value.Element) throws -> Bool
+  ) -> Promise<[Value.Element]> {
     map(on: dispatchQueue) { values in
       try values.sorted(by: comparator)
     }
@@ -521,9 +506,9 @@ public extension Promise where Value: Sequence, Value.Element: Sequence {
   ///   sequence as its argument and returns a sequence or collection.
   /// - Returns: A Promise containing the resulting flattened array.
   func flatMapValues<U>(
-    on dispatchQueue: DispatchQueue = .main,
-    _ transform: @escaping (Value.Element) throws -> [U]) -> Promise<[U]>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ transform: @escaping (Value.Element) throws -> [U]
+  ) -> Promise<[U]> {
     map(on: dispatchQueue) { values in
       try values.flatMap(transform)
     }
@@ -612,7 +597,11 @@ public extension Promise where Value: Collection, Value.Element: Comparable {
 
 public extension Promise where Value == Data {
   /// Returns a new Promise containing a decoded value.
-  func decode<D: Decodable>(type: D.Type, decoder: JSONDecoder, on dispatchQueue: DispatchQueue = .main) -> Promise<D> {
+  func decode<D: Decodable>(
+    type: D.Type,
+    decoder: JSONDecoder,
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<D> {
     map(on: dispatchQueue) {
       try decoder.decode(type, from: $0)
     }
@@ -621,9 +610,9 @@ public extension Promise where Value == Data {
 
 public extension Promise where Value: Sequence, Value.Element == Int {
   func reduceValues(
-    on dispatchQueue: DispatchQueue = .main,
-    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element
+  ) -> Promise<Value.Element> {
     map(on: dispatchQueue) { values in
       try values.reduce(0, nextPartialResult)
     }
@@ -632,9 +621,9 @@ public extension Promise where Value: Sequence, Value.Element == Int {
 
 public extension Promise where Value: Sequence, Value.Element == Double {
   func reduceValues(
-    on dispatchQueue: DispatchQueue = .main,
-    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element
+  ) -> Promise<Value.Element> {
     map(on: dispatchQueue) { values in
       try values.reduce(0, nextPartialResult)
     }
@@ -643,9 +632,9 @@ public extension Promise where Value: Sequence, Value.Element == Double {
 
 public extension Promise where Value: Sequence, Value.Element == Float {
   func reduceValues(
-    on dispatchQueue: DispatchQueue = .main,
-    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element
+  ) -> Promise<Value.Element> {
     map(on: dispatchQueue) { values in
       try values.reduce(0, nextPartialResult)
     }
@@ -654,9 +643,9 @@ public extension Promise where Value: Sequence, Value.Element == Float {
 
 public extension Promise where Value: Sequence, Value.Element == String {
   func reduceValues(
-    on dispatchQueue: DispatchQueue = .main,
-    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element) -> Promise<Value.Element>
-  {
+    on dispatchQueue: DispatchQueue? = .main,
+    _ nextPartialResult: @escaping (Value.Element, Value.Element) throws -> Value.Element
+  ) -> Promise<Value.Element> {
     map(on: dispatchQueue) { values in
       try values.reduce("", nextPartialResult)
     }
@@ -676,7 +665,7 @@ public extension Promise where Value: OptionalType {
 
 public extension Promise where Value == Void {
   static func value() -> Promise<Value> { value(()) }
-  func resolve(on dispatchQueue: DispatchQueue = .main) { resolve(with: (), on: dispatchQueue) }
+  func resolve(on dispatchQueue: DispatchQueue? = .main) { resolve(with: (), on: dispatchQueue) }
 }
 
 extension Optional where Wrapped == DispatchQueue {
