@@ -72,7 +72,7 @@ private extension UIViewController {
     case .icon(let image):
       return UIBarButtonItem(image: image.withRenderingMode(.alwaysOriginal),
                              style: .plain,
-                             target: self,
+                             target: barButton.target ?? self,
                              action: barButton.action)
     }
   }
