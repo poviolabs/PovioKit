@@ -45,6 +45,10 @@ Pod::Spec.new do |s|
     us.subspec 'PromiseKit' do |cs|
       cs.source_files = 'Sources/Utilities/PromiseKit/**/*.swift'
     end
+    
+    us.subspec 'ImageSource' do |cs|
+      cs.source_files = 'Sources/Utilities/ImageSource/*.swift'
+    end
   end
   
   s.subspec 'Extensions' do |es|
@@ -74,6 +78,10 @@ Pod::Spec.new do |s|
     
     ns.subspec 'AlamofireNetworkClient' do |cs|
       cs.source_files = 'Sources/Networking/AlamofireNetworkClient/**/*.swift'
+    end
+    
+    ns.subspec 'OAuthInterceptor' do |cs|
+      cs.source_files = 'Sources/Networking/OAuth/*.swift'
     end
   end
 end
