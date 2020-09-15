@@ -19,7 +19,9 @@ public extension UIViewController {
       self.target = target
     }
   }
-  
+}
+
+extension UIViewController.BarButton {
   enum Content {
     case icon(UIImage)
     case title(Title)
@@ -28,7 +30,9 @@ public extension UIViewController {
       .icon(image ?? UIImage())
     }
   }
-  
+}
+
+extension UIViewController.BarButton.Content {
   enum Title {
     case `default`(String)
     case attributed(normal: NSAttributedString, disabled: NSAttributedString?)
@@ -52,6 +56,20 @@ extension UIViewController {
     let button = createButton(using: barButton)
     navigationItem.rightBarButtonItem = button
     return button
+  }
+  
+  @discardableResult
+  func setLeftBarButtons(_ barButtons: [BarButton]) -> [UIBarButtonItem] {
+    let buttons = barButtons.map(createButton)
+    navigationItem.leftBarButtonItems = buttons
+    return buttons
+  }
+  
+  @discardableResult
+  func setRightBarButtons(_ barButtons: [BarButton]) -> [UIBarButtonItem] {
+    let buttons = barButtons.map(createButton)
+    navigationItem.rightBarButtonItems = buttons
+    return buttons
   }
 }
 
