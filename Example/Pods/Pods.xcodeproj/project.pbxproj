@@ -26,12 +26,12 @@
 		2933B39BFCEF204A508F4FFF3188AD27 /* URLSessionConfiguration+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD992E914E27E73FF087E56F06F14663 /* URLSessionConfiguration+Alamofire.swift */; };
 		2BC73DE30871EA6F7D9F600D50F11726 /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A256DD386F8A64E70937D173CA003A5B /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BE0DE689754A1603251EB331450718E /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31F740DB7630AD2EDA71005D5C2D285 /* ParameterEncoder.swift */; };
-		3754EAFF24C5825000EA6B83 /* OAuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3754EAFE24C5825000EA6B83 /* OAuthInterceptor.swift */; };
+		37170BB3250CD79F0057CB22 /* OAuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37170BB2250CD79F0057CB22 /* OAuthInterceptor.swift */; };
 		37651E4724C755FC0018D15E /* Wrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37651E4624C755FB0018D15E /* Wrap.swift */; };
 		376D2699D97EE6D54C4E795CD57A4AEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C9B5FF54EE457E3984F5E5358AB479 /* Foundation.framework */; };
 		37A2FCD24ED22C8D670188930CE4CA5D /* RequestTaskMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF53DA4B90203AC1F38EFC48C2E121F /* RequestTaskMap.swift */; };
-		37C7EDD124CD53F6008CB93F /* UIViewController+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C7EDD024CD53F6008CB93F /* UIViewController+Povio.swift */; };
 		37C7EDCF24CD5249008CB93F /* ImageSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C7EDCE24CD5249008CB93F /* ImageSource.swift */; };
+		37C7EDD124CD53F6008CB93F /* UIViewController+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C7EDD024CD53F6008CB93F /* UIViewController+Povio.swift */; };
 		37E00A8424DA7A9400B07F05 /* Delegated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E00A8324DA7A9300B07F05 /* Delegated.swift */; };
 		3B1EC1A252211F563AECE9BB2AF6348A /* UICollectionReusableView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B17AFF0FE0CE204AB08A13CD2591A /* UICollectionReusableView+Povio.swift */; };
 		3C564B379FE3D14B02FA08A4D6740FAB /* UIColor+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77466D7E6AE3E7183D434989FB0F65BD /* UIColor+Povio.swift */; };
@@ -139,11 +139,11 @@
 		3524619A081F6235B83121CFFCBBBC3D /* UIDevice+Povio.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIDevice+Povio.swift"; path = "Sources/Extensions/UIKit/UIDevice+Povio.swift"; sourceTree = "<group>"; };
 		3662392B4DFF0B96F733825F053230C0 /* HTTPHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPHeaders.swift; path = Source/HTTPHeaders.swift; sourceTree = "<group>"; };
 		36C7B4B1BD96AF75CF7B0954B8D9DAFE /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
-		3754EAFE24C5825000EA6B83 /* OAuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthInterceptor.swift; sourceTree = "<group>"; };
+		37170BB2250CD79F0057CB22 /* OAuthInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthInterceptor.swift; sourceTree = "<group>"; };
 		37651E4624C755FB0018D15E /* Wrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wrap.swift; path = Sources/Utilities/PromiseKit/Wrap.swift; sourceTree = "<group>"; };
 		3799DFCC7C762ADF5BA2044F367ED220 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
-		37C7EDD024CD53F6008CB93F /* UIViewController+Povio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+Povio.swift"; path = "Sources/Extensions/UIKit/UIViewController+Povio.swift"; sourceTree = "<group>"; };
 		37C7EDCE24CD5249008CB93F /* ImageSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSource.swift; sourceTree = "<group>"; };
+		37C7EDD024CD53F6008CB93F /* UIViewController+Povio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+Povio.swift"; path = "Sources/Extensions/UIKit/UIViewController+Povio.swift"; sourceTree = "<group>"; };
 		37E00A8324DA7A9300B07F05 /* Delegated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegated.swift; sourceTree = "<group>"; };
 		3CB00EB5489ADBD2E2D600A8B12A5F94 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Sources/Utilities/Logger/Logger.swift; sourceTree = "<group>"; };
 		3F05DA6A2EE406E4AEA37F4F1894FF81 /* Session.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Source/Session.swift; sourceTree = "<group>"; };
@@ -326,6 +326,15 @@
 			name = Pod;
 			sourceTree = "<group>";
 		};
+		37170BB1250CD79F0057CB22 /* OAuth */ = {
+			isa = PBXGroup;
+			children = (
+				37170BB2250CD79F0057CB22 /* OAuthInterceptor.swift */,
+			);
+			name = OAuth;
+			path = Sources/Networking/OAuth;
+			sourceTree = "<group>";
+		};
 		37C7EDCB24CD5134008CB93F /* ImageSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,18 +353,10 @@
 			path = Sources/Utilities/Delegated;
 			sourceTree = "<group>";
 		};
-		3754EAFD24C5824000EA6B83 /* OAuth */ = {
-			isa = PBXGroup;
-			children = (
-				3754EAFE24C5825000EA6B83 /* OAuthInterceptor.swift */,
-			);
-			name = OAuth;
-			sourceTree = "<group>";
-		};
 		393CC60A1FFE49D4305F0C9B3AE64EDD /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				3754EAFD24C5824000EA6B83 /* OAuth */,
+				37170BB1250CD79F0057CB22 /* OAuth */,
 				92F8A1A223CD02366B7F6AAAF244C019 /* AlamofireNetworkClient */,
 			);
 			name = Networking;
@@ -781,6 +782,7 @@
 				14BCD6020690692FEE32E6823DB834D6 /* After.swift in Sources */,
 				E43F49D2C450241C1BEE6F97894BBE9A /* AlamofireNetworkClient.swift in Sources */,
 				37C7EDD124CD53F6008CB93F /* UIViewController+Povio.swift in Sources */,
+				37170BB3250CD79F0057CB22 /* OAuthInterceptor.swift in Sources */,
 				00999E0539343E4AC4297260893EFBA7 /* AttributedStringBuilder.swift in Sources */,
 				26090EB074729DCABCE1F721523ECC7C /* Broadcast.swift in Sources */,
 				56CCF6FA5D9625CC27D91154E12A06AA /* Collection+Povio.swift in Sources */,
@@ -790,7 +792,6 @@
 				AF1FEB09B7DEAF92B231F5F8DB467633 /* Future.swift in Sources */,
 				A62D31ADA8493854FC67D83C3AB2E962 /* GradientView.swift in Sources */,
 				4C1A7E71E04FBAAE0273776B94BA7921 /* Logger.swift in Sources */,
-				3754EAFF24C5825000EA6B83 /* OAuthInterceptor.swift in Sources */,
 				6BE68AE924C262BCEAA97B220D13B5B4 /* Optional+Povio.swift in Sources */,
 				1683585279A65A676F85428E0C30FBB1 /* PaddingLabel.swift in Sources */,
 				8D05474649C1A7D79E5532B59FCABDC1 /* PovioKit-dummy.m in Sources */,
