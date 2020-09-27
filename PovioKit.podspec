@@ -83,5 +83,9 @@ Pod::Spec.new do |s|
     ns.subspec 'AlamofireNetworkClient' do |cs|
       cs.source_files = 'Sources/Networking/AlamofireNetworkClient/**/*.swift'
     end
+    
+    ns.subspec 'OAuthInterceptor' do |cs|
+      cs.source_files = 'Sources/Networking/OAuth/*.swift'
+    end
   end
 end

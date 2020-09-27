@@ -16,7 +16,8 @@ public struct OAuthContainer {
 }
 
 public protocol OAuthStorage: AnyObject {
-  var oauth: OAuthContainer? { get set }
+  var accessToken: String? { get set }
+  var refreshToken: String? { get set }
 }
 
 public protocol OAuthProvider {
@@ -29,14 +30,18 @@ public protocol OAuthHeadersAdapter {
 
 open class OAuthRequestInterceptor {
   private let provider: OAuthProvider
-  private let adapter: OAuthHeadersAdapter
   private let storage: OAuthStorage
+  private let adapter: OAuthHeadersAdapter
   private let lock: NSLock = .init()
   
-  public init(provider: OAuthProvider, adapter: OAuthHeadersAdapter, storage: OAuthStorage) {
+  public init(
+    provider: OAuthProvider,
+    storage: OAuthStorage,
+    adapter: OAuthHeadersAdapter
+  ) {
     self.provider = provider
-    self.adapter = adapter
     self.storage = storage
+    self.adapter = adapter
   }
 }
 
@@ -45,8 +50,8 @@ extension OAuthRequestInterceptor: RequestInterceptor {
   public func adapt(
     _ urlRequest: URLRequest,
     for session: Session,
-    completion: @escaping (Result<URLRequest, Error>) -> Void)
-  {
+    completion: @escaping (Result<URLRequest, Error>) -> Void
+  ) {
     var urlRequest = urlRequest
     adapter.adapt(headers: &urlRequest.headers)
     completion(.success(urlRequest))
@@ -56,29 +61,17 @@ extension OAuthRequestInterceptor: RequestInterceptor {
     _ request: Request,
     for session: Session,
     dueTo error: Error,
-    completion: @escaping (RetryResult) -> Void)
-  {
+    completion: @escaping (RetryResult) -> Void
+  ) {
     switch error.asAFError {
     case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)):
-      lock.lock()
-      
-      guard let refreshToken = storage.oauth?.refreshToken else {
-        completion(.doNotRetry)
-        lock.unlock()
-        return
-      }
-      
       Logger.debug("Request to `/\(request.request?.url?.lastPathComponent ?? "-")` failed with `401`! Will try to refresh access token.")
-      storage.oauth = nil
-      updateAccessToken(with: refreshToken).observe { [weak self] in
-        guard let self = self else { return }
+      storage.accessToken = nil
+      updateAccessToken().observe {
         switch $0 {
-        case .success(let oauth):
-          self.storage.oauth = oauth
-          self.lock.unlock()
+        case .success:
           completion(.retry)
         case .failure(let error):
-          self.lock.unlock()
           completion(.doNotRetryWithError(error))
         }
       }
@@ -89,14 +82,42 @@ extension OAuthRequestInterceptor: RequestInterceptor {
 }
 
 private extension OAuthRequestInterceptor {
-  func updateAccessToken(with refreshToken: String) -> Promise<OAuthContainer> {
-    switch storage.oauth {
-    case let oauth?:
+  func updateAccessToken() -> Promise<String> {
+    lock.lock()
+    return Promise(task)
+  }
+  
+  func task(seal: Promise<String>) {
+    switch storage.accessToken {
+    case let token?:
       Logger.debug("Access token already fetched. Skip fetching ...!")
-      return .value(oauth)
+      seal.resolve(with: token)
+      lock.unlock()
     case nil:
       Logger.debug("Fetching access token!")
-      return provider.refresh(with: refreshToken)
+      guard let refreshToken = storage.refreshToken else {
+        Logger.debug("Refresh token is missing, we should logout user")
+        seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
+        self.lock.unlock()
+        return
+      }
+      provider
+        .refresh(with: refreshToken)
+        .observe { [weak self] in
+          guard let self = self else { return }
+          switch $0 {
+          case .success(let response):
+            Logger.debug("Refresh token success!!!")
+            self.storage.accessToken = response.accessToken
+            self.storage.refreshToken = response.refreshToken
+            seal.resolve(with: response.accessToken)
+            self.lock.unlock()
+          case .failure(let error):
+            Logger.debug("Refresh token failed with error \(error.localizedDescription), we should logout user")
+            seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
+            self.lock.unlock()
+          }
+        }
     }
   }
 }
