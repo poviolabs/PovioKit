@@ -1,21 +1,28 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
   name: "PovioKit",
   platforms: [
-    .iOS(.v11),
-    .tvOS(.v10),
-    .watchOS(.v3)
+    .iOS(.v12)
   ],
   products: [
-    .library(name: "PovioKit", targets: ["PovioKit"])
+    .library(name: "PovioKit", targets: ["PovioKit"]),
+    .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"])
+  ],
+  dependencies: [
+    .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.3.0"))
   ],
   targets: [
     .target(
       name: "PovioKit",
       path: "Sources",
       exclude: ["Networking"]
+    ),
+    .target(
+      name: "PovioKitNetworking",
+      dependencies: ["PovioKit", "Alamofire"],
+      path: "Sources/Networking"
     )
   ],
   swiftLanguageVersions: [.v5]

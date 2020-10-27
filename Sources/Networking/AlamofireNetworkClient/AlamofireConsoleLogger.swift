@@ -8,6 +8,7 @@
 
 import Alamofire
 import Foundation
+import PovioKit
 
 public final class AlamofireConsoleLogger: EventMonitor {
   public let queue = DispatchQueue(label: "com.alamofire.console.networklogger")
