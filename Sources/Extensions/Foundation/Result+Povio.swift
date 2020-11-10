@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Result where Success == Void {
+public extension Result where Success == Void {
   /// Simplified `success` Result for Void types.
   static func success() -> Result {
     .success(())
