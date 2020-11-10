@@ -54,6 +54,7 @@
 * [DispatchTimer](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/DispatchTimer/)
 * [Logger](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Logger/)
 * [Throttler](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Throttler/)
+* [SignInWithApple](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/SignInWithApple/)
 
 ### Networking
 * [AlamofireNetworkClient](https://github.com/poviolabs/PovioKit/blob/master/Resources/Networking/AlamofireNetworkClient/)
@@ -64,7 +65,12 @@
 
 ## Installation
 
-### Installation with CocoaPods
+### Swift Package Manager
+
+PovioKit is available through [SPM](https://swift.org/package-manager/). To install it, click `File` -> `Swift Packages` -> `Add Package Dependency` and enter `https://github.com/poviolabs/PovioKit`.
+
+
+### CocoaPods
 
 PovioKit is available through [CocoaPods](https://cocoapods.org). To install it, add the following line to your Podfile:
 
@@ -77,16 +83,6 @@ This way you'll install all subspecs available. However, you could opt-out insta
 ```ruby
 pod 'PovioKit/Utilities/StartupService'
 ```
-
-### Installation with Swift Package Manager (Xcode 11+)
-
-[Swift Package Manager](https://swift.org/package-manager/) (SwiftPM) is a tool for managing the distribution of Swift code as well as C-family dependencies. From Xcode 11, SwiftPM got natively integrated with Xcode.
-
-To use SwiftPM, you should use Xcode 11 to open your project. Click `File` -> `Swift Packages` -> `Add Package Dependency`, enter [PovioKit repo's URL](https://github.com/poviolabs/PovioKit). Or you can login Xcode with your GitHub account and just type `PovioKit` to search.
-
-After select the package, you can choose the dependency type (tagged version, branch or commit). Then Xcode will setup all the stuff for you.
-
-`AlamofireNetworkClient` is not available with SPM yet. Please use Cocoapods for that instead.
 
 
 ## Example

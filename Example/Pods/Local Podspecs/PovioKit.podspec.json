@@ -63,6 +63,10 @@
         {
           "name": "PromiseKit",
           "source_files": "Sources/Utilities/PromiseKit/**/*.swift"
+        },
+        {
+          "name": "SignInWithApple",
+          "source_files": "Sources/Utilities/SignInWithApple/**/*.swift"
         }
       ]
     },
@@ -96,7 +100,7 @@
       "name": "Networking",
       "dependencies": {
         "Alamofire": [
-          "5.1.0"
+          "5.3.0"
         ],
         "PovioKit/Utilities/PromiseKit": [
 
