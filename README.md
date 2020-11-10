@@ -27,15 +27,20 @@
 ## List of available libraries
 
 ### Extensions
+
+##### UIKit
+* [UIView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIView+Povio.swift)
 * [UICollectionView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UICollectionView+Povio.swift)
 * [UITableView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UITableView+Povio.swift)
-* [UIView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIView+Povio.swift)
 * [UIColor](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIColor+Povio.swift)
 * [UIDevice](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIDevice+Povio.swift)
 * [UIImage](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIImage+Povio.swift)
 * [UIEdgeInsets](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift)
-* [Collection](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Collection+Povio.swift)
+
+##### Foundation
 * [String](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/String+Povio.swift)
+* [Data](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Data+Povio.swift)
+* [Collection](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Collection+Povio.swift)
 * [URL](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/URL+Povio.swift)
 * [Optional](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Optional+Povio.swift)
 * [Result](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Result+Povio.swift)
