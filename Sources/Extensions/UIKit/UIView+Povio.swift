@@ -24,22 +24,6 @@ public extension UIView {
   }
 }
 
-// MARK: - AutoLayout
-public extension UIView {
-  @available(*, deprecated, message: "Use of this method is discouraged since SnapKit does this already internally.")
-  func autolayoutView() -> Self {
-    translatesAutoresizingMaskIntoConstraints = false
-    return self
-  }
-  
-  @available(*, deprecated, message: "Use of this method is discouraged since SnapKit does this already internally.")
-  class func autolayoutView() -> Self {
-    let instance = self.init()
-    instance.translatesAutoresizingMaskIntoConstraints = false
-    return instance
-  }
-}
-
 // MARK: - Animations
 public extension UIView {
   struct AnimationKey {

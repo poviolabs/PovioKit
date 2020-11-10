@@ -9,18 +9,8 @@
 import UIKit
 
 public extension UITableView {
-  @available(*, deprecated, message: "Use `register(cell: )` instead.")
-  func register<T: UITableViewCell>(_: T.Type) {
-    register(T.self, forCellReuseIdentifier: T.identifier)
-  }
-  
   func register<T: UITableViewCell>(cell: T.Type) {
     register(T.self, forCellReuseIdentifier: T.identifier)
-  }
-  
-  @available(*, deprecated, message: "Use `registerCell(headerFooterView: )` instead.")
-  func register<T: UITableViewHeaderFooterView>(_: T.Type) {
-    register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
   }
   
   func register<T: UITableViewHeaderFooterView>(headerFooterView: T.Type) {

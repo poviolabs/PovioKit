@@ -160,20 +160,6 @@ public extension AlamofireNetworkClient {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
-  @available(*, deprecated, message: "Use `asJson` instead!")
-  func json() -> Promise<Any> {
-    Promise { promise in
-      dataRequest.responseJSON {
-        switch $0.result {
-        case .success(let json):
-          promise.resolve(with: json)
-        case .failure(let error):
-          promise.reject(with: self.handleError(error))
-        }
-      }
-    }
-  }
-  
   var asJson: Promise<Any> {
     Promise { promise in
       dataRequest.responseJSON {
@@ -196,20 +182,6 @@ public extension AlamofireNetworkClient.Request {
         switch response.result {
         case .success(let decodedObject):
           promise.resolve(with: decodedObject)
-        case .failure(let error):
-          promise.reject(with: self.handleError(error))
-        }
-      }
-    }
-  }
-  
-  @available(*, deprecated, message: "Use `asData` instead!")
-  func data() -> Promise<Data> {
-    Promise { promise in
-      dataRequest.responseData { (response: AFDataResponse<Data>) in
-        switch response.result {
-        case .success(let data):
-          promise.resolve(with: data)
         case .failure(let error):
           promise.reject(with: self.handleError(error))
         }
