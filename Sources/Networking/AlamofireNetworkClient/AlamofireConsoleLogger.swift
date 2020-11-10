@@ -41,6 +41,6 @@ private extension Request {
   }
   
   var endpoint: String {
-    request?.url?.lastPathComponent ?? "<no endpoint>"
+    request?.url?.path ?? "<no endpoint>"
   }
 }
