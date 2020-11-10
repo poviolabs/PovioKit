@@ -21,11 +21,9 @@ public typealias Writer = (String) -> Void
 
 open class AlamofireNetworkClient {
   private let session: Alamofire.Session
-  private let logger: Writer
   
-  public init(session: Alamofire.Session = .default, logger: @escaping Writer = { PovioKit.Logger.debug($0) }) {
+  public init(session: Alamofire.Session = .default) {
     self.session = session
-    self.logger = logger
   }
 }
 
@@ -34,14 +32,15 @@ public extension AlamofireNetworkClient {
   func request(
     method: HTTPMethod,
     endpoint: URLConvertible,
-    headers: HTTPHeaders? = nil) -> Request
+    headers: HTTPHeaders? = nil,
+    interceptor: RequestInterceptor? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let request = session
       .request(endpoint,
                method: method,
-               headers: headers)
-    return .init(dataRequest: request, logger: logger)
+               headers: headers,
+               interceptor: interceptor)
+    return .init(with: request)
   }
   
   func request(
@@ -49,16 +48,17 @@ public extension AlamofireNetworkClient {
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
     parameters: Parameters,
-    parameterEncoding: ParameterEncoding) -> Request
+    parameterEncoding: ParameterEncoding,
+    interceptor: RequestInterceptor? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let request = session
       .request(endpoint,
                method: method,
                parameters: parameters,
                encoding: parameterEncoding,
-               headers: headers)
-    return .init(dataRequest: request, logger: logger)
+               headers: headers,
+               interceptor: interceptor)
+    return .init(with: request)
   }
   
   func request<E: Encodable>(
@@ -66,18 +66,28 @@ public extension AlamofireNetworkClient {
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
     encode: E,
-    encoderConfigurator configurator: ((JSONEncoder) -> Void)? = nil) -> Request
+    encoderConfigurator configurator: ((JSONEncoder) -> Void)? = nil,
+    interceptor: RequestInterceptor? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let encoder = JSONEncoder()
     configurator?(encoder)
+    
+    let parameterEncoder: ParameterEncoder
+    switch method {
+    case .get, .delete, .head:
+      parameterEncoder = URLEncodedFormParameterEncoder(encoder: encoder)
+    default:
+      parameterEncoder = JSONParameterEncoder(encoder: encoder)
+    }
+    
     let request = session
       .request(endpoint,
                method: method,
                parameters: encode,
-               encoder: JSONParameterEncoder(encoder: encoder),
-               headers: headers)
-    return .init(dataRequest: request, logger: logger)
+               encoder: parameterEncoder,
+               headers: headers,
+               interceptor: interceptor)
+    return .init(with: request)
   }
   
   func upload(
@@ -88,9 +98,9 @@ public extension AlamofireNetworkClient {
     fileName: String,
     mimeType: String,
     parameters: Parameters? = nil,
-    headers: HTTPHeaders? = nil) -> Request
+    headers: HTTPHeaders? = nil,
+    interceptor: RequestInterceptor? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let request = session
       .upload(multipartFormData: { builder in
         builder.append(data,
@@ -98,31 +108,34 @@ public extension AlamofireNetworkClient {
                        fileName: fileName,
                        mimeType: mimeType)
         parameters?
-          .compactMap { (key, value) in (value as? String).map { (key, $0) } }
+          .compactMap { key, value in (value as? String).map { (key, $0) } }
           .forEach { builder.append($0.0.data(using: .utf8)!, withName: $0.1) }
       },
-              to: endpoint,
-              method: method,
-              headers: headers)
-    return .init(dataRequest: request, logger: logger)
+      to: endpoint,
+      method: method,
+      headers: headers,
+      interceptor: interceptor)
+    return .init(with: request)
   }
   
   func upload(
     method: HTTPMethod,
     endpoint: URLConvertible,
     multipartFormBuilder: @escaping MultipartBuilder,
-    headers: HTTPHeaders? = nil) -> Request
+    headers: HTTPHeaders? = nil,
+    interceptor: RequestInterceptor? = nil) -> Request
   {
-    logger("Starting \(method.rawValue) request to `\(endpoint)`!")
     let request = session
       .upload(multipartFormData: multipartFormBuilder,
               to: endpoint,
               method: method,
-              headers: headers)
-    return .init(dataRequest: request, logger: logger)
+              headers: headers,
+              interceptor: interceptor)
+    return .init(with: request)
   }
 }
 
+// MARK: - Models
 public extension AlamofireNetworkClient {
   enum RequestError: Swift.Error {
     case redirection(Int) // 300..<400
@@ -138,11 +151,9 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
-    private let logger: Writer
     
-    init(dataRequest: DataRequest, logger: @escaping Writer) {
+    init(with dataRequest: DataRequest) {
       self.dataRequest = dataRequest
-      self.logger = logger
     }
   }
 }
@@ -155,10 +166,9 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseJSON {
         switch $0.result {
         case .success(let json):
-          self.logger("Request succeded with `JSON`!")
           promise.resolve(with: json)
         case .failure(let error):
-          promise.reject(with: self.handleError(error, code: $0.response?.statusCode))
+          promise.reject(with: self.handleError(error))
         }
       }
     }
@@ -169,10 +179,9 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseJSON {
         switch $0.result {
         case .success(let json):
-          self.logger("Request succeded with `JSON`!")
           promise.resolve(with: json)
         case .failure(let error):
-          promise.reject(with: self.handleError(error, code: $0.response?.statusCode))
+          promise.reject(with: self.handleError(error))
         }
       }
     }
@@ -186,11 +195,9 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
-          self.logger("Request succededed with `\(type(of: decodedObject))`!")
           promise.resolve(with: decodedObject)
         case .failure(let error):
-          self.logger(error.localizedDescription)
-          promise.reject(with: self.handleError(error, code: response.response?.statusCode))
+          promise.reject(with: self.handleError(error))
         }
       }
     }
@@ -202,10 +209,9 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseData { (response: AFDataResponse<Data>) in
         switch response.result {
         case .success(let data):
-          self.logger("Request succededed with `Data`!")
           promise.resolve(with: data)
         case .failure(let error):
-          promise.reject(with: self.handleError(error, code: response.response?.statusCode))
+          promise.reject(with: self.handleError(error))
         }
       }
     }
@@ -216,10 +222,9 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseData { (response: AFDataResponse<Data>) in
         switch response.result {
         case .success(let data):
-          self.logger("Request succededed with `Data`!")
           promise.resolve(with: data)
         case .failure(let error):
-          promise.reject(with: self.handleError(error, code: response.response?.statusCode))
+          promise.reject(with: self.handleError(error))
         }
       }
     }
@@ -230,10 +235,9 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.response {
         switch $0.result {
         case .success:
-          self.logger("Request succededed with `()`)!")
           promise.resolve(with: ())
         case .failure(let error):
-          promise.reject(with: self.handleError(error, code: $0.response?.statusCode))
+          promise.reject(with: self.handleError(error))
         }
       }
     }
@@ -265,6 +269,7 @@ public extension AlamofireNetworkClient.Request {
   }
 }
 
+// MARK: - Errors
 public extension AlamofireNetworkClient.Error {
   static var unauthorized: AlamofireNetworkClient.Error {
     .request(.client(401))
@@ -279,22 +284,32 @@ public extension AlamofireNetworkClient.Error {
   }
 }
 
+// MARK: - Http Headers
+public extension HTTPHeaders {
+  static func authorization(bearer: String) -> Self {
+    [.authorization(bearerToken: bearer)]
+  }
+  
+  static func basic(basic: String) -> Self {
+    ["Authorization": "Basic \(basic)"]
+  }
+}
+
+// MARK: - Private Error Handling Methods
 private extension AlamofireNetworkClient.Request {
-  func handleError(_ error: Error, code: Int?) -> AlamofireNetworkClient.Error {
+  func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
     switch error {
     case .responseSerializationFailed as AFError:
-      logger("Request failed with status code \(code ?? 0) due to serialization error: \(error.localizedDescription)")
       return .other(error)
     case _ as AFError:
-      logger("Request failed with status code \(code ?? 0) due to: \(error.localizedDescription)")
-      return .request(.init(code: code ?? 0))
+      return .request(.init(code: dataRequest.response?.statusCode ?? 0))
     case _:
-      logger("Request failed with status code \(code ?? 0) due to: \(error.localizedDescription)")
       return .other(error)
     }
   }
 }
 
+// MARK: - Private Status Code Handling
 private extension AlamofireNetworkClient.RequestError {
   init(code: Int) {
     switch code {
@@ -307,15 +322,5 @@ private extension AlamofireNetworkClient.RequestError {
     case _:
       self = .other(code)
     }
-  }
-}
-
-public extension HTTPHeaders {
-  static func authorization(bearer: String) -> Self {
-    [.authorization(bearerToken: bearer)]
-  }
-  
-  static func basic(basic: String) -> Self {
-    ["Authorization": "Basic \(basic)"]
   }
 }
