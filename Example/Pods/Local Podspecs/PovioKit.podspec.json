@@ -80,6 +80,10 @@
         {
           "name": "Foundation",
           "source_files": "Sources/Extensions/Foundation/*.swift"
+        },
+        {
+          "name": "MapKit",
+          "source_files": "Sources/Extensions/MapKit/*.swift"
         }
       ]
     },
