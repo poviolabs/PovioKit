@@ -7,13 +7,13 @@
         <img src="https://img.shields.io/cocoapods/v/PovioKit.svg?style=flat" alt="Version" />
     </a>
     <a href="https://cocoapods.org/pods/PovioKit">
-        <img src="https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat" alt="License" />
-    </a>
-    <a href="https://cocoapods.org/pods/PovioKit">
         <img src="https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat" alt="Platform" />
     </a>
-    <a href="https://swift.org/blog/swift-5-released/">
-        <img src="https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat" alt="Swift" />
+    <a href="https://swift.org/blog/swift-5-3-released/">
+        <img src="https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat" alt="Swift" />
+    </a>
+    <a href="https://cocoapods.org/pods/PovioKit">
+        <img src="https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat" alt="License" />
     </a>
     <a href="https://travis-ci.com/poviolabs/PovioKit/branches">
         <img src="https://img.shields.io/travis/com/poviolabs/PovioKit.svg" alt="Travis status" />
@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-    Welcome to <b>PovioKit</b>. A modular collection of cocoapods libraries. Written in Swift.
+    Welcome to <b>PovioKit</b>. A modular library collection. Written in Swift.
 </p>
 
 ## List of available libraries
@@ -44,6 +44,11 @@
 * [URL](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/URL+Povio.swift)
 * [Optional](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Optional+Povio.swift)
 * [Result](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Result+Povio.swift)
+* [Dictionary](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Dictionary+Povio.swift)
+* [DecodableDictionary](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/DecodableDictionary+Povio.swift)
+* [DispatchTimeInterval](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/DispatchTimeInterval+Povio.swift)
+* [Double](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Double+Povio.swift)
+* [Encodable](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Encodable+Povio.swift)
 
 ##### MapKit
 * [MKMapView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKMapView+PovioKit.swift)
