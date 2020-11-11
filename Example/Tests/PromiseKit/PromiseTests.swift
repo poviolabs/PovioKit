@@ -261,14 +261,18 @@ extension PromiseTests {
   }
   
   func testCombineListAsync() {
+    let range = (0...5)
     let ex = expectation(description: "")
-    let promises = (0...5).map { $0.asyncPromise }
+    ex.expectedFulfillmentCount = range.count
+    let promises = range.map { $0.asyncPromise }
     combine(promises: promises)
       .onSuccess { values in
-        (0...5).forEach { XCTAssertEqual($0, values[$0]) }
-        ex.fulfill()
+        range.forEach {
+          XCTAssertEqual($0, values[$0])
+          ex.fulfill()
+        }
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testCombineList() {
