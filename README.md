@@ -45,6 +45,12 @@
 * [Optional](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Optional+Povio.swift)
 * [Result](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Result+Povio.swift)
 
+##### MapKit
+* [MKMapView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKMapView+PovioKit.swift)
+* [MKPolygon](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKPolygon+PovioKit.swift)
+* [MKAnnotationView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKAnnotationView+PovioKit.swift)
+* [MKCircle](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKCircle+PovioKit.swift)
+
 ### Utilities
 * [AttributedStringBuilder](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/AttributedStringBuilder/)
 * [StartupService](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/StartupService/)
