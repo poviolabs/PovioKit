@@ -37,4 +37,14 @@ public extension String {
     let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
     return emailTest.evaluate(with: self)
   }
+  
+  /// Returns first n characters from string
+  func first(n characters: Int) -> String {
+    .init(prefix(min(count, characters)))
+  }
+  
+  /// Returns last n characters from string
+  func last(n characters: Int) -> String {
+    .init(suffix(min(count, characters)))
+  }
 }
