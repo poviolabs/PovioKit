@@ -59,6 +59,10 @@ Pod::Spec.new do |s|
     es.subspec 'Foundation' do |cs|
       cs.source_files = 'Sources/Extensions/Foundation/*.swift'
     end
+    
+    es.subspec 'MapKit' do |cs|
+      cs.source_files = 'Sources/Extensions/MapKit/*.swift'
+    end
   end
   
   s.subspec 'Views' do |vs|
