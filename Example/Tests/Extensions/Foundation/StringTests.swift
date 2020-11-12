@@ -43,14 +43,4 @@ class StringTests: XCTestCase {
     XCTAssertFalse("@email.com".isEmail)
     XCTAssertFalse("invalid@@email.com".isEmail)
   }
-  
-  func testFirstNCharacters() {
-    let string = "Today is a great day!"
-    XCTAssertEqual(string.first(n: 5), "Today")
-  }
-  
-  func testLastNCharacters() {
-    let string = "Today is a great day!"
-    XCTAssertEqual(string.last(n: 4), "day!")
-  }
 }

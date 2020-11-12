@@ -15,9 +15,7 @@
 		990603F7227F620A00B0EFE2 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F6227F620A00B0EFE2 /* StringTests.swift */; };
 		990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F8227F63E700B0EFE2 /* CollectionTests.swift */; };
 		990603FB227F665200B0EFE2 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603FA227F665200B0EFE2 /* URLTests.swift */; };
-		992B28DA255BEC7100CD3825 /* DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28D9255BEC7100CD3825 /* DictionaryTests.swift */; };
 		992B28DD255BF45500CD3825 /* DispatchTimeIntervalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28DC255BF45500CD3825 /* DispatchTimeIntervalTests.swift */; };
-		992B28E0255BF52900CD3825 /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28DF255BF52900CD3825 /* DoubleTests.swift */; };
 		992B28E3255BF64C00CD3825 /* EncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28E2255BF64C00CD3825 /* EncodableTests.swift */; };
 		992B28E6255BF77B00CD3825 /* DecodableDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28E5255BF77B00CD3825 /* DecodableDictionaryTests.swift */; };
 		99C5CB93255AAED70055EB7D /* DataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5CB92255AAED70055EB7D /* DataTests.swift */; };
@@ -42,9 +40,7 @@
 		990603F6227F620A00B0EFE2 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		990603F8227F63E700B0EFE2 /* CollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTests.swift; sourceTree = "<group>"; };
 		990603FA227F665200B0EFE2 /* URLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTests.swift; sourceTree = "<group>"; };
-		992B28D9255BEC7100CD3825 /* DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryTests.swift; sourceTree = "<group>"; };
 		992B28DC255BF45500CD3825 /* DispatchTimeIntervalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchTimeIntervalTests.swift; sourceTree = "<group>"; };
-		992B28DF255BF52900CD3825 /* DoubleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleTests.swift; sourceTree = "<group>"; };
 		992B28E2255BF64C00CD3825 /* EncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableTests.swift; sourceTree = "<group>"; };
 		992B28E5255BF77B00CD3825 /* DecodableDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableDictionaryTests.swift; sourceTree = "<group>"; };
 		99C5CB92255AAED70055EB7D /* DataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTests.swift; sourceTree = "<group>"; };
@@ -191,9 +187,7 @@
 				990603FA227F665200B0EFE2 /* URLTests.swift */,
 				270E494E239A67150016FAB6 /* OptionalTests.swift */,
 				99C5CB92255AAED70055EB7D /* DataTests.swift */,
-				992B28D9255BEC7100CD3825 /* DictionaryTests.swift */,
 				992B28DC255BF45500CD3825 /* DispatchTimeIntervalTests.swift */,
-				992B28DF255BF52900CD3825 /* DoubleTests.swift */,
 				992B28E2255BF64C00CD3825 /* EncodableTests.swift */,
 				992B28E5255BF77B00CD3825 /* DecodableDictionaryTests.swift */,
 			);
@@ -338,10 +332,8 @@
 				99C5CB93255AAED70055EB7D /* DataTests.swift in Sources */,
 				270E494D239A65BE0016FAB6 /* StartupProcessServiceTests.swift in Sources */,
 				99F1B7B023FA7A4E002EC28D /* UIColorTests.swift in Sources */,
-				992B28DA255BEC7100CD3825 /* DictionaryTests.swift in Sources */,
 				99F1B7AF23FA7A4E002EC28D /* UIDeviceTests.swift in Sources */,
 				992B28E6255BF77B00CD3825 /* DecodableDictionaryTests.swift in Sources */,
-				992B28E0255BF52900CD3825 /* DoubleTests.swift in Sources */,
 				270E494F239A67150016FAB6 /* OptionalTests.swift in Sources */,
 				992B28E3255BF64C00CD3825 /* EncodableTests.swift in Sources */,
 			);
