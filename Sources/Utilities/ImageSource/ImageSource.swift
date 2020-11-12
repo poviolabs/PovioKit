@@ -6,6 +6,8 @@
 //  Copyright © 2020 Povio Labs. All rights reserved.
 //
 
+import UIKit
+
 public enum ImageSource {
   case image(UIImage)
   case remote(URL, placeholder: UIImage?)
