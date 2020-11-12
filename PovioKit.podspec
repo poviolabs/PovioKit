@@ -49,6 +49,10 @@ Pod::Spec.new do |s|
     us.subspec 'SignInWithApple' do |cs|
       cs.source_files = 'Sources/Utilities/SignInWithApple/**/*.swift'
     end
+    
+    us.subspec 'ImageSource' do |cs|
+      cs.source_files = 'Sources/Utilities/ImageSource/*.swift'
+    end
   end
   
   s.subspec 'Extensions' do |es|
