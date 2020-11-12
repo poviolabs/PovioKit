@@ -9,15 +9,10 @@
 import MapKit.MKMapView
 
 public extension MKMapView {
-  /// Current zoom level
-  var zoom: Double {
-    log2(360 * ((Double(frame.size.width) / 128) / region.span.longitudeDelta))
-  }
-  
   /// Returns radius distance in meters from map center to the top of the visible screen
   var visibleRadius: Double {
     let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
-    let topCenterCoordinate = convert(.init(x: bounds.size.width / 2.0, y: 0), toCoordinateFrom: self)
+    let topCenterCoordinate = convert(.init(x: bounds.midX, y: 0), toCoordinateFrom: self)
     let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
     return centerLocation.distance(from: topCenterLocation)
   }
