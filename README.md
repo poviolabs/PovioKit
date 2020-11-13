@@ -37,6 +37,7 @@
 * [UIImage](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIImage+Povio.swift)
 * [UIEdgeInsets](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift)
 * [UIApplication](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIApplication+Povio.swift)
+* [UIProgressView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIProgressView+Povio.swift)
 
 ##### Foundation
 * [String](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/String+Povio.swift)
