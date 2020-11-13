@@ -117,6 +117,10 @@
         {
           "name": "AlamofireNetworkClient",
           "source_files": "Sources/Networking/AlamofireNetworkClient/**/*.swift"
+        },
+        {
+          "name": "OAuthInterceptor",
+          "source_files": "Sources/Networking/OAuth/*.swift"
         }
       ]
     }
