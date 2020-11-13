@@ -67,6 +67,10 @@
         {
           "name": "SignInWithApple",
           "source_files": "Sources/Utilities/SignInWithApple/**/*.swift"
+        },
+        {
+          "name": "ImageSource",
+          "source_files": "Sources/Utilities/ImageSource/*.swift"
         }
       ]
     },
