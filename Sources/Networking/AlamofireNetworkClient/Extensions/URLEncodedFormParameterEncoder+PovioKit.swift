@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Borut Tomažin on 04/11/2020.
-//  Copyright © 2020 PovioLabs. All rights reserved.
+//  Copyright © 2020 Povio Labs. All rights reserved.
 //
 
 import Alamofire
