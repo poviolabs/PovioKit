@@ -15,6 +15,10 @@
 		990603F7227F620A00B0EFE2 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F6227F620A00B0EFE2 /* StringTests.swift */; };
 		990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F8227F63E700B0EFE2 /* CollectionTests.swift */; };
 		990603FB227F665200B0EFE2 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603FA227F665200B0EFE2 /* URLTests.swift */; };
+		992B28DD255BF45500CD3825 /* DispatchTimeIntervalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28DC255BF45500CD3825 /* DispatchTimeIntervalTests.swift */; };
+		992B28E3255BF64C00CD3825 /* EncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28E2255BF64C00CD3825 /* EncodableTests.swift */; };
+		992B28E6255BF77B00CD3825 /* DecodableDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B28E5255BF77B00CD3825 /* DecodableDictionaryTests.swift */; };
+		99C5CB93255AAED70055EB7D /* DataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C5CB92255AAED70055EB7D /* DataTests.swift */; };
 		99DC5FD323B0F45E007D1A54 /* UIEdgeInsetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DC5FD223B0F45E007D1A54 /* UIEdgeInsetsTests.swift */; };
 		99F1B7AF23FA7A4E002EC28D /* UIDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F1B7AD23FA7A4E002EC28D /* UIDeviceTests.swift */; };
 		99F1B7B023FA7A4E002EC28D /* UIColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F1B7AE23FA7A4E002EC28D /* UIColorTests.swift */; };
@@ -36,6 +40,10 @@
 		990603F6227F620A00B0EFE2 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		990603F8227F63E700B0EFE2 /* CollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTests.swift; sourceTree = "<group>"; };
 		990603FA227F665200B0EFE2 /* URLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTests.swift; sourceTree = "<group>"; };
+		992B28DC255BF45500CD3825 /* DispatchTimeIntervalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchTimeIntervalTests.swift; sourceTree = "<group>"; };
+		992B28E2255BF64C00CD3825 /* EncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableTests.swift; sourceTree = "<group>"; };
+		992B28E5255BF77B00CD3825 /* DecodableDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableDictionaryTests.swift; sourceTree = "<group>"; };
+		99C5CB92255AAED70055EB7D /* DataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTests.swift; sourceTree = "<group>"; };
 		99DC5FD223B0F45E007D1A54 /* UIEdgeInsetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEdgeInsetsTests.swift; sourceTree = "<group>"; };
 		99F1B7AD23FA7A4E002EC28D /* UIDeviceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceTests.swift; sourceTree = "<group>"; };
 		99F1B7AE23FA7A4E002EC28D /* UIColorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorTests.swift; sourceTree = "<group>"; };
@@ -178,6 +186,10 @@
 				990603F8227F63E700B0EFE2 /* CollectionTests.swift */,
 				990603FA227F665200B0EFE2 /* URLTests.swift */,
 				270E494E239A67150016FAB6 /* OptionalTests.swift */,
+				99C5CB92255AAED70055EB7D /* DataTests.swift */,
+				992B28DC255BF45500CD3825 /* DispatchTimeIntervalTests.swift */,
+				992B28E2255BF64C00CD3825 /* EncodableTests.swift */,
+				992B28E5255BF77B00CD3825 /* DecodableDictionaryTests.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -221,7 +233,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Povio Labs";
 				TargetAttributes = {
 					607FACE41AFB9204008FA782 = {
@@ -314,12 +326,16 @@
 				990603FB227F665200B0EFE2 /* URLTests.swift in Sources */,
 				99DC5FD323B0F45E007D1A54 /* UIEdgeInsetsTests.swift in Sources */,
 				27D3B9B02399521300CA530F /* ThrottlerTests.swift in Sources */,
+				992B28DD255BF45500CD3825 /* DispatchTimeIntervalTests.swift in Sources */,
 				990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */,
 				3756C08F23E47423003C2510 /* PromiseTests.swift in Sources */,
+				99C5CB93255AAED70055EB7D /* DataTests.swift in Sources */,
 				270E494D239A65BE0016FAB6 /* StartupProcessServiceTests.swift in Sources */,
 				99F1B7B023FA7A4E002EC28D /* UIColorTests.swift in Sources */,
 				99F1B7AF23FA7A4E002EC28D /* UIDeviceTests.swift in Sources */,
+				992B28E6255BF77B00CD3825 /* DecodableDictionaryTests.swift in Sources */,
 				270E494F239A67150016FAB6 /* OptionalTests.swift in Sources */,
+				992B28E3255BF64C00CD3825 /* EncodableTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +365,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -374,7 +391,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -406,6 +423,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -424,7 +442,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

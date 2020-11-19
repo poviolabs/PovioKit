@@ -4,7 +4,7 @@ High-level `Alamofire` REST client abstraction.
 
 ## Examples
 
-Retreiving JSON object from an endpoint is as simple as:
+#### Retreiving JSON object from an endpoint
 
 ```swift
 let client = AlamofireNetworkClient()
@@ -15,7 +15,7 @@ let json = client
   .json() // parse `JSON` from the response
 ```
 
-Often we want to serialize the response into a domain model:
+#### Serialize the response into a data model
 
 ```swift
 let client = AlamofireNetworkClient()
@@ -23,12 +23,12 @@ let model = client
   .request(method: .get, 
            endpoint: "http://my-amazing-api.com/endpoint")
   .validate() // makes sure status code is in 200..<300
-  .decode(MyModel.self) // parse `MyModel` from the response
+  .decode(MyModelResponse.self) // parse `MyModelResponse` from the response
 ```
 
-The `request` method returns a `AlamofireRestClient.Request` object, on which we can perform other operations as well:
+#### The `request` method returns a `AlamofireRestClient.Request` object, on which we can perform other operations as well
 
- - pause / resume / cancel request:
+- pause / resume / cancel request:
 
 ```swift
 let client = AlamofireNetworkClient()
@@ -44,7 +44,7 @@ request.resume()
 request.cancel()
 ```
 
- - custom validation:
+- custom validation:
 
 ```swift
 let client = AlamofireNetworkClient()
@@ -54,9 +54,9 @@ let request = client
   .validate(statusCode: [200]) // only `200` is acceptable status code
 ```
 
- - parsing:
+- parsing:
 
-Aside from `JSON` and `Decodable` parsing, `AlamofireRestClient.Request` also enables us to also parse `Data` and `()`:
+#### Aside from `JSON` and `Decodable` parsing, `AlamofireRestClient.Request` also enables us to also parse `Data` and `()`
 
 ```swift
 let client = AlamofireNetworkClient()
@@ -69,7 +69,7 @@ let data = request.data() // parse `Data`
 let _ = request.singleton() // this actually doesn't parse anything, but instead resolves if request succeeds
 ```
 
-Sometimes we want to configure the way objects are decoded. We do that by providing a configuration closure to the `request` method:
+#### Sometimes we want to configure the way objects are decoded. We do that by providing a configuration closure to the `request` method
 
 ```swift
 let configurator = { (decoder: JSONDecoder) -> Void in 
@@ -85,9 +85,9 @@ let model = client
   .decode(MyModel.self) // parse `MyModel` from the response
 ```
 
-Sending data to the server is also a common task, which is very easy to do to using `AlamofireRestClient`. We have two options:
+#### Sending data to the server is also a common task, which is very easy to do to using `AlamofireRestClient`. We have two options
 
-  - Sending a `JSON` object:
+- Sending a `JSON` object:
  
 ```swift
 let params = ["latitude": 0, "longitude": 0]
@@ -100,7 +100,7 @@ client
  
  or
  
-  - Sending a domain model object directly:
+- Sending a domain model object directly:
 
 ```swift
 struct Model: Encodable {
@@ -116,7 +116,7 @@ client
            encode: object)
 ```
 
-Similarily as configuring decoder, we can also provide an encoder configuration closure for custom encoding:
+#### Similarily as configuring decoder, we can also provide an encoder configuration closure for custom encoding
 
 ```swift
 struct Model: Encodable {
@@ -132,6 +132,55 @@ client
            encode: object,
            encoderConfigurator: { $0.keyEncodingStrategy = .convertToSnakeCase })
 ```
+
+#### The client also provides abitility to define interceptors. Either session or request based
+
+- Session based interceptor:
+
+```swift
+extension AlamofireNetworkClient {
+  static var custom: AlamofireNetworkClient {
+    let session: Session = {
+      let configuration = URLSessionConfiguration.af.default
+      configuration.timeoutIntervalForRequest = 60
+      configuration.waitsForConnectivity = true
+      return Session(configuration: configuration,
+                     interceptor: CustomInterceptor()])
+    }()
+    
+    return .init(session: session)
+  }
+}
+```
+
+- Reuqest based interceptor:
+
+```swift
+let client = AlamofireNetworkClient()
+client
+  .request(method: .post, 
+           endpoint: "http://my-amazing-api.com/endpoint",
+           encode: object,
+           interceptor: AlamofireRetryInterceptor(limit: 2))
+```
+
+This is also an example on how to define a request retry policy. In this case, request will be retried 2 times on any error.
+
+#### Console logging interceptor
+```swift
+extension AlamofireNetworkClient {
+  static var custom: AlamofireNetworkClient {
+    let session: Session = {
+      .init(configuration: URLSessionConfiguration.af.default,
+            eventMonitors: [AlamofireConsoleLogger()])
+    }()
+    
+    return .init(session: session)
+  }
+}
+```
+
+By doing that we'll see logs in the console for each request start, success and failure.
 
 ## Error handling
 

@@ -18,25 +18,33 @@ public extension UIView {
     layer.shadowRadius = radius
   }
   
+  /// Apply border with given `color` and `width`.
   func applyBorder(color: UIColor, width: CGFloat) {
     layer.borderColor = color.cgColor
     layer.borderWidth = width
   }
-}
-
-// MARK: - AutoLayout
-public extension UIView {
-  @available(*, deprecated, message: "Use of this method is discouraged since SnapKit does this already internally.")
-  func autolayoutView() -> Self {
-    translatesAutoresizingMaskIntoConstraints = false
-    return self
-  }
   
-  @available(*, deprecated, message: "Use of this method is discouraged since SnapKit does this already internally.")
-  class func autolayoutView() -> Self {
-    let instance = self.init()
-    instance.translatesAutoresizingMaskIntoConstraints = false
-    return instance
+  /// Toggles view visibility in animated fashion, for given `animationDuration`.
+  @objc func setHidden(_ hidden: Bool, animationDuration: TimeInterval, completion: (() -> Void)? = nil) {
+    guard isHidden != hidden else {
+      completion?()
+      return
+    }
+    
+    switch hidden {
+    case true:
+      alpha = 1
+    case false:
+      alpha = 0
+      isHidden = false
+    }
+    
+    UIView.animate(withDuration: animationDuration, animations: {
+      self.alpha = hidden ? 0 : 1
+    }, completion: { _ in
+      self.isHidden = hidden
+      completion?()
+    })
   }
 }
 

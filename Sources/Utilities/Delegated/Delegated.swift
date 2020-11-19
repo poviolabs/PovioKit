@@ -8,10 +8,9 @@
 
 import Foundation
 
-@dynamicCallable
 public struct Delegated<Input, Output> {
   typealias Callback = (Input) -> Output
-  private var callback: Callback = { _ in fatalError("Implement the delegate method") }
+  private var callback: Callback?
   
   public mutating func delegate<Object: AnyObject>(to object: Object, with callback: @escaping (Object?, Input) -> Output) {
     self.callback = { [weak object] input in
@@ -19,9 +18,9 @@ public struct Delegated<Input, Output> {
     }
   }
   
-  public func dynamicallyCall(withArguments args: [Input]) -> Output {
-    assert(!args.isEmpty, "Must provide arguments to a non-void callback!")
-    return callback(args[0])
+  public func callAsFunction(_ arg: Input) -> Output {
+    guard let result = callback?(arg) else { fatalError("Implement the delegate method!") }
+    return result
   }
 }
 
@@ -32,8 +31,15 @@ public extension Delegated where Input == Void {
     }
   }
   
-  func dynamicallyCall(withArguments args: [Void]) -> Output {
-    return callback(())
+  func callAsFunction() -> Output {
+    guard let result = callback?(()) else { fatalError("Implement the delegate method!") }
+    return result
+  }
+}
+
+public extension Delegated where Output == Void {
+  func callAsFunction(_ arg: Input) {
+    callback?(arg)
   }
 }
 
@@ -44,8 +50,8 @@ public extension Delegated where Input == Void, Output == Void {
     }
   }
   
-  func dynamicallyCall(withArguments args: [Void]) {
-    callback(())
+  func callAsFunction() {
+    callback?(())
   }
 }
 

@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '0.5.0'
+  s.version          = '1.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
-  s.description      = 'PovioKit is a collection of useful tools, extensions and modules.'
-  s.homepage         = 'https://github.com/poviolabs/'
+  s.description      = 'PovioKit is a modular library collection, written in Swift.'
+  s.homepage         = 'https://github.com/poviolabs'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Povio Inc.' => 'services@poviolabs.com' }
   s.source           = { :git => 'https://github.com/poviolabs/PovioKit.git', :tag => s.version.to_s }
@@ -45,6 +45,14 @@ Pod::Spec.new do |s|
     us.subspec 'PromiseKit' do |cs|
       cs.source_files = 'Sources/Utilities/PromiseKit/**/*.swift'
     end
+
+    us.subspec 'SignInWithApple' do |cs|
+      cs.source_files = 'Sources/Utilities/SignInWithApple/**/*.swift'
+    end
+    
+    us.subspec 'ImageSource' do |cs|
+      cs.source_files = 'Sources/Utilities/ImageSource/*.swift'
+    end
   end
   
   s.subspec 'Extensions' do |es|
@@ -54,6 +62,10 @@ Pod::Spec.new do |s|
     
     es.subspec 'Foundation' do |cs|
       cs.source_files = 'Sources/Extensions/Foundation/*.swift'
+    end
+    
+    es.subspec 'MapKit' do |cs|
+      cs.source_files = 'Sources/Extensions/MapKit/*.swift'
     end
   end
   
@@ -68,12 +80,16 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Networking' do |ns|
-    ns.dependency 'Alamofire', '5.1.0'
+    ns.dependency 'Alamofire', '5.4.0'
     ns.dependency 'PovioKit/Utilities/PromiseKit'
     ns.dependency 'PovioKit/Utilities/Logger'
     
     ns.subspec 'AlamofireNetworkClient' do |cs|
       cs.source_files = 'Sources/Networking/AlamofireNetworkClient/**/*.swift'
+    end
+    
+    ns.subspec 'OAuthInterceptor' do |cs|
+      cs.source_files = 'Sources/Networking/OAuth/*.swift'
     end
   end
 end
