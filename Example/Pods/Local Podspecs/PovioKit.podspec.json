@@ -1,6 +1,6 @@
 {
   "name": "PovioKit",
-  "version": "1.0",
+  "version": "1.0.0",
   "summary": "Modular cocoapods libraries collection.",
   "swift_versions": "5.0",
   "description": "PovioKit is a modular library collection, written in Swift.",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "https://github.com/poviolabs/PovioKit.git",
-    "tag": "1.0"
+    "tag": "1.0.0"
   },
   "platforms": {
     "ios": "11.0"
@@ -66,6 +66,11 @@
         },
         {
           "name": "SignInWithApple",
+          "dependencies": {
+            "PovioKit/Utilities/Logger": [
+
+            ]
+          },
           "source_files": "Sources/Utilities/SignInWithApple/**/*.swift"
         },
         {
@@ -76,6 +81,11 @@
     },
     {
       "name": "Extensions",
+      "dependencies": {
+        "PovioKit/Utilities/Logger": [
+
+        ]
+      },
       "subspecs": [
         {
           "name": "UIKit",
@@ -121,10 +131,6 @@
         {
           "name": "AlamofireNetworkClient",
           "source_files": "Sources/Networking/AlamofireNetworkClient/**/*.swift"
-        },
-        {
-          "name": "OAuthInterceptor",
-          "source_files": "Sources/Networking/OAuth/*.swift"
         }
       ]
     }

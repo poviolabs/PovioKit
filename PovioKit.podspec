@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '1.0'
+  s.version          = '1.0.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
   s.description      = 'PovioKit is a modular library collection, written in Swift.'
@@ -47,6 +47,7 @@ Pod::Spec.new do |s|
     end
 
     us.subspec 'SignInWithApple' do |cs|
+      cs.dependency 'PovioKit/Utilities/Logger'
       cs.source_files = 'Sources/Utilities/SignInWithApple/**/*.swift'
     end
     
@@ -56,6 +57,8 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Extensions' do |es|
+    es.dependency 'PovioKit/Utilities/Logger'
+    
     es.subspec 'UIKit' do |cs|
       cs.source_files = 'Sources/Extensions/UIKit/*.swift'
     end
@@ -86,10 +89,6 @@ Pod::Spec.new do |s|
     
     ns.subspec 'AlamofireNetworkClient' do |cs|
       cs.source_files = 'Sources/Networking/AlamofireNetworkClient/**/*.swift'
-    end
-    
-    ns.subspec 'OAuthInterceptor' do |cs|
-      cs.source_files = 'Sources/Networking/OAuth/*.swift'
     end
   end
 end
