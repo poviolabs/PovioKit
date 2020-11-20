@@ -47,10 +47,8 @@
 * [URL](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/URL+Povio.swift)
 * [Optional](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Optional+Povio.swift)
 * [Result](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Result+Povio.swift)
-* [Dictionary](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Dictionary+Povio.swift)
 * [DecodableDictionary](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/DecodableDictionary+Povio.swift)
 * [DispatchTimeInterval](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/DispatchTimeInterval+Povio.swift)
-* [Double](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Double+Povio.swift)
 * [Encodable](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Encodable+Povio.swift)
 
 ##### MapKit
@@ -81,12 +79,12 @@
 
 ### Swift Package Manager
 
-PovioKit is available through [SPM](https://swift.org/package-manager/). To install it, click `File` -> `Swift Packages` -> `Add Package Dependency` and enter `https://github.com/poviolabs/PovioKit`.
+In Xcode, click `File` -> `Swift Packages` -> `Add Package Dependency` and enter `https://github.com/poviolabs/PovioKit`.
 
 
 ### CocoaPods
 
-PovioKit is available through [CocoaPods](https://cocoapods.org). To install it, add the following line to your Podfile:
+Add the following line to your Podfile:
 
 ```ruby
 pod 'PovioKit'
@@ -97,11 +95,6 @@ This way you'll install all subspecs available. However, you could opt-out insta
 ```ruby
 pod 'PovioKit/Utilities/StartupService'
 ```
-
-
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 
 ## License
