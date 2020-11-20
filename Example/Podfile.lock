@@ -1,56 +1,56 @@
 PODS:
-  - Alamofire (5.3.0)
-  - PovioKit (0.5.0):
-    - PovioKit/Extensions (= 0.5.0)
-    - PovioKit/Utilities (= 0.5.0)
-    - PovioKit/Views (= 0.5.0)
-  - PovioKit/Extensions (0.5.0):
-    - PovioKit/Extensions/Foundation (= 0.5.0)
-    - PovioKit/Extensions/MapKit (= 0.5.0)
-    - PovioKit/Extensions/UIKit (= 0.5.0)
-  - PovioKit/Extensions/Foundation (0.5.0)
-  - PovioKit/Extensions/MapKit (0.5.0)
-  - PovioKit/Extensions/UIKit (0.5.0)
-  - PovioKit/Networking (0.5.0):
-    - Alamofire (= 5.3.0)
-    - PovioKit/Networking/AlamofireNetworkClient (= 0.5.0)
-    - PovioKit/Networking/OAuthInterceptor (= 0.5.0)
+  - Alamofire (5.4.0)
+  - PovioKit (1.0.0):
+    - PovioKit/Extensions (= 1.0.0)
+    - PovioKit/Utilities (= 1.0.0)
+    - PovioKit/Views (= 1.0.0)
+  - PovioKit/Extensions (1.0.0):
+    - PovioKit/Extensions/Foundation (= 1.0.0)
+    - PovioKit/Extensions/MapKit (= 1.0.0)
+    - PovioKit/Extensions/UIKit (= 1.0.0)
+    - PovioKit/Utilities/Logger
+  - PovioKit/Extensions/Foundation (1.0.0):
+    - PovioKit/Utilities/Logger
+  - PovioKit/Extensions/MapKit (1.0.0):
+    - PovioKit/Utilities/Logger
+  - PovioKit/Extensions/UIKit (1.0.0):
+    - PovioKit/Utilities/Logger
+  - PovioKit/Networking (1.0.0):
+    - Alamofire (= 5.4.0)
+    - PovioKit/Networking/AlamofireNetworkClient (= 1.0.0)
     - PovioKit/Utilities/Logger
     - PovioKit/Utilities/PromiseKit
-  - PovioKit/Networking/AlamofireNetworkClient (0.5.0):
-    - Alamofire (= 5.3.0)
+  - PovioKit/Networking/AlamofireNetworkClient (1.0.0):
+    - Alamofire (= 5.4.0)
     - PovioKit/Utilities/Logger
     - PovioKit/Utilities/PromiseKit
-  - PovioKit/Networking/OAuthInterceptor (0.5.0):
-    - Alamofire (= 5.3.0)
+  - PovioKit/Utilities (1.0.0):
+    - PovioKit/Utilities/AttributedStringBuilder (= 1.0.0)
+    - PovioKit/Utilities/Broadcast (= 1.0.0)
+    - PovioKit/Utilities/ColorInterpolator (= 1.0.0)
+    - PovioKit/Utilities/DispatchTimer (= 1.0.0)
+    - PovioKit/Utilities/ImageSource (= 1.0.0)
+    - PovioKit/Utilities/Logger (= 1.0.0)
+    - PovioKit/Utilities/PromiseKit (= 1.0.0)
+    - PovioKit/Utilities/SignInWithApple (= 1.0.0)
+    - PovioKit/Utilities/StartupService (= 1.0.0)
+    - PovioKit/Utilities/Throttler (= 1.0.0)
+  - PovioKit/Utilities/AttributedStringBuilder (1.0.0)
+  - PovioKit/Utilities/Broadcast (1.0.0)
+  - PovioKit/Utilities/ColorInterpolator (1.0.0)
+  - PovioKit/Utilities/DispatchTimer (1.0.0)
+  - PovioKit/Utilities/ImageSource (1.0.0)
+  - PovioKit/Utilities/Logger (1.0.0)
+  - PovioKit/Utilities/PromiseKit (1.0.0)
+  - PovioKit/Utilities/SignInWithApple (1.0.0):
     - PovioKit/Utilities/Logger
-    - PovioKit/Utilities/PromiseKit
-  - PovioKit/Utilities (0.5.0):
-    - PovioKit/Utilities/AttributedStringBuilder (= 0.5.0)
-    - PovioKit/Utilities/Broadcast (= 0.5.0)
-    - PovioKit/Utilities/ColorInterpolator (= 0.5.0)
-    - PovioKit/Utilities/DispatchTimer (= 0.5.0)
-    - PovioKit/Utilities/ImageSource (= 0.5.0)
-    - PovioKit/Utilities/Logger (= 0.5.0)
-    - PovioKit/Utilities/PromiseKit (= 0.5.0)
-    - PovioKit/Utilities/SignInWithApple (= 0.5.0)
-    - PovioKit/Utilities/StartupService (= 0.5.0)
-    - PovioKit/Utilities/Throttler (= 0.5.0)
-  - PovioKit/Utilities/AttributedStringBuilder (0.5.0)
-  - PovioKit/Utilities/Broadcast (0.5.0)
-  - PovioKit/Utilities/ColorInterpolator (0.5.0)
-  - PovioKit/Utilities/DispatchTimer (0.5.0)
-  - PovioKit/Utilities/ImageSource (0.5.0)
-  - PovioKit/Utilities/Logger (0.5.0)
-  - PovioKit/Utilities/PromiseKit (0.5.0)
-  - PovioKit/Utilities/SignInWithApple (0.5.0)
-  - PovioKit/Utilities/StartupService (0.5.0)
-  - PovioKit/Utilities/Throttler (0.5.0)
-  - PovioKit/Views (0.5.0):
-    - PovioKit/Views/GradientView (= 0.5.0)
-    - PovioKit/Views/PaddingLabel (= 0.5.0)
-  - PovioKit/Views/GradientView (0.5.0)
-  - PovioKit/Views/PaddingLabel (0.5.0)
+  - PovioKit/Utilities/StartupService (1.0.0)
+  - PovioKit/Utilities/Throttler (1.0.0)
+  - PovioKit/Views (1.0.0):
+    - PovioKit/Views/GradientView (= 1.0.0)
+    - PovioKit/Views/PaddingLabel (= 1.0.0)
+  - PovioKit/Views/GradientView (1.0.0)
+  - PovioKit/Views/PaddingLabel (1.0.0)
 
 DEPENDENCIES:
   - PovioKit (from `../`)
@@ -65,8 +65,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: 2c792affbdc2f18016e08fdbcacd60aebe1ba593
-  PovioKit: 2f978f5ae0b8733b3e9f415fb439a4db957e7d3f
+  Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
+  PovioKit: 0c2a10c160b11a2b30f09aa01a362d84091edb9b
 
 PODFILE CHECKSUM: f8431f96a2bbfba7a7c54f82ffcdc4f3235daacd
 

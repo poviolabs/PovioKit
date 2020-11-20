@@ -14,7 +14,7 @@ public final class AlamofireConsoleLogger: EventMonitor {
   public let queue = DispatchQueue(label: "com.alamofire.console.networklogger")
   private let logger: Writer
   
-  public init(logger: @escaping Writer = { PovioKit.Logger.debug($0) }) {
+  public init(logger: @escaping Writer = { Logger.debug($0) }) {
     self.logger = logger
   }
   
