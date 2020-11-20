@@ -10,7 +10,7 @@ import UIKit
 
 /// A UILabel subclass with configurable `contentInset`.
 open class PaddingLabel: UILabel {
-  var contentInset: UIEdgeInsets = .init(top: 5, left: 5, bottom: 5, right: 5) {
+  public var contentInset: UIEdgeInsets = .init(top: 5, left: 5, bottom: 5, right: 5) {
     didSet { invalidateIntrinsicContentSize() }
   }
   
