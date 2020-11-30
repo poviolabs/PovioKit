@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
   s.description      = 'PovioKit is a modular library collection, written in Swift.'
@@ -79,6 +79,10 @@ Pod::Spec.new do |s|
     
     vs.subspec 'PaddingLabel' do |pds|
       pds.source_files = 'Sources/Views/PaddingLabel/*.swift'
+    end
+    
+    vs.subspec 'DynamicCollectionCell' do |dcc|
+      dcc.source_files = 'Sources/Views/DynamicCollectionCell/*.swift'
     end
   end
   

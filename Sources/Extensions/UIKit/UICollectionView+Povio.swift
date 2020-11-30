@@ -61,4 +61,10 @@ public extension UICollectionView {
     }
     return view
   }
+  
+  /// Returns max available content size excluding content insets
+  var maxContentSize: CGSize {
+    .init(width: bounds.width - (contentInset.left + contentInset.right),
+          height: bounds.height - (contentInset.top + contentInset.bottom))
+  }
 }
