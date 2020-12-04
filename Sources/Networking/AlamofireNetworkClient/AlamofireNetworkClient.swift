@@ -131,6 +131,23 @@ public extension AlamofireNetworkClient {
               interceptor: interceptor)
     return .init(with: request)
   }
+  
+  func upload(
+    method: HTTPMethod,
+    fileURL: URL,
+    endpoint: URLConvertible,
+    headers: HTTPHeaders? = nil,
+    interceptor: RequestInterceptor? = nil) -> Request
+  {
+    let request = session
+      .upload(fileURL,
+              to: endpoint,
+              method: method,
+              headers: headers,
+              interceptor: interceptor,
+              fileManager: .default)
+    return .init(with: request)
+  }
 }
 
 // MARK: - Models
