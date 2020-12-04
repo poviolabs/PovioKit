@@ -62,6 +62,7 @@ public extension AlamofireNetworkClient {
     return .init(with: request)
   }
   
+  @available(*, deprecated, message: "Use request method with `encoder` instead.")
   func request<E: Encodable>(
     method: HTTPMethod,
     endpoint: URLConvertible,
