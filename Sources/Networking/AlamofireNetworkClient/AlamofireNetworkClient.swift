@@ -62,36 +62,6 @@ public extension AlamofireNetworkClient {
     return .init(with: request)
   }
   
-  @available(*, deprecated, message: "Use request method with `encoder` instead.")
-  func request<E: Encodable>(
-    method: HTTPMethod,
-    endpoint: URLConvertible,
-    headers: HTTPHeaders? = nil,
-    encode: E,
-    encoderConfigurator configurator: ((JSONEncoder) -> Void)? = nil,
-    interceptor: RequestInterceptor? = nil) -> Request
-  {
-    let encoder = JSONEncoder()
-    configurator?(encoder)
-    
-    let parameterEncoder: ParameterEncoder
-    switch method {
-    case .get, .delete, .head:
-      parameterEncoder = URLEncodedFormParameterEncoder(encoder: encoder)
-    default:
-      parameterEncoder = JSONParameterEncoder(encoder: encoder)
-    }
-    
-    let request = session
-      .request(endpoint,
-               method: method,
-               parameters: encode,
-               encoder: parameterEncoder,
-               headers: headers,
-               interceptor: interceptor)
-    return .init(with: request)
-  }
-  
   func request<E: Encodable>(
     method: HTTPMethod,
     endpoint: URLConvertible,
@@ -202,19 +172,6 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder? = nil) -> Promise<D> {
-    Promise { promise in
-      dataRequest.responseDecodable(decoder: decoder ?? JSONDecoder()) { (response: AFDataResponse<D>) in
-        switch response.result {
-        case .success(let decodedObject):
-          promise.resolve(with: decodedObject)
-        case .failure(let error):
-          promise.reject(with: self.handleError(error))
-        }
-      }
-    }
-  }
-  
   var asData: Promise<Data> {
     Promise { promise in
       dataRequest.responseData { (response: AFDataResponse<Data>) in
@@ -234,6 +191,19 @@ public extension AlamofireNetworkClient.Request {
         switch $0.result {
         case .success:
           promise.resolve(with: ())
+        case .failure(let error):
+          promise.reject(with: self.handleError(error))
+        }
+      }
+    }
+  }
+  
+  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder? = nil) -> Promise<D> {
+    Promise { promise in
+      dataRequest.responseDecodable(decoder: decoder ?? JSONDecoder()) { (response: AFDataResponse<D>) in
+        switch response.result {
+        case .success(let decodedObject):
+          promise.resolve(with: decodedObject)
         case .failure(let error):
           promise.reject(with: self.handleError(error))
         }
