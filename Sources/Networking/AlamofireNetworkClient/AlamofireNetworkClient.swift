@@ -92,6 +92,33 @@ public extension AlamofireNetworkClient {
     return .init(with: request)
   }
   
+  func request<E: Encodable>(
+    method: HTTPMethod,
+    endpoint: URLConvertible,
+    headers: HTTPHeaders? = nil,
+    encode: E,
+    encoder: JSONEncoder? = nil,
+    interceptor: RequestInterceptor? = nil) -> Request
+  {
+    let jsonEncoder = encoder ?? JSONEncoder()
+    let parameterEncoder: ParameterEncoder
+    switch method {
+    case .get, .delete, .head:
+      parameterEncoder = URLEncodedFormParameterEncoder(encoder: jsonEncoder)
+    default:
+      parameterEncoder = JSONParameterEncoder(encoder: jsonEncoder)
+    }
+    
+    let request = session
+      .request(endpoint,
+               method: method,
+               parameters: encode,
+               encoder: parameterEncoder,
+               headers: headers,
+               interceptor: interceptor)
+    return .init(with: request)
+  }
+  
   func upload(
     method: HTTPMethod,
     endpoint: URLConvertible,
@@ -175,12 +202,9 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func decode<D: Decodable>(
-    _ decodable: D.Type,
-    decoder: JSONDecoder) -> Promise<D>
-  {
+  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder? = nil) -> Promise<D> {
     Promise { promise in
-      dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
+      dataRequest.responseDecodable(decoder: decoder ?? JSONDecoder()) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
           promise.resolve(with: decodedObject)
