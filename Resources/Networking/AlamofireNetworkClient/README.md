@@ -2,6 +2,7 @@
 
 High-level `Alamofire` REST client abstraction.
 
+
 ## Examples
 
 #### Retreiving JSON object from an endpoint
@@ -12,8 +13,9 @@ let json = client
   .request(method: .get, 
            endpoint: "http://my-amazing-api.com/endpoint")
   .validate() // makes sure status code is in 200..<300
-  .json() // parse `JSON` from the response
+  .asJson // parse `JSON` from the response
 ```
+
 
 #### Serialize the response into a data model
 
@@ -25,6 +27,7 @@ let model = client
   .validate() // makes sure status code is in 200..<300
   .decode(MyModelResponse.self) // parse `MyModelResponse` from the response
 ```
+
 
 #### The `request` method returns a `AlamofireRestClient.Request` object, on which we can perform other operations as well
 
@@ -56,6 +59,7 @@ let request = client
 
 - parsing:
 
+
 #### Aside from `JSON` and `Decodable` parsing, `AlamofireRestClient.Request` also enables us to also parse `Data` and `()`
 
 ```swift
@@ -64,26 +68,26 @@ let request = client
   .request(method: .get, 
            endpoint: "http://my-amazing-api.com/endpoint")
 
-let data = request.data() // parse `Data`
-...
-let _ = request.singleton() // this actually doesn't parse anything, but instead resolves if request succeeds
+let data = request.asData // parse `Data`
 ```
 
-#### Sometimes we want to configure the way objects are decoded. We do that by providing a configuration closure to the `request` method
+
+#### Sometimes we want to configure the way objects are decoded. We do that by providing a custom decoder instance `request` method
 
 ```swift
-let configurator = { (decoder: JSONDecoder) -> Void in 
-  decoder.dateDecodingStrategy = .formatted(CustomDateFormatter())
-  decoder.keyDecodingStrategy = .convertFromSnakeCase
-}
+let decoder = JSONDecoder()
+decoder.dateDecodingStrategy = .formatted(CustomDateFormatter())
+decoder.keyDecodingStrategy = .convertFromSnakeCase
+
 let client = AlamofireNetworkClient()
 let model = client
   .request(method: .get, 
            endpoint: "http://my-amazing-api.com/endpoint",
            decoderConfigurator: configurator)
   .validate() // makes sure status code is in 200..<300
-  .decode(MyModel.self) // parse `MyModel` from the response
+  .decode(MyModel.self, decoder: decoder) // parse `MyModel` from the response, with custom `decoder`
 ```
+
 
 #### Sending data to the server is also a common task, which is very easy to do to using `AlamofireRestClient`. We have two options
 
@@ -100,7 +104,7 @@ client
  
  or
  
-- Sending a domain model object directly:
+- Sending a data model object directly:
 
 ```swift
 struct Model: Encodable {
@@ -116,7 +120,8 @@ client
            encode: object)
 ```
 
-#### Similarily as configuring decoder, we can also provide an encoder configuration closure for custom encoding
+
+#### Similarily as configuring decoder, we can also provide an encoder custom encoding
 
 ```swift
 struct Model: Encodable {
@@ -124,14 +129,18 @@ struct Model: Encodable {
   let longitude: Double
 }
 
+let encoder = JSONEncoder()
+encoder.keyEncodingStrategy = .convertToSnakeCase
+
 let object = Model(latitude: 0, longitude: 0)
 let client = AlamofireNetworkClient()
 client
   .request(method: .post, 
            endpoint: "http://my-amazing-api.com/endpoint",
            encode: object,
-           encoderConfigurator: { $0.keyEncodingStrategy = .convertToSnakeCase })
+           encoder: encoder)
 ```
+
 
 #### The client also provides abitility to define interceptors. Either session or request based
 
@@ -166,6 +175,7 @@ client
 
 This is also an example on how to define a request retry policy. In this case, request will be retried 2 times on any error.
 
+
 #### Console logging interceptor
 ```swift
 extension AlamofireNetworkClient {
@@ -181,6 +191,7 @@ extension AlamofireNetworkClient {
 ```
 
 By doing that we'll see logs in the console for each request start, success and failure.
+
 
 ## Error handling
 
@@ -206,7 +217,6 @@ let client = AlamofireNetworkClient()
              parameters: parameters,
              parameterEncoding: JSONEncoding.default)
     .validate()
-    .singleton()
     .observe {
         switch $0 {
         case .success:
