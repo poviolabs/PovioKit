@@ -28,6 +28,15 @@ public class Promise<Value>: Future<Value, Error> {
     future(self)
   }
   
+  public convenience init(_ future: () throws -> Value) {
+    do {
+      self.init()
+      self.resolve(with: try future())
+    } catch {
+      self.reject(with: error)
+    }
+  }
+  
   public convenience init<E: Error>(result: Result<Value, E>) {
     self.init()
     switch result {
@@ -68,6 +77,28 @@ public class Promise<Value>: Future<Value, Error> {
   public func observe(promise other: Promise) {
     other.onSuccess { self.resolve(with: $0) }
     other.onFailure { self.reject(with: $0) }
+  }
+  
+  public func observe(_ completion: @escaping (Value?, Error?) -> Void) {
+    observe {
+      switch $0 {
+      case .success(let result):
+        completion(result, nil)
+      case .failure(let error):
+        completion(nil, error)
+      }
+    }
+  }
+  
+  func observe(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
+    observe {
+      switch $0 {
+      case .success(let result):
+        success(result)
+      case .failure(let error):
+        failure(error)
+      }
+    }
   }
   
   public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue? = .main) {
@@ -122,6 +153,12 @@ public extension Promise {
   /// Convert this Promise to a new Promise where `Value` == ()
   var asVoid: Promise<()> {
     map { _ in }
+  }
+  
+  /// Tap into the promise to produce side-effects.
+  func tap(_ work: @escaping (Value) -> Void) -> Self {
+    onSuccess(work)
+    return self
   }
 }
 
