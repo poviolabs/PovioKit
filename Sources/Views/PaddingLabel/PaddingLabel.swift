@@ -18,6 +18,10 @@ open class PaddingLabel: UILabel {
     super.drawText(in: rect.inset(by: contentInset))
   }
   
+  override open func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+    super.textRect(forBounds: bounds.inset(by: contentInset), limitedToNumberOfLines: 0)
+  }
+  
   override open var intrinsicContentSize: CGSize {
     var contentSize = super.intrinsicContentSize
     contentSize.height += contentInset.top + contentInset.bottom
