@@ -220,7 +220,6 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
-          decoder.decode(<#T##type: Decodable.Protocol##Decodable.Protocol#>, from: <#T##Data#>)
           promise.resolve(with: decodedObject)
         case .failure(let error):
           promise.reject(with: self.handleError(error))
