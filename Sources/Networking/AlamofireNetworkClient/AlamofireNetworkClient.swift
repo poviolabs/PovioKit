@@ -166,7 +166,7 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
-    private var errorHandler: ((Data) -> Swift.Error?)?
+    private var errorHandler: ((Data) throws -> Swift.Error)?
     
     init(with dataRequest: DataRequest) {
       self.dataRequest = dataRequest
@@ -220,6 +220,7 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
+          decoder.decode(<#T##type: Decodable.Protocol##Decodable.Protocol#>, from: <#T##Data#>)
           promise.resolve(with: decodedObject)
         case .failure(let error):
           promise.reject(with: self.handleError(error))
@@ -253,7 +254,7 @@ public extension AlamofireNetworkClient.Request {
     return self
   }
   
-  func handleFailure(handler: @escaping (Data) -> Swift.Error?) -> Self {
+  func handleFailure(handler: @escaping (Data) throws -> Swift.Error) -> Self {
     self.errorHandler = handler
     return self
   }
@@ -288,7 +289,7 @@ public extension HTTPHeaders {
 // MARK: - Private Error Handling Methods
 private extension AlamofireNetworkClient.Request {
   func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
-    guard let data = dataRequest.data, let handledError = errorHandler?(data) else {
+    guard let data = dataRequest.data, let handler = errorHandler else {
       switch error {
       case .responseSerializationFailed as AFError:
         return .other(error)
@@ -298,7 +299,12 @@ private extension AlamofireNetworkClient.Request {
         return .other(error)
       }
     }
-    return .other(handledError)
+    do {
+      let handledError = try handler(data)
+      return .other(handledError)
+    } catch {
+      return .other(error)
+    }
   }
 }
 
