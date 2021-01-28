@@ -130,8 +130,7 @@ private extension OAuthRequestInterceptor {
     Logger.debug("Fetching access token!")
     provider
       .refresh(with: refreshToken)
-      .observe { [weak self] in
-        guard let self = self else { return }
+      .observe {
         switch $0 {
         case .success(let response):
           Logger.debug("Refresh token success!")
