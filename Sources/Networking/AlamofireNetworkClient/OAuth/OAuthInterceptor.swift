@@ -95,6 +95,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
       case .reject:
         activeRequests.removeValue(forKey: request)
         completion(.doNotRetryWithError(error))
+        return
       }
       
       Promise(task).observe {
