@@ -47,11 +47,6 @@ open class OAuthRequestInterceptor {
   private let lock: NSLock = .init()
   private var activeRequests: [Request: RequestState] = .init()
   
-  private enum RequestState {
-    case retry
-    case reject
-  }
-  
   public init(
     provider: OAuthProvider,
     storage: OAuthStorage,
@@ -60,6 +55,13 @@ open class OAuthRequestInterceptor {
     self.provider = provider
     self.storage = storage
     self.adapter = adapter
+  }
+}
+
+extension OAuthRequestInterceptor {
+  enum RequestState {
+    case retry
+    case reject
   }
 }
 
