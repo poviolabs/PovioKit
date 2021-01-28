@@ -13,19 +13,23 @@ import PovioKit
 public struct OAuthContainer {
   public let accessToken: String
   public let refreshToken: String
+  public let expirationDate: Date
   
   public init(
     accessToken: String,
-    refreshToken: String
+    refreshToken: String,
+    expirationDate: Date
   ) {
     self.accessToken = accessToken
     self.refreshToken = refreshToken
+    self.expirationDate = expirationDate
   }
 }
 
 public protocol OAuthStorage: AnyObject {
   var accessToken: String? { get set }
   var refreshToken: String? { get set }
+  var accessTokenExpirationDate: Date? { get set }
 }
 
 public protocol OAuthProvider {
@@ -41,6 +45,12 @@ open class OAuthRequestInterceptor {
   private let storage: OAuthStorage
   private let adapter: OAuthHeadersAdapter
   private let lock: NSLock = .init()
+  private var activeRequests: [Request: RequestState] = .init()
+  
+  private enum RequestState {
+    case retry
+    case reject
+  }
   
   public init(
     provider: OAuthProvider,
@@ -73,15 +83,26 @@ extension OAuthRequestInterceptor: RequestInterceptor {
   ) {
     switch error.asAFError {
     case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)):
-      Logger.debug("Request to `/\(request.request?.url?.lastPathComponent ?? "-")` failed with `401`! Will try to refresh access token.")
-      storage.accessToken = nil
-      updateAccessToken().observe {
+      lock.lock()
+      
+      switch activeRequests[request] {
+      case nil:
+        activeRequests[request] = .retry
+      case .retry:
+        activeRequests[request] = .reject
+      case .reject:
+        activeRequests.removeValue(forKey: request)
+        completion(.doNotRetryWithError(error))
+      }
+      
+      Promise(task).observe {
         switch $0 {
         case .success:
           completion(.retry)
         case .failure(let error):
           completion(.doNotRetryWithError(error))
         }
+        self.lock.unlock()
       }
     case _:
       completion(.doNotRetryWithError(error))
@@ -90,42 +111,35 @@ extension OAuthRequestInterceptor: RequestInterceptor {
 }
 
 private extension OAuthRequestInterceptor {
-  func updateAccessToken() -> Promise<String> {
-    lock.lock()
-    return Promise(task)
-  }
-  
   func task(seal: Promise<String>) {
-    switch storage.accessToken {
-    case let token?:
-      Logger.debug("Access token already fetched. Skip fetching ...!")
-      seal.resolve(with: token)
-      lock.unlock()
-    case nil:
-      Logger.debug("Fetching access token!")
-      guard let refreshToken = storage.refreshToken else {
-        Logger.debug("Refresh token is missing, we should logout user")
-        seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
-        self.lock.unlock()
-        return
-      }
-      provider
-        .refresh(with: refreshToken)
-        .observe { [weak self] in
-          guard let self = self else { return }
-          switch $0 {
-          case .success(let response):
-            Logger.debug("Refresh token success!!!")
-            self.storage.accessToken = response.accessToken
-            self.storage.refreshToken = response.refreshToken
-            seal.resolve(with: response.accessToken)
-            self.lock.unlock()
-          case .failure(let error):
-            Logger.debug("Refresh token failed with error \(error.localizedDescription), we should logout user")
-            seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
-            self.lock.unlock()
-          }
-        }
+    if let expirationDate = storage.accessTokenExpirationDate, expirationDate > Date() {
+      Logger.debug("No need to fetch access token as it was recently refreshed.")
+      seal.resolve(with: self.storage.accessToken!)
+      return
     }
+    
+    guard let refreshToken = storage.refreshToken else {
+      Logger.debug("Refresh token is missing, we should logout user")
+      seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
+      return
+    }
+    
+    Logger.debug("Fetching access token!")
+    provider
+      .refresh(with: refreshToken)
+      .observe { [weak self] in
+        guard let self = self else { return }
+        switch $0 {
+        case .success(let response):
+          Logger.debug("Refresh token success!")
+          self.storage.accessToken = response.accessToken
+          self.storage.refreshToken = response.refreshToken
+          self.storage.accessTokenExpirationDate = response.expirationDate
+          seal.resolve(with: response.accessToken)
+        case .failure(let error):
+          Logger.debug("Refresh token failed with error \(error.localizedDescription), we should logout user")
+          seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
+        }
+      }
   }
 }
