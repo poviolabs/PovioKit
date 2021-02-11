@@ -166,6 +166,7 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
+    private var errorHandler: ((Data) throws -> Swift.Error)?
     
     init(with dataRequest: DataRequest) {
       self.dataRequest = dataRequest
@@ -251,6 +252,11 @@ public extension AlamofireNetworkClient.Request {
     dataRequest.validate(statusCode: statusCode)
     return self
   }
+  
+  func handleFailure(handler: @escaping (Data) throws -> Swift.Error) -> Self {
+    self.errorHandler = handler
+    return self
+  }
 }
 
 // MARK: - Errors
@@ -282,12 +288,20 @@ public extension HTTPHeaders {
 // MARK: - Private Error Handling Methods
 private extension AlamofireNetworkClient.Request {
   func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
-    switch error {
-    case .responseSerializationFailed as AFError:
-      return .other(error)
-    case _ as AFError:
-      return .request(.init(code: dataRequest.response?.statusCode ?? 0))
-    case _:
+    guard let data = dataRequest.data, let handler = errorHandler else {
+      switch error {
+      case .responseSerializationFailed as AFError:
+        return .other(error)
+      case _ as AFError:
+        return .request(.init(code: dataRequest.response?.statusCode ?? 0))
+      case _:
+        return .other(error)
+      }
+    }
+    do {
+      let handledError = try handler(data)
+      return .other(handledError)
+    } catch {
       return .other(error)
     }
   }
