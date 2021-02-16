@@ -22,7 +22,6 @@ final public class AppVersionValidator {
   ///  XCTAssert(validator.isAppVersion("2.2", equalOrHigherThan: "2"))
   ///  XCTAssert(validator.isAppVersion("2", equalOrHigherThan: "2"))
   ///  XCTAssert(validator.isAppVersion("3", equalOrHigherThan: "2.0.0.8"))
-  ///  XCTAssert(validator.isAppVersion("1", equalOrHigherThan: ""))
   ///  XCTAssertFalse(validator.isAppVersion("1.8.3", equalOrHigherThan: "1.8.4"))
   ///  XCTAssertFalse(validator.isAppVersion("1.7.9", equalOrHigherThan: "1.8.4"))
   ///  XCTAssertFalse(validator.isAppVersion("0.8.8", equalOrHigherThan: "1.8.4"))
@@ -35,17 +34,33 @@ final public class AppVersionValidator {
   public func isAppVersion(
     _ version: String,
     equalOrHigherThan minimalRequiredVersion: String
-  ) -> Bool {
-    let appVersionComponents = version
-      .components(separatedBy: ".").lazy
-      .compactMap(Int.init)
-    let requiredVersionComponents = minimalRequiredVersion
-      .components(separatedBy: ".").lazy
-      .compactMap(Int.init)
+  ) throws -> Bool {
+    guard !version.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -1, userInfo: nil) }
+    guard !version.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -2, userInfo: nil) }
+    
+    let appVersionComponents = try versionComponents(from: version)
+    let requiredVersionComponents = try versionComponents(from: minimalRequiredVersion)
     for (required, app) in zip(requiredVersionComponents, appVersionComponents) {
       if app > required { return true }
       if app < required { return false }
     }
     return appVersionComponents.count >= requiredVersionComponents.count
+  }
+}
+
+private extension AppVersionValidator {
+  func versionComponents(from string: String) throws -> [Int] {
+    let collection = try string
+      .components(separatedBy: ".")
+      .compactMap { try Int(throwable: $0) }
+    guard !collection.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -3, userInfo: nil) }
+    return collection
+  }
+}
+
+fileprivate extension Int {
+  init(throwable string: String) throws {
+    guard let intValue = Int(string) else { throw NSError(domain: "com.poviokit.version-validator", code: -3, userInfo: nil) }
+    self = intValue
   }
 }
