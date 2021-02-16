@@ -34,7 +34,7 @@ class AppVersionValidatorTests: XCTestCase {
     
     XCTAssertThrowsError(try validator.isAppVersion("not a valid string", equalOrHigherThan: "1.0"))
     XCTAssertThrowsError(try validator.isAppVersion("a.b.c", equalOrHigherThan: "1.0"))
-    XCTAssertThrowsError(try validator.isAppVersion("not a valid string", equalOrHigherThan: "1.0"))
+    XCTAssertThrowsError(try validator.isAppVersion("1.0", equalOrHigherThan: "not a valid string"))
     XCTAssertThrowsError(try validator.isAppVersion("1.0", equalOrHigherThan: "a.b.c"))
     XCTAssertThrowsError(try validator.isAppVersion("", equalOrHigherThan: "1.0"))
     XCTAssertThrowsError(try validator.isAppVersion("1.0", equalOrHigherThan: ""))
