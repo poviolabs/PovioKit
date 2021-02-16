@@ -35,9 +35,6 @@ final public class AppVersionValidator {
     _ version: String,
     equalOrHigherThan minimalRequiredVersion: String
   ) throws -> Bool {
-    guard !version.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -1, userInfo: nil) }
-    guard !version.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -2, userInfo: nil) }
-    
     let appVersionComponents = try versionComponents(from: version)
     let requiredVersionComponents = try versionComponents(from: minimalRequiredVersion)
     for (required, app) in zip(requiredVersionComponents, appVersionComponents) {
@@ -53,7 +50,7 @@ private extension AppVersionValidator {
     let collection = try string
       .components(separatedBy: ".")
       .compactMap { try Int(throwable: $0) }
-    guard !collection.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -3, userInfo: nil) }
+    guard !collection.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -4, userInfo: nil) }
     return collection
   }
 }
