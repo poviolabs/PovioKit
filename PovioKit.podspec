@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '1.1.0'
+  s.version          = '1.2.0'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
   s.description      = 'PovioKit is a modular library collection, written in Swift.'
@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.author           = { 'Povio Inc.' => 'services@poviolabs.com' }
   s.source           = { :git => 'https://github.com/poviolabs/PovioKit.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '12.0'
   s.frameworks = 'UIKit', 'Foundation'
   s.default_subspecs = 'Utilities', 'Extensions', 'Views'
 
@@ -87,7 +87,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Networking' do |ns|
-    ns.dependency 'Alamofire', '5.4.0'
+    ns.dependency 'Alamofire', '5.4.1'
     ns.dependency 'PovioKit/Utilities/PromiseKit'
     ns.dependency 'PovioKit/Utilities/Logger'
     
