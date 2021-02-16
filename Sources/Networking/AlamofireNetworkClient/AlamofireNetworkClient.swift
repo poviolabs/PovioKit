@@ -67,12 +67,9 @@ public extension AlamofireNetworkClient {
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
     encode: E,
-    encoderConfigurator configurator: ((JSONEncoder) -> Void)? = nil,
+    encoder: JSONEncoder = .init(),
     interceptor: RequestInterceptor? = nil) -> Request
   {
-    let encoder = JSONEncoder()
-    configurator?(encoder)
-    
     let parameterEncoder: ParameterEncoder
     switch method {
     case .get, .delete, .head:
@@ -134,6 +131,23 @@ public extension AlamofireNetworkClient {
               interceptor: interceptor)
     return .init(with: request)
   }
+  
+  func upload(
+    method: HTTPMethod,
+    fileURL: URL,
+    endpoint: URLConvertible,
+    headers: HTTPHeaders? = nil,
+    interceptor: RequestInterceptor? = nil) -> Request
+  {
+    let request = session
+      .upload(fileURL,
+              to: endpoint,
+              method: method,
+              headers: headers,
+              interceptor: interceptor,
+              fileManager: .default)
+    return .init(with: request)
+  }
 }
 
 // MARK: - Models
@@ -152,6 +166,7 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
+    private var errorHandler: ((Data) throws -> Swift.Error)?
     
     init(with dataRequest: DataRequest) {
       self.dataRequest = dataRequest
@@ -167,22 +182,6 @@ public extension AlamofireNetworkClient.Request {
         switch $0.result {
         case .success(let json):
           promise.resolve(with: json)
-        case .failure(let error):
-          promise.reject(with: self.handleError(error))
-        }
-      }
-    }
-  }
-  
-  func decode<D: Decodable>(
-    _ decodable: D.Type,
-    decoder: JSONDecoder) -> Promise<D>
-  {
-    Promise { promise in
-      dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
-        switch response.result {
-        case .success(let decodedObject):
-          promise.resolve(with: decodedObject)
         case .failure(let error):
           promise.reject(with: self.handleError(error))
         }
@@ -216,6 +215,19 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
+  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder = .init()) -> Promise<D> {
+    Promise { promise in
+      dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
+        switch response.result {
+        case .success(let decodedObject):
+          promise.resolve(with: decodedObject)
+        case .failure(let error):
+          promise.reject(with: self.handleError(error))
+        }
+      }
+    }
+  }
+  
   func resume() -> Self {
     dataRequest.resume()
     return self
@@ -238,6 +250,11 @@ public extension AlamofireNetworkClient.Request {
   
   func validate<S: Sequence>(statusCode: S) -> Self where S.Iterator.Element == Int {
     dataRequest.validate(statusCode: statusCode)
+    return self
+  }
+  
+  func handleFailure(handler: @escaping (Data) throws -> Swift.Error) -> Self {
+    self.errorHandler = handler
     return self
   }
 }
@@ -271,12 +288,20 @@ public extension HTTPHeaders {
 // MARK: - Private Error Handling Methods
 private extension AlamofireNetworkClient.Request {
   func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
-    switch error {
-    case .responseSerializationFailed as AFError:
-      return .other(error)
-    case _ as AFError:
-      return .request(.init(code: dataRequest.response?.statusCode ?? 0))
-    case _:
+    guard let data = dataRequest.data, let handler = errorHandler else {
+      switch error {
+      case .responseSerializationFailed as AFError:
+        return .other(error)
+      case _ as AFError:
+        return .request(.init(code: dataRequest.response?.statusCode ?? 0))
+      case _:
+        return .other(error)
+      }
+    }
+    do {
+      let handledError = try handler(data)
+      return .other(handledError)
+    } catch {
       return .other(error)
     }
   }
