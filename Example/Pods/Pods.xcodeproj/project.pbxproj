@@ -33,7 +33,7 @@
 		306C234FE21DDC04F8E9EA0F86354977 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FFCCA47F3C2FDB058F13F533B90341 /* Alamofire.framework */; };
 		3112DE9202AC861E3CD2FC38532DD8EE /* URLEncodedFormParameterEncoder+PovioKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8214D149B996943344134D5D254466FB /* URLEncodedFormParameterEncoder+PovioKit.swift */; };
 		357261BBC62B21F8EE164DDA155377DB /* UITableViewHeaderFooterView+Povio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6237B04C9A316544F704E5CB69CAAF50 /* UITableViewHeaderFooterView+Povio.swift */; };
-		3790D4EF25DC3C7E005F25C1 /* ValidationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D4EB25DC3C7E005F25C1 /* ValidationStatus.swift */; };
+		3790D4EF25DC3C7E005F25C1 /* DefaultValidationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D4EB25DC3C7E005F25C1 /* DefaultValidationStatus.swift */; };
 		3790D4F025DC3C7E005F25C1 /* ValidationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D4EC25DC3C7E005F25C1 /* ValidationFormView.swift */; };
 		3790D4F125DC3C7E005F25C1 /* ValidationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D4ED25DC3C7E005F25C1 /* ValidationForm.swift */; };
 		3790D4F225DC3C7E005F25C1 /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D4EE25DC3C7E005F25C1 /* Validators.swift */; };
@@ -163,7 +163,7 @@
 		31DCA4581536E4222C29571EDF37FB57 /* Pods_PovioKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PovioKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		333DAB6EC98A071AAD9A29C41818F346 /* HTTPHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPHeaders.swift; path = Source/HTTPHeaders.swift; sourceTree = "<group>"; };
 		349B2325F6647FEE3C9209201FF5D4C2 /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
-		3790D4EB25DC3C7E005F25C1 /* ValidationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationStatus.swift; sourceTree = "<group>"; };
+		3790D4EB25DC3C7E005F25C1 /* DefaultValidationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultValidationStatus.swift; sourceTree = "<group>"; };
 		3790D4EC25DC3C7E005F25C1 /* ValidationFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationFormView.swift; sourceTree = "<group>"; };
 		3790D4ED25DC3C7E005F25C1 /* ValidationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationForm.swift; sourceTree = "<group>"; };
 		3790D4EE25DC3C7E005F25C1 /* Validators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
@@ -328,7 +328,7 @@
 		3790D4EA25DC3C7E005F25C1 /* Validation Form */ = {
 			isa = PBXGroup;
 			children = (
-				3790D4EB25DC3C7E005F25C1 /* ValidationStatus.swift */,
+				3790D4EB25DC3C7E005F25C1 /* DefaultValidationStatus.swift */,
 				3790D4EC25DC3C7E005F25C1 /* ValidationFormView.swift */,
 				3790D4ED25DC3C7E005F25C1 /* ValidationForm.swift */,
 				3790D4EE25DC3C7E005F25C1 /* Validators.swift */,
@@ -950,7 +950,7 @@
 				1955FA233C0C0B028D99332C519E542F /* PaddingLabel.swift in Sources */,
 				65178EA9A005623B513A2E91FE5E42E6 /* PovioKit-dummy.m in Sources */,
 				0FF6167661C732AE360B1283FF3E5555 /* Promise.swift in Sources */,
-				3790D4EF25DC3C7E005F25C1 /* ValidationStatus.swift in Sources */,
+				3790D4EF25DC3C7E005F25C1 /* DefaultValidationStatus.swift in Sources */,
 				3E570A9D8067CD60C48B68E7F244162F /* Result+Povio.swift in Sources */,
 				B50E45C7104626FDBF8BB1EA9011F571 /* SignInWithApple+Models.swift in Sources */,
 				9152CC265441FBB195E244BF0D7A70EE /* SignInWithApple.swift in Sources */,
