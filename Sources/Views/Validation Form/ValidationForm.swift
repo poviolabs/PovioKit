@@ -49,7 +49,7 @@ public protocol BaseValidationFormRowType: AnyObject {
   ) -> ValidationFormCell
 }
 
-public extension BaseValidationFormRowType {
+extension BaseValidationFormRowType {
   var key: String? { nil }
   var placeholder: String? { nil }
   var keyValuePair: (key: String, value: Any)? { nil }
@@ -105,13 +105,14 @@ extension ValidatableValidationFormRowType where Self: BaseValidationFormRowType
   }
 }
 
-@_functionBuilder enum ValidationFormBuilder {
+@resultBuilder
+enum ValidationFormBuilder {
   public static func buildBlock(_ partialResults: BaseValidationFormRowType...) -> [BaseValidationFormRowType] {
     partialResults
   }
 }
 
-public class ValidationForm: NSObject, UICollectionViewDataSource {
+open class ValidationForm: NSObject, UICollectionViewDataSource {
   private var form: [BaseValidationFormRowType] = []
   
   public init(@ValidationFormBuilder build: () -> [BaseValidationFormRowType]) {
@@ -136,13 +137,12 @@ public class ValidationForm: NSObject, UICollectionViewDataSource {
     guard let row = form[safe: indexPath.row] else {
       fatalError("No row at `\(indexPath)`!")
     }
-    
     return row.validationForm(self, cellForRowAt: indexPath, in: collectionView)
   }
 }
 
 // MARK: - API
-public extension ValidationForm {
+extension ValidationForm {
   @discardableResult
   func validate(in collectionView: UICollectionView) -> Bool {
     for row in form {
@@ -160,10 +160,8 @@ public extension ValidationForm {
   }
   
   func validateRow(key: String, in collectionView: UICollectionView) -> Bool {
-    guard let row = form.first(where: { $0.key == key }) else { return true }
-    row.validate()
-    collectionView.reloadDataKeepingContentOffset()
-    return isRowValid(row)
+    guard let rowIndex = form.firstIndex(where: { $0.key == key }) else { return true }
+    return validateRow(at: rowIndex, in: collectionView)
   }
   
   var isFormValid: Bool {
