@@ -236,11 +236,10 @@ struct KeyboardNotificationParser {
     guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size else { throw Error.parsingNotificationFailed }
     guard let animationDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? CGFloat) else { throw Error.parsingNotificationFailed }
     let animationCurve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt
-    switch animationCurve {
-    case .some(let animationCurve):
-      return (animationDuration, keyboardSize, UIView.AnimationOptions(rawValue: animationCurve << 16))
-    case .none:
-      return (animationDuration, keyboardSize, UIView.AnimationOptions())
-    }
+    return (
+      animationDuration,
+      keyboardSize,
+      animationCurve.map { UIView.AnimationOptions(rawValue: $0 << 16) } ?? .init()
+    )
   }
 }

@@ -1,5 +1,5 @@
 //
-//  ValidationStatus.swift
+//  DefaultValidationStatus.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 08/08/2019.
@@ -8,13 +8,14 @@
 
 import Foundation
 
-public enum ValidationStatus: ValidationStatusConforming {
+// Default validation status type which can be used in most cases
+public enum DefaultValidationStatus: ValidationStatusConforming {
   case valid(_: ())
   case invalid(_ errorMessage: String)
   case pending(_: ())
 }
 
-public extension ValidationStatus {
+public extension DefaultValidationStatus {
   var isValid: Bool {
     switch self {
     case .valid:
