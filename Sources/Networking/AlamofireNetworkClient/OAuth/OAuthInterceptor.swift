@@ -13,27 +13,28 @@ import PovioKit
 public struct OAuthContainer {
   public let accessToken: String
   public let refreshToken: String
-  public let expirationDate: Date
   
   public init(
     accessToken: String,
-    refreshToken: String,
-    expirationDate: Date
+    refreshToken: String
   ) {
     self.accessToken = accessToken
     self.refreshToken = refreshToken
-    self.expirationDate = expirationDate
   }
 }
 
 public protocol OAuthStorage: AnyObject {
   var accessToken: String? { get set }
   var refreshToken: String? { get set }
-  var accessTokenExpirationDate: Date? { get set }
 }
 
 public protocol OAuthProvider {
   func refresh(with refreshToken: String) -> Promise<OAuthContainer>
+  func isAccessTokenValid() -> Bool
+}
+
+public extension OAuthProvider {
+  func isAccessTokenValid() -> Bool { true }
 }
 
 public protocol OAuthHeadersAdapter {
@@ -116,8 +117,8 @@ extension OAuthRequestInterceptor: RequestInterceptor {
 
 private extension OAuthRequestInterceptor {
   func task(seal: Promise<String>) {
-    if let expirationDate = storage.accessTokenExpirationDate, expirationDate > Date() {
-      Logger.debug("No need to fetch access token as it was recently refreshed.")
+    guard !provider.isAccessTokenValid() else {
+      Logger.debug("No need to fetch access token as it is valid.")
       seal.resolve(with: self.storage.accessToken!)
       return
     }
@@ -137,7 +138,6 @@ private extension OAuthRequestInterceptor {
           Logger.debug("Refresh token success!")
           self.storage.accessToken = response.accessToken
           self.storage.refreshToken = response.refreshToken
-          self.storage.accessTokenExpirationDate = response.expirationDate
           seal.resolve(with: response.accessToken)
         case .failure(let error):
           Logger.debug("Refresh token failed with error \(error.localizedDescription), we should logout user")
