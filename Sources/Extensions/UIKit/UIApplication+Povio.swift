@@ -15,8 +15,8 @@ public extension UIApplication {
   }
   
   /// Opens `App Store` and deep linking to the app with provided id.
-  func openAppStore(appleAppId: String) {
-    guard let url = URL(string: "itms-apps://apps.apple.com/us/app/via-regalo/id\(appleAppId)") else { return }
+  func openAppStore(appName: String, appleAppId: String) {
+    guard let url = URL(string: "itms-apps://apps.apple.com/us/app/\(appName)/id\(appleAppId)") else { return }
     open(url, options: [:], completionHandler: nil)
   }
   
