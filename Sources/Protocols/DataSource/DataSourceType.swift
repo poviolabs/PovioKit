@@ -30,7 +30,7 @@ public extension DataSourceType {
     section(at: indexPath.section)?.row(at: indexPath.row)
   }
   
-  func isLastCell(indexPath: IndexPath) -> Bool {
+  func isLastRow(indexPath: IndexPath) -> Bool {
     indexPath.section == (sections.count - 1) && indexPath.row == (sections.last?.rows.count ?? 0) - 1
   }
   
