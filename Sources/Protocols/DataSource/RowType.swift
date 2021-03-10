@@ -8,4 +8,4 @@
 
 import Foundation
 
-public protocol RowType { /* not implemented yet */ }
+public protocol RowType { }
