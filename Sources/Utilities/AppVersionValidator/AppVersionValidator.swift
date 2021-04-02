@@ -49,7 +49,7 @@ private extension AppVersionValidator {
   func versionComponents(from string: String) throws -> [Int] {
     let collection = try string
       .components(separatedBy: ".")
-      .compactMap { try Int(throwable: $0) }
+      .map { try Int(throwable: $0) }
     guard !collection.isEmpty else { throw NSError(domain: "com.poviokit.version-validator", code: -4, userInfo: nil) }
     return collection
   }

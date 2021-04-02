@@ -39,5 +39,6 @@ class AppVersionValidatorTests: XCTestCase {
     XCTAssertThrowsError(try validator.isAppVersion("", equalOrHigherThan: "1.0"))
     XCTAssertThrowsError(try validator.isAppVersion("1.0", equalOrHigherThan: ""))
     XCTAssertThrowsError(try validator.isAppVersion("...", equalOrHigherThan: "2.0.0"))
+    XCTAssertThrowsError(try validator.isAppVersion("1.v.5", equalOrHigherThan: "2.0.0"))
   }
 }
