@@ -166,7 +166,7 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
-    private var errorHandler: ((Data) throws -> Swift.Error)?
+    private var errorHandler: ((Swift.Error, Data) throws -> Swift.Error)?
     
     init(with dataRequest: DataRequest) {
       self.dataRequest = dataRequest
@@ -253,7 +253,7 @@ public extension AlamofireNetworkClient.Request {
     return self
   }
   
-  func handleFailure(handler: @escaping (Data) throws -> Swift.Error) -> Self {
+  func handleFailure(handler: @escaping (Swift.Error, Data) throws -> Swift.Error) -> Self {
     self.errorHandler = handler
     return self
   }
@@ -299,7 +299,7 @@ private extension AlamofireNetworkClient.Request {
       }
     }
     do {
-      let handledError = try handler(data)
+      let handledError = try handler(error, data)
       return .other(handledError)
     } catch {
       return .other(error)
