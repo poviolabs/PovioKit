@@ -14,6 +14,12 @@ public extension UIApplication {
     URL(string: UIApplication.openSettingsURLString).map(openUrl)
   }
   
+  /// Opens `App Store` and deep linking to the app with provided id.
+  func openAppStore(appName: String, appleAppId: String) {
+    guard let url = URL(string: "itms-apps://apps.apple.com/us/app/\(appName)/id\(appleAppId)") else { return }
+    open(url, options: [:], completionHandler: nil)
+  }
+  
   /// Passing the `number` will trigger the system call with "tel://" prefix.
   func call(_ number: String) {
     URL(string: "tel://" + number).map { openUrl($0) }
@@ -23,5 +29,22 @@ public extension UIApplication {
   func openUrl(_ url: URL) {
     guard canOpenURL(url) else { return }
     open(url, options: [:])
+  }
+}
+
+public extension UIApplication {
+  /// Returns app name
+  var name: String {
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
+  }
+  
+  /// Returns App Store build, e.g. `84`
+  var build: String {
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "/"
+  }
+  
+  /// Returns App Store app version, e.g. `1.9.3`
+  var version: String {
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "/"
   }
 }

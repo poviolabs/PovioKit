@@ -9,21 +9,6 @@
 import UIKit
 
 public extension UIDevice {
-  /// Returns app name
-  var appName: String {
-    Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
-  }
-  
-  /// Returns App Store build, e.g. `84`
-  var appBuild: String {
-    Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "/"
-  }
-  
-  /// Returns App Store app version, e.g. `1.9.3`
-  var appVersion: String {
-    Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "/"
-  }
-  
   /// Returns current device OS version e.g. `12.1.0`
   var osVersion: String {
     systemVersion
