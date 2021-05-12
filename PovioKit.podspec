@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PovioKit'
-  s.version          = '1.2.0'
+  s.version          = '1.2.1'
   s.summary          = 'Modular cocoapods libraries collection.'
   s.swift_version    = '5.0'
   s.description      = 'PovioKit is a modular library collection, written in Swift.'
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '12.0'
   s.frameworks = 'UIKit', 'Foundation'
-  s.default_subspecs = 'Utilities', 'Extensions', 'Views'
+  s.default_subspecs = 'Utilities', 'Extensions', 'Views', 'Protocols'
 
   s.subspec 'Utilities' do |us|
     us.subspec 'AttributedStringBuilder' do |cs|
@@ -86,8 +86,14 @@ Pod::Spec.new do |s|
     end
   end
   
+  s.subspec 'Protocols' do |ps|
+    ps.subspec 'DataSource' do |ds|
+      ds.source_files = 'Sources/Protocols/DataSource/*.swift'
+    end
+  end
+  
   s.subspec 'Networking' do |ns|
-    ns.dependency 'Alamofire', '5.4.1'
+    ns.dependency 'Alamofire', '5.4.3'
     ns.dependency 'PovioKit/Utilities/PromiseKit'
     ns.dependency 'PovioKit/Utilities/Logger'
     

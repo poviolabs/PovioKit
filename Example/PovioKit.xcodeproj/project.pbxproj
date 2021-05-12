@@ -11,7 +11,9 @@
 		270E494F239A67150016FAB6 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E494E239A67150016FAB6 /* OptionalTests.swift */; };
 		270E495D239A6ABB0016FAB6 /* BroadcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */; };
 		27D3B9B02399521300CA530F /* ThrottlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D3B9AF2399521200CA530F /* ThrottlerTests.swift */; };
+		3735A35125DFCE5E006BE3FB /* UIApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3735A35025DFCE5E006BE3FB /* UIApplicationTests.swift */; };
 		3756C08F23E47423003C2510 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3756C08E23E47423003C2510 /* PromiseTests.swift */; };
+		3790D4CA25DC3576005F25C1 /* AppVersionValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D4C925DC3576005F25C1 /* AppVersionValidatorTests.swift */; };
 		990603F7227F620A00B0EFE2 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F6227F620A00B0EFE2 /* StringTests.swift */; };
 		990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603F8227F63E700B0EFE2 /* CollectionTests.swift */; };
 		990603FB227F665200B0EFE2 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990603FA227F665200B0EFE2 /* URLTests.swift */; };
@@ -34,7 +36,9 @@
 		270E494E239A67150016FAB6 /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		270E495C239A6ABB0016FAB6 /* BroadcastTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastTests.swift; sourceTree = "<group>"; };
 		27D3B9AF2399521200CA530F /* ThrottlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottlerTests.swift; sourceTree = "<group>"; };
+		3735A35025DFCE5E006BE3FB /* UIApplicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationTests.swift; sourceTree = "<group>"; };
 		3756C08E23E47423003C2510 /* PromiseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
+		3790D4C925DC3576005F25C1 /* AppVersionValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionValidatorTests.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* PovioKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PovioKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		990603F6227F620A00B0EFE2 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
@@ -74,6 +78,7 @@
 		270E495A239A6AA60016FAB6 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3790D4C825DC3555005F25C1 /* App Version Validator */,
 				270E495B239A6AAF0016FAB6 /* Broadcast */,
 				270E494B239A65BE0016FAB6 /* StartupService */,
 				27D3B9B2239979C000CA530F /* Throttler */,
@@ -103,6 +108,14 @@
 				3756C08E23E47423003C2510 /* PromiseTests.swift */,
 			);
 			path = PromiseKit;
+			sourceTree = "<group>";
+		};
+		3790D4C825DC3555005F25C1 /* App Version Validator */ = {
+			isa = PBXGroup;
+			children = (
+				3790D4C925DC3576005F25C1 /* AppVersionValidatorTests.swift */,
+			);
+			path = "App Version Validator";
 			sourceTree = "<group>";
 		};
 		57AF345B1640ED1B9247F87D /* Frameworks */ = {
@@ -200,6 +213,7 @@
 				99DC5FD223B0F45E007D1A54 /* UIEdgeInsetsTests.swift */,
 				99F1B7AE23FA7A4E002EC28D /* UIColorTests.swift */,
 				99F1B7AD23FA7A4E002EC28D /* UIDeviceTests.swift */,
+				3735A35025DFCE5E006BE3FB /* UIApplicationTests.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -329,7 +343,9 @@
 				992B28DD255BF45500CD3825 /* DispatchTimeIntervalTests.swift in Sources */,
 				990603F9227F63E700B0EFE2 /* CollectionTests.swift in Sources */,
 				3756C08F23E47423003C2510 /* PromiseTests.swift in Sources */,
+				3735A35125DFCE5E006BE3FB /* UIApplicationTests.swift in Sources */,
 				99C5CB93255AAED70055EB7D /* DataTests.swift in Sources */,
+				3790D4CA25DC3576005F25C1 /* AppVersionValidatorTests.swift in Sources */,
 				270E494D239A65BE0016FAB6 /* StartupProcessServiceTests.swift in Sources */,
 				99F1B7B023FA7A4E002EC28D /* UIColorTests.swift in Sources */,
 				99F1B7AF23FA7A4E002EC28D /* UIDeviceTests.swift in Sources */,

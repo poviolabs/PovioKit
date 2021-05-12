@@ -11,7 +11,7 @@ let package = Package(
     .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"])
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.4.1"))
+    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.4.3"))
   ],
   targets: [
     .target(
