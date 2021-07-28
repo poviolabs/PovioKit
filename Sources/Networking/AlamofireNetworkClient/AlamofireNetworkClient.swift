@@ -34,8 +34,8 @@ public extension AlamofireNetworkClient {
     method: HTTPMethod,
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil) -> Request
-  {
+    interceptor: RequestInterceptor? = nil
+  ) -> Request {
     let request = session
       .request(endpoint,
                method: method,
@@ -50,8 +50,8 @@ public extension AlamofireNetworkClient {
     headers: HTTPHeaders? = nil,
     parameters: Parameters,
     parameterEncoding: ParameterEncoding,
-    interceptor: RequestInterceptor? = nil) -> Request
-  {
+    interceptor: RequestInterceptor? = nil
+  ) -> Request {
     let request = session
       .request(endpoint,
                method: method,
@@ -68,8 +68,8 @@ public extension AlamofireNetworkClient {
     headers: HTTPHeaders? = nil,
     encode: E,
     encoder: JSONEncoder = .init(),
-    interceptor: RequestInterceptor? = nil) -> Request
-  {
+    interceptor: RequestInterceptor? = nil
+  ) -> Request {
     let parameterEncoder: ParameterEncoder
     switch method {
     case .get, .delete, .head:
@@ -97,8 +97,8 @@ public extension AlamofireNetworkClient {
     mimeType: String,
     parameters: Parameters? = nil,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil) -> Request
-  {
+    interceptor: RequestInterceptor? = nil
+  ) -> Request {
     let request = session
       .upload(multipartFormData: { builder in
         builder.append(data,
@@ -121,8 +121,8 @@ public extension AlamofireNetworkClient {
     endpoint: URLConvertible,
     multipartFormBuilder: @escaping MultipartBuilder,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil) -> Request
-  {
+    interceptor: RequestInterceptor? = nil
+  ) -> Request {
     let request = session
       .upload(multipartFormData: multipartFormBuilder,
               to: endpoint,
@@ -137,8 +137,8 @@ public extension AlamofireNetworkClient {
     fileURL: URL,
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil) -> Request
-  {
+    interceptor: RequestInterceptor? = nil
+  ) -> Request{
     let request = session
       .upload(fileURL,
               to: endpoint,
