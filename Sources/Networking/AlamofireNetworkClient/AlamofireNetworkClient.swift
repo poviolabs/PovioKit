@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import PovioKit
+import PovioKitPromise
 
 public typealias URLEncoding = Alamofire.URLEncoding
 public typealias JSONEncoding = Alamofire.JSONEncoding

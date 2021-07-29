@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import PovioKit
+import PovioKitPromise
 
 public struct OAuthContainer {
   public let accessToken: String
