@@ -33,10 +33,6 @@ public protocol OAuthProvider {
   func isAccessTokenValid() -> Bool
 }
 
-public extension OAuthProvider {
-  func isAccessTokenValid() -> Bool { true }
-}
-
 public protocol OAuthHeadersAdapter {
   func adapt(headers: inout HTTPHeaders)
 }
