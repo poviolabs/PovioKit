@@ -384,7 +384,7 @@ public extension Promise {
 }
 
 public extension Promise where Value == Bool {
-  /// Chain the current promise with either `true` or `false` continuations,
+  /// Chain the current promise with either `true` or `false` continuation,
   /// depending on the resulting boolean value.
   ///
   /// Use this method when you want to realize non-determinism.
@@ -410,7 +410,7 @@ public extension Promise where Value == Bool {
     }
   }
   
-  /// Map the current promise with either `true` or `false` continuations,
+  /// Map the current promise with either `true` or `false` continuation,
   /// depending on the resulting boolean value.
   ///
   /// Use this method when you want to realize non-determinism.
@@ -858,8 +858,7 @@ precedencegroup FlatMapPrecedence {
   lowerThan: LogicalDisjunctionPrecedence
 }
 
-/// Infix operator for `Promise.flatMap()`. It has a higher precedence
-/// than the `<?>` operator.
+/// Infix operator for `Promise.chain()`.
 infix operator >>- : FlatMapPrecedence
 
 /// Precedence of infix operator for `Promise.alternative()`. It has a higher
@@ -869,8 +868,7 @@ precedencegroup ChoicePrecedence {
   higherThan: FlatMapPrecedence
 }
 
-/// Infix operator for `Promise.alternative()`. It has a higher precedence than
-/// the `>>-` operator.
+/// Infix operator for realising choice.
 infix operator <|> : ChoicePrecedence
 
 /// Precedence of infix operators for promise sequencing. It has a higher
@@ -880,21 +878,18 @@ precedencegroup SequencePrecedence {
   higherThan: ChoicePrecedence
 }
 
-/// Sequence promises, discarding the value of the first promise. It has a higher
-/// precedence than the `<|>` operator.
+/// Sequence promises, discarding the value of the first promise.
 infix operator *> : SequencePrecedence
 
-/// Sequence promises, discarding the value of the second promise. It has a higher
-/// precedence than the `<|>` operator.
+/// Sequence promises, discarding the value of the second promise.
 infix operator <* : SequencePrecedence
 
-/// Infix operator for `Promise.apply()`. It has a higher precedence than the
-/// `<|>` operator.
+/// Infix operator for `Promise.apply()`.
 infix operator <*> : SequencePrecedence
 
-/// Infix operator for `Promise.map()`. It has a higher precedence than the `<|>`
-/// operator.
+/// Infix operator for `Promise.map()`.
 infix operator <^> : SequencePrecedence
+
 
 /// Infix operator for `Promise.chain`.
 ///
