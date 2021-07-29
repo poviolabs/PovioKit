@@ -359,21 +359,97 @@ public extension Promise {
   ///
   /// This is equivalent to calling `combine(:)`.
   ///
-  /// - Parameter `other`: A second `Promise`.
+  /// - Parameter other: A second `Promise`.
   /// - Returns: A Promise with the result of given promises. If any of the promises fail
   ///   than the returned Promise fails as well with the first error encountered.
   ///
-  func and<U>(_ other: Promise<U>, on dispatchQueue: DispatchQueue? = .main) -> Promise<(Value, U)> {
+  func and<U>(
+    _ other: Promise<U>,
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<(Value, U)> {
     combine(on: dispatchQueue, self, other)
   }
   
   /// Return a new promise that contains this and another value.
   ///
-  /// - Parameter `other`: Some other value.
+  /// - Parameter other: Some other value.
   /// - Returns: A Promise containing a pair of values.
   ///
-  func and<U>(_ value: U, on dispatchQueue: DispatchQueue? = .main) -> Promise<(Value, U)> {
+  func and<U>(
+    _ value: U,
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<(Value, U)> {
     map(on: dispatchQueue) { ($0, value) }
+  }
+}
+
+public extension Promise where Value == Bool {
+  /// Chain the current promise with either `true` or `false` continuations,
+  /// depending on the resulting boolean value.
+  ///
+  /// Use this method when you want to realize non-determinism.
+  ///
+  /// Promise.value(true)
+  ///   .chainIf(true: .value(1), false: .value(0))
+  ///
+  /// - Parameter dispatchQueue: The dispatch queue on which to notify the result.
+  /// - Parameter true: The true branch of non-determinism.
+  /// - Parameter false: The false branch of non-determinism.
+  func chainIf<U>(
+    on dispatchQueue: DispatchQueue? = .main,
+    `true`: @escaping @autoclosure () -> Promise<U>,
+    `false`: @escaping @autoclosure () -> Promise<U>
+  ) -> Promise<U> {
+    chain(on: dispatchQueue) {
+      switch $0 {
+      case true:
+        return `true`()
+      case false:
+        return `false`()
+      }
+    }
+  }
+  
+  /// Map the current promise with either `true` or `false` continuations,
+  /// depending on the resulting boolean value.
+  ///
+  /// Use this method when you want to realize non-determinism.
+  ///
+  /// - Parameter dispatchQueue: The dispatch queue on which to notify the result.
+  /// - Parameter true: The true branch of non-determinism.
+  /// - Parameter false: The false branch of non-determinism.
+  func mapIf<U>(
+    on dispatchQueue: DispatchQueue? = .main,
+    `true`: @escaping @autoclosure () -> U,
+    `false`: @escaping @autoclosure () -> U
+  ) -> Promise<U> {
+    chainIf(
+      on: dispatchQueue,
+      true: .value(`true`()),
+      false: .value(`false`())
+    )
+  }
+}
+
+public extension Promise {
+  func chainIf<U>(
+    on dispatchQueue: DispatchQueue? = .main,
+    transform: @escaping (Value) -> Bool,
+    `true`: @escaping @autoclosure () -> Promise<U>,
+    `false`: @escaping @autoclosure () -> Promise<U>
+  ) -> Promise<U> {
+    map(on: dispatchQueue, with: transform)
+      .chainIf(true: `true`(), false: `false`())
+  }
+  
+  func mapIf<U>(
+    on dispatchQueue: DispatchQueue? = .main,
+    transform: @escaping (Value) -> Bool,
+    `true`: @escaping @autoclosure () -> U,
+    `false`: @escaping @autoclosure () -> U
+  ) -> Promise<U> {
+    map(on: dispatchQueue, with: transform)
+      .mapIf(true: `true`(), false: `false`())
   }
 }
 
@@ -765,4 +841,138 @@ extension AnyOptionalType where Self: OptionalType {
   
   /// See `AnyOptionalType.anyWrappedType`
   public static var anyWrappedType: Any.Type { WrappedType.self }
+}
+
+//==============================================================================
+
+/// Inspired by `SwiftParsec`:
+
+// Operator definitions.
+
+/// Precedence of infix operator for `Promise.chain()`. It has a higher
+/// precedence than the `AssignmentPrecedence` group but a lower precedence than
+/// the `LogicalDisjunctionPrecedence` group.
+precedencegroup FlatMapPrecedence {
+  associativity: left
+  higherThan: AssignmentPrecedence
+  lowerThan: LogicalDisjunctionPrecedence
+}
+
+/// Infix operator for `Promise.flatMap()`. It has a higher precedence
+/// than the `<?>` operator.
+infix operator >>- : FlatMapPrecedence
+
+/// Precedence of infix operator for `Promise.alternative()`. It has a higher
+/// precedence than the `FlatMapPrecedence` group.
+precedencegroup ChoicePrecedence {
+  associativity: left
+  higherThan: FlatMapPrecedence
+}
+
+/// Infix operator for `Promise.alternative()`. It has a higher precedence than
+/// the `>>-` operator.
+infix operator <|> : ChoicePrecedence
+
+/// Precedence of infix operators for promise sequencing. It has a higher
+/// precedence than the `ChoicePrecedence` group.
+precedencegroup SequencePrecedence {
+  associativity: left
+  higherThan: ChoicePrecedence
+}
+
+/// Sequence promises, discarding the value of the first promise. It has a higher
+/// precedence than the `<|>` operator.
+infix operator *> : SequencePrecedence
+
+/// Sequence promises, discarding the value of the second promise. It has a higher
+/// precedence than the `<|>` operator.
+infix operator <* : SequencePrecedence
+
+/// Infix operator for `Promise.apply()`. It has a higher precedence than the
+/// `<|>` operator.
+infix operator <*> : SequencePrecedence
+
+/// Infix operator for `Promise.map()`. It has a higher precedence than the `<|>`
+/// operator.
+infix operator <^> : SequencePrecedence
+
+/// Infix operator for `Promise.chain`.
+///
+/// Often useful when you want to propagate value(s) down the chain.
+///
+/// For example:
+///
+/// f1()
+///  .chain { f2().and($0) }
+///  .chain { f3().and($0) }
+///  .chain { f4($0.1.0) }
+///
+/// can be written as:
+///
+/// f1() >>- { v1 in
+///   f2() >>- { v2 in
+///     f3() >>- { v3 in
+///       f4(v1)
+///     }
+///   }
+/// }
+public func >>-<T, U>(
+  promise: Promise<T>,
+  transform: @escaping (T) throws -> Promise<U>
+) -> Promise<U> {
+  promise.chain(on: .main, with: transform)
+}
+
+/// This infix operator implements "choice". If `left` fails in tries
+/// to "execute" `right`. You can read this operator as "or", i.e.
+/// 'left' or 'right'.
+///
+/// For example:
+///
+/// Promise.error(.someError) <|> Promise.value(10) >>- { val in
+///   // val equals 10
+///   ...
+/// }
+public func <|><T>(
+  left: Promise<T>,
+  right: @escaping @autoclosure () -> Promise<T>
+) -> Promise<T> {
+  left.chainError(on: .main) { _ in right() }
+}
+
+/// This infix operator chains two promises, discarding the value of the first.
+///
+/// It has the same effect as `left.asVoid.chain { right }`.
+public func *><T, U>(
+  left: Promise<T>,
+  right: Promise<U>
+) -> Promise<U> {
+  left.asVoid.chain(on: .main) { right }
+}
+
+/// This infix operator chains two promises, discarding the value of the second.
+public func <*<T, U>(
+  left: Promise<T>,
+  right: Promise<U>
+) -> Promise<T> {
+  left
+    .chain(on: .main) { right.and($0) }
+    .map(on: .main) { $0.1 }
+}
+
+public func <*><T, U>(
+  left: Promise<(U) -> T>,
+  right: Promise<U>
+) -> Promise<T> {
+  right >>- { r in
+    left.map(on: .main) { $0(r) }
+  }
+}
+
+/// Infix operator for `Promise.map()`. Use it for same reasons as `>>-`.
+public func <^><T, U>(
+  promise: Promise<T>,
+  transform: @escaping (T) throws -> U
+) -> Promise<U> {
+  promise.map(on: .main, with: transform)
 }
