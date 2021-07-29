@@ -89,7 +89,7 @@ public extension TypedValidationFormRowType where Self: BaseValidationFormRowTyp
 }
 
 extension Optional: CustomStringConvertible where Wrapped: CustomStringConvertible {
-  public var description: String { wrapped?.description ?? "" }
+  public var description: String { map { $0.description } ?? "" }
 }
 
 public protocol ValidatableValidationFormRowType: TypedValidationFormRowType {
