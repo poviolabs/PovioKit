@@ -8,57 +8,9 @@
 
 import UIKit
 
-public protocol BuilderCompatible: class {
-  var attributedText: NSAttributedString? { get set }
-  var text: String? { get }
-  var bd: AttributedStringBuilder { get }
-}
-
-extension BuilderCompatible {
-  public var bd: AttributedStringBuilder { return AttributedStringBuilder(self) }
-}
-
 public class AttributedStringBuilder {
-  private let compatible: BuilderCompatible?
-  
-  public init() {
-    self.compatible = nil
-  }
-  
-  public init(_ compatible: BuilderCompatible?) {
-    self.compatible = compatible
-  }
-  
-  @discardableResult
-  open func apply(on text: String, _ closure: (Builder) -> Void) -> NSAttributedString {
-    let builder = Builder(text: text)
-    closure(builder)
-    let attributedString = builder.create()
-    compatible?.attributedText = attributedString
-    return attributedString
-  }
-  
-  @discardableResult
-  open func apply(_ closure: (Builder) -> Void) -> NSAttributedString {
-    let builder = Builder(text: compatible?.text ?? "")
-    closure(builder)
-    let attributedString = builder.create()
-    compatible?.attributedText = attributedString
-    return attributedString
-  }
-}
-
-open class Builder {
-  private enum StringBuilderError: Error {
-    case invalidRange
-    case substringNotFound
-    
-    var localizedTitle: String? {
-      return "Error"
-    }
-  }
-  
   let text: String
+  
   private var attributes = [NSAttributedString.Key: Any]()
   private var rangeAttributes = [(NSAttributedString.Key, Any, NSRange)]()
   
@@ -67,16 +19,23 @@ open class Builder {
   }
 }
 
-// MARK: - Custom initializers
-extension Builder {
-  open func create() -> NSAttributedString {
+public extension AttributedStringBuilder {
+  enum Error: Swift.Error {
+    case invalidRange
+    case substringNotFound
+  }
+}
+
+// MARK: - Factory
+public extension AttributedStringBuilder {
+  func create() -> NSAttributedString {
     if rangeAttributes.isEmpty {
-      return NSAttributedString(string: text, attributes: attributes)
+      return .init(string: text, attributes: attributes)
     }
-    return createMutable() as NSAttributedString
+    return createMutable()
   }
   
-  open func createMutable() -> NSMutableAttributedString {
+  func createMutable() -> NSMutableAttributedString {
     let mutableString = NSMutableAttributedString(string: text, attributes: attributes)
     for (key, value, range) in rangeAttributes {
       mutableString.addAttribute(key, value: value, range: range)
@@ -86,9 +45,9 @@ extension Builder {
 }
 
 // MARK: - Add Attribute Setters
-extension Builder {
+public extension AttributedStringBuilder {
   @discardableResult
-  open func addAttribute(key: NSAttributedString.Key, object: Any?) -> Builder {
+  func addAttribute(key: NSAttributedString.Key, object: Any?) -> AttributedStringBuilder {
     if let object = object {
       attributes[key] = object
     }
@@ -96,7 +55,7 @@ extension Builder {
   }
   
   @discardableResult
-  open func addAttribute(key: NSAttributedString.Key, object: Any?, range: NSRange) -> Builder {
+  func addAttribute(key: NSAttributedString.Key, object: Any?, range: NSRange) -> AttributedStringBuilder {
     guard validate(range: range) else { return self }
     if let object = object {
       rangeAttributes.append((key, object, range))
@@ -105,35 +64,37 @@ extension Builder {
   }
   
   @discardableResult
-  open func addAttribute(key: NSAttributedString.Key, object: Any?, substring: String) -> Builder {
+  func addAttribute(key: NSAttributedString.Key, object: Any?, substring: String) -> AttributedStringBuilder {
     guard let range = text.range(of: substring) else { return self }
     return addAttribute(key: key, object: object, range: NSRange(range, in: text))
   }
 }
 
 // MARK: - Other Setters
-extension Builder {
+public extension AttributedStringBuilder {
   @discardableResult
-  open func setFont(_ font: UIFont?) -> Builder {
-    return addAttribute(key: .font, object: font)
+  func setFont(_ font: UIFont?) -> AttributedStringBuilder {
+    addAttribute(key: .font, object: font)
   }
   
   @discardableResult
-  open func setTextColor(_ color: UIColor?) -> Builder {
-    return addAttribute(key: .foregroundColor, object: color)
+  func setTextColor(_ color: UIColor?) -> AttributedStringBuilder {
+    addAttribute(key: .foregroundColor, object: color)
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: NSUnderlineStyle) -> Builder {
-    return addAttribute(key: .underlineStyle, object: style.rawValue)
+  func setUnderlineStyle(_ style: NSUnderlineStyle) -> AttributedStringBuilder {
+    addAttribute(key: .underlineStyle, object: style.rawValue)
   }
   
   @discardableResult
-  open func setParagraphStyle(lineSpacing: CGFloat,
-                              heightMultiple: CGFloat = 1,
-                              lineHeight: CGFloat,
-                              lineBreakMode: NSLineBreakMode = .byWordWrapping,
-                              textAlignment: NSTextAlignment = .left) -> Builder {
+  func setParagraphStyle(
+    lineSpacing: CGFloat,
+    heightMultiple: CGFloat = 1,
+    lineHeight: CGFloat,
+    lineBreakMode: NSLineBreakMode = .byWordWrapping,
+    textAlignment: NSTextAlignment = .left
+  ) -> AttributedStringBuilder {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = lineSpacing
     paragraphStyle.lineHeightMultiple = heightMultiple
@@ -144,27 +105,29 @@ extension Builder {
   }
   
   @discardableResult
-  open func setFont(_ font: UIFont?, range: NSRange) -> Builder {
-    return addAttribute(key: .font, object: font, range: range)
+  func setFont(_ font: UIFont?, range: NSRange) -> AttributedStringBuilder {
+    addAttribute(key: .font, object: font, range: range)
   }
   
   @discardableResult
-  open func setTextColor(_ color: UIColor?, range: NSRange) -> Builder {
-    return addAttribute(key: .foregroundColor, object: color, range: range)
+  func setTextColor(_ color: UIColor?, range: NSRange) -> AttributedStringBuilder {
+    addAttribute(key: .foregroundColor, object: color, range: range)
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: NSUnderlineStyle, range: NSRange) -> Builder {
-    return addAttribute(key: .underlineStyle, object: style.rawValue, range: range)
+  func setUnderlineStyle(_ style: NSUnderlineStyle, range: NSRange) -> AttributedStringBuilder {
+    addAttribute(key: .underlineStyle, object: style.rawValue, range: range)
   }
   
   @discardableResult
-  open func setParagraphStyle(lineSpacing: CGFloat,
-                              heightMultiple: CGFloat = 1,
-                              lineHeight: CGFloat,
-                              lineBreakMode: NSLineBreakMode = .byWordWrapping,
-                              textAlignment: NSTextAlignment = .left,
-                              range: NSRange) -> Builder {
+  func setParagraphStyle(
+    lineSpacing: CGFloat,
+    heightMultiple: CGFloat = 1,
+    lineHeight: CGFloat,
+    lineBreakMode: NSLineBreakMode = .byWordWrapping,
+    textAlignment: NSTextAlignment = .left,
+    range: NSRange
+  ) -> AttributedStringBuilder {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = lineSpacing
     paragraphStyle.lineHeightMultiple = heightMultiple
@@ -175,27 +138,29 @@ extension Builder {
   }
   
   @discardableResult
-  open func setFont(_ font: UIFont?, substring: String) -> Builder {
-    return addAttribute(key: .font, object: font, substring: substring)
+  func setFont(_ font: UIFont?, substring: String) -> AttributedStringBuilder {
+    addAttribute(key: .font, object: font, substring: substring)
   }
   
   @discardableResult
-  open func setTextColor(_ color: UIColor?, substring: String) -> Builder {
-    return addAttribute(key: .foregroundColor, object: color, substring: substring)
+  func setTextColor(_ color: UIColor?, substring: String) -> AttributedStringBuilder {
+    addAttribute(key: .foregroundColor, object: color, substring: substring)
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: NSUnderlineStyle, substring: String) -> Builder {
-    return addAttribute(key: .underlineStyle, object: style.rawValue, substring: substring)
+  func setUnderlineStyle(_ style: NSUnderlineStyle, substring: String) -> AttributedStringBuilder {
+    addAttribute(key: .underlineStyle, object: style.rawValue, substring: substring)
   }
   
   @discardableResult
-  open func setParagraphStyle(lineSpacing: CGFloat,
-                              heightMultiple: CGFloat = 1,
-                              lineHeight: CGFloat,
-                              lineBreakMode: NSLineBreakMode = .byWordWrapping,
-                              textAlignment: NSTextAlignment = .left,
-                              substring: String) -> Builder {
+  func setParagraphStyle(
+    lineSpacing: CGFloat,
+    heightMultiple: CGFloat = 1,
+    lineHeight: CGFloat,
+    lineBreakMode: NSLineBreakMode = .byWordWrapping,
+    textAlignment: NSTextAlignment = .left,
+    substring: String
+  ) -> AttributedStringBuilder {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = lineSpacing
     paragraphStyle.lineHeightMultiple = heightMultiple
@@ -207,11 +172,51 @@ extension Builder {
 }
 
 // MARK: - Private Methods
-private extension Builder {
+private extension AttributedStringBuilder {
   func validate(range: NSRange) -> Bool {
     if text.count < range.location + range.length || range.location < 0 {
       return false
     }
     return true
+  }
+}
+
+public protocol BuilderCompatible: AnyObject {
+  var attributedText: NSAttributedString? { get set }
+  var text: String? { get }
+}
+
+public extension BuilderCompatible {
+  var bd: AttributedStringBuilder.Builder { .init(self) }
+}
+
+public extension AttributedStringBuilder {
+  class Builder {
+    let compatible: BuilderCompatible
+    
+    public init(_ compatible: BuilderCompatible) {
+      self.compatible = compatible
+    }
+    
+    @discardableResult
+    public func apply(
+      on text: String,
+      _ closure: (AttributedStringBuilder) -> Void
+    ) -> NSAttributedString {
+      let builder = AttributedStringBuilder(text: text)
+      closure(builder)
+      let attributedString = builder.create()
+      compatible.attributedText = attributedString
+      return attributedString
+    }
+    
+    @discardableResult
+    public func apply(_ closure: (AttributedStringBuilder) -> Void) -> NSAttributedString {
+      let builder = AttributedStringBuilder(text: compatible.text ?? "")
+      closure(builder)
+      let attributedString = builder.create()
+      compatible.attributedText = attributedString
+      return attributedString
+    }
   }
 }
