@@ -12,6 +12,8 @@ public struct Delegated<Input, Output> {
   typealias Callback = (Input) -> Output
   private var callback: Callback?
   
+  public init() {}
+  
   public mutating func delegate<Object: AnyObject>(to object: Object, with callback: @escaping (Object?, Input) -> Output) {
     self.callback = { [weak object] input in
       callback(object, input)

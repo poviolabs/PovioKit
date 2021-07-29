@@ -8,11 +8,8 @@
 
 import Foundation
 
-public func nonEmptyValidator(
-  _ value: String?,
-  errorMessage: String
-) -> DefaultValidationStatus {
-  value.isNilOrEmpty ? .invalid(errorMessage) : .valid
+public func nonEmptyValidator<C: Collection>(errorMessage: String) -> (C?) -> DefaultValidationStatus {
+  { $0.isNilOrEmpty ? .invalid(errorMessage) : .valid }
 }
 
 public func notMandatory<T, V: ValidationStatusConforming>(

@@ -49,7 +49,7 @@ public protocol BaseValidationFormRowType: AnyObject {
   ) -> ValidationFormCell
 }
 
-extension BaseValidationFormRowType {
+public extension BaseValidationFormRowType {
   var key: String? { nil }
   var placeholder: String? { nil }
   var keyValuePair: (key: String, value: Any)? { nil }
@@ -106,7 +106,7 @@ extension ValidatableValidationFormRowType where Self: BaseValidationFormRowType
 }
 
 @resultBuilder
-enum ValidationFormBuilder {
+public enum ValidationFormBuilder {
   public static func buildBlock(_ partialResults: BaseValidationFormRowType...) -> [BaseValidationFormRowType] {
     partialResults
   }
@@ -242,7 +242,7 @@ public extension ValidationForm {
   }
 }
 
-extension ValidationForm {
+public extension ValidationForm {
   func isRowValid(_ row: BaseValidationFormRowType) -> Bool {
     for (label, value) in Mirror(reflecting: row).children {
       guard label == "validationStatus", let valid = value as? IsValid else { continue }

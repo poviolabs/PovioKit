@@ -37,4 +37,9 @@ public extension String {
     let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
     return emailTest.evaluate(with: self)
   }
+  
+  func replacingString(with replacementString: String, range: NSRange) -> String {
+    NSString(string: self)
+      .replacingCharacters(in: range, with: replacementString)
+  }
 }

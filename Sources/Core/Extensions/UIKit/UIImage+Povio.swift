@@ -45,4 +45,8 @@ public extension UIImage {
     UIGraphicsEndImageContext()
     return image ?? UIImage()
   }
+  
+  static func named(_ name: String) -> UIImage? {
+    .init(named: name)
+  }
 }

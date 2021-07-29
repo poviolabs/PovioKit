@@ -65,6 +65,7 @@ public extension ValidationFormView {
     collectionView.register(T.self, forCellWithReuseIdentifier: T.identifier)
   }
   
+  @discardableResult
   func validate() -> Bool {
     validationForm.validate(in: collectionView)
   }
@@ -156,6 +157,7 @@ extension ValidationFormView {
       collectionView.topAnchor.constraint(equalTo: self.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
     ])
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
   }
 }
 
