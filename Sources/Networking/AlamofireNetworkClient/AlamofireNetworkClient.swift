@@ -190,7 +190,7 @@ public extension AlamofireNetworkClient.Error {
     public let method: HTTPMethod?
     public let endpoint: URLConvertible?
     public let headers: HTTPHeaders?
-    public let body: Data??
+    public let body: Data?
   }
   
   var info: ErrorInfo {
