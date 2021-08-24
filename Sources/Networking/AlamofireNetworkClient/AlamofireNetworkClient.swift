@@ -382,11 +382,11 @@ private extension AlamofireNetworkClient.Error.RequestError {
 }
 
 public protocol RequestMonitor {
-  func request(didSucceed request: AlamofireNetworkClient.Request)
-  func request(didFail request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error)
+  func requestDidSucceed(_ request: AlamofireNetworkClient.Request)
+  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error)
 }
 
 public extension RequestMonitor {
-  func request(didSucceed request: AlamofireNetworkClient.Request) {}
-  func request(didFail request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error) {}
+  func requestDidSucceed(_ request: AlamofireNetworkClient.Request) {}
+  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error) {}
 }
