@@ -210,7 +210,7 @@ public extension AlamofireNetworkClient.Error.ErrorInfo {
     self.body = nil
   }
 }
-  
+
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
   var asJson: Promise<Any> {
@@ -219,11 +219,11 @@ public extension AlamofireNetworkClient.Request {
         switch $0.result {
         case .success(let json):
           promise.resolve(with: json)
-          self.eventMonitors.forEach { $0.request(didSucceed: self) }
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
           promise.reject(with: error)
-          self.eventMonitors.forEach { $0.request(didFail: self, with: error) }
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
@@ -235,11 +235,11 @@ public extension AlamofireNetworkClient.Request {
         switch response.result {
         case .success(let data):
           promise.resolve(with: data)
-          self.eventMonitors.forEach { $0.request(didSucceed: self) }
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
           promise.reject(with: error)
-          self.eventMonitors.forEach { $0.request(didFail: self, with: error) }
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
@@ -251,11 +251,11 @@ public extension AlamofireNetworkClient.Request {
         switch $0.result {
         case .success:
           promise.resolve(with: ())
-          self.eventMonitors.forEach { $0.request(didSucceed: self) }
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
           promise.reject(with: error)
-          self.eventMonitors.forEach { $0.request(didFail: self, with: error) }
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
@@ -267,11 +267,11 @@ public extension AlamofireNetworkClient.Request {
         switch response.result {
         case .success(let decodedObject):
           promise.resolve(with: decodedObject)
-          self.eventMonitors.forEach { $0.request(didSucceed: self) }
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
           promise.reject(with: error)
-          self.eventMonitors.forEach { $0.request(didFail: self, with: error) }
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
