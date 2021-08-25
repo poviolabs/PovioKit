@@ -218,12 +218,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseJSON {
         switch $0.result {
         case .success(let json):
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: json)
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
           promise.reject(with: error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
@@ -234,12 +234,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseData { (response: AFDataResponse<Data>) in
         switch response.result {
         case .success(let data):
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: data)
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
           promise.reject(with: error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
@@ -250,12 +250,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.response {
         switch $0.result {
         case .success:
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: ())
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
           promise.reject(with: error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
@@ -266,12 +266,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: decodedObject)
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
         case .failure(let error):
           let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
           promise.reject(with: error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
         }
       }
     }
