@@ -381,7 +381,7 @@ private extension AlamofireNetworkClient.Error.RequestError {
   }
 }
 
-public protocol RequestMonitor {
+public protocol RequestMonitor: AnyObject {
   func requestDidSucceed(_ request: AlamofireNetworkClient.Request)
   func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error)
 }
