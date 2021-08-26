@@ -391,6 +391,38 @@ public extension Promise {
   ) -> Promise<(Value, U)> {
     map(on: dispatchQueue) { ($0, value) }
   }
+  
+  /// Return a new promise that succeeds when this and another promise both succeed.
+  ///
+  /// This is equivalent to calling `combine(:)`.
+  ///
+  /// - Parameter other: A second `Promise`.
+  /// - Returns: A Promise with the result of given promises. If any of the promises fail
+  ///   than the returned Promise fails as well with the first error encountered.
+  ///
+  func or<U>(
+    _ other: Promise<U>,
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<Either<Value, U>> {
+    any(on: dispatchQueue, self, other)
+      .map { l, r in
+        if let l = l { return .left(l) }
+        else { return .right(r!) }
+      }
+  }
+  
+  /// Return a new promise that contains this and another value.
+  ///
+  /// - Parameter other: Some other value.
+  /// - Returns: A Promise containing a pair of values.
+  ///
+  func or<U>(
+    _ value: U,
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<Either<Value, U>> {
+    map(on: dispatchQueue, with: Either.left)
+      .chainError(on: dispatchQueue) { _ in .value(.right(value)) }
+  }
 }
 
 public extension Promise where Value == Bool {
@@ -800,6 +832,56 @@ extension Optional where Wrapped == DispatchQueue {
     }
   }
 }
+
+///
+
+public enum Either<L, R> {
+  case left(L)
+  case right(R)
+}
+
+public extension Either {
+  func mapLeft<U>(_ transform: (L) -> U) -> Either<U, R> {
+    switch self {
+    case .left(let value):
+      return .left(transform(value))
+    case .right(let value):
+      return .right(value)
+    }
+  }
+  
+  func mapRight<U>(_ transform: (R) -> U) -> Either<L, U> {
+    switch self {
+    case .left(let value):
+      return .left(value)
+    case .right(let value):
+      return .right(transform(value))
+    }
+  }
+  
+  var left: L? {
+    switch self {
+    case .left(let value):
+      return value
+    case .right:
+      return nil
+    }
+  }
+  
+  var right: R? {
+    switch self {
+    case .left:
+      return nil
+    case .right(let value):
+      return value
+    }
+  }
+}
+
+extension Either: Equatable where L: Equatable, R: Equatable {}
+extension Either: Hashable where L: Hashable, R: Hashable {}
+
+///
 
 
 /// Taken from `Vapor.Utilities.OptionalTypes`:

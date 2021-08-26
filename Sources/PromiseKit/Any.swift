@@ -37,9 +37,7 @@ public func any<T, C: Collection>(
             }
           }
         case .failure(let error):
-          dispatchQueue.async {
-            seal.reject(with: error)
-          }
+          seal.reject(with: error, on: dispatchQueue)
         }
       }
     }

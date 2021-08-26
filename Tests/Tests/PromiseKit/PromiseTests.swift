@@ -313,12 +313,32 @@ extension PromiseTests {
     waitForExpectations(timeout: 1)
   }
   
+  func testOr() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    let ex3 = expectation(description: "")
+    10.asyncPromise.or(NSError().asyncPromise(Int.self))
+      .then {
+        XCTAssertEqual(Either<Int, Int>.left(10), $0)
+        ex1.fulfill()
+      }
+    NSError().asyncPromise(Int.self).or(Promise.value(10))
+      .then {
+        XCTAssertEqual(Either<Int, Int>.right(10), $0)
+        ex2.fulfill()
+      }
+    NSError().asyncPromise.or(NSError().asyncPromise)
+      .catch { _ in
+        ex3.fulfill()
+      }
+    waitForExpectations(timeout: 2)
+  }
+  
   func testAllListAsync() {
     let range = (0...5)
     let ex = expectation(description: "")
     ex.expectedFulfillmentCount = range.count
-    let promises = range.map { $0.asyncPromise }
-    all(promises: promises)
+    all(promises: range.map { $0.asyncPromise })
       .then { values in
         range.forEach {
           XCTAssertEqual($0, values[$0])
@@ -525,6 +545,22 @@ extension PromiseTests {
       ex.fulfill()
     }
     waitForExpectations(timeout: 1)
+  }
+  
+  func testRaceListAsync() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    race(promises: (0...5).map { $0.asyncPromise(after: TimeInterval($0) * 0.1 + 0.05) })
+      .then { value in
+        XCTAssertEqual(value, 0)
+        ex1.fulfill()
+      }
+    race(promises: (0...5).map { $0.asyncPromise(after: 0.5 - TimeInterval($0) * 0.1 + 0.05) })
+      .then { value in
+        XCTAssertEqual(value, 5)
+        ex2.fulfill()
+      }
+    waitForExpectations(timeout: 2)
   }
   
   func testMapValues() {
@@ -758,6 +794,10 @@ extension Int {
         seal.reject(with: NSError())
       }
     }
+  }
+  
+  func asyncPromise(after delay: TimeInterval) -> Promise<Self> {
+    after(.now() + delay, on: .global(), self)
   }
 }
 
