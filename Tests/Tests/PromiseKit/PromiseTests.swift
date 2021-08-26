@@ -563,6 +563,20 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
+  func testRaceListAsyncFailure() {
+    let ex1 = expectation(description: "")
+    let promises = (0...5).map {
+      $0 > 0
+        ? 10.asyncPromise(after: TimeInterval($0) * 0.1 + 0.05)
+        : NSError().asyncPromise(Int.self)
+    }
+    race(promises: promises)
+      .catch { _ in
+        ex1.fulfill()
+      }
+    waitForExpectations(timeout: 2)
+  }
+  
   func testMapValues() {
     let ex = expectation(description: "")
     [1, 2, 3].asyncPromise
