@@ -43,6 +43,7 @@ public func all<T, C: Collection>(
 }
 
 @available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@inline(__always)
 public func combine<T>(
   on dispatchQueue: DispatchQueue? = .main,
   promises: [Promise<T>]
@@ -69,6 +70,7 @@ public func all<T, U>(
 }
 
 @available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@inline(__always)
 public func combine<T, U>(
   on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
@@ -96,6 +98,7 @@ public func all<T, U, V>(
 }
 
 @available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@inline(__always)
 public func combine<T, U, V>(
   on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
@@ -126,6 +129,7 @@ public func all<T, U, V, Z>(
 }
 
 @available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@inline(__always)
 public func combine<T, U, V, Z>(
   on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
@@ -158,6 +162,7 @@ public func all<T, U, V, Z, X>(
 }
 
 @available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@inline(__always)
 public func combine<T, U, V, Z, X>(
   on dispatchQueue: DispatchQueue? = .main,
   _ p1: Promise<T>,
