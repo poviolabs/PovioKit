@@ -835,57 +835,6 @@ extension Optional where Wrapped == DispatchQueue {
   }
 }
 
-///
-
-public enum Either<L, R> {
-  case left(L)
-  case right(R)
-}
-
-public extension Either {
-  func mapLeft<U>(_ transform: (L) -> U) -> Either<U, R> {
-    switch self {
-    case .left(let value):
-      return .left(transform(value))
-    case .right(let value):
-      return .right(value)
-    }
-  }
-  
-  func mapRight<U>(_ transform: (R) -> U) -> Either<L, U> {
-    switch self {
-    case .left(let value):
-      return .left(value)
-    case .right(let value):
-      return .right(transform(value))
-    }
-  }
-  
-  var left: L? {
-    switch self {
-    case .left(let value):
-      return value
-    case .right:
-      return nil
-    }
-  }
-  
-  var right: R? {
-    switch self {
-    case .left:
-      return nil
-    case .right(let value):
-      return value
-    }
-  }
-}
-
-extension Either: Equatable where L: Equatable, R: Equatable {}
-extension Either: Hashable where L: Hashable, R: Hashable {}
-
-///
-
-
 /// Taken from `Vapor.Utilities.OptionalTypes`:
 
 /// Capable of being represented by an optional wrapped type.
