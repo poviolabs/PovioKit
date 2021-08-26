@@ -352,60 +352,65 @@ extension PromiseTests {
   
   func testAllTwo() {
     let ex = expectation(description: "")
-    all(0.asyncPromise, 1.asyncPromise)
-      .then { values in
-        XCTAssertEqual(values.0, 0)
-        XCTAssertEqual(values.1, 1)
-        ex.fulfill()
-      }
+    all(
+      0.asyncPromise,
+      1.asyncPromise
+    ).then { values in
+      XCTAssertEqual(values.0, 0)
+      XCTAssertEqual(values.1, 1)
+      ex.fulfill()
+    }
     waitForExpectations(timeout: 1)
   }
   
   func testAllThree() {
     let ex = expectation(description: "")
-    all(0.asyncPromise,
-        1.asyncPromise,
-        2.asyncPromise)
-      .then { values in
-        XCTAssertEqual(values.0, 0)
-        XCTAssertEqual(values.1, 1)
-        XCTAssertEqual(values.2, 2)
-        ex.fulfill()
-      }
+    all(
+      0.asyncPromise,
+      1.asyncPromise,
+      2.asyncPromise
+    ).then { values in
+      XCTAssertEqual(values.0, 0)
+      XCTAssertEqual(values.1, 1)
+      XCTAssertEqual(values.2, 2)
+      ex.fulfill()
+    }
     waitForExpectations(timeout: 1)
   }
   
   func testAllFour() {
     let ex = expectation(description: "")
-    all(0.asyncPromise,
-        1.asyncPromise,
-        2.asyncPromise,
-        3.asyncPromise)
-      .then { values in
-        XCTAssertEqual(values.0, 0)
-        XCTAssertEqual(values.1, 1)
-        XCTAssertEqual(values.2, 2)
-        XCTAssertEqual(values.3, 3)
-        ex.fulfill()
-      }
+    all(
+      0.asyncPromise,
+      1.asyncPromise,
+      2.asyncPromise,
+      3.asyncPromise
+    ).then { values in
+      XCTAssertEqual(values.0, 0)
+      XCTAssertEqual(values.1, 1)
+      XCTAssertEqual(values.2, 2)
+      XCTAssertEqual(values.3, 3)
+      ex.fulfill()
+    }
     waitForExpectations(timeout: 1)
   }
   
   func testAllFive() {
     let ex = expectation(description: "")
-    all(0.asyncPromise,
-        1.asyncPromise,
-        2.asyncPromise,
-        3.asyncPromise,
-        4.asyncPromise)
-      .then { values in
-        XCTAssertEqual(values.0, 0)
-        XCTAssertEqual(values.1, 1)
-        XCTAssertEqual(values.2, 2)
-        XCTAssertEqual(values.3, 3)
-        XCTAssertEqual(values.4, 4)
-        ex.fulfill()
-      }
+    all(
+      0.asyncPromise,
+      1.asyncPromise,
+      2.asyncPromise,
+      3.asyncPromise,
+      4.asyncPromise
+    ).then { values in
+      XCTAssertEqual(values.0, 0)
+      XCTAssertEqual(values.1, 1)
+      XCTAssertEqual(values.2, 2)
+      XCTAssertEqual(values.3, 3)
+      XCTAssertEqual(values.4, 4)
+      ex.fulfill()
+    }
     waitForExpectations(timeout: 1)
   }
   
@@ -437,10 +442,8 @@ extension PromiseTests {
   
   func testAnyEmptyList() {
     let ex = expectation(description: "")
-    let promises: [Promise<Int>] = []
-    all(promises: promises)
-      .then { values in
-        XCTAssertTrue(values.isEmpty)
+    any(promises: [Promise<Int>]())
+      .catch { _ in
         ex.fulfill()
       }
     waitForExpectations(timeout: 1)
@@ -521,15 +524,6 @@ extension PromiseTests {
     ]).catch { _ in
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
-  }
-  
-  func testAnyFails2() {
-    let ex = expectation(description: "")
-    any(promises: [Promise<Int>]())
-      .catch { _ in
-        ex.fulfill()
-      }
     waitForExpectations(timeout: 1)
   }
   
