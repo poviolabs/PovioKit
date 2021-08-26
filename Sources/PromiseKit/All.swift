@@ -26,7 +26,7 @@ public func all<T, C: Collection>(
   return .init { seal in
     let barrier = DispatchQueue(label: "combineQueue", attributes: .concurrent)
     for promise in promises {
-      promise.observe { result in
+      promise.finally { result in
         switch result {
         case .success:
           barrier.async(flags: .barrier) {

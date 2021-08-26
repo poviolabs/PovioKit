@@ -364,8 +364,8 @@ extension PromiseTests {
   func testAllThree() {
     let ex = expectation(description: "")
     all(0.asyncPromise,
-            1.asyncPromise,
-            2.asyncPromise)
+        1.asyncPromise,
+        2.asyncPromise)
       .then { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
@@ -378,9 +378,9 @@ extension PromiseTests {
   func testAllFour() {
     let ex = expectation(description: "")
     all(0.asyncPromise,
-            1.asyncPromise,
-            2.asyncPromise,
-            3.asyncPromise)
+        1.asyncPromise,
+        2.asyncPromise,
+        3.asyncPromise)
       .then { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
@@ -394,10 +394,10 @@ extension PromiseTests {
   func testAllFive() {
     let ex = expectation(description: "")
     all(0.asyncPromise,
-            1.asyncPromise,
-            2.asyncPromise,
-            3.asyncPromise,
-            4.asyncPromise)
+        1.asyncPromise,
+        2.asyncPromise,
+        3.asyncPromise,
+        4.asyncPromise)
       .then { values in
         XCTAssertEqual(values.0, 0)
         XCTAssertEqual(values.1, 1)
@@ -406,6 +406,121 @@ extension PromiseTests {
         XCTAssertEqual(values.4, 4)
         ex.fulfill()
       }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnyListAsync() {
+    let range = (0...5)
+    let ex = expectation(description: "")
+    ex.expectedFulfillmentCount = range.count
+    let promises = range.map { $0.asyncPromise }
+    all(promises: promises)
+      .then { values in
+        range.forEach {
+          XCTAssertEqual($0, values[$0])
+          ex.fulfill()
+        }
+      }
+    waitForExpectations(timeout: 2)
+  }
+  
+  func testAnyList() {
+    let ex = expectation(description: "")
+    let promises = (0...5).map { $0.promise }
+    all(promises: promises)
+      .then { values in
+        (0...5).forEach { XCTAssertEqual($0, values[$0]) }
+        ex.fulfill()
+      }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnyEmptyList() {
+    let ex = expectation(description: "")
+    let promises: [Promise<Int>] = []
+    all(promises: promises)
+      .then { values in
+        XCTAssertTrue(values.isEmpty)
+        ex.fulfill()
+      }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnyTwo() {
+    let ex = expectation(description: "")
+    any(
+      NSError().asyncPromise(Int.self),
+      2.promise
+    ).then { values in
+      XCTAssertEqual(values.0, nil)
+      XCTAssertEqual(values.1, 2)
+      ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnyThree() {
+    let ex = expectation(description: "")
+    any(
+      0.promise,
+      NSError().asyncPromise(Int.self),
+      2.promise
+    ).then { values in
+      XCTAssertEqual(values.0, 0)
+      XCTAssertEqual(values.1, nil)
+      XCTAssertEqual(values.2, 2)
+      ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnyFour() {
+    let ex = expectation(description: "")
+    any(
+      0.promise,
+      1.promise,
+      NSError().asyncPromise(Int.self),
+      3.promise
+    ).then { values in
+      XCTAssertEqual(values.0, 0)
+      XCTAssertEqual(values.1, 1)
+      XCTAssertEqual(values.2, nil)
+      XCTAssertEqual(values.3, 3)
+      ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnyFive() {
+    let ex = expectation(description: "")
+    any(
+      0.promise,
+      1.promise,
+      2.promise,
+      NSError().asyncPromise(Int.self),
+      4.promise
+    ).then { values in
+      XCTAssertEqual(values.0, 0)
+      XCTAssertEqual(values.1, 1)
+      XCTAssertEqual(values.2, 2)
+      XCTAssertEqual(values.3, nil)
+      XCTAssertEqual(values.4, 4)
+      ex.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+  }
+  
+  func testAnyFails() {
+    let ex = expectation(description: "")
+    any(promises: [
+      NSError().asyncPromise(Int.self),
+      NSError().asyncPromise(Int.self),
+      NSError().asyncPromise(Int.self),
+      NSError().asyncPromise(Int.self),
+      NSError().asyncPromise(Int.self),
+    ]).catch { _ in
+      ex.fulfill()
+    }
     waitForExpectations(timeout: 1)
   }
   
