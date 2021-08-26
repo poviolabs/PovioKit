@@ -90,7 +90,7 @@ public class Promise<Value>: Future<Value, Error> {
     }
   }
   
-  @available(*, deprecated, message: "This method is deprecated. Use `finally` insead.")
+  @available(*, deprecated, message: "This method is deprecated. Use `finally` instead.")
   public func observe(_ completion: @escaping (Value?, Error?) -> Void) {
     finally(completion)
   }
@@ -106,7 +106,7 @@ public class Promise<Value>: Future<Value, Error> {
     }
   }
   
-  @available(*, deprecated, message: "This method is deprecated. Use `finally` insead.")
+  @available(*, deprecated, message: "This method is deprecated. Use `finally` instead.")
   func observe(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
     finally(success, failure)
   }
