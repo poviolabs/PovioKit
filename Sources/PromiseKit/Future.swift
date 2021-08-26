@@ -34,25 +34,40 @@ public extension Future {
 public extension Future {
   typealias FutureResult = Result<Value, Error>
   
-  func observe(with callback: @escaping (FutureResult) -> Void) {
+  func finally(with callback: @escaping (FutureResult) -> Void) {
     barrier.sync(flags: .barrier) {
       observers.append(.both(callback))
       internalResult.map(callback)
     }
   }
   
-  func onSuccess(_ callback: @escaping (Value) -> Void) {
+  func then(_ callback: @escaping (Value) -> Void) {
     barrier.sync(flags: .barrier) {
       observers.append(.success(callback))
       internalResult.map { observers.last?.notifity($0) }
     }
   }
   
-  func onFailure(_ callback: @escaping (Error) -> Void) {
+  func `catch`(_ callback: @escaping (Error) -> Void) {
     barrier.sync(flags: .barrier) {
       observers.append(.failure(callback))
       internalResult.map { observers.last?.notifity($0) }
     }
+  }
+  
+  @available(*, deprecated, message: "This method is deprecated. Use `finally` insead.")
+  func observe(with callback: @escaping (FutureResult) -> Void) {
+    self.finally(with: callback)
+  }
+  
+  @available(*, deprecated, message: "This method is deprecated. Use `catch` insead.")
+  func onSuccess(_ callback: @escaping (Value) -> Void) {
+    self.then(callback)
+  }
+  
+  @available(*, deprecated, message: "This method is deprecated. Use `then` insead.")
+  func onFailure(_ callback: @escaping (Error) -> Void) {
+    self.catch(callback)
   }
 }
 
