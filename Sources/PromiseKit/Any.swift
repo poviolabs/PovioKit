@@ -20,7 +20,7 @@ public func any<T, C: Collection>(
   promises: C
 ) -> Promise<[T?]> where C.Element == Promise<T> {
   guard !promises.isEmpty else {
-    return .value([])
+    return .error(NSError(domain: "com.poviokit.promisekit", code: 101, userInfo: nil))
   }
   
   return .init { seal in

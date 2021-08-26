@@ -524,6 +524,15 @@ extension PromiseTests {
     waitForExpectations(timeout: 1)
   }
   
+  func testAnyFails2() {
+    let ex = expectation(description: "")
+    any(promises: [Promise<Int>]())
+      .catch { _ in
+        ex.fulfill()
+      }
+    waitForExpectations(timeout: 1)
+  }
+  
   func testMapValues() {
     let ex = expectation(description: "")
     [1, 2, 3].asyncPromise
