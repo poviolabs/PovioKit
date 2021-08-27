@@ -35,7 +35,9 @@ public func all<T, C: Collection>(
             }
           }
         case .failure(let error):
-          seal.reject(with: error, on: dispatchQueue)
+          barrier.async(flags: .barrier) {
+            seal.reject(with: error, on: dispatchQueue)
+          }
         }
       }
     }
@@ -93,7 +95,7 @@ public func all<T, U, V>(
   _ p2: Promise<U>,
   _ p3: Promise<V>
 ) -> Promise<(T, U, V)> {
-  all(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
+  all(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!) }
 }
 
@@ -124,7 +126,7 @@ public func all<T, U, V, Z>(
   _ p3: Promise<V>,
   _ p4: Promise<Z>
 ) -> Promise<(T, U, V, Z)> {
-  all(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
+  all(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
 }
 
@@ -157,7 +159,7 @@ public func all<T, U, V, Z, X>(
   _ p4: Promise<Z>,
   _ p5: Promise<X>
 ) -> Promise<(T, U, V, Z, X)> {
-  all(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
+  all(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
 }
 

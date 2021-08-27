@@ -1,9 +1,9 @@
 //
 //  PromiseTests.swift
-//  PovioKit_Tests
+//  PovioKit
 //
 //  Created by Toni Kocjan on 31/01/2020.
-//  Copyright © 2020 CocoaPods. All rights reserved.
+//  Copyright © 2020 Povio Labs. All rights reserved.
 //
 
 import XCTest
@@ -102,14 +102,14 @@ class PromiseTests: XCTestCase {
   func testChainResolvedOnMainThread() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    0.asyncPromise
-      .chain(on: .main) { $0.asyncPromise }
+    async(0)
+      .chain(on: .main) { async($0, on: .main) }
       .then { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex1.fulfill()
       }
-    0.asyncFailurePromise
-      .chain(on: .main) { $0.asyncPromise }
+    async(NSError(), Int.self)
+      .chain(on: .main) { async($0, on: .main) }
       .catch { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex2.fulfill()
@@ -120,214 +120,215 @@ class PromiseTests: XCTestCase {
   func testAllResolvedOnMainThread() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    all(on: .main, promises: [0.asyncPromise, 1.asyncPromise])
+    all(on: .main, promises: [async(0, on: .main), async(1, on: .main)])
       .then { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex1.fulfill()
       }
-    all(on: .main, promises: [0.asyncPromise, 1.asyncFailurePromise])
+    all(on: .main, promises: [async(0, on: .main), async(NSError(), Int.self, on: .main)])
       .catch { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
 }
 
 extension PromiseTests {
   func testChain() {
     let ex = expectation(description: "")
-    10.asyncPromise
-      .chain { ($0 + 20).asyncPromise }
+    async(10)
+      .map { $0 + 20 }
+      .chain(with: async)
       .then {
         XCTAssertEqual(30, $0)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testChainInfix() {
     let ex = expectation(description: "")
-    (10.asyncPromise >>- { val in
-      (val + 20).asyncPromise
+    (async(10) >>- { val in
+      async(val + 20)
     }).then {
       XCTAssertEqual(30, $0)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testChainError() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    10.asyncPromise
-      .chain { _ in Promise<Int>.error(DummyError()) }
+    async(10)
+      .chain { _ in async(DummyError(), Int.self) }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex1.fulfill()
       }
-    DummyError().asyncPromise
-      .chain { 10.asyncPromise }
+    async(DummyError(), Int.self)
+      .chain(with: async)
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testChainResult() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    10.asyncPromise
+    async(10)
       .chainResult { Result<Int, Error>.success($0 * 2) }
       .then {
         XCTAssertEqual(20, $0)
         ex1.fulfill()
       }
-    10.asyncPromise
+    async(10)
       .chainResult { _ in Result<Int, Error>.failure(DummyError()) }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testMap() {
     let ex = expectation(description: "")
-    10.asyncPromise
+    async(10)
       .map(with: String.init)
       .then {
         XCTAssertEqual("10", $0)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testMapInfix() {
     let ex = expectation(description: "")
-    (10.asyncPromise <^> String.init)
+    (async(10) <^> String.init)
       .then {
         XCTAssertEqual("10", $0)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testMapThrows() {
     let ex = expectation(description: "")
-    10.asyncPromise
+    async(10)
       .map { _ in throw NSError() }
       .catch { _ in
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testMapError() {
     let ex = expectation(description: "")
-    NSError().asyncPromise
+    async(NSError(), Int.self)
       .mapError { _ in DummyError() }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testCompactMap() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     let ex3 = expectation(description: "")
-    "10".asyncPromise
+    async("10")
       .compactMap { Int($0) }
       .then {
         XCTAssertEqual(10, $0)
         ex1.fulfill()
       }
-    "a".asyncPromise
+    async("a")
       .compactMap { Int($0) }
       .catch { _ in
         ex2.fulfill()
       }
-    "a".asyncPromise
+    async("a")
       .compactMap(or: DummyError()) { Int($0) }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex3.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAlternative() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    (1.asyncPromise <|> 2.asyncPromise)
+    (async(1) <|> async(2))
       .then {
         XCTAssertEqual(1, $0)
         ex1.fulfill()
       }
-    (NSError().asyncPromise(Int.self) <|> 2.asyncPromise)
+    (async(NSError(), Int.self) <|> async(2))
       .then {
         XCTAssertEqual(2, $0)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testDiscard() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    (10.asyncPromise *> false.asyncPromise)
+    (async(10) *> async(false))
       .then {
         XCTAssertEqual(false, $0)
         ex1.fulfill()
       }
-    (10.asyncPromise <* false.asyncPromise)
+    (async(10) <* async(false))
       .then {
         XCTAssertEqual(10, $0)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAndPromise() {
     let ex = expectation(description: "")
-    10.asyncPromise.and(20.asyncPromise)
+    async(10).and(async(20))
       .then {
         XCTAssertEqual(10, $0.0)
         XCTAssertEqual(20, $0.1)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnd() {
     let ex = expectation(description: "")
-    10.asyncPromise.and(20)
+    async(10).and(20)
       .then {
         XCTAssertEqual(10, $0.0)
         XCTAssertEqual(20, $0.1)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testOr() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     let ex3 = expectation(description: "")
-    10.asyncPromise.or(NSError().asyncPromise(Int.self))
+    async(10).or(async(NSError(), Int.self))
       .then {
         XCTAssertEqual(Either<Int, Int>.left(10), $0)
         ex1.fulfill()
       }
-    NSError().asyncPromise(Int.self).or(Promise.value(10))
+    async(NSError(), Int.self).or(.value(10))
       .then {
         XCTAssertEqual(Either<Int, Int>.right(10), $0)
         ex2.fulfill()
       }
-    NSError().asyncPromise.or(NSError().asyncPromise)
+    async(NSError(), Int.self).or(async(NSError(), Int.self))
       .catch { _ in
         ex3.fulfill()
       }
@@ -338,7 +339,7 @@ extension PromiseTests {
     let range = (0...5)
     let ex = expectation(description: "")
     ex.expectedFulfillmentCount = range.count
-    all(promises: range.map { $0.asyncPromise })
+    all(promises: range.map(async))
       .then { values in
         range.forEach {
           XCTAssertEqual($0, values[$0])
@@ -348,15 +349,24 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
+  func testAllListAsyncFailing() {
+    let ex = expectation(description: "")
+    all(promises: (0...5).map { _ in async(NSError(), Int.self) })
+      .catch { _ in
+        ex.fulfill()
+      }
+    waitForExpectations(timeout: 2)
+  }
+  
   func testAllList() {
     let ex = expectation(description: "")
-    let promises = (0...5).map { $0.promise }
+    let promises = (0...5).map(sync)
     all(promises: promises)
       .then { values in
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAllEmptyList() {
@@ -367,44 +377,45 @@ extension PromiseTests {
         XCTAssertTrue(values.isEmpty)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAllTwo() {
     let ex = expectation(description: "")
     all(
-      0.asyncPromise,
-      1.asyncPromise
+      sync(0),
+      async(1),
+      async(2)
     ).then { values in
       XCTAssertEqual(values.0, 0)
       XCTAssertEqual(values.1, 1)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAllThree() {
     let ex = expectation(description: "")
     all(
-      0.asyncPromise,
-      1.asyncPromise,
-      2.asyncPromise
+      async(0),
+      async(1),
+      sync(2)
     ).then { values in
       XCTAssertEqual(values.0, 0)
       XCTAssertEqual(values.1, 1)
       XCTAssertEqual(values.2, 2)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAllFour() {
     let ex = expectation(description: "")
     all(
-      0.asyncPromise,
-      1.asyncPromise,
-      2.asyncPromise,
-      3.asyncPromise
+      async(0),
+      sync(1),
+      async(2),
+      sync(3)
     ).then { values in
       XCTAssertEqual(values.0, 0)
       XCTAssertEqual(values.1, 1)
@@ -412,17 +423,17 @@ extension PromiseTests {
       XCTAssertEqual(values.3, 3)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAllFive() {
     let ex = expectation(description: "")
     all(
-      0.asyncPromise,
-      1.asyncPromise,
-      2.asyncPromise,
-      3.asyncPromise,
-      4.asyncPromise
+      async(0),
+      sync(1),
+      async(2),
+      sync(3),
+      async(4)
     ).then { values in
       XCTAssertEqual(values.0, 0)
       XCTAssertEqual(values.1, 1)
@@ -431,14 +442,14 @@ extension PromiseTests {
       XCTAssertEqual(values.4, 4)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnyListAsync() {
     let range = (0...5)
     let ex = expectation(description: "")
     ex.expectedFulfillmentCount = range.count
-    let promises = range.map { $0.asyncPromise }
+    let promises = (0...5).map(async)
     all(promises: promises)
       .then { values in
         range.forEach {
@@ -451,13 +462,13 @@ extension PromiseTests {
   
   func testAnyList() {
     let ex = expectation(description: "")
-    let promises = (0...5).map { $0.promise }
+    let promises = (0...5).map(sync)
     all(promises: promises)
       .then { values in
         (0...5).forEach { XCTAssertEqual($0, values[$0]) }
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnyEmptyList() {
@@ -466,44 +477,44 @@ extension PromiseTests {
       .catch { _ in
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnyTwo() {
     let ex = expectation(description: "")
     any(
-      NSError().asyncPromise(Int.self),
-      2.promise
+      sync(NSError(), Int.self),
+      async(2)
     ).then { values in
       XCTAssertEqual(values.0, nil)
       XCTAssertEqual(values.1, 2)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnyThree() {
     let ex = expectation(description: "")
     any(
-      0.promise,
-      NSError().asyncPromise(Int.self),
-      2.promise
+      async(0),
+      async(NSError(), Int.self),
+      async(2)
     ).then { values in
       XCTAssertEqual(values.0, 0)
       XCTAssertEqual(values.1, nil)
       XCTAssertEqual(values.2, 2)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnyFour() {
     let ex = expectation(description: "")
     any(
-      0.promise,
-      1.promise,
-      NSError().asyncPromise(Int.self),
-      3.promise
+      async(0),
+      sync(1),
+      async(NSError(), Int.self),
+      sync(3)
     ).then { values in
       XCTAssertEqual(values.0, 0)
       XCTAssertEqual(values.1, 1)
@@ -511,17 +522,17 @@ extension PromiseTests {
       XCTAssertEqual(values.3, 3)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnyFive() {
     let ex = expectation(description: "")
     any(
-      0.promise,
-      1.promise,
-      2.promise,
-      NSError().asyncPromise(Int.self),
-      4.promise
+      sync(0),
+      async(1),
+      sync(2),
+      async(NSError(), Int.self),
+      sync(4)
     ).then { values in
       XCTAssertEqual(values.0, 0)
       XCTAssertEqual(values.1, 1)
@@ -530,32 +541,32 @@ extension PromiseTests {
       XCTAssertEqual(values.4, 4)
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testAnyFails() {
     let ex = expectation(description: "")
     any(promises: [
-      NSError().asyncPromise(Int.self),
-      NSError().asyncPromise(Int.self),
-      NSError().asyncPromise(Int.self),
-      NSError().asyncPromise(Int.self),
-      NSError().asyncPromise(Int.self),
+      async(NSError(), Int.self),
+      async(NSError(), Int.self),
+      async(NSError(), Int.self),
+      async(NSError(), Int.self),
+      async(NSError(), Int.self),
     ]).catch { _ in
       ex.fulfill()
     }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testRaceListAsync() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    race(promises: (0...5).map { $0.asyncPromise(after: TimeInterval($0) * 0.1 + 0.05) })
+    race(promises: (0...5).map { async($0, delay: TimeInterval($0) * 0.1 + 0.05) })
       .then { value in
         XCTAssertEqual(value, 0)
         ex1.fulfill()
       }
-    race(promises: (0...5).map { $0.asyncPromise(after: 0.5 - TimeInterval($0) * 0.1 + 0.05) })
+    race(promises: (0...5).map { async($0, delay: 0.5 - TimeInterval($0) * 0.1 + 0.05) })
       .then { value in
         XCTAssertEqual(value, 5)
         ex2.fulfill()
@@ -567,8 +578,8 @@ extension PromiseTests {
     let ex1 = expectation(description: "")
     let promises = (0...5).map {
       $0 > 0
-        ? 10.asyncPromise(after: TimeInterval($0) * 0.1 + 0.05)
-        : NSError().asyncPromise(Int.self)
+        ? async(10, delay: TimeInterval($0) * 0.1 + 0.05)
+        : async(NSError(), Int.self)
     }
     race(promises: promises)
       .catch { _ in
@@ -579,7 +590,7 @@ extension PromiseTests {
   
   func testMapValues() {
     let ex = expectation(description: "")
-    [1, 2, 3].asyncPromise
+    async([1, 2, 3])
       .mapValues { $0 * 2 }
       .then {
         XCTAssertEqual($0[0], 2)
@@ -587,12 +598,12 @@ extension PromiseTests {
         XCTAssertEqual($0[2], 6)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testCompactMapValues() {
     let ex = expectation(description: "")
-    ["1", "2", "a", "3"].asyncPromise
+    async(["1", "2", "a", "3"])
       .compactMapValues { Int($0) }
       .then {
         XCTAssertEqual($0[0], 1)
@@ -600,25 +611,25 @@ extension PromiseTests {
         XCTAssertEqual($0[2], 3)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testFlatMapValues() {
     let ex = expectation(description: "")
-    [1, 2, 3].asyncPromise
-      .flatMapValues { $0.asyncPromise }
+    async([1, 2, 3])
+      .flatMapValues(async)
       .then {
         XCTAssertEqual($0[0], 1)
         XCTAssertEqual($0[1], 2)
         XCTAssertEqual($0[2], 3)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testFilterValues() {
     let ex = expectation(description: "")
-    [1, 2, 3, 4, 5, 6].asyncPromise
+    async([1, 2, 3, 4, 5, 6])
       .filterValues { $0 % 2 == 0 }
       .then {
         XCTAssertEqual($0[0], 2)
@@ -626,37 +637,37 @@ extension PromiseTests {
         XCTAssertEqual($0[2], 6)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testReduceValues() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     let ex3 = expectation(description: "")
-    [1, 2, 3, 4, 5].asyncPromise
+    async([1, 2, 3, 4, 5])
       .reduceValues(+)
       .then {
         XCTAssertEqual($0, 15)
         ex1.fulfill()
       }
-    [1, 2, 3, 4, 5].asyncPromise
+    async([1, 2, 3, 4, 5])
       .reduceValues(20, +)
       .then {
         XCTAssertEqual($0, 35)
         ex2.fulfill()
       }
     Promise
-      .reduce(0, [1, 2, 3, 4, 5].map { $0.asyncPromise }, +)
+      .reduce(0, [1, 2, 3, 4, 5].map(async), +)
       .then {
         XCTAssertEqual(15, $0)
         ex3.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testSortedValues() {
     let ex = expectation(description: "")
-    [8, 2, 1, 5, 10].asyncPromise
+    async([8, 2, 1, 5, 10])
       .sortedValues(by: <)
       .then {
         XCTAssertEqual($0[0], 1)
@@ -666,7 +677,7 @@ extension PromiseTests {
         XCTAssertEqual($0[4], 10)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testDecodable() {
@@ -679,31 +690,31 @@ extension PromiseTests {
         XCTAssertEqual($0.y, 20)
         ex.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testUnwrap() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    Optional<Int>.some(10).asyncPromise
+    async(Optional<Int>.some(10))
       .unwrap(or: DummyError())
       .then {
         XCTAssertEqual(10, $0)
         ex1.fulfill()
       }
-    Optional<Int>.none.asyncPromise
+    async(Optional<Int>.none)
       .unwrap(or: DummyError())
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testChainIf() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    true.asyncPromise
+    async(true)
       .chainIf(
         true: .value(1),
         false: .value(0))
@@ -711,7 +722,7 @@ extension PromiseTests {
         XCTAssertEqual(1, $0)
         ex1.fulfill()
       }
-    false.asyncPromise
+    async(false)
       .chainIf(
         true: .value(1),
         false: .value(0))
@@ -719,13 +730,13 @@ extension PromiseTests {
         XCTAssertEqual(0, $0)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testMapIf() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    true.asyncPromise
+    async(true)
       .mapIf(
         true: 1,
         false: 0)
@@ -733,7 +744,7 @@ extension PromiseTests {
         XCTAssertEqual(1, $0)
         ex1.fulfill()
       }
-    false.asyncPromise
+    async(false)
       .mapIf(
         true: 1,
         false: 0)
@@ -741,13 +752,13 @@ extension PromiseTests {
         XCTAssertEqual(0, $0)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testChainIf2() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    1.asyncPromise
+    async(1)
       .chainIf(
         transform: { _ in true },
         true: .value(1),
@@ -756,7 +767,7 @@ extension PromiseTests {
         XCTAssertEqual(1, $0)
         ex1.fulfill()
       }
-    1.asyncPromise
+    async(1)
       .chainIf(
         transform: { _ in false },
         true: .value(1),
@@ -765,13 +776,13 @@ extension PromiseTests {
         XCTAssertEqual(0, $0)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
   
   func testMapIf2() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
-    1.asyncPromise
+    async(1)
       .mapIf(
         transform: { _ in true },
         true: 1,
@@ -780,7 +791,7 @@ extension PromiseTests {
         XCTAssertEqual(1, $0)
         ex1.fulfill()
       }
-    1.asyncPromise
+    async(1)
       .mapIf(
         transform: { _ in false },
         true: 1,
@@ -789,60 +800,98 @@ extension PromiseTests {
         XCTAssertEqual(0, $0)
         ex2.fulfill()
       }
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 2)
   }
 }
 
-extension Int {
-  var asyncPromise: Promise<Self> {
-    after(.now() + 0.05, on: .global(), self)
-  }
-  
-  var promise: Promise<Self> {
-    .value(self)
-  }
-  
-  var asyncFailurePromise: Promise<Self> {
-    .init { seal in
-      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
-        seal.reject(with: NSError())
-      }
+func async<E: Error, T>(
+  _ error: E,
+  _ type: T.Type,
+  delay: TimeInterval = 0.05,
+  on: DispatchQueue = .global()
+) -> Promise<T> {
+  after(.now() + delay, on: on)
+    .map(on: on) {
+      throw error
     }
-  }
-  
-  func asyncPromise(after delay: TimeInterval) -> Promise<Self> {
-    after(.now() + delay, on: .global(), self)
-  }
 }
 
-extension Bool {
-  var asyncPromise: Promise<Self> {
-    after(.now() + 0.05, on: .global(), self)
-  }
-  
-  var promise: Promise<Self> {
-    .value(self)
-  }
-  
-  var asyncFailurePromise: Promise<Self> {
-    .init { seal in
-      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
-        seal.reject(with: NSError())
-      }
-    }
-  }
+func async<T>(
+  _ val: T,
+  delay: TimeInterval = 0.05,
+  on: DispatchQueue = .global()
+) -> Promise<T> {
+  after(.now() + delay, on: on, val)
+}
+
+func async<T>(
+  _ val: T
+) -> Promise<T> {
+  async(val, delay: 0.05, on: .global())
 }
 
 
-extension Sequence {
-  var asyncPromise: Promise<Self> {
-    after(.now() + 0.05, on: .global(), self)
-  }
-  
-  var promise: Promise<Self> {
-    .value(self)
-  }
+func sync<T>(_ val: T) -> Promise<T> {
+  .value(val)
 }
+
+func sync<E: Error, T>(
+  _ error: E,
+  _ type: T.Type
+) -> Promise<T> {
+  .error(error)
+}
+
+//extension Int {
+//  var asyncPromise: Promise<Self> {
+//    after(.now() + 0.05, on: .global(), self)
+//  }
+//  
+//  var promise: Promise<Self> {
+//    .value(self)
+//  }
+//  
+//  var asyncFailurePromise: Promise<Self> {
+//    .init { seal in
+//      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
+//        seal.reject(with: NSError())
+//      }
+//    }
+//  }
+//  
+//  func asyncPromise(after delay: TimeInterval) -> Promise<Self> {
+//    after(.now() + delay, on: .global(), self)
+//  }
+//}
+//
+//extension Bool {
+//  var asyncPromise: Promise<Self> {
+//    after(.now() + 0.05, on: .global(), self)
+//  }
+//  
+//  var promise: Promise<Self> {
+//    .value(self)
+//  }
+//  
+//  var asyncFailurePromise: Promise<Self> {
+//    .init { seal in
+//      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
+//        seal.reject(with: NSError())
+//      }
+//    }
+//  }
+//}
+//
+//
+//extension Sequence {
+//  var asyncPromise: Promise<Self> {
+//    after(.now() + 0.05, on: .global(), self)
+//  }
+//  
+//  var promise: Promise<Self> {
+//    .value(self)
+//  }
+//}
 
 extension Error {
   var promise: Promise<()> {

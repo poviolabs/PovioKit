@@ -27,15 +27,13 @@ public func any<T, C: Collection>(
     let barrier = DispatchQueue(label: "combineQueue", attributes: .concurrent)
     for promise in promises {
       promise.finally { result in
-        switch result {
-        case .success:
-          barrier.async(flags: .barrier) {
-            if promises.allSatisfy({ $0.isResolved }) {
-              seal.resolve(with: promises.map { $0.value }, on: dispatchQueue)
-            }
+        barrier.async(flags: .barrier) {
+          guard promises.allSatisfy({ $0.isResolved }) else { return }
+          if promises.contains(where: { $0.isFulfilled }) {
+            seal.resolve(with: promises.map { $0.value }, on: dispatchQueue)
+          } else {
+            seal.reject(with: promises.first(where: { $0.isRejected })!.error!)
           }
-        case .failure(let error):
-          seal.reject(with: error, on: dispatchQueue)
         }
       }
     }
@@ -76,7 +74,7 @@ public func any<T, U, V>(
   _ p2: Promise<U>,
   _ p3: Promise<V>
 ) -> Promise<(T?, U?, V?)> {
-  any(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
+  any(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value, p2.value, p3.value) }
 }
 
@@ -98,7 +96,7 @@ public func any<T, U, V, Z>(
   _ p3: Promise<V>,
   _ p4: Promise<Z>
 ) -> Promise<(T?, U?, V?, Z?)> {
-  any(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
+  any(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value, p2.value, p3.value, p4.value) }
 }
 
@@ -121,6 +119,6 @@ public func any<T, U, V, Z, X>(
   _ p4: Promise<Z>,
   _ p5: Promise<X>
 ) -> Promise<(T?, U?, V?, Z?, X?)> {
-  any(on: nil, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
+  any(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value, p2.value, p3.value, p4.value, p5.value) }
 }
