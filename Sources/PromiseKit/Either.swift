@@ -79,6 +79,24 @@ public extension Either {
       return value
     }
   }
+  
+  var isLeft: Bool {
+    switch self {
+    case .left:
+      return true
+    case .right:
+      return false
+    }
+  }
+  
+  var isRight: Bool {
+    switch self {
+    case .left:
+      return false
+    case .right:
+      return true
+    }
+  }
 }
 
 extension Either: Equatable where L: Equatable, R: Equatable {}
