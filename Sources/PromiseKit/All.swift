@@ -44,7 +44,7 @@ public func all<T, C: Collection>(
   }
 }
 
-@available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@available(*, deprecated, renamed: "all")
 @inline(__always)
 public func combine<T>(
   on dispatchQueue: DispatchQueue? = .main,
@@ -71,7 +71,7 @@ public func all<T, U>(
     .map { _ in (p1.value!, p2.value!) }
 }
 
-@available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@available(*, deprecated, renamed: "all")
 @inline(__always)
 public func combine<T, U>(
   on dispatchQueue: DispatchQueue? = .main,
@@ -99,7 +99,7 @@ public func all<T, U, V>(
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!) }
 }
 
-@available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@available(*, deprecated, renamed: "all")
 @inline(__always)
 public func combine<T, U, V>(
   on dispatchQueue: DispatchQueue? = .main,
@@ -130,7 +130,7 @@ public func all<T, U, V, Z>(
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
 }
 
-@available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@available(*, deprecated, renamed: "all")
 @inline(__always)
 public func combine<T, U, V, Z>(
   on dispatchQueue: DispatchQueue? = .main,
@@ -163,7 +163,7 @@ public func all<T, U, V, Z, X>(
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
 }
 
-@available(*, deprecated, message: "This method is deprecated. Use `all` instead.")
+@available(*, deprecated, renamed: "all")
 @inline(__always)
 public func combine<T, U, V, Z, X>(
   on dispatchQueue: DispatchQueue? = .main,

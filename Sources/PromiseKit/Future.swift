@@ -55,19 +55,19 @@ public extension Future {
     }
   }
   
-  @available(*, deprecated, message: "This method is deprecated. Use `finally` instead.")
+  @available(*, deprecated, renamed: "finally")
   @inline(__always)
   func observe(with callback: @escaping (FutureResult) -> Void) {
     self.finally(with: callback)
   }
   
-  @available(*, deprecated, message: "This method is deprecated. Use `catch` instead.")
+  @available(*, deprecated, renamed: "catch")
   @inline(__always)
   func onSuccess(_ callback: @escaping (Value) -> Void) {
     self.then(callback)
   }
   
-  @available(*, deprecated, message: "This method is deprecated. Use `then` instead.")
+  @available(*, deprecated, renamed: "then")
   @inline(__always)
   func onFailure(_ callback: @escaping (Error) -> Void) {
     self.catch(callback)
