@@ -28,10 +28,12 @@ public func race<T, C: Collection>(
         switch result {
         case .success(let value):
           barrier.async(flags: .barrier) {
-            seal.resolve(with: value) // this is okay as `resolve` is guaranteed to resolve the promise only once!
+            seal.resolve(with: value)
           }
         case .failure(let error):
-          seal.reject(with: error, on: dispatchQueue)
+          barrier.async(flags: .barrier) {
+            seal.reject(with: error, on: dispatchQueue)
+          }
         }
       }
     }

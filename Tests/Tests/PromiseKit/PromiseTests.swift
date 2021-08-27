@@ -561,6 +561,7 @@ extension PromiseTests {
   func testRaceListAsync() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
+    let ex3 = expectation(description: "")
     race(promises: (0...5).map { async($0, delay: TimeInterval($0) * 0.1 + 0.05) })
       .then { value in
         XCTAssertEqual(value, 0)
@@ -570,6 +571,10 @@ extension PromiseTests {
       .then { value in
         XCTAssertEqual(value, 5)
         ex2.fulfill()
+      }
+    race(promises: (0...5).map { _ in async(NSError(), Int.self) })
+      .catch { _ in
+        ex3.fulfill()
       }
     waitForExpectations(timeout: 2)
   }
