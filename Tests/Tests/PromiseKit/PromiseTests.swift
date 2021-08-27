@@ -847,26 +847,6 @@ func sync<E: Error, T>(
   .error(error)
 }
 
-extension Error {
-  var promise: Promise<()> {
-    .error(self)
-  }
-  
-  var asyncPromise: Promise<()> {
-    after(.now() + 0.05, on: .global()).map { throw self }
-  }
-  
-  func asyncPromise<T>(_ type: T.Type) -> Promise<T> {
-    after(.now() + 0.05, on: .global()).map { throw self }
-  }
-}
-
-extension OptionalType {
-  var asyncPromise: Promise<WrappedType?> {
-    after(.now() + 0.05, on: .global()).map { self.wrapped }
-  }
-}
-
 struct DummyError: Error {}
 
 struct Point: Decodable {
