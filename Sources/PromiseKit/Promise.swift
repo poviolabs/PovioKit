@@ -120,6 +120,14 @@ public class Promise<Value>: Future<Value, Error> {
 }
 
 public extension Promise {
+  var isResolved: Bool {
+    result != nil
+  }
+  
+  var isAwaiting: Bool {
+    result == nil
+  }
+  
   var isFulfilled: Bool {
     switch result {
     case .success?:
@@ -136,10 +144,6 @@ public extension Promise {
     case _:
       return false
     }
-  }
-  
-  var isAwaiting: Bool {
-    result == nil
   }
   
   var value: Value? {

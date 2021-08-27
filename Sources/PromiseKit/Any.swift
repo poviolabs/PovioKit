@@ -30,10 +30,8 @@ public func any<T, C: Collection>(
         switch result {
         case .success:
           barrier.async(flags: .barrier) {
-            if promises.contains(where: { $0.isFulfilled }) {
+            if promises.allSatisfy({ $0.isResolved }) {
               seal.resolve(with: promises.map { $0.value }, on: dispatchQueue)
-            } else if !promises.contains(where: { $0.isAwaiting }) {
-              seal.reject(with: NSError(domain: "com.poviokit.promisekit", code: 101, userInfo: nil), on: dispatchQueue)
             }
           }
         case .failure(let error):

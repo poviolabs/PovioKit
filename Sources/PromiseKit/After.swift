@@ -11,7 +11,7 @@ import Foundation
 public func after(_ delay: DispatchTime = .now(), on dispatchQueue: DispatchQueue = .main) -> Promise<()> {
   Promise { seal in
     dispatchQueue.asyncAfter(deadline: delay) {
-      seal.resolve()
+      seal.resolve(on: dispatchQueue)
     }
   }
 }
@@ -19,7 +19,7 @@ public func after(_ delay: DispatchTime = .now(), on dispatchQueue: DispatchQueu
 public func after<T>(_ delay: DispatchTime = .now(), on dispatchQueue: DispatchQueue = .main, _ value: @autoclosure @escaping () -> T) -> Promise<T> {
   Promise { seal in
     dispatchQueue.asyncAfter(deadline: delay) {
-      seal.resolve(with: value())
+      seal.resolve(with: value(), on: dispatchQueue)
     }
   }
 }
@@ -27,7 +27,7 @@ public func after<T>(_ delay: DispatchTime = .now(), on dispatchQueue: DispatchQ
 public func after<T>(_ delay: DispatchTime = .now(), on dispatchQueue: DispatchQueue = .main, _ execute: @escaping () -> T) -> Promise<T> {
   Promise { seal in
     dispatchQueue.asyncAfter(deadline: delay) {
-      seal.resolve(with: execute())
+      seal.resolve(with: execute(), on: dispatchQueue)
     }
   }
 }
