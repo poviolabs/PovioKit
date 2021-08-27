@@ -842,57 +842,6 @@ func sync<E: Error, T>(
   .error(error)
 }
 
-//extension Int {
-//  var asyncPromise: Promise<Self> {
-//    after(.now() + 0.05, on: .global(), self)
-//  }
-//  
-//  var promise: Promise<Self> {
-//    .value(self)
-//  }
-//  
-//  var asyncFailurePromise: Promise<Self> {
-//    .init { seal in
-//      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
-//        seal.reject(with: NSError())
-//      }
-//    }
-//  }
-//  
-//  func asyncPromise(after delay: TimeInterval) -> Promise<Self> {
-//    after(.now() + delay, on: .global(), self)
-//  }
-//}
-//
-//extension Bool {
-//  var asyncPromise: Promise<Self> {
-//    after(.now() + 0.05, on: .global(), self)
-//  }
-//  
-//  var promise: Promise<Self> {
-//    .value(self)
-//  }
-//  
-//  var asyncFailurePromise: Promise<Self> {
-//    .init { seal in
-//      DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
-//        seal.reject(with: NSError())
-//      }
-//    }
-//  }
-//}
-//
-//
-//extension Sequence {
-//  var asyncPromise: Promise<Self> {
-//    after(.now() + 0.05, on: .global(), self)
-//  }
-//  
-//  var promise: Promise<Self> {
-//    .value(self)
-//  }
-//}
-
 extension Error {
   var promise: Promise<()> {
     .error(self)
