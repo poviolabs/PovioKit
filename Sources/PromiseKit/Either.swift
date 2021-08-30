@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Either.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 26/08/2021.
@@ -103,6 +103,15 @@ extension Either: Equatable where L: Equatable, R: Equatable {}
 extension Either: Hashable where L: Hashable, R: Hashable {}
 
 public extension Either where R: Error {
+  init(result: Result<L, R>) {
+    switch result {
+    case .success(let val):
+      self = .left(val)
+    case .failure(let error):
+      self = .right(error)
+    }
+  }
+  
   var result: Result<L, R> {
     switch self {
     case .left(let value):
