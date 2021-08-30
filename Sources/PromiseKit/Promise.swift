@@ -373,7 +373,7 @@ public extension Promise {
   
   /// Return a new promise that succeeds when this and another promise both succeed.
   ///
-  /// This is equivalent to calling `combine(:)`.
+  /// This is equivalent to calling `all(:)`.
   ///
   /// - Parameter other: A second `Promise`.
   /// - Returns: A Promise with the result of given promises. If any of the promises fail
@@ -398,14 +398,13 @@ public extension Promise {
     map(on: dispatchQueue) { ($0, value) }
   }
   
-  /// Return a new promise that succeeds when this and another promise both succeed.
+  /// Return a new promise that succeeds if either `self` or another promise both succeeds.
   ///
-  /// This is equivalent to calling `combine(:)`.
+  /// This is equivalent to calling `any(:)`.
   ///
   /// - Parameter other: A second `Promise`.
-  /// - Returns: A Promise with the result of given promises. If any of the promises fail
-  ///   than the returned Promise fails as well with the first error encountered.
-  ///
+  /// - Returns: A Promise containing either the value of `self`, or if `self` fails the
+  /// result of the other promise.
   func or<U>(
     _ other: Promise<U>,
     on dispatchQueue: DispatchQueue? = .main
@@ -417,10 +416,11 @@ public extension Promise {
       }
   }
   
-  /// Return a new promise that contains this and another value.
+  /// Return a new promise that contains either value of `self` or the given value.
   ///
   /// - Parameter other: Some other value.
-  /// - Returns: A Promise containing a pair of values.
+  /// - Returns: A Promise containing a either the value of `self`, or if `self` fails the
+  /// given given value.
   ///
   func or<U>(
     _ value: U,
