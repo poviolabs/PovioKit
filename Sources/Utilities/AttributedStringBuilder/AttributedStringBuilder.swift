@@ -174,7 +174,7 @@ public extension AttributedStringBuilder {
 // MARK: - Private Methods
 private extension AttributedStringBuilder {
   func validate(range: NSRange) -> Bool {
-    if text.count < range.location + range.length || range.location < 0 {
+    if text.utf16.count < range.location + range.length || range.location < 0 {
       return false
     }
     return true
