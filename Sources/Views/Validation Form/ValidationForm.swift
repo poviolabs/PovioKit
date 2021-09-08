@@ -142,7 +142,7 @@ open class ValidationForm: NSObject, UICollectionViewDataSource {
 }
 
 // MARK: - API
-extension ValidationForm {
+public extension ValidationForm {
   @discardableResult
   func validate(in collectionView: UICollectionView) -> Bool {
     for row in form {
