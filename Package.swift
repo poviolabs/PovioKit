@@ -43,8 +43,7 @@ let package = Package(
         "PovioKit",
         "PovioKitPromise",
         "PovioKitNetworking"
-      ],
-      path: "Example/Tests"
+      ]
     ),
   ],
   swiftLanguageVersions: [.v5]
