@@ -8,7 +8,8 @@ let package = Package(
   ],
   products: [
     .library(name: "PovioKit", targets: ["PovioKit"]),
-    .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"])
+    .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
+    .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
   ],
   dependencies: [
     .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.4.3"))
@@ -17,13 +18,33 @@ let package = Package(
     .target(
       name: "PovioKit",
       path: "Sources",
-      exclude: ["Networking"]
+      exclude: [
+        "Networking",
+        "PromiseKit",
+      ]
     ),
     .target(
       name: "PovioKitNetworking",
-      dependencies: ["PovioKit", "Alamofire"],
+      dependencies: [
+        "PovioKit",
+        "Alamofire",
+        "PovioKitPromise",
+      ],
       path: "Sources/Networking"
-    )
+    ),
+    .target(
+      name: "PovioKitPromise",
+      dependencies: [],
+      path: "Sources/PromiseKit"
+    ),
+    .testTarget(
+      name: "Tests",
+      dependencies: [
+        "PovioKit",
+        "PovioKitPromise",
+        "PovioKitNetworking"
+      ]
+    ),
   ],
   swiftLanguageVersions: [.v5]
 )
