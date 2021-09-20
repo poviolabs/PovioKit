@@ -97,7 +97,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
         return
       }
       
-      Promise(task).observe {
+      Promise(task).finally {
         switch $0 {
         case .success:
           completion(.retry)
@@ -129,7 +129,7 @@ private extension OAuthRequestInterceptor {
     Logger.debug("Fetching access token!")
     provider
       .refresh(with: refreshToken)
-      .observe {
+      .finally {
         switch $0 {
         case .success(let response):
           Logger.debug("Refresh token success!")
