@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension NotificationCenterDispatcher {
+public extension NotificationCenterDispatcher {
   enum NotificationType {
     case onAppStart
     case onAppResume

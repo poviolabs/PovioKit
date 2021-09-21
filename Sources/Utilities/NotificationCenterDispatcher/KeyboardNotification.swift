@@ -8,37 +8,26 @@
 
 import UIKit
 
-struct KeyboardNotification {
+public struct KeyboardNotification {
   private let notification: Notification
-  private let userInfo: NSDictionary
-  var keyboardSize: CGSize {
-    if let rect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-      return rect.cgRectValue.size
-    }
-    return .zero
-  }
-  var animationDuration: TimeInterval {
-    userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval ?? 0.25
-  }
-  var animationCurve: UIView.AnimationOptions {
-    if let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt {
-      return UIView.AnimationOptions(rawValue: curve << 16)
-    }
-    return UIView.AnimationOptions()
-  }
-  var keyboardFrameBegin: CGRect {
-    (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
-  }
-  var keyboardFrameEnd: CGRect {
-    (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
-  }
+  let keyboardSize: CGSize
+  let keyboardFrameBegin: CGRect
+  let keyboardFrameEnd: CGRect
+  let animationDuration: TimeInterval
+  let animationCurve: UIView.AnimationOptions
   
-  init(notification: Notification) {
+  public init?(notification: Notification) {
+    guard let userInfo = notification.userInfo else { return nil }
+    
     self.notification = notification
-    if let userInfo = (notification as NSNotification).userInfo {
-      self.userInfo = userInfo as NSDictionary
+    keyboardSize = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size ?? .zero
+    keyboardFrameBegin = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
+    keyboardFrameEnd = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
+    animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval ?? 0.25
+    if let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt {
+      animationCurve = UIView.AnimationOptions(rawValue: curve << 16)
     } else {
-      self.userInfo = NSDictionary()
+      animationCurve = UIView.AnimationOptions()
     }
   }
 }

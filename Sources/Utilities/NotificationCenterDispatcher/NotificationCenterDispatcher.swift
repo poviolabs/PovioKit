@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum NotificationCenterDispatcher {
+public enum NotificationCenterDispatcher {
   typealias Json = [String: Any]
   
   /// Post a notification for given `type` and optional `data`
@@ -52,7 +52,7 @@ enum NotificationCenterDispatcher {
   }
   
   /// Remove notifications listener from observer
-  static func remove(_ observer: Any, type: NotificationType?=nil) {
+  static func remove(_ observer: Any, type: NotificationType? = nil) {
     switch type {
     case .some(let type):
       NotificationCenter.default.removeObserver(observer, name: type.name, object: nil)
@@ -63,13 +63,13 @@ enum NotificationCenterDispatcher {
 }
 
 // MARK: - Notification Extension
-extension Notification {
+public extension Notification {
   var type: NotificationCenterDispatcher.NotificationType? {
     guard let userInfo = userInfo,
           let type = userInfo["NotificationType"] as? String,
           let notificationType = NotificationCenterDispatcher.NotificationType(rawValue: type) else {
-      return nil
-    }
+            return nil
+          }
     return notificationType
   }
 }
