@@ -4,7 +4,8 @@ import PackageDescription
 let package = Package(
   name: "PovioKit",
   platforms: [
-    .iOS(.v12)
+    .iOS(.v12),
+    .macOS(.v10_12)
   ],
   products: [
     .library(name: "PovioKit", targets: ["PovioKit"]),
@@ -12,7 +13,7 @@ let package = Package(
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.4.3"))
+    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.4.4"))
   ],
   targets: [
     .target(
