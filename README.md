@@ -4,9 +4,6 @@
 
 <p align="center">
     <a href="https://cocoapods.org/pods/PovioKit">
-        <img src="https://img.shields.io/cocoapods/v/PovioKit.svg?style=flat" alt="Version" />
-    </a>
-    <a href="https://cocoapods.org/pods/PovioKit">
         <img src="https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat" alt="Platform" />
     </a>
     <a href="https://swift.org/blog/swift-5-3-released/">
@@ -15,8 +12,8 @@
     <a href="https://cocoapods.org/pods/PovioKit">
         <img src="https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat" alt="License" />
     </a>
-    <a href="https://travis-ci.com/poviolabs/PovioKit/branches">
-        <img src="https://img.shields.io/travis/com/poviolabs/PovioKit.svg" alt="Travis status" />
+    <a href="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml">
+        <img src="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml/badge.svg" alt="CI status" />
     </a>
 </p>
 
@@ -24,60 +21,36 @@
     Welcome to <b>PovioKit</b>. A modular library collection. Written in Swift.
 </p>
 
+
 ## List of available libraries
 
-### Extensions
+| Utils | Networking | Protocols | Views |
+| --- | --- | --- | --- |
+| [AttributedStringBuilder](Resources/Utilities/AttributedStringBuilder/) | [AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/) | [Data Source](Resources/Protocols/DataSource/) | [GradientView](Resources/Views/GradientView/) |
+| [StartupService](Resources/Utilities/StartupService/) | | [PaddingLabel](Resources/Views/PaddingLabel/) |
+| [Broadcast](Resources/Utilities/Broadcast/) | | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) |
+| [PromiseKit](Resources/Utilities/PromiseKit/) | | |
+| [ColorInterpolator](Resources/Utilities/ColorInterpolator/) | | |
+| [DispatchTimer](Resources/Utilities/DispatchTimer/) | | |
+| [Logger](Resources/Utilities/Logger/) | | |
+| [Throttler](Resources/Utilities/Throttler/) | | |
+| [SignInWithApple](Resources/Utilities/SignInWithApple/) | | |
 
-##### UIKit
-* [UIView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIView+Povio.swift)
-* [UICollectionView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UICollectionView+Povio.swift)
-* [UITableView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UITableView+Povio.swift)
-* [UIColor](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIColor+Povio.swift)
-* [UIDevice](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIDevice+Povio.swift)
-* [UIImage](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIImage+Povio.swift)
-* [UIEdgeInsets](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift)
-* [UIApplication](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIApplication+Povio.swift)
-* [UIProgressView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIProgressView+Povio.swift)
-* [UIResponder](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/UIKit/UIResponder+Povio.swift)
+## List of available extensions
 
-##### Foundation
-* [String](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/String+Povio.swift)
-* [Data](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Data+Povio.swift)
-* [Collection](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Collection+Povio.swift)
-* [URL](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/URL+Povio.swift)
-* [Optional](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Optional+Povio.swift)
-* [Result](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Result+Povio.swift)
-* [DecodableDictionary](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/DecodableDictionary+Povio.swift)
-* [DispatchTimeInterval](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/DispatchTimeInterval+Povio.swift)
-* [Encodable](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/Foundation/Encodable+Povio.swift)
+| UIKit | Foundation | MapKit |
+| --- | --- | --- |
+| [UIView](Sources/Extensions/UIKit/UIView+Povio.swift) | [String](Sources/Extensions/Foundation/String+Povio.swift) | [MKMapView](Sources/Extensions/MapKit/MKMapView+PovioKit.swift) |
+| [UICollectionView](Sources/Extensions/UIKit/UICollectionView+Povio.swift) | [Data](Sources/Extensions/Foundation/Data+Povio.swift) | [MKPolygon](Sources/Extensions/MapKit/MKPolygon+PovioKit.swift) |
+| [UITableView](Sources/Extensions/UIKit/UITableView+Povio.swift) | [Collection](Sources/Extensions/Foundation/Collection+Povio.swift) | [MKAnnotationView](Sources/Extensions/MapKit/MKAnnotationView+PovioKit.swift) |
+| [UIColor](Sources/Extensions/UIKit/UIColor+Povio.swift) | [URL](Sources/Extensions/Foundation/URL+Povio.swift) | [MKCircle](Sources/Extensions/MapKit/MKCircle+PovioKit.swift) |
+| [UIDevice](Sources/Extensions/UIKit/UIDevice+Povio.swift) | [Optional](Sources/Extensions/Foundation/Optional+Povio.swift) | |
+| [UIImage](Sources/Extensions/UIKit/UIImage+Povio.swift) | [Result](Sources/Extensions/Foundation/Result+Povio.swift) | |
+| [UIEdgeInsets](Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift) | [DecodableDictionary](Sources/Extensions/Foundation/DecodableDictionary+Povio.swift) | |
+| [UIApplication](Sources/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | |
+| [UIProgressView](Sources/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Extensions/Foundation/Encodable+Povio.swift) | |
+| [UIResponder](Sources/Extensions/UIKit/UIResponder+Povio.swift) | |
 
-##### MapKit
-* [MKMapView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKMapView+PovioKit.swift)
-* [MKPolygon](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKPolygon+PovioKit.swift)
-* [MKAnnotationView](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKAnnotationView+PovioKit.swift)
-* [MKCircle](https://github.com/poviolabs/PovioKit/blob/master/Sources/Extensions/MapKit/MKCircle+PovioKit.swift)
-
-### Utilities
-* [AttributedStringBuilder](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/AttributedStringBuilder/)
-* [StartupService](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/StartupService/)
-* [Broadcast](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Broadcast/)
-* [PromiseKit](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/PromiseKit/)
-* [ColorInterpolator](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/ColorInterpolator/)
-* [DispatchTimer](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/DispatchTimer/)
-* [Logger](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Logger/)
-* [Throttler](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/Throttler/)
-* [SignInWithApple](https://github.com/poviolabs/PovioKit/blob/master/Resources/Utilities/SignInWithApple/)
-
-### Networking
-* [AlamofireNetworkClient](https://github.com/poviolabs/PovioKit/blob/master/Resources/Networking/AlamofireNetworkClient/)
-
-### Protocols
-* [Data Source](https://github.com/poviolabs/PovioKit/blob/master/Resources/Protocols/DataSource/)
-
-### UIViews
-* [GradientView](https://github.com/poviolabs/PovioKit/blob/master/Resources/Views/GradientView/)
-* [PaddingLabel](https://github.com/poviolabs/PovioKit/blob/master/Resources/Views/PaddingLabel/)
-* [DynamicCollectionCell](https://github.com/poviolabs/PovioKit/blob/master/Resources/Views/DynamicCollectionCell/)
 
 ## Installation
 
@@ -85,22 +58,12 @@
 
 In Xcode, click `File` -> `Swift Packages` -> `Add Package Dependency` and enter `https://github.com/poviolabs/PovioKit`.
 
-
-### CocoaPods
-
-Add the following line to your Podfile:
-
-```ruby
-pod 'PovioKit'
-```
-
-This way you'll install all subspecs available. However, you could opt-out installing only selected subspec. Her is an example of how to install `StartupService`:
-
-```ruby
-pod 'PovioKit/Utilities/StartupService'
-```
+Currently, there are three packages to choose from:
+- PovioKit (core)
+- PovioKitNetworking (networking library)
+- PovioKitPromise (lightweight promises library)
 
 
 ## License
 
-PovioKit is available under the MIT license. See the LICENSE file for more info.
+PovioKit is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
