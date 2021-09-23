@@ -809,6 +809,7 @@ extension PromiseTests {
   }
 }
 
+// MARK: - ConcurrentDispatch tests
 extension PromiseTests {
   func testConcurrentDispatch1() {
     func next(_ idx: Int) -> Promise<()>? {
@@ -910,6 +911,65 @@ extension PromiseTests {
     let ex = expectation(description: "")
     concurrentlyDispatch(spawnTask: next, concurrent: 3, retryCount: 3)
       .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+}
+
+// MARK: - Poll tests
+extension PromiseTests {
+  func testPollWhile1() {
+    var willBeTrueAfter = 5
+    func check() -> Promise<Bool> {
+      if willBeTrueAfter == 0 {
+        return async(true)
+      }
+      willBeTrueAfter -= 1
+      return async(false)
+    }
+    let ex = expectation(description: "")
+    poll(
+      repeat: check,
+      checkAfter: .milliseconds(100),
+      while: { !$0 }
+    )
+    .then { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testPollWhileFails() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    poll(
+      repeat: { async(NSError(), Bool.self) },
+      checkAfter: .milliseconds(100),
+      while: { !$0 }
+    )
+    .catch { _ in ex1.fulfill() }
+    poll(
+      repeat: { sync(NSError(), Bool.self) },
+      checkAfter: .milliseconds(100),
+      while: { !$0 }
+    )
+    .catch { _ in ex2.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testPollWhileFails2() {
+    var willBeTrueAfter = 5
+    func check() -> Promise<Bool> {
+      if willBeTrueAfter == 0 {
+        return async(NSError(), Bool.self)
+      }
+      willBeTrueAfter -= 1
+      return async(false)
+    }
+    let ex = expectation(description: "")
+    poll(
+      repeat: check,
+      checkAfter: .milliseconds(100),
+      while: { !$0 }
+    )
+    .catch { _ in ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
 }
