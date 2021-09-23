@@ -32,13 +32,13 @@ import Foundation
 /// )
 /// .finally { print("Upload result: \($0)") }
 ///
-/// - Parameter next: Provide a next task with the given index.
+/// - Parameter next: Spawn a task with the given index. Return `nil` if all tasks have been spawn.
 /// - Parameter concurrent: The number of concurrent tasks executing at a given time.
 /// - Parameter retryCount: The number of times a task should be retried in case it fails.
 /// - Parameter dispatchQueue: The DispatchQueue on which the result should be notified.
 ///
 public func concurrentlyDispatch<T>(
-  next: @escaping (Int) -> Promise<T>?,
+  spawnTask next: @escaping (Int) -> Promise<T>?,
   concurrent: Int,
   retryCount: Int = 2,
   on dispatchQueue: DispatchQueue? = .main

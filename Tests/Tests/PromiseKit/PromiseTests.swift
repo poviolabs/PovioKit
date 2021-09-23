@@ -817,7 +817,7 @@ extension PromiseTests {
     }
     
     let ex = expectation(description: "")
-    concurrentlyDispatch(next: next, concurrent: 1)
+    concurrentlyDispatch(spawnTask: next, concurrent: 1)
       .then { ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
@@ -829,7 +829,7 @@ extension PromiseTests {
     }
     
     let ex = expectation(description: "")
-    concurrentlyDispatch(next: next, concurrent: 5)
+    concurrentlyDispatch(spawnTask: next, concurrent: 5)
       .then { ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
@@ -841,7 +841,7 @@ extension PromiseTests {
     }
     
     let ex = expectation(description: "")
-    concurrentlyDispatch(next: next, concurrent: 100)
+    concurrentlyDispatch(spawnTask: next, concurrent: 100)
       .then { ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
@@ -853,7 +853,7 @@ extension PromiseTests {
     }
     
     let ex = expectation(description: "")
-    concurrentlyDispatch(next: next, concurrent: 1, retryCount: 0)
+    concurrentlyDispatch(spawnTask: next, concurrent: 1, retryCount: 0)
       .catch { _ in ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
@@ -870,7 +870,7 @@ extension PromiseTests {
     }
     
     let ex = expectation(description: "")
-    concurrentlyDispatch(next: next, concurrent: 2, retryCount: 1)
+    concurrentlyDispatch(spawnTask: next, concurrent: 2, retryCount: 1)
       .then { ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
@@ -889,7 +889,7 @@ extension PromiseTests {
     }
     
     let ex = expectation(description: "")
-    concurrentlyDispatch(next: next, concurrent: 5, retryCount: 2)
+    concurrentlyDispatch(spawnTask: next, concurrent: 5, retryCount: 2)
       .catch { _ in ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
@@ -908,7 +908,7 @@ extension PromiseTests {
     }
     
     let ex = expectation(description: "")
-    concurrentlyDispatch(next: next, concurrent: 3, retryCount: 3)
+    concurrentlyDispatch(spawnTask: next, concurrent: 3, retryCount: 3)
       .then { ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
