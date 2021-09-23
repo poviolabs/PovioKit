@@ -22,7 +22,7 @@ public func race<T, C: Collection>(
   }
   
   return .init { seal in
-    let barrier = DispatchQueue(label: "combineQueue", attributes: .concurrent)
+    let barrier = DispatchQueue(label: "com.poviokit.promisekit.barrier", attributes: .concurrent)
     for promise in promises {
       promise.finally { result in
         switch result {

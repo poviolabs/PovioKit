@@ -809,6 +809,113 @@ extension PromiseTests {
   }
 }
 
+extension PromiseTests {
+  func testConcurrentDispatch1() {
+    func next(_ idx: Int) -> Promise<()>? {
+      guard idx < 10 else { return nil }
+      return async((), delay: .random(in: 0.01...1))
+    }
+    
+    let ex = expectation(description: "")
+    concurrentlyDispatch(next: next, concurrent: 1)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testConcurrentDispatch2() {
+    func next(_ idx: Int) -> Promise<()>? {
+      guard idx < 10 else { return nil }
+      return async((), delay: .random(in: 0.01...1))
+    }
+    
+    let ex = expectation(description: "")
+    concurrentlyDispatch(next: next, concurrent: 5)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testConcurrentDispatch3() {
+    func next(_ idx: Int) -> Promise<()>? {
+      guard idx < 10 else { return nil }
+      return async((), delay: .random(in: 0.01...1))
+    }
+    
+    let ex = expectation(description: "")
+    concurrentlyDispatch(next: next, concurrent: 100)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testConcurrentDispatch4() {
+    func next(_ idx: Int) -> Promise<()>? {
+      guard idx < 10 else { return nil }
+      return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+    }
+    
+    let ex = expectation(description: "")
+    concurrentlyDispatch(next: next, concurrent: 1, retryCount: 0)
+      .catch { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testConcurrentDispatch5() {
+    var shouldFail = Set<Int>()
+    func next(_ idx: Int) -> Promise<()>? {
+      guard idx < 10 else { return nil }
+      if !shouldFail.contains(idx) {
+        shouldFail.insert(idx)
+        return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+      }
+      return async((), delay: .random(in: 0.01...1))
+    }
+    
+    let ex = expectation(description: "")
+    concurrentlyDispatch(next: next, concurrent: 2, retryCount: 1)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testConcurrentDispatch6() {
+    var shouldFail = [Int: Int]()
+    func next(_ idx: Int) -> Promise<()>? {
+      guard idx < 10 else { return nil }
+      if shouldFail[idx] == nil { shouldFail[idx] = 3 }
+      
+      if shouldFail[idx]! > 0 {
+        shouldFail[idx]! -= 1
+        return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+      }
+      return async((), delay: .random(in: 0.01...1))
+    }
+    
+    let ex = expectation(description: "")
+    concurrentlyDispatch(next: next, concurrent: 5, retryCount: 2)
+      .catch { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testConcurrentDispatch7() {
+    var shouldFail = [Int: Int]()
+    func next(_ idx: Int) -> Promise<()>? {
+      guard idx < 10 else { return nil }
+      if shouldFail[idx] == nil { shouldFail[idx] = 3 }
+      
+      if shouldFail[idx]! > 0 {
+        shouldFail[idx]! -= 1
+        return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+      }
+      return async((), delay: .random(in: 0.01...1))
+    }
+    
+    let ex = expectation(description: "")
+    concurrentlyDispatch(next: next, concurrent: 3, retryCount: 3)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+}
+
+///
+
 func async<E: Error, T>(
   _ error: E,
   _ type: T.Type,
