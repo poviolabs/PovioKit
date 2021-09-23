@@ -59,8 +59,8 @@ public protocol PollingDelay {
 ///
 /// The underlying mechanism of this method is the same as for
 /// `poll(request:interval:predicate:pollingDispatchQueue:resolveDispatchQueue)`.
-/// The difference between the two is that in the case of this method the value
-/// we are examining contains the `delay`, therefore it does not have to be fixed
+/// The difference between the two is that in the case of this method we are actually
+/// given the delay as a result of the request. For this reason we do not have to fix it
 /// in advance.
 ///
 /// Example:
