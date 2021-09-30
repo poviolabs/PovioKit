@@ -8,7 +8,7 @@
 
 import UIKit
 
-public typealias WizardTransitionAnimator = ((UIView, UIView) -> Void)
+public typealias WizardTransitionAnimator = (_ current: UIView, _ next: UIView) -> Void
 
 public func SlideInSlideOutAnimatorFactory(animationDuration: TimeInterval) -> WizardTransitionAnimator {
   { current, next in
