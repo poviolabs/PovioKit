@@ -67,10 +67,11 @@ open class Wizard<ContentView: WizardContentView>: UIViewController {
   }
   
   open func configureStep(beforeTransition step: WizardStep) {
-    /// Override in subclass
+    /// Override in subclass if necessary
   }
 }
 
+// MARK: - API
 public extension Wizard {
   func addStep(_ step: @escaping LazyStep) {
     dataSource.steps.append(step)
@@ -84,13 +85,13 @@ public extension Wizard {
   var currentStep: WizardStep? {
     dataSource.currentStep
   }
-}
 
-// MARK: - API
-public extension Wizard {
-  func nextStep() {
+  func nextStep(
+    transitionDuration duration: TimeInterval,
+    animator: WizardTransitionAnimator?
+  ) {
     guard !contentView.isPerformingLayout else {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: nextStep)
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.nextStep(transitionDuration: duration, animator: animator) }
       return
     }
     
@@ -100,26 +101,9 @@ public extension Wizard {
     view.isUserInteractionEnabled = false
     contentView.transitionToView(
       step.view,
-      animate: { current, next in
-        next.transform = CGAffineTransform.identity.translatedBy(x: current.frame.width, y: 0)
-        UIView.animate(
-          withDuration: 0.2,
-          animations: {
-            next.transform = .identity
-            current.transform = CGAffineTransform.identity.translatedBy(x: -current.frame.width, y: 0)
-          }
-        )
-        
-//        next.alpha = 0
-//        UIView.animate(
-//          withDuration: 0.2,
-//          animations: {
-//            next.alpha = 1
-//            current.alpha = 0
-//          }
-//        )
-      },
-      completion: { [weak self] in self?.view.isUserInteractionEnabled = true }
+      transitionDuration: duration,
+      animate: animator,
+      completion: { [weak view] in view?.isUserInteractionEnabled = true }
     )
   }
 }
@@ -132,7 +116,6 @@ private extension Wizard {
   
   func setupContentView() {
     view.addSubview(contentView)
-    view.translatesAutoresizingMaskIntoConstraints = false
     contentView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -144,6 +127,6 @@ private extension Wizard {
   
   func initialStep() {
     guard dataSource.currentStepIndex < 0 else { return }
-    nextStep()
+    nextStep(transitionDuration: 0.3, animator: nil)
   }
 }

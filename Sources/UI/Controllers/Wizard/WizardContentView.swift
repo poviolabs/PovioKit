@@ -26,22 +26,28 @@ open class WizardContentView: UIView {
 extension WizardContentView {
   func transitionToView(
     _ view: UIView,
-    animate: ((UIView, UIView) -> Void)?,
+    transitionDuration duration: TimeInterval,
+    animate: WizardTransitionAnimator?,
     completion: @escaping () -> Void
   ) {
     view.translatesAutoresizingMaskIntoConstraints = false
     guard let current = contentView.subviews.first else {
-      firstTransition(view, completion: completion)
+      firstTransition(view, transitionDuration: duration, completion: completion)
       return
     }
     nextTransition(
       current: current,
       next: view,
+      transitionDuration: duration,
       animate: animate,
       completion: completion)
   }
   
-  private func firstTransition(_ view: UIView, completion: @escaping () -> Void) {
+  private func firstTransition(
+    _ view: UIView,
+    transitionDuration duration: TimeInterval,
+    completion: @escaping () -> Void
+  ) {
     contentView.addSubview(view)
     NSLayoutConstraint.activate([
       view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -53,7 +59,7 @@ extension WizardContentView {
     
     view.alpha = 0
     UIView.animate(
-      withDuration: 0.5,
+      withDuration: duration,
       animations: {
         view.alpha = 1
       },
@@ -66,7 +72,8 @@ extension WizardContentView {
   private func nextTransition(
     current: UIView,
     next: UIView,
-    animate: ((UIView, UIView) -> Void)?,
+    transitionDuration duration: TimeInterval,
+    animate: WizardTransitionAnimator?,
     completion: @escaping () -> Void
   ) {
     contentView.addSubview(next)
@@ -79,11 +86,15 @@ extension WizardContentView {
     contentView.layoutIfNeeded()
     current.constraints.forEach { $0.priority = .sceneSizeStayPut }
     
-    animate?(current, next)
+    if let animate = animate {
+      animate(current, next)
+    } else {
+      current.isHidden = true
+    }
     
     isPerformingLayout = true
     UIView.animate(
-      withDuration: 0.2,
+      withDuration: duration,
       animations: layoutIfNeeded,
       completion: { _ in
         self.isPerformingLayout = false
