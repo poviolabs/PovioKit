@@ -8,7 +8,7 @@
 
 import UIKit
 
-public typealias WizardTransitionAnimator = (_ current: UIView, _ next: UIView) -> Void
+public typealias WizardTransitionAnimator = ((UIView, UIView) -> Void)
 
 public func SlideInSlideOutAnimatorFactory(animationDuration: TimeInterval) -> WizardTransitionAnimator {
   { current, next in
@@ -63,7 +63,7 @@ public func PopInPopOutAnimatorFactory(animationDuration: TimeInterval) -> Wizar
       withDuration: animationDuration,
       animations: {
         next.transform = .identity
-        current.transform = .identity.scaledBy(x: 0, y: 0)
+        current.transform = .identity.scaledBy(x: 0.01, y: 0.01)
       }
     )
   }
