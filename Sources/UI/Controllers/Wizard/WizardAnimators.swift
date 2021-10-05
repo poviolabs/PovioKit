@@ -10,11 +10,15 @@ import UIKit
 
 public typealias WizardTransitionAnimator = ((UIView, UIView) -> Void)
 
-public func SlideInSlideOutAnimatorFactory(animationDuration: TimeInterval) -> WizardTransitionAnimator {
+public func SlideInSlideOutAnimatorFactory(
+  animationDuration: TimeInterval,
+  withDelay delay: TimeInterval = 0
+) -> WizardTransitionAnimator {
   { current, next in
     next.transform = CGAffineTransform.identity.translatedBy(x: current.frame.width, y: 0)
     UIView.animate(
       withDuration: animationDuration,
+      delay: delay,
       animations: {
         next.transform = .identity
         current.transform = CGAffineTransform.identity.translatedBy(x: -current.frame.width, y: 0)
@@ -23,11 +27,15 @@ public func SlideInSlideOutAnimatorFactory(animationDuration: TimeInterval) -> W
   }
 }
 
-public func FadeInAnimatorFactory(animationDuration: TimeInterval) -> WizardTransitionAnimator {
+public func FadeInAnimatorFactory(
+  animationDuration: TimeInterval,
+  withDelay delay: TimeInterval = 0
+) -> WizardTransitionAnimator {
   { current, next in
     next.alpha = 0
     UIView.animate(
       withDuration: animationDuration,
+      delay: delay,
       animations: {
         next.alpha = 1
       }
@@ -35,10 +43,14 @@ public func FadeInAnimatorFactory(animationDuration: TimeInterval) -> WizardTran
   }
 }
 
-public func FadeOutAnimatorFactory(animationDuration: TimeInterval) -> WizardTransitionAnimator {
+public func FadeOutAnimatorFactory(
+  animationDuration: TimeInterval,
+  withDelay delay: TimeInterval = 0
+) -> WizardTransitionAnimator {
   { current, next in
     UIView.animate(
       withDuration: animationDuration,
+      delay: delay,
       animations: {
         current.alpha = 0
       }
@@ -46,21 +58,28 @@ public func FadeOutAnimatorFactory(animationDuration: TimeInterval) -> WizardTra
   }
 }
 
-public func FadeInFadeOutAnimatorFactory(animationDuration: TimeInterval) -> WizardTransitionAnimator {
+public func FadeInFadeOutAnimatorFactory(
+  animationDuration: TimeInterval,
+  withDelay delay: TimeInterval = 0
+) -> WizardTransitionAnimator {
   CompositeAnimator(
     animators:
       [
-        FadeInAnimatorFactory(animationDuration: animationDuration),
-        FadeOutAnimatorFactory(animationDuration: animationDuration)
+        FadeInAnimatorFactory(animationDuration: animationDuration, withDelay: delay),
+        FadeOutAnimatorFactory(animationDuration: animationDuration, withDelay: delay)
       ]
   )
 }
 
-public func PopInPopOutAnimatorFactory(animationDuration: TimeInterval) -> WizardTransitionAnimator {
+public func PopInPopOutAnimatorFactory(
+  animationDuration: TimeInterval,
+  withDelay delay: TimeInterval = 0
+) -> WizardTransitionAnimator {
   { current, next in
     next.transform = .identity.scaledBy(x: 2, y: 2)
     UIView.animate(
       withDuration: animationDuration,
+      delay: delay,
       animations: {
         next.transform = .identity
         current.transform = .identity.scaledBy(x: 0.01, y: 0.01)
