@@ -28,6 +28,7 @@ public extension WizardDataSource {
   func nextStep() -> WizardStep? {
     currentStepIndex += 1
     guard let thunk = steps[safe: currentStepIndex] else {
+      currentStepIndex -= 1
       return nil
     }
     let step = thunk()
@@ -36,7 +37,13 @@ public extension WizardDataSource {
   }
 }
 
-
+/// An automatically resizable dialog superclass.
+///
+/// This view controller enables you to add and transition
+/// between view controllers inside a dialog.
+/// The UI, presentation, and layout are completely decoupled,
+/// allowing for maximum specialization.
+///
 open class Wizard<ContentView: WizardContentView>: UIViewController {
   public typealias DataSource = WizardDataSource
   public typealias LazyStep = DataSource.LazyStep
