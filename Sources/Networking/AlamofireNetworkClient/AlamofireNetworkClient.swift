@@ -23,9 +23,14 @@ public typealias Writer = (String) -> Void
 
 open class AlamofireNetworkClient {
   private let session: Alamofire.Session
+  private let eventMonitors: [RequestMonitor]
   
-  public init(session: Alamofire.Session = .default) {
+  public init(
+    session: Alamofire.Session = .default,
+    eventMonitors: [RequestMonitor]
+  ) {
     self.session = session
+    self.eventMonitors = eventMonitors
   }
 }
 
@@ -42,7 +47,7 @@ public extension AlamofireNetworkClient {
                method: method,
                headers: headers,
                interceptor: interceptor)
-    return .init(with: request)
+    return .init(with: request, eventMonitors: eventMonitors)
   }
   
   func request(
@@ -60,7 +65,7 @@ public extension AlamofireNetworkClient {
                encoding: parameterEncoding,
                headers: headers,
                interceptor: interceptor)
-    return .init(with: request)
+    return .init(with: request, eventMonitors: eventMonitors)
   }
   
   func request<E: Encodable>(
@@ -86,7 +91,7 @@ public extension AlamofireNetworkClient {
                encoder: parameterEncoder,
                headers: headers,
                interceptor: interceptor)
-    return .init(with: request)
+    return .init(with: request, eventMonitors: eventMonitors)
   }
   
   func upload(
@@ -114,7 +119,7 @@ public extension AlamofireNetworkClient {
       method: method,
       headers: headers,
       interceptor: interceptor)
-    return .init(with: request)
+    return .init(with: request, eventMonitors: eventMonitors)
   }
   
   func upload(
@@ -130,7 +135,7 @@ public extension AlamofireNetworkClient {
               method: method,
               headers: headers,
               interceptor: interceptor)
-    return .init(with: request)
+    return .init(with: request, eventMonitors: eventMonitors)
   }
   
   func upload(
@@ -147,12 +152,33 @@ public extension AlamofireNetworkClient {
               headers: headers,
               interceptor: interceptor,
               fileManager: .default)
-    return .init(with: request)
+    return .init(with: request, eventMonitors: eventMonitors)
   }
 }
 
 // MARK: - Models
 public extension AlamofireNetworkClient {
+  enum Error: Swift.Error {
+    case request(RequestError, ErrorInfo)
+    case other(Swift.Error, ErrorInfo)
+  }
+  
+  class Request {
+    private let dataRequest: DataRequest
+    private var errorHandler: ((Swift.Error, Data) throws -> Swift.Error)?
+    private let eventMonitors: [RequestMonitor]
+    
+    init(
+      with dataRequest: DataRequest,
+      eventMonitors: [RequestMonitor]
+    ) {
+      self.dataRequest = dataRequest
+      self.eventMonitors = eventMonitors
+    }
+  }
+}
+
+public extension AlamofireNetworkClient.Error {
   enum RequestError: Swift.Error {
     case redirection(Int) // 300..<400
     case client(Int) // 400..<500
@@ -160,17 +186,18 @@ public extension AlamofireNetworkClient {
     case other(Int)
   }
   
-  enum Error: Swift.Error {
-    case request(RequestError)
-    case other(Swift.Error)
+  struct ErrorInfo {
+    public var method: HTTPMethod?
+    public var endpoint: URLConvertible?
+    public var headers: HTTPHeaders?
+    public var body: Data?
   }
   
-  class Request {
-    private let dataRequest: DataRequest
-    private var errorHandler: ((Swift.Error, Data) throws -> Swift.Error)?
-    
-    init(with dataRequest: DataRequest) {
-      self.dataRequest = dataRequest
+  var info: ErrorInfo {
+    switch self {
+    case .request(_, let info),
+         .other(_, let info):
+      return info
     }
   }
 }
@@ -182,9 +209,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseJSON {
         switch $0.result {
         case .success(let json):
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: json)
         case .failure(let error):
-          promise.reject(with: self.handleError(error))
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
         }
       }
     }
@@ -195,9 +225,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseData { (response: AFDataResponse<Data>) in
         switch response.result {
         case .success(let data):
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: data)
         case .failure(let error):
-          promise.reject(with: self.handleError(error))
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
         }
       }
     }
@@ -208,9 +241,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.response {
         switch $0.result {
         case .success:
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: ())
         case .failure(let error):
-          promise.reject(with: self.handleError(error))
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
         }
       }
     }
@@ -221,9 +257,12 @@ public extension AlamofireNetworkClient.Request {
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
           promise.resolve(with: decodedObject)
         case .failure(let error):
-          promise.reject(with: self.handleError(error))
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
         }
       }
     }
@@ -263,15 +302,15 @@ public extension AlamofireNetworkClient.Request {
 // MARK: - Errors
 public extension AlamofireNetworkClient.Error {
   static var unauthorized: AlamofireNetworkClient.Error {
-    .request(.client(401))
+    .request(.client(401), .init())
   }
   
   static var badRequest: AlamofireNetworkClient.Error {
-    .request(.client(400))
+    .request(.client(400), .init())
   }
   
   static var internalServerError: AlamofireNetworkClient.Error {
-    .request(.server(500))
+    .request(.server(500), .init())
   }
 }
 
@@ -292,24 +331,33 @@ private extension AlamofireNetworkClient.Request {
     guard let data = dataRequest.data, let handler = errorHandler else {
       switch error {
       case .responseSerializationFailed as AFError:
-        return .other(error)
+        return .other(error, errorInfo)
       case _ as AFError:
-        return .request(.init(code: dataRequest.response?.statusCode ?? 0))
+        return .request(.init(code: dataRequest.response?.statusCode ?? 0), errorInfo)
       case _:
-        return .other(error)
+        return .other(error, errorInfo)
       }
     }
     do {
       let handledError = try handler(error, data)
-      return .other(handledError)
+      return .other(handledError, errorInfo)
     } catch {
-      return .other(error)
+      return .other(error, errorInfo)
     }
+  }
+  
+  var errorInfo: AlamofireNetworkClient.Error.ErrorInfo {
+    .init(
+      method: dataRequest.request?.method,
+      endpoint: dataRequest.request?.url,
+      headers: dataRequest.request?.headers,
+      body: dataRequest.request?.httpBody
+    )
   }
 }
 
 // MARK: - Private Status Code Handling
-private extension AlamofireNetworkClient.RequestError {
+private extension AlamofireNetworkClient.Error.RequestError {
   init(code: Int) {
     switch code {
     case 300..<400:
@@ -322,4 +370,14 @@ private extension AlamofireNetworkClient.RequestError {
       self = .other(code)
     }
   }
+}
+
+public protocol RequestMonitor: AnyObject {
+  func requestDidSucceed(_ request: AlamofireNetworkClient.Request)
+  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error)
+}
+
+public extension RequestMonitor {
+  func requestDidSucceed(_ request: AlamofireNetworkClient.Request) {}
+  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error) {}
 }
