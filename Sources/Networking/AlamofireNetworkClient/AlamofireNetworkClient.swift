@@ -202,15 +202,6 @@ public extension AlamofireNetworkClient.Error {
   }
 }
 
-public extension AlamofireNetworkClient.Error.ErrorInfo {
-  init() {
-    self.method = nil
-    self.endpoint = nil
-    self.headers = nil
-    self.body = nil
-  }
-}
-
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
   var asJson: Promise<Any> {
