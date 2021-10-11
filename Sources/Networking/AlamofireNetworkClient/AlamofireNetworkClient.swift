@@ -187,10 +187,10 @@ public extension AlamofireNetworkClient.Error {
   }
   
   struct ErrorInfo {
-    public let method: HTTPMethod?
-    public let endpoint: URLConvertible?
-    public let headers: HTTPHeaders?
-    public let body: Data?
+    public var method: HTTPMethod?
+    public var endpoint: URLConvertible?
+    public var headers: HTTPHeaders?
+    public var body: Data?
   }
   
   var info: ErrorInfo {
