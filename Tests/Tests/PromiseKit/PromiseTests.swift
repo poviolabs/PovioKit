@@ -936,6 +936,26 @@ extension PromiseTests {
     waitForExpectations(timeout: 10)
   }
   
+  func testPollWhileFailsDueToRetry() {
+    var willBeTrueAfter = 2
+    func check() -> Promise<Bool> {
+      if willBeTrueAfter == 0 {
+        return async(true)
+      }
+      willBeTrueAfter -= 1
+      return async(false)
+    }
+    let ex = expectation(description: "")
+    poll(
+      repeat: check,
+      checkAfter: .milliseconds(100),
+      while: { !$0 },
+      maxRetry: 1
+    )
+    .catch { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
   func testPollWhileFails() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")

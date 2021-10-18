@@ -29,6 +29,7 @@ import Foundation
 /// - Parameter request: Provide a new request.
 /// - Parameter interval: Delay between requests.
 /// - Parameter predicate: Repeat requests while the predicate returns `true`.
+/// - Parameter maxRetry: A maximum number of retries allowed.
 /// - Parameter pollingDispatchQueue: The DispatchQueue on which the polling is performed.
 /// - Parameter resolveDispatchQueue: The DispatchQueue on which the resulting promise is resolved.
 ///
@@ -36,6 +37,7 @@ public func poll<T>(
   repeat request: @escaping () -> Promise<T>,
   checkAfter interval: DispatchTimeInterval,
   while predicate: @escaping (T) -> Bool,
+  maxRetry retry: UInt = .max,
   pollOn pollingDispatchQueue: DispatchQueue = .global(),
   resolveOn resolveDispatchQueue: DispatchQueue? = .main
 ) -> Promise<T> {
@@ -43,6 +45,7 @@ public func poll<T>(
     repeat: request,
     checkAfter: { _ in interval },
     while: predicate,
+    maxRetry: retry,
     pollOn: pollingDispatchQueue,
     resolveOn: resolveDispatchQueue
   )
@@ -82,12 +85,14 @@ public protocol PollingDelay {
 ///
 /// - Parameter request: Provide a new request.
 /// - Parameter predicate: Repeat requests while the predicate returns `true`.
+/// - Parameter maxRetry: A maximum number of retries allowed.
 /// - Parameter pollingDispatchQueue: The DispatchQueue on which the polling is performed.
 /// - Parameter resolveDispatchQueue: The DispatchQueue on which the resulting promise is resolved.
 ///
 public func poll<T: PollingDelay>(
   repeat request: @escaping () -> Promise<T>,
   while predicate: @escaping (T) -> Bool,
+  maxRetry retry: UInt = .max,
   pollOn pollingDispatchQueue: DispatchQueue = .global(),
   resolveOn resolveDispatchQueue: DispatchQueue? = .main
 ) -> Promise<T> {
@@ -95,6 +100,7 @@ public func poll<T: PollingDelay>(
     repeat: request,
     checkAfter: { $0.checkAfter },
     while: predicate,
+    maxRetry: retry,
     pollOn: pollingDispatchQueue,
     resolveOn: resolveDispatchQueue
   )
@@ -105,17 +111,25 @@ func poll<T>(
   repeat request: @escaping () -> Promise<T>,
   checkAfter: @escaping (T) -> DispatchTimeInterval,
   while predicate: @escaping (T) -> Bool,
+  maxRetry retry: UInt,
   pollOn pollingDispatchQueue: DispatchQueue = .global(),
   resolveOn resolveDispatchQueue: DispatchQueue? = .main
 ) -> Promise<T> {
+  precondition(retry > 0)
   return .init { seal in
     let barrier = DispatchQueue(label: "barrier", attributes: .concurrent)
+    var retry = retry
     func polling() {
       let promise = request()
       barrier.async(flags: .barrier) {
         promise.finally {
           switch $0 {
           case .success(let value) where predicate(value):
+            guard retry > 0 else {
+              seal.reject(with: NSError(domain: "com.promise.poll", code: 999, userInfo: ["message": "Reached a maximum number of retries"]))
+              return
+            }
+            retry -= 1
             pollingDispatchQueue.asyncAfter(deadline: .now() + checkAfter(value), execute: polling)
           case .success(let value):
             seal.resolve(with: value, on: resolveDispatchQueue)
