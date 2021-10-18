@@ -222,8 +222,26 @@ concurrentlyDispatch(
   next: uploadChunk,
   concurrent: 5, // concurrently upload up to 5 chunks at a time
   retryCount: 5  // retry them for a maximum of 5 times in case they fail
-  )
+)
 .finally { print("Upload result: \($0)") }
+```
+
+7. `poll`
+
+`poll` implements a common server-client communication strategy called _polling_.  You can use it, for instance,
+to periodically ping your server:
+
+```swift
+func checkStatus() -> Promise<Bool> {
+  // query the server regarding the status ...
+}
+
+poll(
+  repeat: checkStatus,     // repeate checking the status
+    checkAfter: .seconds(5), // ... every 5 seconds
+    while: { !$0 }           // ... while it remains `false`
+  )
+.finally { print("Polling result: \($0)") }
 ```
 
 ----
