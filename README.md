@@ -29,7 +29,7 @@
 | [AttributedStringBuilder](Resources/Utilities/AttributedStringBuilder/) | [AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/) | [Data Source](Resources/Protocols/DataSource/) | [GradientView](Resources/Views/GradientView/) |
 | [StartupService](Resources/Utilities/StartupService/) | | [PaddingLabel](Resources/Views/PaddingLabel/) |
 | [Broadcast](Resources/Utilities/Broadcast/) | | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) |
-| [PromiseKit](Resources/Utilities/PromiseKit/) | | |
+| [PromiseKit](Resources/PromiseKit/) | | |
 | [ColorInterpolator](Resources/Utilities/ColorInterpolator/) | | |
 | [DispatchTimer](Resources/Utilities/DispatchTimer/) | | |
 | [Logger](Resources/Utilities/Logger/) | | |
