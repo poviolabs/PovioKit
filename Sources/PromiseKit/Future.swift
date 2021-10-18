@@ -34,25 +34,43 @@ public extension Future {
 public extension Future {
   typealias FutureResult = Result<Value, Error>
   
-  func observe(with callback: @escaping (FutureResult) -> Void) {
+  func finally(with callback: @escaping (FutureResult) -> Void) {
     barrier.sync(flags: .barrier) {
       observers.append(.both(callback))
       internalResult.map(callback)
     }
   }
   
-  func onSuccess(_ callback: @escaping (Value) -> Void) {
+  func then(_ callback: @escaping (Value) -> Void) {
     barrier.sync(flags: .barrier) {
       observers.append(.success(callback))
       internalResult.map { observers.last?.notifity($0) }
     }
   }
   
-  func onFailure(_ callback: @escaping (Error) -> Void) {
+  func `catch`(_ callback: @escaping (Error) -> Void) {
     barrier.sync(flags: .barrier) {
       observers.append(.failure(callback))
       internalResult.map { observers.last?.notifity($0) }
     }
+  }
+  
+  @available(*, deprecated, renamed: "finally")
+  @inline(__always)
+  func observe(with callback: @escaping (FutureResult) -> Void) {
+    self.finally(with: callback)
+  }
+  
+  @available(*, deprecated, renamed: "catch")
+  @inline(__always)
+  func onSuccess(_ callback: @escaping (Value) -> Void) {
+    self.then(callback)
+  }
+  
+  @available(*, deprecated, renamed: "then")
+  @inline(__always)
+  func onFailure(_ callback: @escaping (Error) -> Void) {
+    self.catch(callback)
   }
 }
 

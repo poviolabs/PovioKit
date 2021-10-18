@@ -1,6 +1,6 @@
 # PromiseKit
 
-Lightweight `Promise` pattern implementation.
+A lightweight `Promise` implementation.
 
 ## Usage
 
@@ -43,17 +43,17 @@ let promise = fetchUser(with: 10)
 
 ...
 
-promise.onSuccess { value in
+promise.then { value in
   ...
 }
 
-promise.onFailure { error in
+promise.catch { error in
 ...
 }
 
 // or
 
-promise.observe {
+promise.finally {
   switch $0 {
   case .success(let user):
     ...
@@ -135,10 +135,10 @@ Much better! The code is clean and easy to read.
 
 ### Chaining
 
-The core idea of Promises is that they are _composable_. What that means is that if we have a `Promise<A>` and a function `(A) -> Promise<B>` we can create `Promise<B>`. 
-Behind the scene, Promise itself handles `success` and `failure` cases. If at any point in the chain of promises one of them fails, the whole chain fails as well.
+The core idea of Promises is  _composition_. What that means is that if we have a `Promise<A>` and a function `(A) -> Promise<B>`, we can create a `Promise<B>`. 
+Behind the scenes, Promise automatically handles `success` and `failure` cases. If at any point in the chain of promises one of them fails, the whole chain fails as well.
 
-This mechanism is encapsulated by the `chain` method. Use `chain` when you want to invoke another Promise after the current Promise succeeds. Note that types must match: if you want to chain a `Promise<T>` then you must provide a function of type `(T) -> Promise<U>` (U can be any type).
+This mechanism is encapsulated by the `chain` method. Use `chain` when you want to invoke another Promise after the current Promise succeeds. Note that the types must match: if you want to chain a `Promise<T>` then you must provide a function of type `(T) -> Promise<U>` (U can be any type).
 
 ## API
 
@@ -164,21 +164,21 @@ Example:
 ```swift
 Promise<String>.value("10")
   .compactMap { Int($0) } // -> transforms into Promise<Int>
-  .onSuccess { print($0 } // -> output is "10"
+  .then { print($0 } // -> output is "10"
 Promise<String>.value("not a number")
   .compactMap { Int($0) } // -> transforms into Promise<Int>
-  .onSuccess { print($0 } // -> will not get called!
+  .then { print($0 } // -> will not get called!
 ```
 
-3. `combine`
+3. `all`
 
-`combine` lets us group multiple promises into a single promise, which contains the result of all promises. 
+`all` lets us group multiple promises into a single promise, which contains the result of all promises. 
 
 Example:
 
 ```swift
 let promises: [Promise<String>] = ...
-comine(promises: promises)
+all(promises: promises)
   .map { (values: [String]) in ... } // -> do some work on list of Strings
 ```
 
@@ -187,9 +187,19 @@ We can combine promises of different types as well:
 ```swift
 let p1 = Promise<Int> = ...
 let p2 = Promise<String> = ...
-combine(p1, p2)
+all(p1, p2)
   .map { (x: Int, y: String) in ... } // -> do some work
 ```
+
+4. `any`
+
+`any` is a dual of `all`. It allows us to group multiple promises into a single promise, allowing some (at least one 
+has to succeed) to fail.
+
+5. `race`
+
+`race` dispatches a competition between promises, and returns a promise which contains a value of the first promise
+that succeeds.
 
 ----
 

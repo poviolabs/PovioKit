@@ -75,12 +75,12 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public func observe(promise other: Promise) {
-    other.onSuccess { self.resolve(with: $0) }
-    other.onFailure { self.reject(with: $0) }
+    other.then { self.resolve(with: $0) }
+    other.catch { self.reject(with: $0) }
   }
   
-  public func observe(_ completion: @escaping (Value?, Error?) -> Void) {
-    observe {
+  public func finally(_ completion: @escaping (Value?, Error?) -> Void) {
+    finally {
       switch $0 {
       case .success(let result):
         completion(result, nil)
@@ -90,8 +90,14 @@ public class Promise<Value>: Future<Value, Error> {
     }
   }
   
-  func observe(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
-    observe {
+  @available(*, deprecated, renamed: "finally")
+  @inline(__always)
+  public func observe(_ completion: @escaping (Value?, Error?) -> Void) {
+    finally(completion)
+  }
+  
+  func finally(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
+    finally {
       switch $0 {
       case .success(let result):
         success(result)
@@ -101,13 +107,27 @@ public class Promise<Value>: Future<Value, Error> {
     }
   }
   
+  @available(*, deprecated, renamed: "finally")
+  @inline(__always)
+  func observe(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
+    finally(success, failure)
+  }
+  
   public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue? = .main) {
-    onSuccess { promise.resolve(with: $0, on: dispatchQueue) }
-    onFailure { promise.reject(with: $0, on: dispatchQueue) }
+    self.then { promise.resolve(with: $0, on: dispatchQueue) }
+    self.catch { promise.reject(with: $0, on: dispatchQueue) }
   }
 }
 
 public extension Promise {
+  var isResolved: Bool {
+    result != nil
+  }
+  
+  var isAwaiting: Bool {
+    result == nil
+  }
+  
   var isFulfilled: Bool {
     switch result {
     case .success?:
@@ -124,10 +144,6 @@ public extension Promise {
     case _:
       return false
     }
-  }
-  
-  var isAwaiting: Bool {
-    result == nil
   }
   
   var value: Value? {
@@ -157,7 +173,7 @@ public extension Promise {
   
   /// Tap into the promise to produce side-effects.
   func tap(_ work: @escaping (Value) -> Void) -> Self {
-    onSuccess(work)
+    then(work)
     return self
   }
 }
@@ -177,13 +193,13 @@ public extension Promise {
     with transform: @escaping (Value) throws -> Promise<U>
   ) -> Promise<U> {
     Promise<U> { seal in
-      self.observe {
+      self.finally {
         switch $0 {
         case .success(let value):
           dispatchQueue.async {
             do {
               let promise = try transform(value)
-              promise.observe {
+              promise.finally {
                 switch $0 {
                 case .success(let value):
                   seal.resolve(with: value, on: dispatchQueue)
@@ -217,7 +233,7 @@ public extension Promise {
     with transform: @escaping (Error) -> Promise<Value>
   ) -> Promise<Value> {
     Promise { seal in
-      self.observe {
+      self.finally {
         switch $0 {
         case .success(let value):
           seal.resolve(with: value, on: dispatchQueue)
@@ -357,7 +373,7 @@ public extension Promise {
   
   /// Return a new promise that succeeds when this and another promise both succeed.
   ///
-  /// This is equivalent to calling `combine(:)`.
+  /// This is equivalent to calling `all(:)`.
   ///
   /// - Parameter other: A second `Promise`.
   /// - Returns: A Promise with the result of given promises. If any of the promises fail
@@ -367,7 +383,7 @@ public extension Promise {
     _ other: Promise<U>,
     on dispatchQueue: DispatchQueue? = .main
   ) -> Promise<(Value, U)> {
-    combine(on: dispatchQueue, self, other)
+    all(on: dispatchQueue, self, other)
   }
   
   /// Return a new promise that contains this and another value.
@@ -380,6 +396,38 @@ public extension Promise {
     on dispatchQueue: DispatchQueue? = .main
   ) -> Promise<(Value, U)> {
     map(on: dispatchQueue) { ($0, value) }
+  }
+  
+  /// Return a new promise that succeeds if either `self` or another promise both succeeds.
+  ///
+  /// This is equivalent to calling `any(:)`.
+  ///
+  /// - Parameter other: A second `Promise`.
+  /// - Returns: A Promise containing either the value of `self`, or if `self` fails the
+  /// result of the other promise.
+  func or<U>(
+    _ other: Promise<U>,
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<Either<Value, U>> {
+    any(on: dispatchQueue, self, other)
+      .map { l, r in
+        if let l = l { return .left(l) }
+        else { return .right(r!) }
+      }
+  }
+  
+  /// Return a new promise that contains either value of `self` or the given value.
+  ///
+  /// - Parameter other: Some other value.
+  /// - Returns: A Promise containing a either the value of `self`, or if `self` fails the
+  /// given given value.
+  ///
+  func or<U>(
+    _ value: U,
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<Either<Value, U>> {
+    map(on: dispatchQueue, with: Either.left)
+      .chainError(on: dispatchQueue) { _ in .value(.right(value)) }
   }
 }
 
@@ -525,7 +573,7 @@ public extension Promise where Value: Sequence {
     _ transform: @escaping (Value.Element) throws -> Promise<U>
   ) -> Promise<[U]> {
     chain(on: dispatchQueue) { values in
-      combine(promises: try values.map(transform))
+      all(promises: try values.map(transform))
     }
   }
   
@@ -790,7 +838,6 @@ extension Optional where Wrapped == DispatchQueue {
     }
   }
 }
-
 
 /// Taken from `Vapor.Utilities.OptionalTypes`:
 
