@@ -27,7 +27,7 @@ import Foundation
 ///
 /// concurrentlyDispatch(
 ///   next: uploadChunk,
-///   concurrent: 5, // concurrently upload at most 5 chunks at a time
+///   concurrent: 5, // concurrently upload up to 5 chunks at a time
 ///   retryCount: 5  // retry them for a maximum of 5 times in case they fail
 /// )
 /// .finally { print("Upload result: \($0)") }

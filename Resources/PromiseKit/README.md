@@ -201,6 +201,31 @@ has to succeed) to fail.
 `race` dispatches a competition between promises, and returns a promise which contains a value of the first promise
 that succeeds.
 
+6. `concurrentlyDispatch`
+
+`concurrentlyDispatch` is an abstraction that allows you to execute tasks concurrently. It can be very usefuly, for example,
+when you need to upload a file to a server by splitting it into several smaller chunks:
+
+```swift
+let file: Data = ...
+let chunkSize = 1_000_000 // 1MB
+
+func uploadChunk(_ index: Int) -> Promise<()>? {
+  let offset = index * chunkSize
+  guard offset < data.count else { return nil }
+  let chunk = data[offset..<min(offset + chunkSize, data.count)]
+  let base64 = chunk.base64EncodedString()
+  return upload(base64EncodedData: base64)
+}
+
+concurrentlyDispatch(
+  next: uploadChunk,
+  concurrent: 5, // concurrently upload up to 5 chunks at a time
+  retryCount: 5  // retry them for a maximum of 5 times in case they fail
+  )
+.finally { print("Upload result: \($0)") }
+```
+
 ----
 
 `PromiseKit` provides other useful APIs which help us in specific situations. For example, we can directly decode `Data` into a `Decodable` conforming type:
