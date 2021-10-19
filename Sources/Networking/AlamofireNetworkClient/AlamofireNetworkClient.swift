@@ -191,6 +191,8 @@ public extension AlamofireNetworkClient.Error {
     public var endpoint: URLConvertible?
     public var headers: HTTPHeaders?
     public var body: Data?
+    public var response: Data?
+    public var responseHTTPCode: Int?
   }
   
   var info: ErrorInfo {
@@ -351,7 +353,9 @@ private extension AlamofireNetworkClient.Request {
       method: dataRequest.request?.method,
       endpoint: dataRequest.request?.url,
       headers: dataRequest.request?.headers,
-      body: dataRequest.request?.httpBody
+      body: dataRequest.request?.httpBody,
+      response: dataRequest.data,
+      responseHTTPCode: dataRequest.response?.statusCode
     )
   }
 }
