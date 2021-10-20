@@ -171,19 +171,19 @@ public extension Promise {
     map { _ in }
   }
   
-  /// Tap into the a promise to produce side-effects.
+  /// Tap into the promise to produce side-effects.
   func tap(_ work: @escaping (Value) -> Void) -> Self {
     then(work)
     return self
   }
   
-  /// Tap into the a promise to produce side-effects.
+  /// Tap into the promise to produce side-effects.
   func tapResult(_ work: @escaping (Result<Value, Error>) -> Void) -> Self {
     finally { work($0) }
     return self
   }
   
-  /// Tap into the a promise to produce side-effects.
+  /// Tap into the promise to produce side-effects.
   func tapError(_ work: @escaping (Error) -> Void) -> Self {
     `catch`(work)
     return self
