@@ -807,6 +807,18 @@ extension PromiseTests {
       }
     waitForExpectations(timeout: 2)
   }
+  
+  func testValidate() {
+    let ex1 = expectation(description: "")
+    let ex2 = expectation(description: "")
+    async(true)
+      .validate { $0 }
+      .then { _ in ex1.fulfill() }
+    async(false)
+      .validate { $0 }
+      .catch { _ in ex2.fulfill() }
+    waitForExpectations(timeout: 2)
+  }
 }
 
 // MARK: - ConcurrentDispatch tests

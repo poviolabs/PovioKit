@@ -61,13 +61,13 @@ public extension Future {
     self.finally(with: callback)
   }
   
-  @available(*, deprecated, renamed: "catch")
+  @available(*, deprecated, renamed: "then")
   @inline(__always)
   func onSuccess(_ callback: @escaping (Value) -> Void) {
     self.then(callback)
   }
   
-  @available(*, deprecated, renamed: "then")
+  @available(*, deprecated, renamed: "catch")
   @inline(__always)
   func onFailure(_ callback: @escaping (Error) -> Void) {
     self.catch(callback)

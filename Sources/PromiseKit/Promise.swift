@@ -48,11 +48,11 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public static func value(_ value: Value) -> Promise<Value> {
-    Promise<Value>(fulfill: value)
+    .init(fulfill: value)
   }
   
   public static func error(_ error: Error) -> Promise<Value> {
-    Promise<Value>(reject: error)
+    .init(reject: error)
   }
   
   public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = .main) {
@@ -171,9 +171,21 @@ public extension Promise {
     map { _ in }
   }
   
-  /// Tap into the promise to produce side-effects.
+  /// Tap into the a promise to produce side-effects.
   func tap(_ work: @escaping (Value) -> Void) -> Self {
     then(work)
+    return self
+  }
+  
+  /// Tap into the a promise to produce side-effects.
+  func tapResult(_ work: @escaping (Result<Value, Error>) -> Void) -> Self {
+    finally { work($0) }
+    return self
+  }
+  
+  /// Tap into the a promise to produce side-effects.
+  func tapError(_ work: @escaping (Error) -> Void) -> Self {
+    `catch`(work)
     return self
   }
 }
@@ -428,6 +440,27 @@ public extension Promise {
   ) -> Promise<Either<Value, U>> {
     map(on: dispatchQueue, with: Either.left)
       .chainError(on: dispatchQueue) { _ in .value(.right(value)) }
+  }
+  
+  /// Check whether the value passes a given predicate. If it does not,
+  /// the promise is rejected with the given error.
+  ///
+  /// - Parameter predicate: A predicate function.
+  /// - Parameter error: Error with which the returning promise is reject
+  /// in case the validation fails.
+  /// - Returns: A new promise with the same value if the validation succeeds,
+  /// otherwise a rejected promise with the given error.
+  func validate(
+    on dispatchQueue: DispatchQueue? = .main,
+    with predicate: @escaping (Value) -> Bool,
+    otherwise error: @autoclosure @escaping () -> Error = NSError(domain: "com.poviokit.promisekit", code: 100, userInfo: ["description": "Validation failed"])
+  ) -> Promise<Value> {
+    map(on: dispatchQueue) {
+      guard predicate($0) else {
+        throw error()
+      }
+      return $0
+    }
   }
 }
 
