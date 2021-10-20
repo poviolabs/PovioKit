@@ -446,7 +446,7 @@ public extension Promise {
   /// the promise is rejected with the given error.
   ///
   /// - Parameter predicate: A predicate function.
-  /// - Parameter error: Error with which the returning promise is reject
+  /// - Parameter error: Error with which the returning promise is rejected
   /// in case the validation fails.
   /// - Returns: A new promise with the same value if the validation succeeds,
   /// otherwise a rejected promise with the given error.
