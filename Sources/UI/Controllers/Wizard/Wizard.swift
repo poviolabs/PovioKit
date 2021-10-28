@@ -16,7 +16,7 @@ public class WizardDataSource: NSObject {
   public typealias LazyStep = () -> WizardStep
   
   var currentStepIndex = -1
-  var currentStep: WizardStep?
+  weak var currentStep: WizardStep?
   var steps: [LazyStep]
   
   init(steps: [LazyStep]) {
@@ -29,6 +29,17 @@ public extension WizardDataSource {
     currentStepIndex += 1
     guard let thunk = steps[safe: currentStepIndex] else {
       currentStepIndex -= 1
+      return nil
+    }
+    let step = thunk()
+    self.currentStep = step
+    return step
+  }
+  
+  func previousStep() -> WizardStep? {
+    currentStepIndex -= 1
+    guard let thunk = steps[safe: currentStepIndex] else {
+      currentStepIndex += 1
       return nil
     }
     let step = thunk()
@@ -100,19 +111,6 @@ public extension Wizard {
     dataSource.steps.append(contentsOf: steps)
   }
   
-  func removeStep(at index: Int) {
-    guard dataSource.steps.indices.contains(index) else { return }
-    dataSource.steps.remove(at: index)
-    if dataSource.currentStepIndex > index {
-      dataSource.currentStepIndex -= 1
-    }
-  }
-  
-  func removeAllSteps() {
-    dataSource.steps.removeAll()
-    dataSource.currentStepIndex = -1
-  }
-  
   var currentStep: WizardStep? {
     dataSource.currentStep
   }
@@ -127,6 +125,27 @@ public extension Wizard {
     }
     
     guard let step = dataSource.nextStep() else { return }
+    configureStep(beforeTransition: step)
+    
+    view.isUserInteractionEnabled = false
+    contentView.transitionToView(
+      step.view,
+      transitionDuration: duration,
+      animate: animator,
+      completion: { [weak view] in view?.isUserInteractionEnabled = true }
+    )
+  }
+  
+  func previousStep(
+    transitionDuration duration: TimeInterval,
+    animator: WizardTransitionAnimator?
+  ) {
+    guard !contentView.isPerformingLayout else {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.previousStep(transitionDuration: duration, animator: animator) }
+      return
+    }
+    
+    guard let step = dataSource.previousStep() else { return }
     configureStep(beforeTransition: step)
     
     view.isUserInteractionEnabled = false
