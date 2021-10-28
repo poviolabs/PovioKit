@@ -85,9 +85,25 @@ public extension Wizard {
     dataSource.steps.append(step)
   }
   
+  func insertStep(_ step: @escaping LazyStep, at index: Int) {
+    dataSource.steps.insert(step, at: index)
+  }
+  
+  func addSteps(_ steps: LazyStep...) {
+    dataSource.steps.append(contentsOf: steps)
+  }
+  
+  func addSteps<C: Collection>(_ steps: C) where C.Element == LazyStep {
+    dataSource.steps.append(contentsOf: steps)
+  }
+  
   func removeStep(at index: Int) {
     guard dataSource.steps.indices.contains(index) else { return }
     dataSource.steps.remove(at: index)
+  }
+  
+  func removeAllSteps() {
+    dataSource.steps.removeAll()
   }
   
   var currentStep: WizardStep? {
