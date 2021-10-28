@@ -16,7 +16,7 @@ public class WizardDataSource: NSObject {
   public typealias LazyStep = () -> WizardStep
   
   var currentStepIndex = -1
-  weak var currentStep: WizardStep?
+  var currentStep: WizardStep?
   var steps: [LazyStep]
   
   init(steps: [LazyStep]) {
