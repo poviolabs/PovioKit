@@ -18,6 +18,7 @@ public typealias HTTPMethod = Alamofire.HTTPMethod
 public typealias URLConvertible = Alamofire.URLConvertible
 public typealias Parameters = [String: Any]
 public typealias MultipartBuilder = (MultipartFormData) -> Void
+public typealias ProgressHandler = Alamofire.Request.ProgressHandler
 
 public typealias Writer = (String) -> Void
 
@@ -40,13 +41,17 @@ public extension AlamofireNetworkClient {
     method: HTTPMethod,
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let request = session
       .request(endpoint,
                method: method,
                headers: headers,
                interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
@@ -56,7 +61,9 @@ public extension AlamofireNetworkClient {
     headers: HTTPHeaders? = nil,
     parameters: Parameters,
     parameterEncoding: ParameterEncoding,
-    interceptor: RequestInterceptor? = nil
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let request = session
       .request(endpoint,
@@ -65,6 +72,8 @@ public extension AlamofireNetworkClient {
                encoding: parameterEncoding,
                headers: headers,
                interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
@@ -74,7 +83,9 @@ public extension AlamofireNetworkClient {
     headers: HTTPHeaders? = nil,
     encode: E,
     encoder: JSONEncoder = .init(),
-    interceptor: RequestInterceptor? = nil
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let parameterEncoder: ParameterEncoder
     switch method {
@@ -91,6 +102,8 @@ public extension AlamofireNetworkClient {
                encoder: parameterEncoder,
                headers: headers,
                interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
@@ -103,7 +116,9 @@ public extension AlamofireNetworkClient {
     mimeType: String,
     parameters: Parameters? = nil,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let request = session
       .upload(multipartFormData: { builder in
@@ -119,6 +134,8 @@ public extension AlamofireNetworkClient {
       method: method,
       headers: headers,
       interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
@@ -127,7 +144,9 @@ public extension AlamofireNetworkClient {
     endpoint: URLConvertible,
     multipartFormBuilder: @escaping MultipartBuilder,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let request = session
       .upload(multipartFormData: multipartFormBuilder,
@@ -135,6 +154,8 @@ public extension AlamofireNetworkClient {
               method: method,
               headers: headers,
               interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
@@ -143,7 +164,9 @@ public extension AlamofireNetworkClient {
     fileURL: URL,
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
   ) -> Request{
     let request = session
       .upload(fileURL,
@@ -152,6 +175,8 @@ public extension AlamofireNetworkClient {
               headers: headers,
               interceptor: interceptor,
               fileManager: .default)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
   }
 }
@@ -207,7 +232,7 @@ public extension AlamofireNetworkClient.Error {
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
   var asJson: Promise<Any> {
-    Promise { promise in
+    .init { promise in
       dataRequest.responseJSON {
         switch $0.result {
         case .success(let json):
@@ -223,7 +248,7 @@ public extension AlamofireNetworkClient.Request {
   }
   
   var asData: Promise<Data> {
-    Promise { promise in
+    .init { promise in
       dataRequest.responseData { (response: AFDataResponse<Data>) in
         switch response.result {
         case .success(let data):
@@ -239,7 +264,7 @@ public extension AlamofireNetworkClient.Request {
   }
   
   var asVoid: Promise<()> {
-    Promise { promise in
+    .init { promise in
       dataRequest.response {
         switch $0.result {
         case .success:
@@ -255,7 +280,7 @@ public extension AlamofireNetworkClient.Request {
   }
   
   func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder = .init()) -> Promise<D> {
-    Promise { promise in
+    .init { promise in
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
