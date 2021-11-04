@@ -9,7 +9,8 @@
 import UIKit
 
 public protocol BarButtonConvertible {
-  func createBarButton() -> UIBarButtonItem
+  associatedtype BarButtonItem: UIBarButtonItem
+  func createBarButton() -> BarButtonItem
 }
 
 public extension UIViewController {
@@ -89,8 +90,31 @@ extension UIViewController.BarButton: BarButtonConvertible {
   }
 }
 
+open class LoadingBarButtonItem<V: UIView>: UIBarButtonItem {
+  let loadingView: LoadingView<V>
+  
+  public init(loadingView: LoadingView<V>) {
+    self.loadingView = loadingView
+    super.init()
+  }
+  
+  required public init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
+public extension UIBarButtonItem {
+  func startLoading() {
+    (self as? LoadingBarButtonItem)?.loadingView.startLoading()
+  }
+  
+  func stopLoading() {
+    (self as? LoadingBarButtonItem)?.loadingView.startLoading()
+  }
+}
+
 extension UIViewController.LoadingBarButton: BarButtonConvertible {
-  public func createBarButton() -> UIBarButtonItem {
+  public func createBarButton() -> LoadingBarButtonItem<UIButton> {
     guard let customView = barButton.createBarButton().customView as? UIButton else {
       fatalError("Not yet supported!")
     }
@@ -98,35 +122,35 @@ extension UIViewController.LoadingBarButton: BarButtonConvertible {
     let loadingView = LoadingView(
       adapt: customView,
       animations: animations)
-    return .init(customView: loadingView)
+    return .init(loadingView: loadingView)
   }
 }
 
 
 public extension UIViewController {
   @discardableResult
-  func setLeftBarButton(_ convertible: BarButtonConvertible) -> UIBarButtonItem {
+  func setLeftBarButton<B: BarButtonConvertible>(_ convertible: B) -> B.BarButtonItem {
     let button = convertible.createBarButton()
     navigationItem.leftBarButtonItem = button
     return button
   }
   
   @discardableResult
-  func setRightBarButton(_ convertible: BarButtonConvertible) -> UIBarButtonItem {
+  func setRightBarButton<B: BarButtonConvertible>(_ convertible: B) -> B.BarButtonItem {
     let button = convertible.createBarButton()
     navigationItem.rightBarButtonItem = button
     return button
   }
   
   @discardableResult
-  func setLeftBarButtons(_ convertibles: [BarButtonConvertible]) -> [UIBarButtonItem] {
+  func setLeftBarButtons<C: Collection>(_ convertibles: C) -> [C.Element.BarButtonItem] where C.Element: BarButtonConvertible {
     let buttons = convertibles.map { $0.createBarButton() }
     navigationItem.leftBarButtonItems = buttons
     return buttons
   }
   
   @discardableResult
-  func setRightBarButtons(_ convertibles: [BarButtonConvertible]) -> [UIBarButtonItem] {
+  func setRightBarButtons<C: Collection>(_ convertibles: C) -> [C.Element.BarButtonItem] where C.Element: BarButtonConvertible {
     let buttons = convertibles.map { $0.createBarButton() }
     navigationItem.rightBarButtonItems = buttons
     return buttons
