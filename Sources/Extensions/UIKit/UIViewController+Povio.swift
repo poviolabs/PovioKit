@@ -27,11 +27,11 @@ public extension UIViewController {
   
   class LoadingBarButton {
     let barButton: BarButton
-    let animations: LoadingButton<UIButton>.Animations
+    let animations: LoadingButton<UIButton>.Animations?
     
     required public init(
       barButton: BarButton,
-      animations: LoadingButton<UIButton>.Animations
+      animations: LoadingButton<UIButton>.Animations?
     ) {
       self.barButton = barButton
       self.animations = animations
@@ -92,7 +92,7 @@ extension UIViewController.BarButton: BarButtonConvertible {
 extension UIViewController.LoadingBarButton: BarButtonConvertible {
   public func createBarButton() -> UIBarButtonItem {
     guard let customView = barButton.createBarButton().customView as? UIButton else {
-      fatalError("Not yet implemented!")
+      fatalError("Not yet supported!")
     }
     
     let loadingView = LoadingView(
