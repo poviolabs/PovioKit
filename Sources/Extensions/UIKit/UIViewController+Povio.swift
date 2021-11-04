@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol BarButtonConvertible {
+  func createBarButton() -> UIBarButtonItem
+}
+
 public extension UIViewController {
   class BarButton {
     let content: Content
@@ -18,6 +22,19 @@ public extension UIViewController {
       self.content = content
       self.action = action
       self.target = target
+    }
+  }
+  
+  class LoadingBarButton {
+    let barButton: BarButton
+    let animations: LoadingButton<UIButton>.Animations
+    
+    required public init(
+      barButton: BarButton,
+      animations: LoadingButton<UIButton>.Animations
+    ) {
+      self.barButton = barButton
+      self.animations = animations
     }
   }
 }
@@ -44,59 +61,74 @@ public extension UIViewController.BarButton.Content {
   }
 }
 
+extension UIViewController.BarButton: BarButtonConvertible {
+  public func createBarButton() -> UIBarButtonItem {
+    switch content {
+    case .title(.default(let title)):
+      let button = UIButton()
+      button.setTitle(title, for: .normal)
+      if let action = action {
+        button.addTarget(target ?? self, action: action, for: .touchUpInside)
+      }
+      return .init(customView: button)
+    case let .title(.attributed(normal, disabled)):
+      let button = UIButton()
+      button.setAttributedTitle(normal, for: .normal)
+      button.setAttributedTitle(disabled, for: .disabled)
+      if let action = action {
+        button.addTarget(target ?? self, action: action, for: .touchUpInside)
+      }
+      return .init(customView: button)
+    case .icon(let image):
+      return .init(
+        image: image.withRenderingMode(.alwaysOriginal),
+        style: .plain,
+        target: target ?? self,
+        action: action)
+    }
+  }
+}
+
+extension UIViewController.LoadingBarButton: BarButtonConvertible {
+  public func createBarButton() -> UIBarButtonItem {
+    guard let customView = barButton.createBarButton().customView as? UIButton else {
+      fatalError("Not yet implemented!")
+    }
+    
+    let loadingView = LoadingView(
+      adapt: customView,
+      animations: animations)
+    return .init(customView: loadingView)
+  }
+}
+
+
 public extension UIViewController {
   @discardableResult
-  func setLeftBarButton(_ barButton: BarButton) -> UIBarButtonItem {
-    let button = createButton(using: barButton)
+  func setLeftBarButton(_ convertible: BarButtonConvertible) -> UIBarButtonItem {
+    let button = convertible.createBarButton()
     navigationItem.leftBarButtonItem = button
     return button
   }
   
   @discardableResult
-  func setRightBarButton(_ barButton: BarButton) -> UIBarButtonItem {
-    let button = createButton(using: barButton)
+  func setRightBarButton(_ convertible: BarButtonConvertible) -> UIBarButtonItem {
+    let button = convertible.createBarButton()
     navigationItem.rightBarButtonItem = button
     return button
   }
   
   @discardableResult
-  func setLeftBarButtons(_ barButtons: [BarButton]) -> [UIBarButtonItem] {
-    let buttons = barButtons.map(createButton)
+  func setLeftBarButtons(_ convertibles: [BarButtonConvertible]) -> [UIBarButtonItem] {
+    let buttons = convertibles.map { $0.createBarButton() }
     navigationItem.leftBarButtonItems = buttons
     return buttons
   }
   
   @discardableResult
-  func setRightBarButtons(_ barButtons: [BarButton]) -> [UIBarButtonItem] {
-    let buttons = barButtons.map(createButton)
+  func setRightBarButtons(_ convertibles: [BarButtonConvertible]) -> [UIBarButtonItem] {
+    let buttons = convertibles.map { $0.createBarButton() }
     navigationItem.rightBarButtonItems = buttons
     return buttons
-  }
-}
-
-private extension UIViewController {
-  func createButton(using barButton: BarButton) -> UIBarButtonItem {
-    switch barButton.content {
-    case .title(.default(let title)):
-      let button = UIButton()
-      button.setTitle(title, for: .normal)
-      barButton.action.map {
-        button.addTarget(barButton.target ?? self, action: $0, for: .touchUpInside)
-      }
-      return UIBarButtonItem(customView: button)
-    case let .title(.attributed(normal, disabled)):
-      let button = UIButton()
-      button.setAttributedTitle(normal, for: .normal)
-      button.setAttributedTitle(disabled, for: .disabled)
-      barButton.action.map {
-        button.addTarget(barButton.target ?? self, action: $0, for: .touchUpInside)
-      }
-      return UIBarButtonItem(customView: button)
-    case .icon(let image):
-      return UIBarButtonItem(image: image.withRenderingMode(.alwaysOriginal),
-                             style: .plain,
-                             target: barButton.target ?? self,
-                             action: barButton.action)
-    }
   }
 }
