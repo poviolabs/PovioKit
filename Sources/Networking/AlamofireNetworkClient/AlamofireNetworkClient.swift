@@ -20,8 +20,6 @@ public typealias Parameters = [String: Any]
 public typealias MultipartBuilder = (MultipartFormData) -> Void
 public typealias ProgressHandler = Alamofire.Request.ProgressHandler
 
-public typealias Writer = (String) -> Void
-
 open class AlamofireNetworkClient {
   private let session: Alamofire.Session
   private let eventMonitors: [RequestMonitor]
@@ -46,10 +44,11 @@ public extension AlamofireNetworkClient {
     downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let request = session
-      .request(endpoint,
-               method: method,
-               headers: headers,
-               interceptor: interceptor)
+      .request(
+        endpoint,
+        method: method,
+        headers: headers,
+        interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
@@ -66,12 +65,13 @@ public extension AlamofireNetworkClient {
     downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let request = session
-      .request(endpoint,
-               method: method,
-               parameters: parameters,
-               encoding: parameterEncoding,
-               headers: headers,
-               interceptor: interceptor)
+      .request(
+        endpoint,
+        method: method,
+        parameters: parameters,
+        encoding: parameterEncoding,
+        headers: headers,
+        interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
@@ -96,12 +96,13 @@ public extension AlamofireNetworkClient {
     }
     
     let request = session
-      .request(endpoint,
-               method: method,
-               parameters: encode,
-               encoder: parameterEncoder,
-               headers: headers,
-               interceptor: interceptor)
+      .request(
+        endpoint,
+        method: method,
+        parameters: encode,
+        encoder: parameterEncoder,
+        headers: headers,
+        interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
@@ -122,10 +123,11 @@ public extension AlamofireNetworkClient {
   ) -> Request {
     let request = session
       .upload(multipartFormData: { builder in
-        builder.append(data,
-                       withName: name,
-                       fileName: fileName,
-                       mimeType: mimeType)
+        builder.append(
+          data,
+          withName: name,
+          fileName: fileName,
+          mimeType: mimeType)
         parameters?
           .compactMap { key, value in (value as? String).map { (key, $0) } }
           .forEach { builder.append($0.0.data(using: .utf8)!, withName: $0.1) }
@@ -149,11 +151,12 @@ public extension AlamofireNetworkClient {
     downloadProgress: ProgressHandler? = nil
   ) -> Request {
     let request = session
-      .upload(multipartFormData: multipartFormBuilder,
-              to: endpoint,
-              method: method,
-              headers: headers,
-              interceptor: interceptor)
+      .upload(
+        multipartFormData: multipartFormBuilder,
+        to: endpoint,
+        method: method,
+        headers: headers,
+        interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
@@ -169,12 +172,13 @@ public extension AlamofireNetworkClient {
     downloadProgress: ProgressHandler? = nil
   ) -> Request{
     let request = session
-      .upload(fileURL,
-              to: endpoint,
-              method: method,
-              headers: headers,
-              interceptor: interceptor,
-              fileManager: .default)
+      .upload(
+        fileURL,
+        to: endpoint,
+        method: method,
+        headers: headers,
+        interceptor: interceptor,
+        fileManager: .default)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
