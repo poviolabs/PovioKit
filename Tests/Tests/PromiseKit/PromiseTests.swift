@@ -82,6 +82,48 @@ class PromiseTests: XCTestCase {
     }
   }
   
+  func testObserversNotifiedOnceOnly2() {
+    do {
+      var count = 0
+      Promise<()>() { seal in
+        seal.resolve()
+      }.then { _ in
+        count += 1
+      }
+      XCTAssertEqual(1, count)
+    }
+    
+    do {
+      var count = 0
+      Promise<()>() { seal in
+        seal.reject(with: NSError())
+      }.catch { _ in
+        count += 1
+      }
+      XCTAssertEqual(1, count)
+    }
+    
+    do {
+      var count = 0
+      Promise<()>() { seal in
+        seal.resolve()
+      }.finally { _ in
+        count += 1
+      }
+      XCTAssertEqual(1, count)
+    }
+    
+    do {
+      var count = 0
+      Promise<()>() { seal in
+        seal.reject(with: NSError())
+      }.finally { _ in
+        count += 1
+      }
+      XCTAssertEqual(1, count)
+    }
+  }
+  
   func testObserverCalledOnResolvedPromise() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")

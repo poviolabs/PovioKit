@@ -192,7 +192,7 @@ public extension AlamofireNetworkClient {
     case other(Swift.Error, ErrorInfo)
   }
   
-  class Request {
+  class Request: Cancelable {
     private let dataRequest: DataRequest
     private var errorHandler: ((Swift.Error, Data) throws -> Swift.Error)?
     private let eventMonitors: [RequestMonitor]
@@ -235,8 +235,8 @@ public extension AlamofireNetworkClient.Error {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
-  var asJson: Promise<Any> {
-    .init { promise in
+  var asJson: CancelablePromise<Any> {
+    .init(cancelable: self) { promise in
       dataRequest.responseJSON {
         switch $0.result {
         case .success(let json):
@@ -251,8 +251,8 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  var asData: Promise<Data> {
-    .init { promise in
+  var asData: CancelablePromise<Data> {
+    .init(cancelable: self) { promise in
       dataRequest.responseData { (response: AFDataResponse<Data>) in
         switch response.result {
         case .success(let data):
@@ -267,8 +267,8 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  var asVoid: Promise<()> {
-    .init { promise in
+  var asVoid: CancelablePromise<()> {
+    .init(cancelable: self) { promise in
       dataRequest.response {
         switch $0.result {
         case .success:
@@ -283,8 +283,8 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder = .init()) -> Promise<D> {
-    .init { promise in
+  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder = .init()) -> CancelablePromise<D> {
+    .init(cancelable: self) { promise in
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
@@ -312,6 +312,10 @@ public extension AlamofireNetworkClient.Request {
   func cancel() -> Self {
     dataRequest.cancel()
     return self
+  }
+  
+  func cancel() {
+    dataRequest.cancel()
   }
   
   func validate() -> Self {

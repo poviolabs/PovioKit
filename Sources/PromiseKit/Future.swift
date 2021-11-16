@@ -9,7 +9,7 @@
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
-  private let barrier = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
+  let barrier = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
   private var observers = [Observer]()
   public var isEnabled = true
   private var internalResult: FutureResult?
