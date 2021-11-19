@@ -55,12 +55,12 @@ public extension UIView {
     static let shadowOpacity = "shadowOpacityKey"
   }
   
-  func rotate() {
+  func rotate(speed: CFTimeInterval = 1.25, clockWiseDirection: Bool = true) {
     if layer.animation(forKey: UIView.AnimationKey.rotation) == nil {
       let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
       rotationAnimation.fromValue = 0.0
-      rotationAnimation.toValue = Float.pi * 2.0
-      rotationAnimation.duration = 1.25
+      rotationAnimation.toValue = (Float.pi * 2.0) * (clockWiseDirection ? 1 : -1)
+      rotationAnimation.duration = speed
       rotationAnimation.repeatCount = Float.infinity
       layer.add(rotationAnimation, forKey: UIView.AnimationKey.rotation)
     }
