@@ -25,12 +25,12 @@ class PromiseTests: XCTestCase {
   }
   
   func testIsRejected() {
-    var promise = Promise<()>(reject: NSError())
+    var promise = Promise<()>(reject: NSError.err)
     XCTAssertFalse(promise.isFulfilled)
     XCTAssertTrue(promise.isRejected)
     XCTAssertFalse(promise.isAwaiting)
     
-    promise = Promise<()>.error(NSError())
+    promise = Promise<()>.error(NSError.err)
     XCTAssertFalse(promise.isFulfilled)
     XCTAssertTrue(promise.isRejected)
     XCTAssertFalse(promise.isAwaiting)
@@ -47,7 +47,7 @@ class PromiseTests: XCTestCase {
   }
   
   func testRejectedTransition() {
-    let promise = Promise<()>(reject: NSError())
+    let promise = Promise<()>(reject: NSError.err)
     XCTAssertTrue(promise.isRejected)
     promise.resolve()
     XCTAssertTrue(promise.isRejected)
@@ -57,7 +57,7 @@ class PromiseTests: XCTestCase {
   func testResolvedTransition() {
     let promise = Promise<()>(fulfill: ())
     XCTAssertTrue(promise.isFulfilled)
-    promise.reject(with: NSError())
+    promise.reject(with: NSError.err)
     XCTAssertTrue(promise.isFulfilled)
     XCTAssertFalse(promise.isRejected)
   }
@@ -76,8 +76,8 @@ class PromiseTests: XCTestCase {
       let promise = Promise<()>()
       var count = 0
       promise.catch { _ in count += 1 }
-      promise.reject(with: NSError(), on: nil)
-      promise.reject(with: NSError(), on: nil)
+      promise.reject(with: NSError.err, on: nil)
+      promise.reject(with: NSError.err, on: nil)
       XCTAssertEqual(count, 1)
     }
   }
@@ -92,7 +92,7 @@ class PromiseTests: XCTestCase {
     promise.then { ex1.fulfill() }
     promise.finally { _ in  ex2.fulfill() }
     
-    promise = Promise(reject: NSError())
+    promise = Promise(reject: NSError.err)
     promise.catch { _ in ex3.fulfill() }
     promise.finally { _ in ex4.fulfill() }
     
@@ -108,7 +108,7 @@ class PromiseTests: XCTestCase {
         XCTAssertTrue(Thread.isMainThread)
         ex1.fulfill()
       }
-    async(NSError(), Int.self)
+    async(NSError.err, Int.self)
       .chain(on: .main) { async($0, on: .main) }
       .catch { _ in
         XCTAssertTrue(Thread.isMainThread)
@@ -125,7 +125,7 @@ class PromiseTests: XCTestCase {
         XCTAssertTrue(Thread.isMainThread)
         ex1.fulfill()
       }
-    all(on: .main, promises: [async(0, on: .main), async(NSError(), Int.self, on: .main)])
+    all(on: .main, promises: [async(0, on: .main), async(NSError.err, Int.self, on: .main)])
       .catch { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex2.fulfill()
@@ -218,7 +218,7 @@ extension PromiseTests {
   func testMapThrows() {
     let ex = expectation(description: "")
     async(10)
-      .map { _ in throw NSError() }
+      .map { _ in throw NSError.err }
       .catch { _ in
         ex.fulfill()
       }
@@ -227,7 +227,7 @@ extension PromiseTests {
   
   func testMapError() {
     let ex = expectation(description: "")
-    async(NSError(), Int.self)
+    async(NSError.err, Int.self)
       .mapError { _ in DummyError() }
       .catch {
         XCTAssertTrue($0 is DummyError)
@@ -268,7 +268,7 @@ extension PromiseTests {
         XCTAssertEqual(1, $0)
         ex1.fulfill()
       }
-    (async(NSError(), Int.self) <|> async(2))
+    (async(NSError.err, Int.self) <|> async(2))
       .then {
         XCTAssertEqual(2, $0)
         ex2.fulfill()
@@ -318,17 +318,17 @@ extension PromiseTests {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     let ex3 = expectation(description: "")
-    async(10).or(async(NSError(), Int.self))
+    async(10).or(async(NSError.err, Int.self))
       .then {
         XCTAssertEqual(Either<Int, Int>.left(10), $0)
         ex1.fulfill()
       }
-    async(NSError(), Int.self).or(.value(10))
+    async(NSError.err, Int.self).or(.value(10))
       .then {
         XCTAssertEqual(Either<Int, Int>.right(10), $0)
         ex2.fulfill()
       }
-    async(NSError(), Int.self).or(async(NSError(), Int.self))
+    async(NSError.err, Int.self).or(async(NSError.err, Int.self))
       .catch { _ in
         ex3.fulfill()
       }
@@ -351,7 +351,7 @@ extension PromiseTests {
   
   func testAllListAsyncFailing() {
     let ex = expectation(description: "")
-    all(promises: (0...5).map { _ in async(NSError(), Int.self) })
+    all(promises: (0...5).map { _ in async(NSError.err, Int.self) })
       .catch { _ in
         ex.fulfill()
       }
@@ -483,7 +483,7 @@ extension PromiseTests {
   func testAnyTwo() {
     let ex = expectation(description: "")
     any(
-      sync(NSError(), Int.self),
+      sync(NSError.err, Int.self),
       async(2)
     ).then { values in
       XCTAssertEqual(values.0, nil)
@@ -497,7 +497,7 @@ extension PromiseTests {
     let ex = expectation(description: "")
     any(
       async(0),
-      async(NSError(), Int.self),
+      async(NSError.err, Int.self),
       async(2)
     ).then { values in
       XCTAssertEqual(values.0, 0)
@@ -513,7 +513,7 @@ extension PromiseTests {
     any(
       async(0),
       sync(1),
-      async(NSError(), Int.self),
+      async(NSError.err, Int.self),
       sync(3)
     ).then { values in
       XCTAssertEqual(values.0, 0)
@@ -531,7 +531,7 @@ extension PromiseTests {
       sync(0),
       async(1),
       sync(2),
-      async(NSError(), Int.self),
+      async(NSError.err, Int.self),
       sync(4)
     ).then { values in
       XCTAssertEqual(values.0, 0)
@@ -547,11 +547,11 @@ extension PromiseTests {
   func testAnyFails() {
     let ex = expectation(description: "")
     any(promises: [
-      async(NSError(), Int.self),
-      async(NSError(), Int.self),
-      async(NSError(), Int.self),
-      async(NSError(), Int.self),
-      async(NSError(), Int.self),
+      async(NSError.err, Int.self),
+      async(NSError.err, Int.self),
+      async(NSError.err, Int.self),
+      async(NSError.err, Int.self),
+      async(NSError.err, Int.self),
     ]).catch { _ in
       ex.fulfill()
     }
@@ -572,7 +572,7 @@ extension PromiseTests {
         XCTAssertEqual(value, 5)
         ex2.fulfill()
       }
-    race(promises: (0...5).map { _ in async(NSError(), Int.self) })
+    race(promises: (0...5).map { _ in async(NSError.err, Int.self) })
       .catch { _ in
         ex3.fulfill()
       }
@@ -584,7 +584,7 @@ extension PromiseTests {
     let promises = (0...5).map {
       $0 > 0
         ? async(10, delay: TimeInterval($0) * 0.1 + 0.05)
-        : async(NSError(), Int.self)
+        : async(NSError.err, Int.self)
     }
     race(promises: promises)
       .catch { _ in
@@ -808,14 +808,14 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testValidate() {
+  func testEnsure() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(true)
-      .validate { $0 }
+      .ensure { $0 }
       .then { _ in ex1.fulfill() }
     async(false)
-      .validate { $0 }
+      .ensure { $0 }
       .catch { _ in ex2.fulfill() }
     waitForExpectations(timeout: 2)
   }
@@ -826,7 +826,7 @@ extension PromiseTests {
   func testConcurrentDispatch1() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...1))
+      return async((), delay: .random(in: 0.01...0.5))
     }
     
     let ex = expectation(description: "")
@@ -838,7 +838,7 @@ extension PromiseTests {
   func testConcurrentDispatch2() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...1))
+      return async((), delay: .random(in: 0.01...0.5))
     }
     
     let ex = expectation(description: "")
@@ -850,7 +850,7 @@ extension PromiseTests {
   func testConcurrentDispatch3() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...1))
+      return async((), delay: .random(in: 0.01...0.5))
     }
     
     let ex = expectation(description: "")
@@ -862,7 +862,7 @@ extension PromiseTests {
   func testConcurrentDispatch4() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+      return async(NSError.err, Void.self, delay: .random(in: 0.01...0.5))
     }
     
     let ex = expectation(description: "")
@@ -877,7 +877,7 @@ extension PromiseTests {
       guard idx < 10 else { return nil }
       if !shouldFail.contains(idx) {
         shouldFail.insert(idx)
-        return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+        return async(NSError.err, Void.self, delay: .random(in: 0.01...0.5))
       }
       return async((), delay: .random(in: 0.01...1))
     }
@@ -896,7 +896,7 @@ extension PromiseTests {
       
       if shouldFail[idx]! > 0 {
         shouldFail[idx]! -= 1
-        return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+        return async(NSError.err, Void.self, delay: .random(in: 0.01...1))
       }
       return async((), delay: .random(in: 0.01...1))
     }
@@ -915,7 +915,7 @@ extension PromiseTests {
       
       if shouldFail[idx]! > 0 {
         shouldFail[idx]! -= 1
-        return async(NSError(), Void.self, delay: .random(in: 0.01...1))
+        return async(NSError.err, Void.self, delay: .random(in: 0.01...1))
       }
       return async((), delay: .random(in: 0.01...1))
     }
@@ -972,13 +972,13 @@ extension PromiseTests {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     poll(
-      repeat: { async(NSError(), Bool.self) },
+      repeat: { async(NSError.err, Bool.self) },
       checkAfter: .milliseconds(100),
       while: { !$0 }
     )
     .catch { _ in ex1.fulfill() }
     poll(
-      repeat: { sync(NSError(), Bool.self) },
+      repeat: { sync(NSError.err, Bool.self) },
       checkAfter: .milliseconds(100),
       while: { !$0 }
     )
@@ -990,7 +990,7 @@ extension PromiseTests {
     var willBeTrueAfter = 5
     func check() -> Promise<Bool> {
       if willBeTrueAfter == 0 {
-        return async(NSError(), Bool.self)
+        return async(NSError.err, Bool.self)
       }
       willBeTrueAfter -= 1
       return async(false)
@@ -1051,4 +1051,8 @@ struct DummyError: Error {}
 struct Point: Decodable {
   let x: Int
   let y: Int
+}
+
+extension NSError {
+  static var err: NSError { NSError(domain: "", code: -1, userInfo: nil) }
 }

@@ -450,9 +450,9 @@ public extension Promise {
   /// in case the validation fails.
   /// - Returns: A new promise with the same value if the validation succeeds,
   /// otherwise a rejected promise with the given error.
-  func validate(
+  func ensure(
     on dispatchQueue: DispatchQueue? = .main,
-    with predicate: @escaping (Value) -> Bool,
+    predicate: @escaping (Value) -> Bool,
     otherwise error: @autoclosure @escaping () -> Error = NSError(domain: "com.poviokit.promisekit", code: 100, userInfo: ["description": "Validation failed"])
   ) -> Promise<Value> {
     map(on: dispatchQueue) {
