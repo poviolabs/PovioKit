@@ -33,7 +33,7 @@ public class AudioVideoPlayer: AVPlayer {
 
   public private(set) lazy var playbackInterval: (startAt: Double, endAt: Double) = (0, duration)
   public var allowLooping = true
-  public var periodicTimeObserverTimeInterval: CMTime {
+  public var periodicTimeObserverTimeInterval: CMTime = .init(value: 1, timescale: AudioVideoPlayer.defaultTimescale) {
     didSet {
       removeTimeObserver()
       setupTimeObserver()
