@@ -59,7 +59,7 @@ public extension UIView {
     guard layer.animation(forKey: UIView.AnimationKey.rotation) == nil else { return }
     let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
     rotationAnimation.fromValue = 0.0
-    rotationAnimation.toValue = (Float.pi * 2.0) * (clockWiseDirection ? 1 : -1)
+    rotationAnimation.toValue = (Float.pi * 2.0) * (clockwise ? 1 : -1)
     rotationAnimation.duration = speed
     rotationAnimation.repeatCount = Float.infinity
     layer.add(rotationAnimation, forKey: UIView.AnimationKey.rotation)
