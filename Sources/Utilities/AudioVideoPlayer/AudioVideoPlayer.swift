@@ -36,6 +36,11 @@ public class AudioVideoPlayer: AVPlayer {
   public weak var delegate: AudioVideoPlayerDelegate?
   
   private var timeObserver: Any?
+  
+  override public init() {
+    super.init()
+    setupTimeObserver(periodicTimeObserverTimeInterval: CMTimeMake(value: 1, timescale: Self.defaultTimescale))
+  }
 
   public init(periodicTimeObserverTimeInterval timeInterval: CMTime = CMTimeMake(value: 1, timescale: AudioVideoPlayer.defaultTimescale)) {
     super.init()
@@ -50,7 +55,7 @@ public class AudioVideoPlayer: AVPlayer {
     setupTimeObserver(periodicTimeObserverTimeInterval: timeInterval)
   }
 
-  init(
+  public init(
     playerItem item: AVPlayerItem?,
     periodicTimeObserverTimeInterval timeInterval: CMTime = CMTimeMake(value: 1, timescale: AudioVideoPlayer.defaultTimescale)
   ) {
