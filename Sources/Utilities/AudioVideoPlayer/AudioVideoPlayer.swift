@@ -48,11 +48,6 @@ public class AudioVideoPlayer: AVPlayer {
     setupTimeObserver()
   }
 
-  public init() {
-    super.init()
-    setupTimeObserver()
-  }
-
   public init(
     url: URL,
     periodicTimeObserverTimeInterval timeInterval: CMTime = CMTimeMake(value: 1, timescale: AudioVideoPlayer.defaultTimescale)
