@@ -3,7 +3,7 @@
 //  PovioKit_Tests
 //
 //  Created by Borut Tomažin on 10/11/2020.
-//  Copyright © 2020 Povio Labs. All rights reserved.
+//  Copyright © 2021 Povio Inc. All rights reserved.
 //
 
 import XCTest
