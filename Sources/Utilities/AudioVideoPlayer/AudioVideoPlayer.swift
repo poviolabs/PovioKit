@@ -114,6 +114,8 @@ public extension AudioVideoPlayer {
   func updatePlaybackInterval(startAt: Double, endAt: Double) {
     guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
     playbackInterval = (startAt, endAt)
+    removeTimeObserver()
+    setupTimeObserver()
   }
 
   var duration: Double {
