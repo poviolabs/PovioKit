@@ -29,7 +29,7 @@ public extension AudioVideoPlayerDelegate {
 }
 
 public class AudioVideoPlayer: AVPlayer {
-  public static let defaultTimescale = CMTimeScale(kCMTimeMaxTimescale)
+  public static let defaultTimescale = CMTimeScale(10)
 
   public private(set) lazy var playbackInterval: (startAt: Double, endAt: Double) = (0, duration)
   public var allowLooping = true
@@ -87,7 +87,8 @@ public extension AudioVideoPlayer {
   override func replaceCurrentItem(with item: AVPlayerItem?) {
     super.replaceCurrentItem(with: item)
     playbackInterval = (0, duration)
-//    setupTimeObserver()
+    removeTimeObserver()
+    setupTimeObserver()
   }
 
   /// Set `playbackInterval` and force player to start playing from the `startAt` timestamp.
@@ -105,7 +106,8 @@ public extension AudioVideoPlayer {
   func updatePlaybackInterval(startAt: Double, endAt: Double) {
     guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
     playbackInterval = (startAt, endAt)
-//    setupTimeObserver()
+    removeTimeObserver()
+    setupTimeObserver()
   }
 
   func setPlaybackPosition(
@@ -114,7 +116,7 @@ public extension AudioVideoPlayer {
   ) {
     removeTimeObserver()
     seek(to: CMTime(seconds: startAt, preferredTimescale: timescale)) { _ in
-//      self.setupTimeObserver()
+      self.setupTimeObserver()
     }
   }
 
@@ -129,7 +131,7 @@ public extension AudioVideoPlayer {
 
 // MARK: - Private Methods
 private extension AudioVideoPlayer {
-  func setupTimeObserver(periodicTimeObserverTimeInterval: CMTime) {
+  func setupTimeObserver(periodicTimeObserverTimeInterval: CMTime = CMTimeMake(value: 1, timescale: 10)) {
     guard timeObserver == nil else { return }
 
     timeObserver = addPeriodicTimeObserver(
@@ -158,7 +160,7 @@ private extension AudioVideoPlayer {
       delegate?.audioVideoPlayer(didBeginReplay: self)
     } else {
       removeTimeObserver()
-      delegate?.audioVideoPlayer(didEndBuffering: self)
+      delegate?.audioVideoPlayer(didEndPlayback: self)
     }
   }
 
