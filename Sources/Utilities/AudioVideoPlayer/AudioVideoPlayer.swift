@@ -123,7 +123,7 @@ public extension AudioVideoPlayer {
   }
   
   var isPlaying: Bool {
-    rate != 0.0
+    rate != 0.0 && status == .readyToPlay
   }
 }
 
