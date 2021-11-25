@@ -21,22 +21,21 @@
     Welcome to <b>PovioKit</b>. A modular library collection. Written in Swift.
 </p>
 
+## Packages
+### Core libraries
 
-## List of available libraries
+| Utils | Protocols | Views |
+| --- | --- | --- |
+| [AttributedStringBuilder](Resources/Utilities/AttributedStringBuilder/) | [Data Source](Resources/Protocols/DataSource/) | [GradientView](Resources/Views/GradientView/) |
+| [StartupService](Resources/Utilities/StartupService/) | [PaddingLabel](Resources/Views/PaddingLabel/) |
+| [Broadcast](Resources/Utilities/Broadcast/) | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) |
+| [ColorInterpolator](Resources/Utilities/ColorInterpolator/) | |
+| [DispatchTimer](Resources/Utilities/DispatchTimer/) | |
+| [Logger](Resources/Utilities/Logger/) | |
+| [Throttler](Resources/Utilities/Throttler/) | |
+| [SignInWithApple](Resources/Utilities/SignInWithApple/) | |
 
-| Utils | Networking | Protocols | Views |
-| --- | --- | --- | --- |
-| [AttributedStringBuilder](Resources/Utilities/AttributedStringBuilder/) | [AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/) | [Data Source](Resources/Protocols/DataSource/) | [GradientView](Resources/Views/GradientView/) |
-| [StartupService](Resources/Utilities/StartupService/) | | [PaddingLabel](Resources/Views/PaddingLabel/) |
-| [Broadcast](Resources/Utilities/Broadcast/) | | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) |
-| [PromiseKit](Resources/PromiseKit/) | | |
-| [ColorInterpolator](Resources/Utilities/ColorInterpolator/) | | |
-| [DispatchTimer](Resources/Utilities/DispatchTimer/) | | |
-| [Logger](Resources/Utilities/Logger/) | | |
-| [Throttler](Resources/Utilities/Throttler/) | | |
-| [SignInWithApple](Resources/Utilities/SignInWithApple/) | | |
-
-## List of available extensions
+### Core extensions
 
 | UIKit | Foundation | MapKit |
 | --- | --- | --- |
@@ -51,6 +50,14 @@
 | [UIProgressView](Sources/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Extensions/Foundation/Encodable+Povio.swift) | |
 | [UIResponder](Sources/Extensions/UIKit/UIResponder+Povio.swift) | |
 
+### Networking
+
+[AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/)
+
+### PromiseKit
+
+[PromiseKit](Resources/PromiseKit/)
+
 
 ## Installation
 
@@ -59,9 +66,9 @@
 In Xcode, click `File` -> `Swift Packages` -> `Add Package Dependency` and enter `https://github.com/poviolabs/PovioKit`.
 
 Currently, there are three packages to choose from:
-- PovioKit (core)
-- PovioKitNetworking (networking library)
-- PovioKitPromise (lightweight promises library)
+- *PovioKit* (core)
+- *PovioKitNetworking* (networking library, depends on "core" and "promise" package)
+- *PovioKitPromise* (lightweight promises library)
 
 
 ## License
