@@ -103,13 +103,13 @@ class PromiseTests: XCTestCase {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(0)
-      .chain(on: .main) { async($0, on: .main) }
+      .flatMap(on: .main) { async($0, on: .main) }
       .then { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex1.fulfill()
       }
     async(NSError.err, Int.self)
-      .chain(on: .main) { async($0, on: .main) }
+      .flatMap(on: .main) { async($0, on: .main) }
       .catch { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex2.fulfill()
@@ -135,11 +135,11 @@ class PromiseTests: XCTestCase {
 }
 
 extension PromiseTests {
-  func testChain() {
+  func testFlatMap() {
     let ex = expectation(description: "")
     async(10)
       .map { $0 + 20 }
-      .chain(with: async)
+      .flatMap(with: async)
       .then {
         XCTAssertEqual(30, $0)
         ex.fulfill()
@@ -147,7 +147,7 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainInfix() {
+  func testFlatMapInfix() {
     let ex = expectation(description: "")
     (async(10) >>- { val in
       async(val + 20)
@@ -158,17 +158,17 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainError() {
+  func testFailingFlatMap() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(10)
-      .chain { _ in async(DummyError(), Int.self) }
+      .flatMap { _ in async(DummyError(), Int.self) }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex1.fulfill()
       }
     async(DummyError(), Int.self)
-      .chain(with: async)
+      .flatMap(with: async)
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex2.fulfill()
@@ -176,17 +176,17 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainResult() {
+  func testFlatMapResult() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(10)
-      .chainResult { Result<Int, Error>.success($0 * 2) }
+      .flatMapResult { Result<Int, Error>.success($0 * 2) }
       .then {
         XCTAssertEqual(20, $0)
         ex1.fulfill()
       }
     async(10)
-      .chainResult { _ in Result<Int, Error>.failure(DummyError()) }
+      .flatMapResult { _ in Result<Int, Error>.failure(DummyError()) }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex2.fulfill()
@@ -716,11 +716,11 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainIf() {
+  func testFlatMapIf() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(true)
-      .chainIf(
+      .flatMapIf(
         true: .value(1),
         false: .value(0))
       .then {
@@ -728,7 +728,7 @@ extension PromiseTests {
         ex1.fulfill()
       }
     async(false)
-      .chainIf(
+      .flatMapIf(
         true: .value(1),
         false: .value(0))
       .then {
@@ -760,11 +760,11 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainIf2() {
+  func testFlatMapIf2() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(1)
-      .chainIf(
+      .flatMapIf(
         transform: { _ in true },
         true: .value(1),
         false: .value(0))
@@ -773,7 +773,7 @@ extension PromiseTests {
         ex1.fulfill()
       }
     async(1)
-      .chainIf(
+      .flatMapIf(
         transform: { _ in false },
         true: .value(1),
         false: .value(0))

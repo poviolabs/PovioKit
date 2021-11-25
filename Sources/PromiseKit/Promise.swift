@@ -200,7 +200,7 @@ public extension Promise {
   /// - Returns: A `Promise` which is a composition of two Promises:
   ///   If both promises succeed then their composition succeeds as well.
   ///   If any of the two promises at any point fail, their composition fails as well.
-  func chain<U>(
+  func flatMap<U>(
     on dispatchQueue: DispatchQueue? = .main,
     with transform: @escaping (Value) throws -> Promise<U>
   ) -> Promise<U> {
@@ -230,6 +230,15 @@ public extension Promise {
     }
   }
   
+  @available(*, deprecated, renamed: "flatMap")
+  @inline(__always)
+  func chain<U>(
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Value) throws -> Promise<U>
+  ) -> Promise<U> {
+    flatMap(on: dispatchQueue, with: transform)
+  }
+  
   /// When the current Promise fails (is in error state), run the transformation callback
   /// which may recover from the error by returning a new Promise.
   ///
@@ -240,7 +249,7 @@ public extension Promise {
   ///   returns a new Promise potentially recovering from the error state.
   /// - Returns: A `Promise` that will contain either the value of this promise or the result
   ///   of the recovering promise.
-  func chainError(
+  func flatMapError(
     on dispatchQueue: DispatchQueue? = .main,
     with transform: @escaping (Error) -> Promise<Value>
   ) -> Promise<Value> {
@@ -256,6 +265,15 @@ public extension Promise {
     }
   }
   
+  @available(*, deprecated, renamed: "flatMapError")
+  @inline(__always)
+  func chainError(
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Error) -> Promise<Value>
+  ) -> Promise<Value> {
+    flatMapError(on: dispatchQueue, with: transform)
+  }
+  
   /// When the current Promise is fullfiled, run the transformation callback which returns either
   /// a new value or an error (based on the return Result).
   ///
@@ -264,7 +282,7 @@ public extension Promise {
   /// - Parameter transform: A closure that takes the value of this Promise and
   ///   returns a Result transforming the value in some way.
   /// - Returns: A `Promise` containing either the transformed value or an error.
-  func chainResult<U, E: Error>(
+  func flatMapResult<U, E: Error>(
     on dispatchQueue: DispatchQueue? = .main,
     with transform: @escaping (Value) -> Result<U, E>
   ) -> Promise<U> {
@@ -276,6 +294,15 @@ public extension Promise {
         throw error
       }
     }
+  }
+  
+  @available(*, deprecated, renamed: "flatMapResult")
+  @inline(__always)
+  func chainResult<U, E: Error>(
+    on dispatchQueue: DispatchQueue? = .main,
+    with transform: @escaping (Value) -> Result<U, E>
+  ) -> Promise<U> {
+    flatMapResult(on: dispatchQueue, with: transform)
   }
   
   /// Returns a new Promise, mapping any success value using the given
@@ -292,7 +319,7 @@ public extension Promise {
     on dispatchQueue: DispatchQueue? = .main,
     with transform: @escaping (Value) throws -> U
   ) -> Promise<U> {
-    chain(on: dispatchQueue) {
+    flatMap(on: dispatchQueue) {
       do {
         return .value(try transform($0))
       } catch {
@@ -315,7 +342,7 @@ public extension Promise {
     on dispatchQueue: DispatchQueue? = .main,
     with transform: @escaping (Error) -> Error
   ) -> Promise<Value> {
-    chainError(on: dispatchQueue) {
+    flatMapError(on: dispatchQueue) {
       Promise<Value>.error(transform($0))
     }
   }
@@ -359,7 +386,7 @@ public extension Promise {
     with combiningFunction: @escaping (Value, U) -> Promise<Value>
   ) -> Promise<Value> {
     promises.reduce(self) { p1, p2 in
-      p1.and(p2).chain(on: dispatchQueue, with: combiningFunction)
+      p1.and(p2).flatMap(on: dispatchQueue, with: combiningFunction)
     }
   }
   
@@ -439,7 +466,7 @@ public extension Promise {
     on dispatchQueue: DispatchQueue? = .main
   ) -> Promise<Either<Value, U>> {
     map(on: dispatchQueue, with: Either.left)
-      .chainError(on: dispatchQueue) { _ in .value(.right(value)) }
+      .flatMapError(on: dispatchQueue) { _ in .value(.right(value)) }
   }
   
   /// Check whether the value passes a given predicate. If it does not,
@@ -471,17 +498,17 @@ public extension Promise where Value == Bool {
   /// Use this method when you want to realize non-determinism.
   ///
   /// Promise.value(true)
-  ///   .chainIf(true: .value(1), false: .value(0))
+  ///   .flatMapIf(true: .value(1), false: .value(0))
   ///
   /// - Parameter dispatchQueue: The dispatch queue on which to notify the result.
   /// - Parameter true: The true branch of non-determinism.
   /// - Parameter false: The false branch of non-determinism.
-  func chainIf<U>(
+  func flatMapIf<U>(
     on dispatchQueue: DispatchQueue? = .main,
     `true`: @escaping @autoclosure () -> Promise<U>,
     `false`: @escaping @autoclosure () -> Promise<U>
   ) -> Promise<U> {
-    chain(on: dispatchQueue) {
+    flatMap(on: dispatchQueue) {
       switch $0 {
       case true:
         return `true`()
@@ -504,7 +531,7 @@ public extension Promise where Value == Bool {
     `true`: @escaping @autoclosure () -> U,
     `false`: @escaping @autoclosure () -> U
   ) -> Promise<U> {
-    chainIf(
+    flatMapIf(
       on: dispatchQueue,
       true: .value(`true`()),
       false: .value(`false`())
@@ -513,14 +540,14 @@ public extension Promise where Value == Bool {
 }
 
 public extension Promise {
-  func chainIf<U>(
+  func flatMapIf<U>(
     on dispatchQueue: DispatchQueue? = .main,
     transform: @escaping (Value) -> Bool,
     `true`: @escaping @autoclosure () -> Promise<U>,
     `false`: @escaping @autoclosure () -> Promise<U>
   ) -> Promise<U> {
     map(on: dispatchQueue, with: transform)
-      .chainIf(true: `true`(), false: `false`())
+      .flatMapIf(true: `true`(), false: `false`())
   }
   
   func mapIf<U>(
@@ -605,7 +632,7 @@ public extension Promise where Value: Sequence {
     on dispatchQueue: DispatchQueue? = .main,
     _ transform: @escaping (Value.Element) throws -> Promise<U>
   ) -> Promise<[U]> {
-    chain(on: dispatchQueue) { values in
+    flatMap(on: dispatchQueue) { values in
       all(promises: try values.map(transform))
     }
   }
@@ -929,7 +956,7 @@ extension AnyOptionalType where Self: OptionalType {
 
 // Operator definitions.
 
-/// Precedence of infix operator for `Promise.chain()`. It has a higher
+/// Precedence of infix operator for `Promise.flatMap()`. It has a higher
 /// precedence than the `AssignmentPrecedence` group but a lower precedence than
 /// the `LogicalDisjunctionPrecedence` group.
 precedencegroup FlatMapPrecedence {
@@ -938,7 +965,7 @@ precedencegroup FlatMapPrecedence {
   lowerThan: LogicalDisjunctionPrecedence
 }
 
-/// Infix operator for `Promise.chain()`.
+/// Infix operator for `Promise.flatMap()`.
 infix operator >>- : FlatMapPrecedence
 
 /// Precedence of infix operator for `Promise.alternative()`. It has a higher
@@ -971,16 +998,16 @@ infix operator <*> : SequencePrecedence
 infix operator <^> : SequencePrecedence
 
 
-/// Infix operator for `Promise.chain`.
+/// Infix operator for `Promise.flatMap`.
 ///
 /// Often useful when you want to propagate value(s) down the chain.
 ///
 /// For example:
 ///
 /// f1()
-///  .chain { f2().and($0) }
-///  .chain { f3().and($0) }
-///  .chain { f4($0.1.0) }
+///  .flatMap { f2().and($0) }
+///  .flatMap { f3().and($0) }
+///  .flatMap { f4($0.1.0) }
 ///
 /// can be written as:
 ///
@@ -995,7 +1022,7 @@ public func >>-<T, U>(
   promise: Promise<T>,
   transform: @escaping (T) throws -> Promise<U>
 ) -> Promise<U> {
-  promise.chain(on: .main, with: transform)
+  promise.flatMap(on: .main, with: transform)
 }
 
 /// This infix operator implements "choice". If `left` fails in tries
@@ -1012,7 +1039,7 @@ public func <|><T>(
   left: Promise<T>,
   right: @escaping @autoclosure () -> Promise<T>
 ) -> Promise<T> {
-  left.chainError(on: .main) { _ in right() }
+  left.flatMapError(on: .main) { _ in right() }
 }
 
 /// This infix operator chains two promises, discarding the value of the first.
@@ -1022,7 +1049,7 @@ public func *><T, U>(
   left: Promise<T>,
   right: Promise<U>
 ) -> Promise<U> {
-  left.asVoid.chain(on: .main) { right }
+  left.asVoid.flatMap(on: .main) { right }
 }
 
 /// This infix operator chains two promises, discarding the value of the second.
@@ -1031,7 +1058,7 @@ public func <*<T, U>(
   right: Promise<U>
 ) -> Promise<T> {
   left
-    .chain(on: .main) { right.and($0) }
+    .flatMap(on: .main) { right.and($0) }
     .map(on: .main) { $0.1 }
 }
 
