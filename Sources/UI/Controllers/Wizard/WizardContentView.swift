@@ -28,7 +28,7 @@ extension WizardContentView {
   func transitionToView(
     _ view: UIView,
     transitionDuration duration: TimeInterval,
-    animate: WizardTransitionAnimator?,
+    animate: Wizard<WizardContentView>.AnimatorFactory.Animator?,
     completion: @escaping () -> Void
   ) {
     view.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +74,7 @@ extension WizardContentView {
     current: UIView,
     next: UIView,
     transitionDuration duration: TimeInterval,
-    animate: WizardTransitionAnimator?,
+    animate: Wizard<WizardContentView>.AnimatorFactory.Animator?,
     completion: @escaping () -> Void
   ) {
     contentView.addSubview(next)

@@ -103,6 +103,10 @@ public extension Wizard {
     }
   }
   
+  func insertStep(afterCurrentStep step: @escaping LazyStep) {
+    insertStep(step, at: dataSource.currentStepIndex + 1)
+  }
+  
   func addSteps(_ steps: LazyStep...) {
     dataSource.steps.append(contentsOf: steps)
   }
@@ -117,7 +121,7 @@ public extension Wizard {
 
   func nextStep(
     transitionDuration duration: TimeInterval,
-    animator: WizardTransitionAnimator?
+    animator: AnimatorFactory.Animator?
   ) {
     guard !contentView.isPerformingLayout else {
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.nextStep(transitionDuration: duration, animator: animator) }
@@ -138,7 +142,7 @@ public extension Wizard {
   
   func previousStep(
     transitionDuration duration: TimeInterval,
-    animator: WizardTransitionAnimator?
+    animator: AnimatorFactory.Animator?
   ) {
     guard !contentView.isPerformingLayout else {
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.previousStep(transitionDuration: duration, animator: animator) }
