@@ -76,7 +76,30 @@ public extension AudioVideoPlayer {
     super.play()
     delegate?.audioVideoPlayer(didBeginPlayback: self)
   }
+  
+  
+  /// Start playing at `startAt` timestamp.
+  func play(
+    startAt: Double,
+    timescale: CMTimeScale = AudioVideoPlayer.defaultTimescale
+  ) {
+    removeTimeObserver()
+    seek(to: CMTime(seconds: startAt, preferredTimescale: timescale)) { _ in
+      self.setupTimeObserver()
+    }
+  }
 
+  /// Update the current playback interval and force the player to start playing at `startAt` timestamp.
+  func play(
+    startAt: Double,
+    endAt: Double,
+    timescale: CMTimeScale = AudioVideoPlayer.defaultTimescale
+  ) {
+    guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
+    setPlaybackPosition(startAt: startAt)
+    playbackInterval = (startAt, endAt)
+  }
+  
   override func pause() {
     super.pause()
     delegate?.audioVideoPlayer(didPausePlayback: self)
@@ -89,28 +112,7 @@ public extension AudioVideoPlayer {
     setupTimeObserver()
   }
 
-  /// Set `playbackInterval` and force player to start playing from the `startAt` timestamp.
-  func setPlaybackInterval(
-    startAt: Double,
-    endAt: Double,
-    timescale: CMTimeScale = AudioVideoPlayer.defaultTimescale
-  ) {
-    guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
-    setPlaybackPosition(startAt: startAt)
-    playbackInterval = (startAt, endAt)
-  }
-
-  func setPlaybackPosition(
-    startAt: Double,
-    timescale: CMTimeScale = AudioVideoPlayer.defaultTimescale
-  ) {
-    removeTimeObserver()
-    seek(to: CMTime(seconds: startAt, preferredTimescale: timescale)) { _ in
-      self.setupTimeObserver()
-    }
-  }
-
-  /// Update `playbackInterval` and keep playing from the current location.
+  /// Update the current playback interval, but keep playing at the current position.
   func updatePlaybackInterval(startAt: Double, endAt: Double) {
     guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
     playbackInterval = (startAt, endAt)
