@@ -184,8 +184,14 @@ public extension AlamofireNetworkClient {
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
-  func cancelAllRequests() {
-    session.cancelAllRequests()
+  func cancelAllRequests(
+    completingOnQueue queue: DispatchQueue,
+    completion: (() -> Void)?
+  ) {
+    session.cancelAllRequests(
+      completingOnQueue: queue,
+      completion: completion
+    )
   }
 }
 
