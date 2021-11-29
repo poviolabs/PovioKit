@@ -15,7 +15,7 @@ public extension Wizard {
 }
 
 public extension Wizard.AnimatorFactory {
-  static func SlideInSlideOut(
+  static func slideInSlideOut(
     animationDuration: TimeInterval,
     withDelay delay: TimeInterval = 0
   ) -> Animator {
@@ -32,7 +32,7 @@ public extension Wizard.AnimatorFactory {
     }
   }
   
-  static func FadeIn(
+  static func fadeIn(
     animationDuration: TimeInterval,
     withDelay delay: TimeInterval = 0
   ) -> Animator {
@@ -48,7 +48,7 @@ public extension Wizard.AnimatorFactory {
     }
   }
   
-  static func FadeOut(
+  static func fadeOut(
     animationDuration: TimeInterval,
     withDelay delay: TimeInterval = 0
   ) -> Animator {
@@ -63,20 +63,20 @@ public extension Wizard.AnimatorFactory {
     }
   }
   
-  static func FadeInFadeOut(
+  static func fadeInFadeOut(
     animationDuration: TimeInterval,
     withDelay delay: TimeInterval = 0
   ) -> Animator {
-    Composite(
+    composite(
       animators:
         [
-          FadeIn(animationDuration: animationDuration, withDelay: delay),
-          FadeOut(animationDuration: animationDuration, withDelay: delay)
+          fadeIn(animationDuration: animationDuration, withDelay: delay),
+          fadeOut(animationDuration: animationDuration, withDelay: delay)
         ]
     )
   }
   
-  static func PopInPopOut(
+  static func popInPopOut(
     animationDuration: TimeInterval,
     withDelay delay: TimeInterval = 0
   ) -> Animator {
@@ -93,7 +93,7 @@ public extension Wizard.AnimatorFactory {
     }
   }
   
-  static func Composite<C: Collection>(
+  static func composite<C: Collection>(
     animators: C
   ) -> Animator where C.Element == Animator {
     { current, next in
@@ -101,7 +101,7 @@ public extension Wizard.AnimatorFactory {
     }
   }
   
-  static func Composite(
+  static func composite(
     animators: Animator...
   ) -> Animator {
     { current, next in
