@@ -183,6 +183,10 @@ public extension AlamofireNetworkClient {
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors)
   }
+  
+  func cancelAllRequests() {
+    session.cancelAllRequests()
+  }
 }
 
 // MARK: - Models
