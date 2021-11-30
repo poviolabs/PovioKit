@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Borut Tomažin on 05/11/2020.
-//  Copyright © 2020 Povio Labs. All rights reserved.
+//  Copyright © 2021 Povio Inc. All rights reserved.
 //
 
 import Alamofire
@@ -12,9 +12,9 @@ import PovioKit
 
 public final class AlamofireConsoleLogger: EventMonitor {
   public let queue = DispatchQueue(label: "com.alamofire.console.networklogger")
-  private let logger: Writer
+  private let logger: (String) -> Void
   
-  public init(logger: @escaping Writer = { Logger.debug($0) }) {
+  public init(logger: @escaping (String) -> Void = { Logger.debug($0) }) {
     self.logger = logger
   }
   
