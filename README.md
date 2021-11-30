@@ -70,6 +70,9 @@ Currently, there are three packages to choose from:
 - *PovioKitNetworking* (networking library, depends on "core" and "promise" package)
 - *PovioKitPromise* (lightweight promises library)
 
+### Migration
+
+Please read the [Migration](MIGRATING.md) document.
 
 ## License
 
