@@ -18,11 +18,7 @@ let package = Package(
   targets: [
     .target(
       name: "PovioKit",
-      path: "Sources/Core",
-      exclude: [
-        "Networking",
-        "PromiseKit",
-      ]
+      path: "Sources/Core"
     ),
     .target(
       name: "PovioKitNetworking",
