@@ -39,16 +39,16 @@
 
 | UIKit | Foundation | MapKit |
 | --- | --- | --- |
-| [UIView](Sources/Extensions/UIKit/UIView+Povio.swift) | [String](Sources/Extensions/Foundation/String+Povio.swift) | [MKMapView](Sources/Extensions/MapKit/MKMapView+PovioKit.swift) |
-| [UICollectionView](Sources/Extensions/UIKit/UICollectionView+Povio.swift) | [Data](Sources/Extensions/Foundation/Data+Povio.swift) | [MKPolygon](Sources/Extensions/MapKit/MKPolygon+PovioKit.swift) |
-| [UITableView](Sources/Extensions/UIKit/UITableView+Povio.swift) | [Collection](Sources/Extensions/Foundation/Collection+Povio.swift) | [MKAnnotationView](Sources/Extensions/MapKit/MKAnnotationView+PovioKit.swift) |
-| [UIColor](Sources/Extensions/UIKit/UIColor+Povio.swift) | [URL](Sources/Extensions/Foundation/URL+Povio.swift) | [MKCircle](Sources/Extensions/MapKit/MKCircle+PovioKit.swift) |
-| [UIDevice](Sources/Extensions/UIKit/UIDevice+Povio.swift) | [Optional](Sources/Extensions/Foundation/Optional+Povio.swift) | |
-| [UIImage](Sources/Extensions/UIKit/UIImage+Povio.swift) | [Result](Sources/Extensions/Foundation/Result+Povio.swift) | |
-| [UIEdgeInsets](Sources/Extensions/UIKit/UIEdgeInsets+Povio.swift) | [DecodableDictionary](Sources/Extensions/Foundation/DecodableDictionary+Povio.swift) | |
-| [UIApplication](Sources/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | |
-| [UIProgressView](Sources/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Extensions/Foundation/Encodable+Povio.swift) | |
-| [UIResponder](Sources/Extensions/UIKit/UIResponder+Povio.swift) | |
+| [UIView](Sources/Core/Extensions/UIKit/UIView+Povio.swift) | [String](Sources/Core/Extensions/Foundation/String+Povio.swift) | [MKMapView](Sources/Core/Extensions/MapKit/MKMapView+PovioKit.swift) |
+| [UICollectionView](Sources/Core/Extensions/UIKit/UICollectionView+Povio.swift) | [Data](Sources/Core/Extensions/Foundation/Data+Povio.swift) | [MKPolygon](Sources/Core/Extensions/MapKit/MKPolygon+PovioKit.swift) |
+| [UITableView](Sources/Core/Extensions/UIKit/UITableView+Povio.swift) | [Collection](Sources/Core/Extensions/Foundation/Collection+Povio.swift) | [MKAnnotationView](Sources/Core/Extensions/MapKit/MKAnnotationView+PovioKit.swift) |
+| [UIColor](Sources/Core/Extensions/UIKit/UIColor+Povio.swift) | [URL](Sources/Core/Extensions/Foundation/URL+Povio.swift) | [MKCircle](Sources/Core/Extensions/MapKit/MKCircle+PovioKit.swift) |
+| [UIDevice](Sources/Core/Extensions/UIKit/UIDevice+Povio.swift) | [Optional](Sources/Core/Extensions/Foundation/Optional+Povio.swift) | |
+| [UIImage](Sources/Core/Extensions/UIKit/UIImage+Povio.swift) | [Result](Sources/Core/Extensions/Foundation/Result+Povio.swift) | |
+| [UIEdgeInsets](Sources/Core/Extensions/UIKit/UIEdgeInsets+Povio.swift) | [DecodableDictionary](Sources/Core/Extensions/Foundation/DecodableDictionary+Povio.swift) | |
+| [UIApplication](Sources/Core/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Core/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | |
+| [UIProgressView](Sources/Core/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Core/Extensions/Foundation/Encodable+Povio.swift) | |
+| [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | |
 
 ### Networking
 
