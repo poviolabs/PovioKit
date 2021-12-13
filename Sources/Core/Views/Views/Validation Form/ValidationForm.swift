@@ -63,7 +63,7 @@ public protocol TypedValidationFormRowType: BaseValidationFormRowType {
   var value: Value? { get set }
 }
 
-public extension TypedValidationFormRowType where Self: BaseValidationFormRowType {
+public extension TypedValidationFormRowType {
   var keyValuePair: (key: String, value: Any)? {
     switch (key, value) {
     case let (key?, value?):
@@ -82,7 +82,7 @@ public extension TypedValidationFormRowType where Self: BaseValidationFormRowTyp
   }
 }
 
-public extension TypedValidationFormRowType where Self: BaseValidationFormRowType, Value == String {
+public extension TypedValidationFormRowType where Value == String {
   func updateValue(_ value: Any) {
     self.value = (value as? CustomStringConvertible)?.description
   }
@@ -99,7 +99,7 @@ public protocol ValidatableValidationFormRowType: TypedValidationFormRowType {
   var validationStatus: ValidationStatus { get set }
 }
 
-extension ValidatableValidationFormRowType where Self: BaseValidationFormRowType {
+extension ValidatableValidationFormRowType {
   public func validate() {
     validationStatus = validator(value)
   }

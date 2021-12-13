@@ -30,8 +30,7 @@ class ValidationFormMultipleRuleRow: ValidatableValidationFormRowType {
     self.placeholder = placeholder
     self.validator = {
       let statuses = validator($0)
-      let isValid = statuses.allSatisfy { $0.state == .valid }
-      switch isValid {
+      switch statuses.areAllValid {
       case true:
         return .valid(statuses)
       case false:
@@ -49,5 +48,11 @@ class ValidationFormMultipleRuleRow: ValidatableValidationFormRowType {
       self.map(cell.update) // update so that validation status is immediately visible
     }
     return cell
+  }
+}
+
+fileprivate extension Collection where Element == ValidationStatusTextInputView.ValidationStatusView.Rule {
+  var areAllValid: Bool {
+    allSatisfy { $0.state == .valid }
   }
 }

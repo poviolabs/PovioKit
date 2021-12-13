@@ -18,8 +18,8 @@ class ValidationFormCheckboxRow: ValidatableValidationFormRowType {
   typealias Value = Bool
   typealias ValidationStatus = DefaultValidationStatus
   
-  var validationStatus: ValidationStatus
-  var value: Bool? // swiftlint:disable:this discouraged_optional_boolean
+  var validationStatus: ValidationStatus = .pending
+  var value: Bool?
   let validator: Validator
   let key: String?
   var placeholder: String? { nil }
@@ -37,14 +37,13 @@ class ValidationFormCheckboxRow: ValidatableValidationFormRowType {
     self.text = text
     self.validator = validator
     self.key = key
-    self.validationStatus = .pending
     self.didSelectCallback = didSelectCallback
   }
   
   func validationForm(_ validationForm: ValidationForm, cellForRowAt indexPath: IndexPath, in collectionView: UICollectionView) -> ValidationFormCell {
     let cell = collectionView.dequeueReusableCell(ValidationFormCheckboxCell.self, at: indexPath)
     cell.update(using: self)
-    cell.didToggleCallback.delegate(to: self) { (self, value) in // swiftlint:disable:this unneeded_parentheses_in_closure_argument
+    cell.didToggleCallback.delegate(to: self) { (self, value) in
       validationForm.updateRow(ValidationFormCheckboxRow.self, value: value, at: indexPath)
       self.map(cell.update)
     }

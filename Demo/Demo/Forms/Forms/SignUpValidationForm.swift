@@ -25,7 +25,9 @@ class SignUpValidationForm: ValidationForm {
         key: "name",
         placeholder: "Name",
         validator: nonEmptyValidator(errorMessage: "Required"))
+      
       ValidationFormSpacingRow(height: 17)
+      
       ValidationFormInputRow( // swiftlint:disable:this trailing_closure
         key: "email",
         placeholder: "Email",
@@ -34,14 +36,18 @@ class SignUpValidationForm: ValidationForm {
           $0.keyboard = .emailAddress
           $0.autocapitalizationType = .none
         })
+      
       ValidationFormSpacingRow(height: 27)
+      
       ValidationFormMultipleRuleRow(
         value: "",
         key: "password",
         placeholder: "Password",
         validator: passwordMultipleRuleValidator())
+     
       ValidationFormSpacingRow(height: 38)
     }
+    
     appendRow(
       ValidationFormCheckboxRow( // swiftlint:disable:this trailing_closure
         text: .normal("Terms and Conditions"),
