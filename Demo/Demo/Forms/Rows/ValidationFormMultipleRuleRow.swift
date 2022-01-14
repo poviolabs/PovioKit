@@ -23,7 +23,7 @@ class ValidationFormMultipleRuleRow: ValidatableValidationFormRowType {
     value: String? = nil,
     key: String?,
     placeholder: String?,
-    validator: @escaping (String?) -> [ValidationStatusTextInputView.ValidationStatusView.Rule]
+    validator: @escaping (String?) -> ValidationFormMultipleRuleInputCell.ValidationStatus.Statuses
   ) {
     self.value = value
     self.key = key

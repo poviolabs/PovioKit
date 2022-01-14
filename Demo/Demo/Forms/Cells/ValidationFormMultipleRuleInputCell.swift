@@ -115,20 +115,22 @@ extension ValidationFormMultipleRuleInputCell: UITextFieldDelegate {
 // MARK: - ValidationStatus
 extension ValidationFormMultipleRuleInputCell {
   struct ValidationStatus: ValidationStatusConforming {
-    fileprivate let statuses: [ValidationStatusTextInputView.ValidationStatusView.Rule] // swiftlint:disable:this strict_fileprivate
+    typealias Statuses = [ValidationStatusTextInputView.ValidationStatusView.Rule]
+    
+    fileprivate let statuses: Statuses // swiftlint:disable:this strict_fileprivate
     fileprivate let state: State // swiftlint:disable:this strict_fileprivate
     
-    static func valid(_ statuses: [ValidationStatusTextInputView.ValidationStatusView.Rule]) -> ValidationFormMultipleRuleInputCell.ValidationStatus {
+    static func valid(_ statuses: Statuses) -> ValidationFormMultipleRuleInputCell.ValidationStatus {
       precondition(!statuses.isEmpty, "Must contain at least one status!")
       return .init(statuses: statuses, state: .valid)
     }
     
-    static func invalid(_ statuses: [ValidationStatusTextInputView.ValidationStatusView.Rule]) -> ValidationFormMultipleRuleInputCell.ValidationStatus {
+    static func invalid(_ statuses: Statuses) -> ValidationFormMultipleRuleInputCell.ValidationStatus {
       precondition(!statuses.isEmpty, "Must contain at least one status!")
       return .init(statuses: statuses, state: .invalid)
     }
     
-    static func pending(_ statuses: [ValidationStatusTextInputView.ValidationStatusView.Rule]) -> ValidationFormMultipleRuleInputCell.ValidationStatus {
+    static func pending(_ statuses: Statuses) -> ValidationFormMultipleRuleInputCell.ValidationStatus {
       precondition(!statuses.isEmpty, "Must contain at least one status!")
       return .init(statuses: statuses, state: .pending)
     }
