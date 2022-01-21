@@ -206,6 +206,7 @@ extension TextField: UITextFieldDelegate {
 private extension TextField {
   func setupViews() {
     valueTextField.delegate = self
+    setupStackView()
   }
   
   func setupStackView() {
