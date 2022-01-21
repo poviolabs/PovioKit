@@ -69,6 +69,14 @@ public class TextField: UIView {
     }
   }
   
+  public var titleColor: UIColor = .black {
+    didSet { titleLabel.textColor = titleColor }
+  }
+  
+  public var titleFont: UIFont = UIFont.systemFont(ofSize: 14) {
+    didSet { titleLabel.font = titleFont }
+  }
+  
   public var value: String? {
     get {
       return valueTextField.text
@@ -120,6 +128,14 @@ public class TextField: UIView {
   
   public var textFont: UIFont = UIFont.systemFont(ofSize: 16) {
     didSet { valueTextField.font = textFont }
+  }
+  
+  public var textColor: UIColor = .black {
+    didSet { valueTextField.textColor = textColor }
+  }
+  
+  public var errorTextColor: UIColor = .red {
+    didSet { errorLabel.textColor = errorTextColor }
   }
   
   public var textFieldBackgroundColor: UIColor = .init(red: 225, green: 230, blue: 243) {
@@ -191,6 +207,64 @@ private extension TextField {
   func setupViews() {
     valueTextField.delegate = self
   }
+  
+  func setupStackView() {
+    func setupTitleLabel() {
+      stackView.addArrangedSubview(titleLabel)
+      titleLabel.contentInset = .init(horizontal: 4)
+      titleLabel.font = titleFont
+      titleLabel.textColor = titleColor
+      titleLabel.isHidden = true
+    }
+    
+    func setupValueContainerView() {
+      stackView.addArrangedSubview(valueContainerView)
+      valueContainerView.backgroundColor = textFieldBackgroundColor
+      valueContainerView.layer.cornerRadius = 10
+      valueContainerView.layer.masksToBounds = true
+      
+      valueContainerView.heightAnchor.constraint(equalToConstant: 56).isActive = true
+    }
+    
+    func setupValueTextField() {
+      valueContainerView.addSubview(valueTextField)
+      valueTextField.font = textFont
+      valueTextField.textColor = textColor
+      
+      NSLayoutConstraint.activate([
+        valueTextField.leadingAnchor.constraint(equalTo: valueTextField.leadingAnchor, constant: 15),
+        valueTextField.trailingAnchor.constraint(equalTo: valueTextField.trailingAnchor, constant: -15),
+        valueTextField.heightAnchor.constraint(equalTo: valueTextField.heightAnchor),
+        valueTextField.centerYAnchor.constraint(equalTo: valueTextField.centerYAnchor)
+      ])
+    }
+    
+    func setupErrorLabel() {
+      stackView.addArrangedSubview(errorLabel)
+      errorLabel.font = textFont
+      errorLabel.textColor = errorTextColor
+      errorLabel.isHidden = true
+    }
+    
+    addSubview(stackView)
+    stackView.axis = .vertical
+    stackView.spacing = 8
+    
+    
+    NSLayoutConstraint.activate([
+      stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      stackView.topAnchor.constraint(equalTo: topAnchor),
+      stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    ])
+    
+    setupTitleLabel()
+    setupValueContainerView()
+    setupValueTextField()
+    setupErrorLabel()
+    stackView.setCustomSpacing(6, after: valueContainerView)
+  }
+
 }
 
 // MARK: - Actions
