@@ -19,6 +19,7 @@ public class TextField: UIView {
   private let valueTextField = UITextField()
   private let errorLabel = UILabel()
   private var rule: RuleValidatable?
+  private var textFieldHeightAnchor: NSLayoutConstraint?
 
   public var onTextChange: ((String) -> Void)?
   public var onReturnKeyPressed: (() -> Void)?
@@ -47,6 +48,10 @@ public class TextField: UIView {
   
   override public var isFirstResponder: Bool {
     valueTextField.isFirstResponder
+  }
+  
+  public var inputFieldHeight: CGFloat = 44 {
+    didSet { textFieldHeightAnchor?.constant = inputFieldHeight }
   }
   
   private var error: String? {
@@ -224,7 +229,9 @@ private extension TextField {
       valueContainerView.layer.cornerRadius = 10
       valueContainerView.layer.masksToBounds = true
       
-      valueContainerView.heightAnchor.constraint(equalToConstant: 56).isActive = true
+      valueContainerView.translatesAutoresizingMaskIntoConstraints = false
+      textFieldHeightAnchor = valueContainerView.heightAnchor.constraint(equalToConstant: inputFieldHeight)
+      textFieldHeightAnchor?.isActive = true
     }
     
     func setupValueTextField() {
@@ -232,11 +239,12 @@ private extension TextField {
       valueTextField.font = textFont
       valueTextField.textColor = textColor
       
+      valueTextField.translatesAutoresizingMaskIntoConstraints = false
       NSLayoutConstraint.activate([
-        valueTextField.leadingAnchor.constraint(equalTo: valueTextField.leadingAnchor, constant: 15),
-        valueTextField.trailingAnchor.constraint(equalTo: valueTextField.trailingAnchor, constant: -15),
-        valueTextField.heightAnchor.constraint(equalTo: valueTextField.heightAnchor),
-        valueTextField.centerYAnchor.constraint(equalTo: valueTextField.centerYAnchor)
+        valueTextField.leadingAnchor.constraint(equalTo: valueContainerView.leadingAnchor, constant: 15),
+        valueTextField.trailingAnchor.constraint(equalTo: valueContainerView.trailingAnchor, constant: -15),
+        valueTextField.topAnchor.constraint(equalTo: valueContainerView.topAnchor),
+        valueTextField.bottomAnchor.constraint(equalTo: valueContainerView.bottomAnchor)
       ])
     }
     
@@ -251,7 +259,7 @@ private extension TextField {
     stackView.axis = .vertical
     stackView.spacing = 8
     
-    
+    stackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -265,7 +273,6 @@ private extension TextField {
     setupErrorLabel()
     stackView.setCustomSpacing(6, after: valueContainerView)
   }
-
 }
 
 // MARK: - Actions
