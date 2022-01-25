@@ -34,6 +34,7 @@
 | [Logger](Resources/Utilities/Logger/) | |
 | [Throttler](Resources/Utilities/Throttler/) | |
 | [SignInWithApple](Resources/Utilities/SignInWithApple/) | |
+| [UserDefaults](Resources/Utilities/UserDefaults/) | |
 
 ### Core extensions
 
