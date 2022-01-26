@@ -67,7 +67,7 @@ public class TextField: UIView {
 
   public var isValid: Bool {
     guard let rule = rule else { return true }
-    error = rule.validate(value) ? .none : rule.error
+    error = rule.validate(text) ? .none : rule.error
     return error == .none
   }
   
@@ -86,7 +86,7 @@ public class TextField: UIView {
     didSet { titleLabel.font = titleFont }
   }
   
-  public var value: String? {
+  public var text: String? {
     get {
       return valueTextField.text
     }
