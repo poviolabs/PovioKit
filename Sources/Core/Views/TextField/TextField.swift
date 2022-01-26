@@ -21,11 +21,10 @@ public class TextField: UIView {
   private var rule: RuleValidatable?
   private var textFieldHeightAnchor: NSLayoutConstraint?
 
-  public var onTextChange: ((String) -> Void)?
-  public var onReturnKeyPressed: (() -> Void)?
-  public var onDidBegindEditing: (() -> Void)?
-  public var onDidEndEditing: (() -> Void)?
-
+  weak public var delegate: UITextFieldDelegate? {
+    didSet { valueTextField.delegate = delegate }
+  }
+  
   public init(with rule: RuleValidatable? = .none) {
     super.init(frame: .zero)
     self.rule = rule
@@ -62,9 +61,6 @@ public class TextField: UIView {
     didSet { errorStateChanged() }
   }
   
-  public var hideKeyboardOnReturn = false
-  public var shouldChangeCharacters: Bool = true
-
   public var isValid: Bool {
     guard let rule = rule else { return true }
     error = rule.validate(text) ? .none : rule.error
@@ -183,38 +179,10 @@ public class TextField: UIView {
     }
   }
 }
-// MARK: - UITextFieldDelegate
-extension TextField: UITextFieldDelegate {
-  public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if hideKeyboardOnReturn { textField.resignFirstResponder() }
-    onReturnKeyPressed?()
-    return true
-  }
-  
-  public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    switch shouldChangeCharacters {
-    case true:
-      let newText = textField.text.replacingString(with: string, range: range)
-      onTextChange?(newText)
-    case _:
-      break
-    }
-    return shouldChangeCharacters
-  }
-  
-  public func textFieldDidBeginEditing(_ textField: UITextField) {
-    onDidBegindEditing?()
-  }
-  
-  public func textFieldDidEndEditing(_ textField: UITextField) {
-    onDidEndEditing?()
-  }
-}
 
 // MARK: - Private Methods
 private extension TextField {
   func setupViews() {
-    valueTextField.delegate = self
     setupStackView()
   }
   
