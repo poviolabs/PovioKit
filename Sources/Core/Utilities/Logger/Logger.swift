@@ -47,30 +47,22 @@ public extension Logger {
 public extension Logger {
   /// Log debug message
   static func debug(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
-    if shared.logLevel.rawValue >= LogLevel.debug.rawValue {
-      flush(.debug, message: message, params: params, file: file, function: function, line: line)
-    }
+    flush(.debug, message: message, params: params, file: file, function: function, line: line)
   }
   
   /// Log info message
   static func info(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
-    if shared.logLevel.rawValue >= LogLevel.info.rawValue {
-      flush(.info, message: message, params: params, file: file, function: function, line: line)
-    }
+    flush(.info, message: message, params: params, file: file, function: function, line: line)
   }
   
   /// Log warning message
   static func warning(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
-    if shared.logLevel.rawValue >= LogLevel.warn.rawValue {
-      flush(.warn, message: message, params: params, file: file, function: function, line: line)
-    }
+    flush(.warn, message: message, params: params, file: file, function: function, line: line)
   }
   
   /// Log error message
   static func error(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
-    if shared.logLevel.rawValue >= LogLevel.error.rawValue {
-      flush(.error, message: message, params: params, file: file, function: function, line: line)
-    }
+    flush(.error, message: message, params: params, file: file, function: function, line: line)
   }
   
   /// Log crash
