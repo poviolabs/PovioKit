@@ -91,8 +91,9 @@ public extension AlamofireNetworkClient {
     let parameterEncoder: ParameterEncoder
     switch method {
     case .get, .delete, .head:
-      parameterEncoder = URLEncodedFormParameterEncoder(encoder: encoder,
-                                                        arrayEncoding: arrayEncoding)
+      parameterEncoder = URLEncodedFormParameterEncoder(
+        encoder: encoder,
+        arrayEncoding: arrayEncoding)
     default:
       parameterEncoder = JSONParameterEncoder(encoder: encoder)
     }

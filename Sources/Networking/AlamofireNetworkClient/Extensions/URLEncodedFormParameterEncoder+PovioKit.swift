@@ -13,14 +13,15 @@ import PovioKit
 public extension URLEncodedFormParameterEncoder {
   convenience init(encoder: JSONEncoder,
                    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets) {
-    let formEncoder = URLEncodedFormEncoder(alphabetizeKeyValuePairs: true,
-                                            arrayEncoding: arrayEncoding,
-                                            boolEncoding: .numeric,
-                                            dataEncoding: Self.dataEncoding(from: encoder.dataEncodingStrategy),
-                                            dateEncoding: Self.dateEncoding(from: encoder.dateEncodingStrategy),
-                                            keyEncoding: Self.keyEncoding(from: encoder.keyEncodingStrategy),
-                                            spaceEncoding: .percentEscaped,
-                                            allowedCharacters: .afURLQueryAllowed)
+    let formEncoder = URLEncodedFormEncoder(
+      alphabetizeKeyValuePairs: true,
+      arrayEncoding: arrayEncoding,
+      boolEncoding: .numeric,
+      dataEncoding: Self.dataEncoding(from: encoder.dataEncodingStrategy),
+      dateEncoding: Self.dateEncoding(from: encoder.dateEncodingStrategy),
+      keyEncoding: Self.keyEncoding(from: encoder.keyEncodingStrategy),
+      spaceEncoding: .percentEscaped,
+      allowedCharacters: .afURLQueryAllowed)
     self.init(encoder: formEncoder, destination: .methodDependent)
   }
 }
