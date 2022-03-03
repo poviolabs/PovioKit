@@ -9,20 +9,20 @@
 import UIKit
 
 public extension UICollectionView {    
-  func register<T: UICollectionViewCell>(_: T.Type) {
-    register(T.self, forCellWithReuseIdentifier: T.identifier)
+  func registerCells<T: UICollectionViewCell>(_ cells: T.Type...) {
+    cells.forEach { register($0.self, forCellWithReuseIdentifier: $0.identifier) }
   }
   
   func registerSupplementaryView<T: UICollectionReusableView>(_: T.Type, kind: String) {
     register(T.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: T.identifier)
   }
   
-  func register<T: UICollectionReusableView>(headerView: T.Type) {
-    registerSupplementaryView(headerView, kind: UICollectionView.elementKindSectionHeader)
+  func registerHeaderViews<T: UICollectionReusableView>(_ headerViews: T.Type...) {
+    headerViews.forEach { registerSupplementaryView($0, kind: UICollectionView.elementKindSectionHeader) }
   }
   
-  func register<T: UICollectionReusableView>(footerView: T.Type) {
-    registerSupplementaryView(footerView, kind: UICollectionView.elementKindSectionFooter)
+  func registerFooterViews<T: UICollectionReusableView>(_ footerViews: T.Type...) {
+    footerViews.forEach { registerSupplementaryView($0, kind: UICollectionView.elementKindSectionFooter) }
   }
   
   func dequeuReusableCell<T: UICollectionViewCell>(at indexPath: IndexPath) -> T {
@@ -66,5 +66,23 @@ public extension UICollectionView {
   var maxContentSize: CGSize {
     .init(width: bounds.width - (contentInset.left + contentInset.right),
           height: bounds.height - (contentInset.top + contentInset.bottom))
+  }
+}
+
+// MARK: - Deprecated
+extension UICollectionView {
+  @available(*, deprecated, renamed: "registerCells")
+  func register<T: UICollectionViewCell>(_: T.Type) {
+    register(T.self, forCellWithReuseIdentifier: T.identifier)
+  }
+  
+  @available(*, deprecated, renamed: "registerHeaderViews")
+  func register<T: UICollectionReusableView>(headerView: T.Type) {
+    registerSupplementaryView(headerView, kind: UICollectionView.elementKindSectionHeader)
+  }
+  
+  @available(*, deprecated, renamed: "registerFooterViews")
+  func register<T: UICollectionReusableView>(footerView: T.Type) {
+    registerSupplementaryView(footerView, kind: UICollectionView.elementKindSectionFooter)
   }
 }
