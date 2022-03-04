@@ -9,11 +9,21 @@
 import UIKit
 
 public extension UITableView {
-  func registerCells<T: UITableViewCell>(_ cells: T.Type...) {
+  @available(*, deprecated, renamed: "register(_:)")
+  func register<T: UITableViewCell>(cell: T.Type) {
+    register(T.self, forCellReuseIdentifier: T.identifier)
+  }
+  
+  @available(*, deprecated, renamed: "register(_:)")
+  func register<T: UITableViewHeaderFooterView>(headerFooterView: T.Type) {
+    register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
+  }
+  
+  func register(_ cells: UITableViewCell.Type...) {
     cells.forEach { register($0.self, forCellReuseIdentifier: $0.identifier) }
   }
   
-  func registerHeaderFooterViews<T: UITableViewHeaderFooterView>(_ headerFooterViews: T.Type...) {
+  func register(_ headerFooterViews: UITableViewHeaderFooterView.Type...) {
     headerFooterViews.forEach { register($0.self, forHeaderFooterViewReuseIdentifier: $0.identifier) }
   }
   
@@ -64,18 +74,5 @@ public extension UITableView {
     let lastSection = max(0, numberOfSections - 1)
     let lastRow = max(0, numberOfRows(inSection: lastSection) - 1)
     scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: animated)
-  }
-}
-
-// MARK: - Deprecated
-extension UITableView {
-  @available(*, deprecated, renamed: "registerCells")
-  func register<T: UITableViewCell>(cell: T.Type) {
-    register(T.self, forCellReuseIdentifier: T.identifier)
-  }
-  
-  @available(*, deprecated, renamed: "registerHeaderFooterViews")
-  func register<T: UITableViewHeaderFooterView>(headerFooterView: T.Type) {
-    register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
   }
 }
