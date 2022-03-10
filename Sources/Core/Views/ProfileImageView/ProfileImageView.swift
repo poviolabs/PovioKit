@@ -30,6 +30,8 @@ public struct ProfileImageView: View {
     @State public var badgeAlignment: Alignment = .bottomTrailing
     @State public var badging: Badging = .some(badge: .init(image: Image(systemName: "scribble"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
     
+    public init() {}
+    
     public var body: some View {
         GeometryReader { geo in
             ZStack(alignment: badgeAlignment) {
