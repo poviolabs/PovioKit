@@ -8,9 +8,8 @@
 
 import SwiftUI
 
-
 @available(iOS 13, *)
-struct ProfileImageView: View {
+public struct ProfileImageView: View {
     enum Badging {
         case none
         case some(badge: BadgeStyle)
@@ -24,12 +23,12 @@ struct ProfileImageView: View {
     }
     
     var imageTapped: (() -> Void)?
-    @State var cornerRadius: CGFloat = 0
-    @State var contentMode: ContentMode = .fit
-    @State var borderColor: Color = .clear
-    @State var borderWidth: CGFloat = 0
-    @State var badgeAlignment: Alignment = .bottomTrailing
-    @State var badging: Badging = .some(badge: .init(image: Image(systemName: "scribble"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
+    @State public var cornerRadius: CGFloat = 0
+    @State public var contentMode: ContentMode = .fit
+    @State public var borderColor: Color = .clear
+    @State public var borderWidth: CGFloat = 0
+    @State public var badgeAlignment: Alignment = .bottomTrailing
+    @State public var badging: Badging = .some(badge: .init(image: Image(systemName: "scribble"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
     
     var body: some View {
         GeometryReader { geo in
