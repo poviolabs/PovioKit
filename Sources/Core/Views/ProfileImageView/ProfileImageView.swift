@@ -10,12 +10,12 @@ import SwiftUI
 
 @available(iOS 13, *)
 public struct ProfileImageView: View {
-    enum Badging {
+    public enum Badging {
         case none
         case some(badge: BadgeStyle)
     }
     
-    struct BadgeStyle {
+    public struct BadgeStyle {
         let image: Image
         let backgroundColor: Color
         let borderColor: Color?
@@ -30,7 +30,7 @@ public struct ProfileImageView: View {
     @State public var badgeAlignment: Alignment = .bottomTrailing
     @State public var badging: Badging = .some(badge: .init(image: Image(systemName: "scribble"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             ZStack(alignment: badgeAlignment) {
                 Image(systemName: "person")
