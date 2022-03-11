@@ -42,18 +42,13 @@ public struct ProfileImageView: View {
     public var body: some View {
         GeometryReader { geo in
             ZStack(alignment: properties.badgeAlignment) {
-                constructProfileImage(data: properties.urlData, placeHolder: properties.placeHolder!)
-                    .resizable()
-                    .aspectRatio(contentMode: properties.contentMode)
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .cornerRadius(properties.cornerRadius)
-                    .border(properties.borderColor, width: properties.borderWidth)
-                    .gesture(TapGesture().onEnded(
-                        { imageTapped?() } ))
+                ProfileImage(properties: properties, profileTapped: triggerImageTapClosure)
                 Badge(style: properties.badging, size: .init(width: geo.size.width / 4, height: geo.size.height / 4))
             }
         }
     }
+    
+    private func triggerImageTapClosure() { imageTapped?() }
     
     private struct Badge: View {
         @State var style: BadgeStyle
@@ -82,16 +77,33 @@ public struct ProfileImageView: View {
         }
     }
     
-    private func constructProfileImage(data: Data?, placeHolder: UIImage) -> Image {
-        switch data {
-        case .some(let data):
-            if let createdImage =  UIImage(data: data) {
-                return Image(uiImage: createdImage)
-            } else {
+    private struct ProfileImage: View {
+        @ObservedObject var properties: ProfileImageProperties
+        var profileTapped: (() -> Void)
+        
+        var body: some View {
+            GeometryReader { geo in
+                constructProfileImage(data: properties.urlData, placeHolder: properties.placeHolder!)
+                    .resizable()
+                    .aspectRatio(contentMode: properties.contentMode)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .cornerRadius(properties.cornerRadius)
+                    .border(properties.borderColor, width: properties.borderWidth)
+                    .gesture(TapGesture().onEnded( { profileTapped() } ))
+            }
+        }
+        
+        private func constructProfileImage(data: Data?, placeHolder: UIImage) -> Image {
+            switch data {
+            case .some(let data):
+                if let createdImage =  UIImage(data: data) {
+                    return Image(uiImage: createdImage)
+                } else {
+                    return Image(uiImage: placeHolder)
+                }
+            case .none:
                 return Image(uiImage: placeHolder)
             }
-        case .none:
-            return Image(uiImage: placeHolder)
         }
     }
 }
