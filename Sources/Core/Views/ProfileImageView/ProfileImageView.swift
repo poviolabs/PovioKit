@@ -9,21 +9,21 @@
 import SwiftUI
 
 @available(iOS 13, *)
+public class ProfileImageProperties: ObservableObject {
+    @Published public var placeHolder = UIImage(systemName: "person")
+    @Published public var badging: ProfileImageView.BadgingMode = .none //.some(badge: .init(image: Image(systemName: "scribble"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
+    @Published public var cornerRadius: CGFloat = 0
+    @Published public var contentMode: ContentMode = .fit
+    @Published public var borderColor: Color = .clear
+    @Published public var borderWidth: CGFloat = 0
+    @Published public var badgeAlignment: Alignment = .bottomTrailing
+    @Published var urlData: Data?
+}
+
+@available(iOS 13, *)
 public struct ProfileImageView: View {
     public var imageTapped: (() -> Void)?
-    @State public var cornerRadius: CGFloat = 0
-    @State public var contentMode: ContentMode = .fit
-    @State public var borderColor: Color = .clear
-    @State public var borderWidth: CGFloat = 0
-    @State public var badgeAlignment: Alignment = .bottomTrailing
-    @State public var badging: BadgingMode = .none //.some(badge: .init(image: Image(systemName: "scribble"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
-    @State private var urlData: Data?
-    @State public var placeHolder = UIImage(systemName: "person")
-    
-    public enum BadgingMode {
-        case none
-        case some(badge: BadgeStyle)
-    }
+    @ObservedObject public var properties = ProfileImageProperties()
     
     public struct BadgeStyle {
         let image: Image
@@ -32,25 +32,30 @@ public struct ProfileImageView: View {
         let borderWidth: CGFloat?
     }
     
+    public enum BadgingMode {
+        case none
+        case some(badge: BadgeStyle)
+    }
+    
     public init() {}
     
     public var body: some View {
         GeometryReader { geo in
-            ZStack(alignment: badgeAlignment) {
-                constructProfileImage(data: urlData, placeHolder: placeHolder!)
+            ZStack(alignment: properties.badgeAlignment) {
+                constructProfileImage(data: properties.urlData, placeHolder: properties.placeHolder!)
                     .resizable()
-                    .aspectRatio(contentMode: contentMode)
+                    .aspectRatio(contentMode: properties.contentMode)
                     .frame(width: geo.size.width, height: geo.size.height)
-                    .cornerRadius(cornerRadius)
-                    .border(borderColor, width: borderWidth)
+                    .cornerRadius(properties.cornerRadius)
+                    .border(properties.borderColor, width: properties.borderWidth)
                     .gesture(TapGesture().onEnded(
                         { imageTapped?() } ))
-                Badge(style: badging, size: .init(width: geo.size.width / 4, height: geo.size.height / 4))
+                Badge(style: properties.badging, size: .init(width: geo.size.width / 4, height: geo.size.height / 4))
             }
         }
     }
     
-    struct Badge: View {
+    private struct Badge: View {
         @State var style: BadgeStyle
         @State var size: CGSize
         
@@ -100,13 +105,13 @@ public extension ProfileImageView {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     DispatchQueue.main.async {
-                        self.urlData = data
+                        properties.urlData = data
                     }
                 }
             }.resume()
         case .none:
             DispatchQueue.main.async {
-                self.urlData = nil
+                properties.urlData = nil
             }
         }
     }
