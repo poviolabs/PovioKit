@@ -11,11 +11,12 @@ import SwiftUI
 @available(iOS 13, *)
 public class ProfileImageProperties: ObservableObject {
     @Published public var placeHolder = UIImage(systemName: "person")
-    @Published public var badging: ProfileImageView.BadgingMode = .none //.some(badge: .init(image: Image(systemName: "scribble"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
+    @Published public var backgroundType = ProfileImageView.BackgroundType.plain(.clear)
     @Published public var cornerRadius: CGFloat = 0
     @Published public var contentMode: ContentMode = .fit
     @Published public var borderColor: Color = .clear
     @Published public var borderWidth: CGFloat = 0
+    @Published public var badging: ProfileImageView.BadgingMode = .none
     @Published public var badgeAlignment: Alignment = .bottomTrailing
     @Published var urlData: Data?
 }
@@ -35,6 +36,13 @@ public struct ProfileImageView: View {
     public enum BadgingMode {
         case none
         case some(badge: BadgeStyle)
+    }
+    
+    public enum BackgroundType {
+        case plain(Color)
+        case linearGradient(LinearGradient)
+        case radialGradient(RadialGradient)
+        case angularGradient(AngularGradient)
     }
     
     public init() {}
@@ -87,6 +95,7 @@ public struct ProfileImageView: View {
                     .resizable()
                     .aspectRatio(contentMode: properties.contentMode)
                     .frame(width: geo.size.width, height: geo.size.height)
+                    .background(getBackground())
                     .cornerRadius(properties.cornerRadius)
                     .border(properties.borderColor, width: properties.borderWidth)
                     .gesture(TapGesture().onEnded( { profileTapped() } ))
@@ -103,6 +112,19 @@ public struct ProfileImageView: View {
                 }
             case .none:
                 return Image(uiImage: placeHolder)
+            }
+        }
+        
+        private func getBackground() -> AnyView {
+            switch properties.backgroundType {
+            case .plain(let backgroundColor):
+                return AnyView(backgroundColor)
+            case let .linearGradient(gradient):
+                return AnyView(gradient)
+            case let .angularGradient(gradient):
+                return AnyView(gradient)
+            case let .radialGradient(gradient):
+                return AnyView(gradient)
             }
         }
     }
