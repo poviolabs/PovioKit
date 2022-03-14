@@ -15,6 +15,7 @@ struct ContentView: View {
   
     var body: some View {
       profileImageView
+        .frame(width: 100, height: 100)
     }
 }
 ```
