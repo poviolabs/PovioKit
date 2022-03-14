@@ -27,7 +27,7 @@
 | Utils | Protocols | Views |
 | --- | --- | --- |
 | [AttributedStringBuilder](Resources/Utilities/AttributedStringBuilder/) | [Data Source](Resources/Protocols/DataSource/) | [GradientView](Resources/Views/GradientView/) |
-| [StartupService](Resources/Utilities/StartupService/) | [PaddingLabel](Resources/Views/PaddingLabel/) |
+| [StartupService](Resources/Utilities/StartupService/) | [PaddingLabel](Resources/Views/PaddingLabel/) | [ProfileImageView](Resources/View/ProfileImageView)
 | [Broadcast](Resources/Utilities/Broadcast/) | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) |
 | [ColorInterpolator](Resources/Utilities/ColorInterpolator/) | |
 | [DispatchTimer](Resources/Utilities/DispatchTimer/) | |
