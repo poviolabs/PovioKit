@@ -28,7 +28,7 @@
 | --- | --- | --- |
 | [AttributedStringBuilder](Resources/Utilities/AttributedStringBuilder/) | [Data Source](Resources/Protocols/DataSource/) | [GradientView](Resources/Views/GradientView/) |
 | [StartupService](Resources/Utilities/StartupService/) | [PaddingLabel](Resources/Views/PaddingLabel/) |
-| [Broadcast](Resources/Utilities/Broadcast/) | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) |
+| [Broadcast](Resources/Utilities/Broadcast/) | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) | [GenericButton](Resources/Views/GenericButton)
 | [ColorInterpolator](Resources/Utilities/ColorInterpolator/) | |
 | [DispatchTimer](Resources/Utilities/DispatchTimer/) | |
 | [Logger](Resources/Utilities/Logger/) | |
