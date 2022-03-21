@@ -9,12 +9,22 @@
 import UIKit
 
 public extension UITableView {
+  @available(*, deprecated, renamed: "register(_:)")
   func register<T: UITableViewCell>(cell: T.Type) {
     register(T.self, forCellReuseIdentifier: T.identifier)
   }
   
+  @available(*, deprecated, renamed: "register(_:)")
   func register<T: UITableViewHeaderFooterView>(headerFooterView: T.Type) {
     register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
+  }
+  
+  func register(_ cells: UITableViewCell.Type...) {
+    cells.forEach { register($0.self, forCellReuseIdentifier: $0.identifier) }
+  }
+  
+  func register(_ headerFooterViews: UITableViewHeaderFooterView.Type...) {
+    headerFooterViews.forEach { register($0.self, forHeaderFooterViewReuseIdentifier: $0.identifier) }
   }
   
   func dequeueReusableCell<T: UITableViewCell>(forIndexPath indexPath: IndexPath) -> T {
