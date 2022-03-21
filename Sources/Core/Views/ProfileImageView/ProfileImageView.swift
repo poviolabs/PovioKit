@@ -10,14 +10,13 @@ import SwiftUI
 
 @available(iOS 13, *)
 public class ProfileImageProperties: ObservableObject {
-  @Published public var placeHolder = Image(systemName: "person")
-  @Published public var backgroundType = ProfileImageView.BackgroundType.plain(.clear)
+  @Published public var placeholder = Image(systemName: "person")
+  @Published public var backgroundType = ProfileImageView.Background.plain(.clear)
   @Published public var cornerRadius: CGFloat = 0
   @Published public var contentMode: ContentMode = .fit
   @Published public var borderColor: Color = .clear
   @Published public var borderWidth: CGFloat = 0
   @Published public var badging: ProfileImageView.BadgingMode = .none
-  @Published public var badgeAlignment: Alignment = .bottomTrailing
   @Published var urlData: Data?
 }
 
@@ -27,79 +26,31 @@ public struct ProfileImageView: View {
   public var badgeTapped: (() -> Void)?
   @ObservedObject public var properties = ProfileImageProperties()
   
-  public struct BadgeStyle {
-    let image: Image
-    let backgroundColor: Color
-    let borderColor: Color?
-    let borderWidth: CGFloat?
-  }
-  
-  public enum BadgingMode {
-    case none
-    case some(badge: BadgeStyle)
-  }
-  
-  public enum BackgroundType {
-    case plain(Color)
-    case linearGradient(LinearGradient)
-    case radialGradient(RadialGradient)
-    case angularGradient(AngularGradient)
-  }
-  
   public init() {}
   
   public var body: some View {
     GeometryReader { geo in
-      ZStack(alignment: properties.badgeAlignment) {
-        ProfileImage(properties: properties, profileTapped: triggerImageTapClosure)
-        Badge(style: properties.badging, size: .init(width: geo.size.width / 3.5, height: geo.size.height / 3.5), badgeTapped: tiggerBadgeTapClosure)
+      ZStack(alignment: properties.badging.alignment) {
+        ImageView(properties: properties, profileTapped: triggerImageTapClosure)
+        BadgeView(style: properties.badging, size: .init(width: geo.size.width / 3.5, height: geo.size.height / 3.5), badgeTapped: tiggerBadgeTapClosure)
       }
     }
   }
   
   private func triggerImageTapClosure() { imageTapped?() }
   private func tiggerBadgeTapClosure() { badgeTapped?() }
-  
-  private struct Badge: View {
-    @State var style: BadgeStyle
-    @State var size: CGSize
-    var badgeTapped: (() -> Void)
+}
 
-    
-    init?(style: BadgingMode, size: CGSize, badgeTapped: @escaping () -> ()) {
-      self.badgeTapped = badgeTapped
-      
-      switch style {
-      case .none:
-        return nil
-      case .some(let badge):
-        self.style = badge
-        self.size = size
-      }
-    }
-    
-    var body: some View {
-      style.image
-        .foregroundColor(.white)
-        .frame(width: size.width, height: size.height)
-        .background(style.backgroundColor)
-        .clipShape(Circle())
-        .gesture(TapGesture().onEnded({ badgeTapped() }))
-        .overlay(Circle().stroke(
-          (style.borderColor != nil) ? style.borderColor! : Color.white,
-          lineWidth: (style.borderWidth != nil) ? style.borderWidth! : 2)
-        )
-    }
-  }
-  
-  private struct ProfileImage: View {
+@available(iOS 13, *)
+private extension ProfileImageView {
+  struct ImageView: View {
     @ObservedObject var properties: ProfileImageProperties
     var profileTapped: (() -> Void)
     var optionalPlaceHolder: UIImage?
     
     var body: some View {
       GeometryReader { geo in
-        constructProfileImage(data: properties.urlData, placeHolder: properties.placeHolder)
+        constructProfileImage(data: properties.urlData, placeHolder: properties.placeholder)
           .resizable()
           .aspectRatio(contentMode: properties.contentMode)
           .frame(width: geo.size.width, height: geo.size.height)
@@ -135,6 +86,72 @@ public struct ProfileImageView: View {
         return AnyView(gradient)
       }
     }
+  }
+  
+  struct BadgeView: View {
+    @State var style: Badge
+    @State var size: CGSize
+    var badgeTapped: (() -> Void)
+
+    
+    init?(style: BadgingMode, size: CGSize, badgeTapped: @escaping () -> ()) {
+      self.badgeTapped = badgeTapped
+      
+      switch style {
+      case .none:
+        return nil
+      case .some(let badge):
+        self.style = badge
+        self.size = size
+      }
+    }
+    
+    var body: some View {
+      style.image
+        .foregroundColor(.white)
+        .frame(width: size.width, height: size.height)
+        .background(style.backgroundColor)
+        .clipShape(Circle())
+        .gesture(TapGesture().onEnded({ badgeTapped() }))
+        .overlay(Circle().stroke(
+          (style.borderColor != nil) ? style.borderColor! : Color.white,
+          lineWidth: (style.borderWidth != nil) ? style.borderWidth! : 2)
+        )
+    }
+  }
+}
+
+
+// MARK: - Public Properties
+@available(iOS 13, *)
+public extension ProfileImageView {
+  struct Badge {
+    let image: Image
+    let backgroundColor: Color
+    let borderColor: Color?
+    let borderWidth: CGFloat?
+    let alignment: Alignment
+  }
+  
+  enum BadgingMode {
+    case none
+    case some(badge: Badge)
+    
+    var alignment: Alignment {
+      switch self {
+      case .none:
+        return .bottomTrailing
+      case .some(badge: let badge):
+        return badge.alignment
+      }
+    }
+  }
+  
+  enum Background {
+    case plain(Color)
+    case linearGradient(LinearGradient)
+    case radialGradient(RadialGradient)
+    case angularGradient(AngularGradient)
   }
 }
 
