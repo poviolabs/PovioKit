@@ -12,7 +12,7 @@ import SwiftUI
 public class ProfileImageProperties: ObservableObject {
   @Published public var placeholder: Image?
   @Published public var backgroundType = ProfileImageView.Background.plain(.clear)
-  @Published public var cornerRadius: ProfileImageView.CornerRadiusType = .rounded
+  @Published public var cornerRadius: ProfileImageView.CornerRadiusType = .circle
   @Published public var contentMode: ContentMode = .fit
   @Published public var borderColor: Color = .clear
   @Published public var borderWidth: CGFloat = 0
@@ -88,7 +88,7 @@ private extension ProfileImageView {
     
     func getCornerRadius(for cornerType: ProfileImageView.CornerRadiusType) -> CGFloat {
        switch cornerType {
-       case .rounded:
+       case .circle:
          return .infinity
        case .custom(let cornerRadius):
          return cornerRadius
@@ -177,7 +177,7 @@ public extension ProfileImageView {
   }
   
   enum CornerRadiusType {
-    case rounded
+    case circle
     case custom(CGFloat)
   }
 }
