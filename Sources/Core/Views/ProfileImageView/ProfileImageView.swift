@@ -10,7 +10,7 @@ import SwiftUI
 
 @available(iOS 13, *)
 public class ProfileImageProperties: ObservableObject {
-  @Published public var placeholder: Image = Image(systemName: "")
+  @Published public var placeholder: Image?
   @Published public var backgroundType = ProfileImageView.Background.plain(.clear)
   @Published public var cornerRadius: ProfileImageView.CornerRadiusType = .rounded
   @Published public var contentMode: ContentMode = .fit
@@ -50,7 +50,7 @@ private extension ProfileImageView {
     
     var body: some View {
       GeometryReader { geo in
-        constructProfileImage(data: properties.urlData, placeHolder: properties.placeholder)
+        constructProfileImage(data: properties.urlData, placeholder: properties.placeholder)
           .resizable()
           .aspectRatio(contentMode: properties.contentMode)
           .frame(width: geo.size.width, height: geo.size.height)
@@ -61,17 +61,16 @@ private extension ProfileImageView {
       }
     }
     
-    func constructProfileImage(data: Data?, placeHolder: Image) -> Image {
-      switch data {
-      case .some(let data):
-        if let createdImage =  UIImage(data: data) {
-          return Image(uiImage: createdImage)
-        } else {
-          return placeHolder
-        }
-      case .none:
-        return placeHolder
+    func constructProfileImage(data: Data?, placeholder: Image?) -> Image {
+      if let unrappedData = data, let createdImage = UIImage(data: unrappedData) {
+        return Image(uiImage: createdImage)
       }
+      
+      if let unwrappedPlaceholder = placeholder {
+        return unwrappedPlaceholder
+      }
+      
+      return Image(uiImage: UIImage())
     }
     
     func getBackground() -> AnyView {
