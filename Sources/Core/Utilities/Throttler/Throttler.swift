@@ -28,6 +28,18 @@ public extension Throttler {
     queue.asyncAfter(deadline: .now() + delay, execute: newJob)
   }
   
+  func executeWithResult<T>(
+    work: @escaping () -> T,
+    completion: @escaping (T) -> Void
+  ) {
+    cancelPendingJob()
+    let newJob = DispatchWorkItem {
+      completion(work())
+    }
+    job = newJob
+    queue.asyncAfter(deadline: .now() + delay, execute: newJob)
+  }
+  
   func cancelPendingJob() {
     job?.cancel()
   }
