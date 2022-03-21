@@ -12,7 +12,7 @@ import SwiftUI
 public class ProfileImageProperties: ObservableObject {
   @Published public var placeholder = Image(systemName: "person")
   @Published public var backgroundType = ProfileImageView.Background.plain(.clear)
-  @Published public var cornerRadius: CGFloat = 0
+  @Published public var cornerRadius: ProfileImageView.CornerRadiusType = .rounded
   @Published public var contentMode: ContentMode = .fit
   @Published public var borderColor: Color = .clear
   @Published public var borderWidth: CGFloat = 0
@@ -56,12 +56,12 @@ private extension ProfileImageView {
           .frame(width: geo.size.width, height: geo.size.height)
           .gesture(TapGesture().onEnded({ profileTapped() }))
           .background(getBackground())
-          .cornerRadius(properties.cornerRadius)
+          .cornerRadius(getCornerRadius(for: properties.cornerRadius))
           .border(properties.borderColor, width: properties.borderWidth)
       }
     }
     
-    private func constructProfileImage(data: Data?, placeHolder: Image) -> Image {
+    func constructProfileImage(data: Data?, placeHolder: Image) -> Image {
       switch data {
       case .some(let data):
         if let createdImage =  UIImage(data: data) {
@@ -74,7 +74,7 @@ private extension ProfileImageView {
       }
     }
     
-    private func getBackground() -> AnyView {
+    func getBackground() -> AnyView {
       switch properties.backgroundType {
       case .plain(let backgroundColor):
         return AnyView(backgroundColor)
@@ -86,6 +86,15 @@ private extension ProfileImageView {
         return AnyView(gradient)
       }
     }
+    
+    func getCornerRadius(for cornerType: ProfileImageView.CornerRadiusType) -> CGFloat {
+       switch cornerType {
+       case .rounded:
+         return .infinity
+       case .custom(let cornerRadius):
+         return cornerRadius
+       }
+     }
   }
   
   struct BadgeView: View {
@@ -152,6 +161,11 @@ public extension ProfileImageView {
     case linearGradient(LinearGradient)
     case radialGradient(RadialGradient)
     case angularGradient(AngularGradient)
+  }
+  
+  enum CornerRadiusType {
+    case rounded
+    case custom(CGFloat)
   }
 }
 
