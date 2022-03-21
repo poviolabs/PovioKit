@@ -10,7 +10,7 @@ import SwiftUI
 
 @available(iOS 13, *)
 public class ProfileImageProperties: ObservableObject {
-  @Published public var placeholder = Image(systemName: "person")
+  @Published public var placeholder: Image = Image(systemName: "")
   @Published public var backgroundType = ProfileImageView.Background.plain(.clear)
   @Published public var cornerRadius: ProfileImageView.CornerRadiusType = .rounded
   @Published public var contentMode: ContentMode = .fit
@@ -56,8 +56,8 @@ private extension ProfileImageView {
           .frame(width: geo.size.width, height: geo.size.height)
           .gesture(TapGesture().onEnded({ profileTapped() }))
           .background(getBackground())
+          .overlay(getShape(for: geo.size))
           .cornerRadius(getCornerRadius(for: properties.cornerRadius))
-          .border(properties.borderColor, width: properties.borderWidth)
       }
     }
     
@@ -95,6 +95,20 @@ private extension ProfileImageView {
          return cornerRadius
        }
      }
+    
+    func getShape(for size: CGSize) -> AnyView {
+      let height = size.height
+      let width = size.width
+      
+      switch (height == width) {
+      case true:
+        return AnyView(Circle().stroke(properties.borderColor,
+                                       lineWidth: properties.borderWidth))
+      case false:
+        return AnyView(RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
+          .stroke(properties.borderColor, lineWidth: properties.borderWidth))
+      }
+    }
   }
   
   struct BadgeView: View {
