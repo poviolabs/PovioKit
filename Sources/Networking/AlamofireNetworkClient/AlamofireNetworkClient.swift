@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 28/10/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -83,6 +83,7 @@ public extension AlamofireNetworkClient {
     headers: HTTPHeaders? = nil,
     encode: E,
     encoder: JSONEncoder = .init(),
+    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
@@ -90,7 +91,9 @@ public extension AlamofireNetworkClient {
     let parameterEncoder: ParameterEncoder
     switch method {
     case .get, .delete, .head:
-      parameterEncoder = URLEncodedFormParameterEncoder(encoder: encoder)
+      parameterEncoder = URLEncodedFormParameterEncoder(
+        encoder: encoder,
+        arrayEncoding: arrayEncoding)
     default:
       parameterEncoder = JSONParameterEncoder(encoder: encoder)
     }
