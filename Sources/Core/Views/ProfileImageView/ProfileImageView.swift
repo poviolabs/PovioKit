@@ -22,8 +22,8 @@ public class ProfileImageProperties: ObservableObject {
 
 @available(iOS 13, *)
 public struct ProfileImageView: View {
-  public var imageTapped: (() -> Void)?
-  public var badgeTapped: (() -> Void)?
+  public var imageTapped = Delegated<Void, Void>()
+  public var badgeTapped = Delegated<Void, Void>()
   @ObservedObject public var properties = ProfileImageProperties()
   
   public init() {}
@@ -37,8 +37,8 @@ public struct ProfileImageView: View {
     }
   }
   
-  private func triggerImageTapClosure() { imageTapped?() }
-  private func tiggerBadgeTapClosure() { badgeTapped?() }
+  private func triggerImageTapClosure() { imageTapped() }
+  private func tiggerBadgeTapClosure() { badgeTapped() }
 }
 
 @available(iOS 13, *)
