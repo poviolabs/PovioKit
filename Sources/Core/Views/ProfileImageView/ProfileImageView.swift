@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-@available(iOS 13, *)
+@available(iOS 14, *)
 public class ProfileImageProperties: ObservableObject {
   @Published public var placeholder: Image?
   @Published public var backgroundType = ProfileImageView.Background.plain(.clear)
@@ -17,10 +17,10 @@ public class ProfileImageProperties: ObservableObject {
   @Published public var borderColor: Color = .clear
   @Published public var borderWidth: CGFloat = 0
   @Published public var badging: ProfileImageView.BadgingMode = .none
-  @Published var urlData: Data?
+  @Published var url: URL?
 }
 
-@available(iOS 13, *)
+@available(iOS 14, *)
 public struct ProfileImageView: View {
   public var imageTapped = Delegated<Void, Void>()
   public var badgeTapped = Delegated<Void, Void>()
@@ -41,7 +41,7 @@ public struct ProfileImageView: View {
   private func tiggerBadgeTapClosure() { badgeTapped() }
 }
 
-@available(iOS 13, *)
+@available(iOS 14, *)
 private extension ProfileImageView {
   struct ImageView: View {
     @ObservedObject var properties: ProfileImageProperties
@@ -50,8 +50,8 @@ private extension ProfileImageView {
     
     var body: some View {
       GeometryReader { geo in
-        constructProfileImage(data: properties.urlData, placeholder: properties.placeholder)
-          .resizable()
+        constructProfileImage(placeholder: properties.placeholder)
+          .resolve(from: properties.url, placeholder: properties.placeholder)
           .aspectRatio(contentMode: properties.contentMode)
           .frame(width: geo.size.width, height: geo.size.height)
           .gesture(TapGesture().onEnded({ profileTapped() }))
@@ -61,11 +61,7 @@ private extension ProfileImageView {
       }
     }
     
-    func constructProfileImage(data: Data?, placeholder: Image?) -> Image {
-      if let unrappedData = data, let createdImage = UIImage(data: unrappedData) {
-        return Image(uiImage: createdImage)
-      }
-      
+    func constructProfileImage(placeholder: Image?) -> Image {
       if let unwrappedPlaceholder = placeholder {
         return unwrappedPlaceholder
       }
@@ -145,7 +141,7 @@ private extension ProfileImageView {
 
 
 // MARK: - Public Properties
-@available(iOS 13, *)
+@available(iOS 14, *)
 public extension ProfileImageView {
   struct Badge {
     let image: Image
@@ -183,27 +179,14 @@ public extension ProfileImageView {
 }
 
 // MARK: - Public Methods
-@available(iOS 13, *)
+@available(iOS 14, *)
 public extension ProfileImageView {
   func set(_ url: URL?) {
-    switch url {
-    case .some(let url):
-      URLSession.shared.dataTask(with: url) { data, response, error in
-        if let data = data {
-          DispatchQueue.main.async {
-            properties.urlData = data
-          }
-        }
-      }.resume()
-    case .none:
-      DispatchQueue.main.async {
-        properties.urlData = nil
-      }
-    }
+    properties.url = url
   }
 }
 
-@available(iOS 13, *)
+@available(iOS 14, *)
 struct ProfileImageView_Previews: PreviewProvider {
   static var previews: some View {
     ProfileImageView()
