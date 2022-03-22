@@ -16,6 +16,7 @@ class UrlImageModel: ObservableObject {
   
   init(url: URL?) {
     self.url = url
+    // TODO: Load from cache
     loadImage()
   }
   
