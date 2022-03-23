@@ -31,6 +31,7 @@ struct ContentView: View {
     view.addSubview(hostingController.view)
     
     hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+    hostingController.view.backgroundColor = .clear
     let constraints = [
       hostingController.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       hostingController.view.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -41,8 +42,8 @@ struct ContentView: View {
     NSLayoutConstraint.activate(constraints)
     hostingController.didMove(toParent: self)
     
-    profileImageView.imageTapped = {
-      print("Image tapped")
+    profileImageView.imageTapped = { [weak self] in
+      self?.someFunc()
     }
     
     profileImageView.badgeTapped = {
