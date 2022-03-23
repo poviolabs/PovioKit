@@ -32,7 +32,7 @@ extension Image {
     #if canImport(KingFisher)
       return resolveWithKingFisher(from: url, placeholder: placeholder)
     #else
-      return UrlImageView(from: url, placeholder: placeholder)
+      return URLImageView(from: url, placeholder: placeholder)
     #endif
   }
 }
