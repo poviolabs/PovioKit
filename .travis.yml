@@ -1,5 +1,0 @@
-osx_image: xcode12
-language: swift
-xcode_workspace: Example/PovioKit.xcworkspace
-xcode_scheme: PovioKit-Example
-xcode_destination: platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro
