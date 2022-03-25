@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol BuilderCompatible: class {
+public protocol BuilderCompatible: AnyObject {
   var attributedText: NSAttributedString? { get set }
   var text: String? { get }
   var bd: AttributedStringBuilder { get }
