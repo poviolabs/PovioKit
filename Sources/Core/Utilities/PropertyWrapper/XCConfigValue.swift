@@ -11,35 +11,49 @@ import Foundation
 @propertyWrapper
 public struct XCConfigValue<Value: LosslessStringConvertible> {
   private let key: String
-  private let bundle: Bundle
+  private let bundleReader: BundleReadable
   
   public var wrappedValue: Value {
     value(for: key)
   }
   
   public init(key: String,
-              bundle: Bundle = .main) {
+              bundleReader: BundleReadable = BundleReader()) {
     self.key = key
-    self.bundle = bundle
+    self.bundleReader = bundleReader
   }
 }
 
 private extension XCConfigValue {
+  enum Error: Swift.Error {
+    case missingKey(String)
+    case invalidValue
+    
+    var description: String {
+      switch self {
+      case .missingKey(let key):
+        return "Missing key: \(key)"
+      case .invalidValue:
+        return "Invalid Value"
+      }
+    }
+  }
+  
   func value(for key: String) -> Value {
-    guard let object = bundle.object(forInfoDictionaryKey: key) else {
-      fatalError("Missing key: \(key)")
+    guard let object = bundleReader.object(forInfoDictionaryKey: key) else {
+      fatalError(Error.missingKey(key).description)
     }
     
     switch object {
     case let value as Value:
       return value
-      
     case let string as String:
-      guard let value = Value(string) else { fallthrough }
+      guard let value = Value(string) else {
+        fatalError(Error.invalidValue.description)
+      }
       return value
-      
     default:
-      fatalError("Invalid Value")
+      fatalError(Error.invalidValue.description)
     }
   }
 }
