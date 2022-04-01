@@ -46,7 +46,6 @@ private extension ProfileImageView {
   struct ImageView: View {
     @ObservedObject var properties: ProfileImageProperties
     var profileTapped: (() -> Void)
-    var optionalPlaceHolder: UIImage?
     
     var body: some View {
       GeometryReader { geo in
@@ -55,9 +54,37 @@ private extension ProfileImageView {
           .aspectRatio(contentMode: properties.contentMode)
           .frame(width: geo.size.width, height: geo.size.height)
           .gesture(TapGesture().onEnded({ profileTapped() }))
-          .background(getBackground())
-          .overlay(getShape(for: geo.size))
+          .background(backgroundView)
+          .overlay(shapeView)
           .cornerRadius(getCornerRadius(for: properties.cornerRadius))
+      }
+    }
+    
+    @ViewBuilder
+    var backgroundView: some View {
+      switch properties.backgroundType {
+      case .plain(let backgroundColor):
+        backgroundColor
+      case let .linearGradient(gradient):
+        gradient
+      case let .angularGradient(gradient):
+        gradient
+      case let .radialGradient(gradient):
+        gradient
+      }
+    }
+    
+    @ViewBuilder
+    var shapeView: some View {
+      GeometryReader { geo in
+        switch (geo.size.height == geo.size.width) {
+        case true:
+          Circle().stroke(properties.borderColor,
+                          lineWidth: properties.borderWidth)
+        case false:
+          RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
+            .stroke(properties.borderColor, lineWidth: properties.borderWidth)
+        }
       }
     }
     
@@ -69,39 +96,12 @@ private extension ProfileImageView {
       return Image(uiImage: UIImage())
     }
     
-    func getBackground() -> AnyView {
-      switch properties.backgroundType {
-      case .plain(let backgroundColor):
-        return AnyView(backgroundColor)
-      case let .linearGradient(gradient):
-        return AnyView(gradient)
-      case let .angularGradient(gradient):
-        return AnyView(gradient)
-      case let .radialGradient(gradient):
-        return AnyView(gradient)
-      }
-    }
-    
     func getCornerRadius(for cornerType: ProfileImageView.CornerRadiusType) -> CGFloat {
-       switch cornerType {
-       case .circle:
-         return .infinity
-       case .custom(let cornerRadius):
-         return cornerRadius
-       }
-     }
-    
-    func getShape(for size: CGSize) -> AnyView {
-      let height = size.height
-      let width = size.width
-      
-      switch (height == width) {
-      case true:
-        return AnyView(Circle().stroke(properties.borderColor,
-                                       lineWidth: properties.borderWidth))
-      case false:
-        return AnyView(RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
-          .stroke(properties.borderColor, lineWidth: properties.borderWidth))
+      switch cornerType {
+      case .circle:
+        return .infinity
+      case .custom(let cornerRadius):
+        return cornerRadius
       }
     }
   }
