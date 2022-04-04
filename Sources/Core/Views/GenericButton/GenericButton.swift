@@ -25,6 +25,8 @@ public struct GenericButton: View {
   @ObservedObject public var properties = GenericButtonProperties()
   private var actionHandler: (() -> Void)?
   
+  public init() {}
+  
   public enum Background {
     case plain(Color)
     case linearGradient(LinearGradient)
