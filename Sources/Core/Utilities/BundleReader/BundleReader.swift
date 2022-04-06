@@ -8,6 +8,10 @@
 
 import Foundation
 
+public protocol BundleReadable {
+  func object(forInfoDictionaryKey key: String) -> Any?
+}
+
 public class BundleReader: BundleReadable {
   private let bundle: Bundle
   
