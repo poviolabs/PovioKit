@@ -6,7 +6,7 @@ Create `NSAttributedString`s with ease.
 
 Let's say we need to style a label with underlined text, custom color and font. A standard strategy would be to create a `NSAttributedString` instance and initialize it with required attributes. For instance:
 
-```Swift
+```swift
 let attributedText = NSAttributedString(string: "My custom text",
                                         attributes: [.font: UIFont.boldSystemFont(ofSize: 14),
                                                      .foregroundColor: UIColor.red,
@@ -17,7 +17,7 @@ label.attributedText = attributedText
 
 Using `AttributedStringBuilder` we can achieve the same with:
 
-```Swift
+```swift
 let label = UILabel()
 label.text = "My custom text"
 label.bd.apply {
@@ -33,7 +33,7 @@ A common problem we can face is when we want to change attributes of only a spec
 
 Without using `AttributedStringBuilder`, we would come up with something like this:
 
-```Swift
+```swift
 let text = "My custom text"
 let attributedText = NSMutableAttributedString(string: text,
                                                attributes: [.font: UIFont.boldSystemFont(ofSize: 14), 
@@ -51,7 +51,7 @@ label.attributedText = attributedText
 
 Using `AttributedStringBuilder` we can simplify into:
 
-```Swift
+```swift
 let label = UILabel()
 label.text = "My custom text"
 label.bd.apply {
@@ -65,7 +65,7 @@ label.bd.apply {
 
 What if we need an actual `NSAttributedString` instance, not just applying changes to a `UILabel`? We can do that as well:
 
-```Swift
+```swift
 let attributedText = Builder(text: "My custom text")
   .setFont(.boldSystemFont(ofSize: 14))
   .setTextColor(.black)
@@ -81,7 +81,7 @@ If, for some reason, we need a `mutable` instance, we replace `.create()` with `
 
 Alternatively, if you dislike the old _builder_ pattern, you can directly use `AttributedStringBuilder` in a more _Swifty_ way:
 
-```Swift
+```swift
 let attributedText = AttributedStringBuilder().apply(on: "My custom text") {
   $0.setFont(.boldSystemFont(ofSize: 14))
   $0.setTextColor(.black)
