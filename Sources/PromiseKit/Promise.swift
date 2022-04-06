@@ -90,12 +90,6 @@ public class Promise<Value>: Future<Value, Error> {
     }
   }
   
-  @available(*, deprecated, renamed: "finally")
-  @inline(__always)
-  public func observe(_ completion: @escaping (Value?, Error?) -> Void) {
-    finally(completion)
-  }
-  
   func finally(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
     finally {
       switch $0 {
@@ -105,12 +99,6 @@ public class Promise<Value>: Future<Value, Error> {
         failure(error)
       }
     }
-  }
-  
-  @available(*, deprecated, renamed: "finally")
-  @inline(__always)
-  func observe(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
-    finally(success, failure)
   }
   
   public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue? = .main) {
@@ -230,15 +218,6 @@ public extension Promise {
     }
   }
   
-  @available(*, deprecated, renamed: "flatMap")
-  @inline(__always)
-  func chain<U>(
-    on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Value) throws -> Promise<U>
-  ) -> Promise<U> {
-    flatMap(on: dispatchQueue, with: transform)
-  }
-  
   /// When the current Promise fails (is in error state), run the transformation callback
   /// which may recover from the error by returning a new Promise.
   ///
@@ -265,15 +244,6 @@ public extension Promise {
     }
   }
   
-  @available(*, deprecated, renamed: "flatMapError")
-  @inline(__always)
-  func chainError(
-    on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Error) -> Promise<Value>
-  ) -> Promise<Value> {
-    flatMapError(on: dispatchQueue, with: transform)
-  }
-  
   /// When the current Promise is fullfiled, run the transformation callback which returns either
   /// a new value or an error (based on the return Result).
   ///
@@ -294,15 +264,6 @@ public extension Promise {
         throw error
       }
     }
-  }
-  
-  @available(*, deprecated, renamed: "flatMapResult")
-  @inline(__always)
-  func chainResult<U, E: Error>(
-    on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Value) -> Result<U, E>
-  ) -> Promise<U> {
-    flatMapResult(on: dispatchQueue, with: transform)
   }
   
   /// Returns a new Promise, mapping any success value using the given

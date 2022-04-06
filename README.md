@@ -3,17 +3,17 @@
 </p>
 
 <p align="center">
-    <a href="https://cocoapods.org/pods/PovioKit">
-        <img src="https://img.shields.io/cocoapods/p/PovioKit.svg?style=flat" alt="Platform" />
+    <a href="https://swiftpackageregistry.com/poviolabs/PovioKit" alt="Package">
+        <img src="https://img.shields.io/badge/SPM-Swift-lightgrey.svg" />
     </a>
-    <a href="https://swift.org/blog/swift-5-3-released/">
-        <img src="https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat" alt="Swift" />
+    <a href="https://www.swift.org" alt="Swift">
+        <img src="https://img.shields.io/badge/Swift-5-orange.svg" />
     </a>
-    <a href="https://cocoapods.org/pods/PovioKit">
-        <img src="https://img.shields.io/cocoapods/l/PovioKit.svg?style=flat" alt="License" />
+    <a href="./LICENCE" alt="License">
+        <img src="https://img.shields.io/badge/Licence-MIT-red.svg" />
     </a>
-    <a href="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml">
-        <img src="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml/badge.svg" alt="CI status" />
+    <a href="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml" alt="CI Status">
+        <img src="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml/badge.svg" />
     </a>
 </p>
 
@@ -24,23 +24,27 @@
 ## Packages
 ### Core libraries
 
-| Utils | Protocols | Views |
-| --- | --- | --- |
-| [AttributedStringBuilder](Resources/Utilities/AttributedStringBuilder/) | [Data Source](Resources/Protocols/DataSource/) | [GradientView](Resources/Views/GradientView/) |
-| [StartupService](Resources/Utilities/StartupService/) | [PaddingLabel](Resources/Views/PaddingLabel/) | [ProfileImageView](Resources/Views/ProfileImageView)
-| [Broadcast](Resources/Utilities/Broadcast/) | [DynamicCollectionCell](Resources/Views/DynamicCollectionCell/) |
-| [ColorInterpolator](Resources/Utilities/ColorInterpolator/) | |
-| [DispatchTimer](Resources/Utilities/DispatchTimer/) | |
-| [Logger](Resources/Utilities/Logger/) | |
-| [Throttler](Resources/Utilities/Throttler/) | |
-| [SignInWithApple](Resources/Utilities/SignInWithApple/) | |
-| [UserDefaults](Resources/Utilities/PropertyWrapper/UserDefaults/) | |
-| [XCConfigValue](Resources/Utilities/PropertyWrapper/XCConfigValue/) | |
+| Utilities | Protocols |
+| :--- | :--- |
+| [AppVersionValidator](Sources/Core/Utilities/AppVersionValidator/) | [Data Source](Resources/Protocols/DataSource/) |
+| [AttributedStringBuilder](Resources/Core/Utilities/AttributedStringBuilder/) | |
+| [Broadcast](Resources/Core/Utilities/Broadcast/) | |
+| [BundleReader](Resources/Core/Utilities/BundleReader/) | |
+| [ColorInterpolator](Resources/Core/Utilities/ColorInterpolator/) | |
+| [Delegated](Resources/Core/Utilities/Delegated/) | |
+| [DispatchTimer](Resources/Core/Utilities/DispatchTimer/) | |
+| [ImageSource](Sources/Core/Utilities/ImageSource/) | |
+| [Logger](Resources/Core/Utilities/Logger/) | |
+| [SignInWithApple](Resources/Core/Utilities/SignInWithApple/) | |
+| [StartupService](Resources/Core/Utilities/StartupService/) | |
+| [Throttler](Resources/Core/Utilities/Throttler/) | |
+| [UserDefaults](Resources/Core/Utilities/PropertyWrapper/UserDefaults/) | |
+| [XCConfigValue](Resources/Core/Utilities/PropertyWrapper/XCConfigValue/) | |
 
 ### Core extensions
 
 | UIKit | Foundation | MapKit |
-| --- | --- | --- |
+| :--- | :--- | :--- |
 | [UIView](Sources/Core/Extensions/UIKit/UIView+Povio.swift) | [String](Sources/Core/Extensions/Foundation/String+Povio.swift) | [MKMapView](Sources/Core/Extensions/MapKit/MKMapView+PovioKit.swift) |
 | [UICollectionView](Sources/Core/Extensions/UIKit/UICollectionView+Povio.swift) | [Data](Sources/Core/Extensions/Foundation/Data+Povio.swift) | [MKPolygon](Sources/Core/Extensions/MapKit/MKPolygon+PovioKit.swift) |
 | [UITableView](Sources/Core/Extensions/UIKit/UITableView+Povio.swift) | [Collection](Sources/Core/Extensions/Foundation/Collection+Povio.swift) | [MKAnnotationView](Sources/Core/Extensions/MapKit/MKAnnotationView+PovioKit.swift) |
@@ -51,6 +55,15 @@
 | [UIApplication](Sources/Core/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Core/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | |
 | [UIProgressView](Sources/Core/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Core/Extensions/Foundation/Encodable+Povio.swift) | |
 | [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | |
+
+### UI
+
+| Components |
+| :--- |
+| [GradientView](Resources/UI/GradientView/) |
+| [PaddingLabel](Resources/UI/PaddingLabel/) |
+| [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
+| [ProfileImageView](Resources/UI/ProfileImageView) |
 
 ### Networking
 
@@ -69,8 +82,9 @@ In Xcode, click `File` -> `Swift Packages` -> `Add Package Dependency` and enter
 
 Currently, there are three packages to choose from:
 - *PovioKit* (core)
-- *PovioKitNetworking* (networking library, depends on "core" and "promise" package)
+- *PovioKitNetworking* (networking library, depends on `core` and `promise` package)
 - *PovioKitPromise* (lightweight promises library)
+- *PovioKitUI* (UI components)
 
 ### Migration
 
