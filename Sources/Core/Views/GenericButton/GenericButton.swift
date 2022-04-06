@@ -37,7 +37,7 @@ public struct GenericButton: View {
   public var body: some View {
     GeometryReader { geo in
       ZStack(alignment: getAlignment(for: properties.extraImage)) {
-        ButtonView(action: buttonAction, properties: properties)
+        ButtonView(size: geo.size, action: buttonAction, properties: properties)
         ExtraImageView(imageAlignment: properties.extraImage, tintColor: properties.textColor, size: geo.size)
       }
     }
@@ -91,39 +91,39 @@ private extension GenericButton {
 @available(iOS 13, *)
 private extension GenericButton {
   struct ButtonView: View {
+    var size: CGSize
     var action: () -> Void
     var properties: GenericButtonProperties
     
     var body: some View {
-      GeometryReader { geo in
-        Button(action: {
-          action()
-        }) {
-          Text(properties.title)
-            .font(properties.font)
-            .padding()
-            .frame(width: geo.size.width, height: geo.size.height)
-            .foregroundColor(properties.textColor)
-            .overlay(
-              RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
-                .stroke(properties.borderColor, lineWidth: properties.borderWidth)
-            )
-        }
-        .background(getBackground())
-        .cornerRadius(getCornerRadius(for: properties.cornerRadius))
+      Button(action: {
+        action()
+      }) {
+        Text(properties.title)
+          .font(properties.font)
+          .padding()
+          .frame(width: size.width, height: size.height)
+          .foregroundColor(properties.textColor)
+          .overlay(
+            RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
+              .stroke(properties.borderColor, lineWidth: properties.borderWidth)
+          )
       }
+      .background(backgroundView)
+      .cornerRadius(getCornerRadius(for: properties.cornerRadius))
     }
     
-    func getBackground() -> AnyView {
+    @ViewBuilder
+    var backgroundView: some View {
       switch properties.backgroundType {
       case .plain(let backgroundColor):
-        return AnyView(backgroundColor)
+        backgroundColor
       case let .linearGradient(gradient):
-        return AnyView(gradient)
+        gradient
       case let .angularGradient(gradient):
-        return AnyView(gradient)
+        gradient
       case let .radialGradient(gradient):
-        return AnyView(gradient)
+        gradient
       }
     }
     
