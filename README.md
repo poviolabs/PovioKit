@@ -26,20 +26,20 @@
 
 | Utilities | Protocols |
 | :--- | :--- |
-| [AppVersionValidator](Sources/Core/Utilities/AppVersionValidator/) | [Data Source](Resources/Protocols/DataSource/) |
+| [AppVersionValidator](Sources/Core/Utilities/AppVersionValidator/AppVersionValidator.swift) | [Data Source](Resources/Core/Protocols/DataSource/) |
 | [AttributedStringBuilder](Resources/Core/Utilities/AttributedStringBuilder/) | |
 | [Broadcast](Resources/Core/Utilities/Broadcast/) | |
-| [BundleReader](Resources/Core/Utilities/BundleReader/) | |
+| [BundleReader](Sources/Core/Utilities/BundleReader/BundleReader.swift) | |
 | [ColorInterpolator](Resources/Core/Utilities/ColorInterpolator/) | |
 | [Delegated](Resources/Core/Utilities/Delegated/) | |
 | [DispatchTimer](Resources/Core/Utilities/DispatchTimer/) | |
-| [ImageSource](Sources/Core/Utilities/ImageSource/) | |
+| [ImageSource](Sources/Core/Utilities/ImageSource/ImageSource.swift) | |
 | [Logger](Resources/Core/Utilities/Logger/) | |
 | [SignInWithApple](Resources/Core/Utilities/SignInWithApple/) | |
 | [StartupService](Resources/Core/Utilities/StartupService/) | |
 | [Throttler](Resources/Core/Utilities/Throttler/) | |
 | [UserDefaults](Resources/Core/Utilities/PropertyWrapper/UserDefaults/) | |
-| [XCConfigValue](Resources/Core/Utilities/PropertyWrapper/XCConfigValue/) | |
+| [XCConfigValue](Resources/Core/Utilities/PropertyWrapper/XCConfigValue) | |
 
 ### Core extensions
 
