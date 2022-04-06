@@ -83,6 +83,7 @@ public extension AlamofireNetworkClient {
     headers: HTTPHeaders? = nil,
     encode: E,
     encoder: JSONEncoder = .init(),
+    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
@@ -90,7 +91,9 @@ public extension AlamofireNetworkClient {
     let parameterEncoder: ParameterEncoder
     switch method {
     case .get, .delete, .head:
-      parameterEncoder = URLEncodedFormParameterEncoder(encoder: encoder)
+      parameterEncoder = URLEncodedFormParameterEncoder(
+        encoder: encoder,
+        arrayEncoding: arrayEncoding)
     default:
       parameterEncoder = JSONParameterEncoder(encoder: encoder)
     }

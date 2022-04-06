@@ -34,7 +34,8 @@
 | [Logger](Resources/Utilities/Logger/) | |
 | [Throttler](Resources/Utilities/Throttler/) | |
 | [SignInWithApple](Resources/Utilities/SignInWithApple/) | |
-| [UserDefaults](Resources/Utilities/UserDefaults/) | |
+| [UserDefaults](Resources/Utilities/PropertyWrapper/UserDefaults/) | |
+| [XCConfigValue](Resources/Utilities/PropertyWrapper/XCConfigValue/) | |
 
 ### Core extensions
 
