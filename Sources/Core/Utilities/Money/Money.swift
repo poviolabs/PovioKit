@@ -12,15 +12,15 @@ enum MoneyConstants {
   static let defaultPrecision: Int = 2
 }
 
-enum MoneyError: Error {
+public enum MoneyError: Error {
   case currencyNotSame
 }
 
 public struct Money {
-  private var amount: Int
-  private var currency: String
-  private var localeIdentifier: String
-  private var precision: Int = MoneyConstants.defaultPrecision
+  private(set) var amount: Int /// Amount in minor currency units (eg. cents)
+  private(set) var currency: String /// ISO code of the currency (eg. "USD")
+  private(set) var localeIdentifier: String /// The identifier for the Locale object that we use for the output formatting (eg. "en_US")
+  private(set) var precision: Int = MoneyConstants.defaultPrecision /// The number of decimal places to represent value
   
   /**
    Initializes a new Money item with the provided amount and currency
@@ -74,18 +74,6 @@ public extension Money {
   var locale: Locale {
     Locale(identifier: localeIdentifier)
   }
-  
-  /// Amount in minor currency units (eg. cents)
-  func getAmount() -> Int { amount }
-  
-  /// ISO code of the currency (eg. "USD")
-  func getCurrency() -> String { currency }
-  
-  /// The identifier for the Locale object that we use for the output formatting (eg. "en_US")
-  func getLocaleIdentifier() -> String { localeIdentifier }
-  
-  /// The number of decimal places to represent value
-  func getPrecision() -> Int { precision }
 }
 
 // MARK: - Public Methods - Manipulation
@@ -101,15 +89,15 @@ public extension Money {
    - Returns: **new** Money item that contains added amount and normalized precision.
    */
   func add(_ addend: Money) -> Money? {
-    guard addend.getCurrency() == getCurrency() else {
+    guard addend.currency == currency else {
       return .none
     }
     let normalizedPrecision = Money.normalizePrecision([self, addend])
-    let newAmount = normalizedPrecision[0].getAmount() + normalizedPrecision[1].getAmount()
+    let newAmount = normalizedPrecision[0].amount + normalizedPrecision[1].amount
     return Money(amount: newAmount,
-                 currency: getCurrency(),
-                 localeIdentifier: getLocaleIdentifier(),
-                 precision: normalizedPrecision[0].getPrecision())
+                 currency: currency,
+                 localeIdentifier: localeIdentifier,
+                 precision: normalizedPrecision[0].precision)
   }
   
   /**
@@ -123,15 +111,15 @@ public extension Money {
    - Returns: **new** Money item that contains subtracted amount and normalized precision.
    */
   func subtract(_ subtrahend: Money) -> Money? {
-    guard subtrahend.getCurrency() == getCurrency() else {
+    guard subtrahend.currency == currency else {
       return .none
     }
     let normalizedPrecision = Money.normalizePrecision([self, subtrahend])
-    let newAmount = normalizedPrecision[0].getAmount() - normalizedPrecision[1].getAmount()
+    let newAmount = normalizedPrecision[0].amount - normalizedPrecision[1].amount
     return Money(amount: newAmount,
-                 currency: getCurrency(),
-                 localeIdentifier: getLocaleIdentifier(),
-                 precision: normalizedPrecision[0].getPrecision())
+                 currency: currency,
+                 localeIdentifier: localeIdentifier,
+                 precision: normalizedPrecision[0].precision)
   }
   
   /**
@@ -141,13 +129,15 @@ public extension Money {
    - Parameter roundingMode: _FloatingPointRoundingRule_ that we will use to round the result. If not passed, default value `.toNearestOrAwayFromZero` will be used
    - Returns: **new** Money item that contains multiplication result as an amount.
    */
-  func multiply(_ multiplier: Double,
-                roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Money {
-    let cents = calculateMultiply(amount: getAmount().double, multiplier: multiplier, roundingMode: roundingMode)
+  func multiply(
+    _ multiplier: Double,
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Money {
+    let cents = calculateMultiply(amount: amount.double, multiplier: multiplier, roundingMode: roundingMode)
     return Money(amount: cents,
-                 currency: getCurrency(),
-                 localeIdentifier: getLocaleIdentifier(),
-                 precision: getPrecision())
+                 currency: currency,
+                 localeIdentifier: localeIdentifier,
+                 precision: precision)
   }
   
   /**
@@ -157,13 +147,15 @@ public extension Money {
    - Parameter roundingMode: _FloatingPointRoundingRule_ that we will use to round the result. If not passed, default value `.toNearestOrAwayFromZero` will be used
    - Returns: **new** Money item that contains division result as an amount.
    */
-  func divide(_ divisor: Double,
-              roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Money {
-    let cents = calculateDivide(amount: getAmount().double, divisor: divisor, roundingMode: roundingMode)
+  func divide(
+    _ divisor: Double,
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Money {
+    let cents = calculateDivide(amount: amount.double, divisor: divisor, roundingMode: roundingMode)
     return Money(amount: cents,
-                 currency: getCurrency(),
-                 localeIdentifier: getLocaleIdentifier(),
-                 precision: getPrecision())
+                 currency: currency,
+                 localeIdentifier: localeIdentifier,
+                 precision: precision)
   }
   
   /**
@@ -173,13 +165,15 @@ public extension Money {
    - Parameter roundingMode: _FloatingPointRoundingRule_ that we will use to round the result. If not passed, default value `.toNearestOrAwayFromZero` will be used
    - Returns: **new** Money item that contains percent of the current amount.
    */
-  func percentage(_ percentage: Double,
-                  roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Money {
-    let cents = calculatePercentageAmount(amount: getAmount().double, percentage: percentage, roundingMode: roundingMode)
+  func percentage(
+    _ percentage: Double,
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Money {
+    let cents = calculatePercentageAmount(amount: amount.double, percentage: percentage, roundingMode: roundingMode)
     return Money(amount: cents,
-                 currency: getCurrency(),
-                 localeIdentifier: getLocaleIdentifier(),
-                 precision: getPrecision())
+                 currency: currency,
+                 localeIdentifier: localeIdentifier,
+                 precision: precision)
   }
   
   /**
@@ -189,10 +183,10 @@ public extension Money {
    - Returns: **new** Money item with the new _localeIdentifier_
    */
   func setLocaleIdentifier(_ locale: String) -> Money {
-    Money(amount: getAmount(),
-          currency: getCurrency(),
+    Money(amount: amount,
+          currency: currency,
           localeIdentifier: locale,
-          precision: getPrecision())
+          precision: precision)
   }
 }
 
@@ -203,7 +197,7 @@ public extension Money {
    - Parameter amount: Int value of the amount that we want to add to the current Money item
    */
   mutating func add(_ amount: Int) {
-    self.amount = getAmount() + amount
+    self.amount += amount
   }
   
   /**
@@ -211,7 +205,7 @@ public extension Money {
    - Parameter amount: Amount that we want to subtrahend from the current Money item
    */
   mutating func subtract(_ amount: Int) {
-    self.amount = getAmount() - amount
+    self.amount -= amount
   }
   
   /**
@@ -221,7 +215,7 @@ public extension Money {
    */
   mutating func multiply(_ multiplier: Double,
                          roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero) {
-    self.amount = calculateMultiply(amount: getAmount().double, multiplier: multiplier, roundingMode: roundingMode)
+    self.amount = calculateMultiply(amount: amount.double, multiplier: multiplier, roundingMode: roundingMode)
   }
   
   /**
@@ -231,7 +225,7 @@ public extension Money {
    */
   mutating func divide(_ divisor: Double,
                        roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero) {
-    self.amount = calculateDivide(amount: getAmount().double, divisor: divisor, roundingMode: roundingMode)
+    self.amount = calculateDivide(amount: amount.double, divisor: divisor, roundingMode: roundingMode)
   }
   
   /**
@@ -242,7 +236,7 @@ public extension Money {
    */
   mutating func percentage(_ percentage: Double,
                            roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero) {
-    self.amount = calculatePercentageAmount(amount: getAmount().double, percentage: percentage, roundingMode: roundingMode)
+    self.amount = calculatePercentageAmount(amount: amount.double, percentage: percentage, roundingMode: roundingMode)
   }
   
   /**
@@ -256,70 +250,70 @@ public extension Money {
 
 // MARK: - Public Methods - Testing
 public extension Money {
-  var isPositive: Bool { getAmount() >= .zero }
-  var isNegative: Bool { getAmount() < .zero }
-  var isZero: Bool { getAmount() == .zero }
+  var isPositive: Bool { amount >= .zero }
+  var isNegative: Bool { amount < .zero }
+  var isZero: Bool { amount == .zero }
   
   /// Check if two Money items has the same amount
   /// - Note: Currency and other parameters are ignored
   func hasSameAmount(_ other: Money) -> Bool {
-    getAmount() == other.getAmount()
+    self.amount == other.amount
   }
   
   /// Check if two Money items has the same currency
   /// - Note: Amount and other parameters are ignored
   func hasSameCurrency(_ other: Money) -> Bool {
-    getCurrency() == other.getCurrency()
+    self.currency == other.currency
   }
   
   /// Check if two Money items are the same
   /// - Important: Both _amount_ **and** _currency_ must be the same
   func isEqual(_ other: Money) -> Bool {
-    getAmount() == other.getAmount() && getCurrency() == other.getCurrency()
+    self.amount == other.amount && self.currency == other.currency
   }
   
   /// Check if one Money item has less amount than the other.
   /// - Note: We need to normalize precisions from two Money items to get them to the same level and after that we can compare them
   /// - Throws: `MoneyError.currencyNotSame` if the currency codes are not the same
   func isLessThan(_ other: Money) throws -> Bool {
-    guard other.getCurrency() == getCurrency() else {
+    guard self.currency == other.currency else {
       throw MoneyError.currencyNotSame
     }
     let normalizedPrecision = Money.normalizePrecision([self, other])
-    return normalizedPrecision[0].getAmount() < normalizedPrecision[1].getAmount()
+    return normalizedPrecision[0].amount < normalizedPrecision[1].amount
   }
   
   /// Check if one Money item has less amount than the other or if they are equal.
   /// - Note: We need to normalize precisions from two Money items to get them to the same level and after that we can compare them
   /// - Throws: `MoneyError.currencyNotSame` if the currency codes are not the same
   func isLessThanOrEqual(_ other: Money) throws -> Bool {
-    guard other.getCurrency() == getCurrency() else {
+    guard self.currency == other.currency else {
       throw MoneyError.currencyNotSame
     }
     let normalizedPrecision = Money.normalizePrecision([self, other])
-    return normalizedPrecision[0].getAmount() <= normalizedPrecision[1].getAmount()
+    return normalizedPrecision[0].amount <= normalizedPrecision[1].amount
   }
   
   /// Check if one Money item value is greater than the other.
   /// - Note: We need to normalize precisions from two Money items to get them to the same level and after that we can compare them
   /// - Throws: `MoneyError.currencyNotSame` if the currency codes are not the same
   func isGreaterThan(_ other: Money) throws -> Bool {
-    guard other.getCurrency() == getCurrency() else {
+    guard self.currency == other.currency else {
       throw MoneyError.currencyNotSame
     }
     let normalizedPrecision = Money.normalizePrecision([self, other])
-    return normalizedPrecision[0].getAmount() > normalizedPrecision[1].getAmount()
+    return normalizedPrecision[0].amount > normalizedPrecision[1].amount
   }
   
   /// Check if one Money item value is greater than the other or if they are equal.
   /// - Note: We need to normalize precisions from two Money items to get them to the same level and after that we can compare them
   /// - Throws: `MoneyError.currencyNotSame` if the currency codes are not the same
   func isGreaterThanOrEqual(_ other: Money) throws -> Bool {
-    guard other.getCurrency() == getCurrency() else {
+    guard self.currency == other.currency else {
       throw MoneyError.currencyNotSame
     }
     let normalizedPrecision = Money.normalizePrecision([self, other])
-    return normalizedPrecision[0].getAmount() >= normalizedPrecision[1].getAmount()
+    return normalizedPrecision[0].amount >= normalizedPrecision[1].amount
   }
 }
 
@@ -336,7 +330,7 @@ private extension Money {
   static func normalizePrecision(_ objects: [Money]) -> [Money] {
     let highestPrecision = objects.max { $0.precision > $1.precision }?.precision ?? MoneyConstants.defaultPrecision
     return objects.map {
-      $0.getPrecision() == highestPrecision ? $0 : $0.convertPrecision(highestPrecision)
+      $0.precision == highestPrecision ? $0 : $0.convertPrecision(highestPrecision)
     }
   }
 }
@@ -353,8 +347,8 @@ private extension Money {
    */
   func roundToCents(
     _ amount: Double,
-    _ roundingMode: FloatingPointRoundingRule)
-  -> Int {
+    _ roundingMode: FloatingPointRoundingRule
+  ) -> Int {
     return Int(amount.rounded(roundingMode))
   }
   
@@ -370,13 +364,13 @@ private extension Money {
    */
   func convertPrecision(
     _ newPrecision: Int,
-    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero)
-  -> Money {
-    let newAmount = getAmount().double * pow(10, Double(newPrecision - getPrecision()))
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Money {
+    let newAmount = amount.double * pow(10, Double(newPrecision - precision))
     let rounded = roundToCents(newAmount, roundingMode)
     return Money(amount: rounded,
-                 currency: getCurrency(),
-                 localeIdentifier: getLocaleIdentifier(),
+                 currency: currency,
+                 localeIdentifier: localeIdentifier,
                  precision: newPrecision)
     
   }
@@ -391,8 +385,8 @@ private extension Money {
   func calculateMultiply(
     amount: Double,
     multiplier: Double,
-    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero)
-  -> Int {
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Int {
     let newAmount = amount * multiplier
     return roundToCents(newAmount, roundingMode)
   }
@@ -407,9 +401,9 @@ private extension Money {
   func calculateDivide(
     amount: Double,
     divisor: Double,
-    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero)
-  -> Int {
-    let newAmount = getAmount().double / divisor
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Int {
+    let newAmount = amount / divisor
     return roundToCents(newAmount, roundingMode)
   }
   
@@ -424,8 +418,8 @@ private extension Money {
   func calculatePercentageAmount(
     amount: Double,
     percentage: Double,
-    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero)
-  -> Int {
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Int {
     let clampedPercentage = percentage.clamped(to: 0...100)
     let newAmount = amount * (clampedPercentage / 100.0)
     return roundToCents(newAmount, roundingMode)
