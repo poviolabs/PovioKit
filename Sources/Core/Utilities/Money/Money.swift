@@ -98,7 +98,8 @@ extension Money: Equatable, Comparable, Hashable {
   public static func *(_ lhs: Money, _ rhs: Money) -> Money {
     precondition(lhs.hasSameCurrency(rhs), MoneyError.currencyNotSame.description)
     let normalizedPrecision = Money.normalizePrecision([lhs, rhs])
-    return .init(cents: normalizedPrecision[0].cents * normalizedPrecision[1].cents,
+    let unitValue = normalizedPrecision[0].unitValue * normalizedPrecision[1].unitValue
+    return .init(cents: convertToCents(unitValue, precision: normalizedPrecision[0].precision),
                  currencyCode: lhs.currency.code,
                  localeIdentifier: lhs.localeIdentifier,
                  precision: normalizedPrecision[0].precision)
@@ -106,11 +107,11 @@ extension Money: Equatable, Comparable, Hashable {
   
   public static func /(_ lhs: Money, _ rhs: Money) -> Money {
     precondition(lhs.hasSameCurrency(rhs), MoneyError.currencyNotSame.description)
-    let normalizedPrecision = Money.normalizePrecision([lhs, rhs])
-    return .init(cents: normalizedPrecision[0].cents / normalizedPrecision[1].cents,
+    let cents = convertToCents(lhs.unitValue / rhs.unitValue, precision: lhs.precision)
+    return .init(cents: cents,
                  currencyCode: lhs.currency.code,
                  localeIdentifier: lhs.localeIdentifier,
-                 precision: normalizedPrecision[0].precision)
+                 precision: lhs.precision)
   }
 
   public func hash(into hasher: inout Hasher) {
@@ -162,7 +163,7 @@ public extension Money {
    ```
    // Example:
    // This returns 10.545
-   Money(amount: 10545, currency: "USD", precision: 3).unitValue
+   Money(cents: 10545, currencyCode: .usd, precision: 3).unitValue
    ```
    */
   var unitValue: Double {
@@ -174,7 +175,7 @@ public extension Money {
    ```
    // Example:
    // This returns $1,234.57
-   Money(amount: 123457, currency: "USD", localeIdentifier: "en_US").unitValue
+   Money(cents: 123457, currencyCode: .usd, localeIdentifier: "en_US").formatted
    ```
    */
   var formatted: String? {
@@ -329,10 +330,25 @@ private extension Money {
    - Returns: An array of the Money objects in the same order as provided, but with applied calculated precision on each element
    */
   static func normalizePrecision(_ objects: [Money]) -> [Money] {
-    let highestPrecision = objects.max { $0.precision > $1.precision }?.precision ?? MoneyConstants.defaultPrecision
+    let highestPrecision = objects.max { $0.precision < $1.precision }?.precision ?? MoneyConstants.defaultPrecision
     return objects.map {
       $0.precision == highestPrecision ? $0 : $0.convertPrecision(highestPrecision)
     }
+  }
+  
+  /**
+   Convert unit value to cents with some precision
+   
+   - Parameter unitValue: Double amount of the value we want to convert
+   - Parameter precision: The number of decimal places to represent value
+   - Returns: Double with calculated precision
+   */
+  static func convertToCents(
+    _ unitValue: Double,
+    precision: Int,
+    roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
+  ) -> Int {
+    Int(unitValue * pow(10, Double(precision)).rounded(roundingMode))
   }
 }
 
@@ -348,7 +364,7 @@ private extension Money {
    */
   func round(
     _ amount: Double,
-    _ roundingMode: FloatingPointRoundingRule
+    _ roundingMode: FloatingPointRoundingRule = .toNearestOrAwayFromZero
   ) -> Int {
     return Int(amount.rounded(roundingMode))
   }
