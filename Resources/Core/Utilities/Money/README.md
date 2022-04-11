@@ -1,0 +1,143 @@
+#  Money
+
+Handle monetary values with ease.  
+`Money` is a Swift implementation of the popular js library [Dinero.js](https://dinerojs.com/).
+
+## Overview  
+
+A Money is initialized with:
+- **cents**: `Integer` - value in minor currency units (eg. cents)
+- **currencyCode**: `CurrencyCode` - enum value of the supported currencies
+- **localeIdentifier**: Optional `String` - identifier for the Locale object that we use for the output formatting (eg. "en_US"). If not provided, we will use `Locale.current.identifier` as default value.
+- **precision**: Optional `Int` - number of decimal places to represent value, default value is 2.
+
+### Getters:
+- cents: Cents (typealias Cents = Int)
+- currency: Currency
+- localeIdentifier: String
+- precision: Int
+- unitValue: Double
+- formatted: String?
+- locale: Locale
+### Manipulation:
+- +, -, *, /
+- multiply()
+- divide()
+- percentage()
+- setLocaleIdentifier()
+### Muttating Manipulations:
+- multiply()
+- divide()
+- percentage()
+- setLocaleIdentifier()
+### Testing
+- ==, >, >=, <, <= 
+- isPositive
+- isNegative
+- isZero
+- hasSameAmount()
+- hasSameCurrency()
+---
+Additional: Confirmation to the protocols: Equatable, Comparable, Hashable, Codable, ExpressibleByIntegerLiteral, CustomStringConvertible    
+  
+---
+
+## Support types  
+
+We use couple additional types as a support for main `Money` struct:
+- typealias Cents = Int
+- protocol `Currency`:
+``` swift
+public protocol Currency {
+  var code: CurrencyCode { get }
+  var symbol: String { get }
+  var currencyCode: String
+}
+```
+- enum `CurrencyCode`:
+``` swift
+public enum CurrencyCode: Codable {
+  case usd /// U.S. Dollar (USD)
+  case eur /// European Euro (EUR)
+  case cad /// Canadian Dollar (CAD)
+  case cny /// Chinese Yuan Renminbi (CNY)
+  case jpy /// Japanese Yen (JPY)
+  case gbp /// British Pound (GBP)
+  case chf /// Swiss Franc (CHF)
+  
+  var stringValue: String
+```
+
+For every `CurrencyCode` we have separate implementation of the `Currency` protocol that we generate with `CurrencyGenerator`:
+``` swift
+static func get(_ code: CurrencyCode) -> Currency
+// Example of the Currency protocol implementation:
+private struct USD: Currency {
+  var code = CurrencyCode.usd
+  var symbol = "$"
+}
+```
+
+## Init
+
+To initialize Money item, we call init method:  
+``` swift
+ // This represents 1$
+let money = Money(cents: 100, currencyCode: .usd, localeIdentifier: "en_US", precision: 2)
+```
+We can use default values and init same Money item like this:  
+``` swift
+ // This represents 1$
+let money = Money(cents: 100, currencyCode: .usd)
+```  
+
+## Precision
+Because we store value in cents (minor currency unit) as an Integer, we also need to define the precision parameter as the number of decimal places to represent the unit value of the Money. This can lead to the different definitions of the same Money value, and we need to be aware of it when doing any of the manipulations:
+``` swift
+let money1 = Money(cents: 200, currencyCode: .usd)  // 2 $
+let money2 = Money(cents: 2000, currencyCode: .usd, precision: 3)  // 2 $
+let money3 = Money(cents: 20, currencyCode: .usd, precision: 1) // 2 $
+```
+
+## Examples
+
+### Formatting:
+We can format String representation of the Money item with the locale and currencyCode properties. This is how different localeIdentifier can format the same currency value:
+``` swift 
+let money = Money(cents: 123457, currencyCode: .usd, localeIdentifier: "en_US")
+print(money.formatted) // $1,234.57
+let dinero = money.setLocaleIdentifier("es")
+print(dinero.formatted) // 1234,57 US$
+```
+
+### Manipulations:  
+> Note:  
+> We can not do manipulations with Money items that have different currencies.  
+
+We have set of *mutating* or *non-mutating* operations available on Money items.  
+When calling immutable operations, we are always returning *new* Money item with applied operation as a result. That way we can also chain couple operations. For example:
+``` swift
+let money = Money(cents: 2000, currencyCode: .usd, precision: 3)
+  .multiply(4.5)
+  .divide(3)
+  .percentage(30)
+print(money.formatted) // $0.99 = 2$ * 4.5 / 3 * 30%
+```
+We can also do manipulations on two Money items:
+``` swift
+let money = Money(cents: 200, currencyCode: .usd) // 2 $
+let other = Money(cents: 183456, currencyCode: .usd, precision: 4) // 18.3456 $
+let result = money * other // new Money item
+print(result.unitValue) // 36.6912 $
+```
+
+### Comparison:
+We can compare two Money items with standard comparison operators:
+``` swift
+let money1 = Money(cents: 200, currencyCode: .usd)  // 2 $
+let money2 = Money(cents: 1990, currencyCode: .usd, precision: 3) // 1.99$
+let money3 = Money(cents: 2000, currencyCode: .usd, precision: 3)  // 2 $
+print(money1 > money2) // true
+print(money1 == money3) // true
+print(money2 < money3) // true
+```

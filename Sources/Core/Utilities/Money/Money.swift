@@ -40,8 +40,8 @@ public struct Money {
    `localeIdentifier` and `precision` are not mandatory and we will use default values if not provided:
    - `localeIdentifier` default value is read from `Locale.current.identifier`
    - `precision` default value is 2, stored in `MoneyConstants.defaultPrecision`
-   - Parameter amount: Amount value in minor currency units (eg. cents)
-   - Parameter currency: ``CurrencyCode`` enum value of the supported currencies
+   - Parameter cents: Amount value in minor currency units (eg. cents)
+   - Parameter currencyCode: ``CurrencyCode`` enum value of the supported currencies
    - Parameter localeIdentifier: Identifier for the Locale object that we use for the output formatting (eg. "en_US")
    - Parameter precision: The number of decimal places to represent value
    */

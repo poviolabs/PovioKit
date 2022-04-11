@@ -9,7 +9,6 @@
 import XCTest
 @testable import PovioKit
 
-// TODO: Add Money tests
 class MoneyTests: XCTestCase {
   // MARK: - Testing Getters
   func testGetAmount() {
