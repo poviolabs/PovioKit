@@ -9,20 +9,20 @@
 import SwiftUI
 
 @available(iOS 13, *)
-public class GenericButtonProperties: ObservableObject {
+public class ActionButtonPropertiesViewModel: ObservableObject {
   @Published public var title: String = ""
   @Published public var font: Font = .system(size: 18)
   @Published public var textColor: Color = .white
-  @Published public var cornerRadius: GenericButton.CornerRadiusType = .custom(0)
-  @Published public var backgroundType = GenericButton.Background.plain(.blue)
+  @Published public var cornerRadius: ActionButton.CornerRadiusType = .custom(0)
+  @Published public var backgroundType = ActionButton.Background.plain(.blue)
   @Published public var borderColor: Color = .clear
   @Published public var borderWidth: CGFloat = 0
-  @Published public var extraImage: GenericButton.ExtraImage?
+  @Published public var extraImage: ActionButton.ExtraImage?
 }
 
 @available(iOS 13, *)
-public struct GenericButton: View {
-  @ObservedObject public var properties = GenericButtonProperties()
+public struct ActionButton: View {
+  @ObservedObject public var properties = ActionButtonPropertiesViewModel()
   private var actionHandler: (() -> Void)?
   
   public init() {}
@@ -50,7 +50,7 @@ public struct GenericButton: View {
 
 // MARK: - Public Properties
 @available(iOS 13, *)
-public extension GenericButton {
+public extension ActionButton {
   enum ExtraImage {
     case left(Image)
     case center(Image)
@@ -65,7 +65,7 @@ public extension GenericButton {
 
 // MARK: - Private Methods
 @available(iOS 13, *)
-private extension GenericButton {
+private extension ActionButton {
   func buttonAction() {
     actionHandler?()
   }
@@ -89,11 +89,11 @@ private extension GenericButton {
 
 // MARK: Views
 @available(iOS 13, *)
-private extension GenericButton {
+private extension ActionButton {
   struct ButtonView: View {
     var size: CGSize
     var action: () -> Void
-    var properties: GenericButtonProperties
+    var properties: ActionButtonPropertiesViewModel
     
     var body: some View {
       Button(action: {
@@ -170,7 +170,7 @@ private extension GenericButton {
 @available(iOS 13, *)
 struct PovioButton_Previews: PreviewProvider {
   static var previews: some View {
-    GenericButton()
+    ActionButton()
   }
 }
 
