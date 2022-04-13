@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 29/09/2021.
-//  Copyright © 2021 Povio Labs. All rights reserved.
+//  Copyright © 2022 Povio Labs. All rights reserved.
 //
 
 import Foundation
@@ -43,8 +43,11 @@ extension WizardContentView {
       animate: animate,
       completion: completion)
   }
-  
-  private func firstTransition(
+}
+
+// MARK: - Private Methods
+private extension WizardContentView {
+  func firstTransition(
     _ view: UIView,
     transitionDuration duration: TimeInterval,
     completion: @escaping () -> Void
@@ -70,7 +73,7 @@ extension WizardContentView {
     )
   }
   
-  private func nextTransition(
+  func nextTransition(
     current: UIView,
     next: UIView,
     transitionDuration duration: TimeInterval,
