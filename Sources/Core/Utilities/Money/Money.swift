@@ -8,31 +8,20 @@
 
 import Foundation
 
-enum MoneyConstants {
-  static let defaultPrecision: Int = 2
-}
-
-public enum MoneyError: Error {
-  case currencyNotSame
-  
-  var description: String {
-    switch self {
-    case .currencyNotSame:
-      return "Currencies must be the same!"
-    }
-  }
-}
-
 public struct Money {
+  enum Constants {
+    static let defaultPrecision: Int = 2
+  }
+  
   typealias Cents = Int
   /// Amount in minor currency units (eg. cents)
   private(set) var cents: Cents
-  /// ``Currency`` type that is containing the ISO code (eg. "USD") and symbol of the currency
+  /// ``Currency`` type that is containing the ISO code (eg. "USD") and symbol of the currency (eg. "$")
   private(set) var currency: Currency
   /// The identifier for the Locale object that we use for the output formatting (eg. "en_US")
   private(set) var localeIdentifier: String
   /// The number of decimal places to represent value
-  private(set) var precision: Int = MoneyConstants.defaultPrecision
+  private(set) var precision: Int = Constants.defaultPrecision
   
   /**
    Initializes a new Money item with the provided amount and currency
@@ -41,18 +30,31 @@ public struct Money {
    - `localeIdentifier` default value is read from `Locale.current.identifier`
    - `precision` default value is 2, stored in `MoneyConstants.defaultPrecision`
    - Parameter cents: Amount value in minor currency units (eg. cents)
-   - Parameter currencyCode: ``CurrencyCode`` enum value of the supported currencies
+   - Parameter currency: ``Currency`` enum value of the supported currencies
    - Parameter localeIdentifier: Identifier for the Locale object that we use for the output formatting (eg. "en_US")
    - Parameter precision: The number of decimal places to represent value
    */
   init(cents: Cents,
-       currencyCode: CurrencyCode,
+       currency: Currency,
        localeIdentifier: String = Locale.current.identifier,
-       precision: Int = MoneyConstants.defaultPrecision) {
+       precision: Int = Constants.defaultPrecision) {
     self.cents = cents
-    self.currency = CurrencyGenerator.get(currencyCode)
+    self.currency = currency
     self.localeIdentifier = localeIdentifier
     self.precision = precision
+  }
+}
+
+public extension Money {
+  enum Error {
+    case currencyNotSame
+    
+    var description: String {
+      switch self {
+      case .currencyNotSame:
+        return "Currencies must be the same!"
+      }
+    }
   }
 }
 
@@ -78,38 +80,38 @@ extension Money: Equatable, Comparable, Hashable {
   }
   
   public static func +(_ lhs: Money, _ rhs: Money) -> Money {
-    precondition(lhs.hasSameCurrency(rhs), MoneyError.currencyNotSame.description)
+    precondition(lhs.hasSameCurrency(rhs), Error.currencyNotSame.description)
     let normalizedPrecision = Money.normalizePrecision([lhs, rhs])
     return .init(cents: normalizedPrecision[0].cents + normalizedPrecision[1].cents,
-                 currencyCode: lhs.currency.code,
+                 currency: lhs.currency,
                  localeIdentifier: lhs.localeIdentifier,
                  precision: normalizedPrecision[0].precision)
   }
   
   public static func -(_ lhs: Money, _ rhs: Money) -> Money {
-    precondition(lhs.hasSameCurrency(rhs), MoneyError.currencyNotSame.description)
+    precondition(lhs.hasSameCurrency(rhs), Error.currencyNotSame.description)
     let normalizedPrecision = Money.normalizePrecision([lhs, rhs])
     return .init(cents: normalizedPrecision[0].cents - normalizedPrecision[1].cents,
-                 currencyCode: lhs.currency.code,
+                 currency: lhs.currency,
                  localeIdentifier: lhs.localeIdentifier,
                  precision: normalizedPrecision[0].precision)
   }
   
   public static func *(_ lhs: Money, _ rhs: Money) -> Money {
-    precondition(lhs.hasSameCurrency(rhs), MoneyError.currencyNotSame.description)
+    precondition(lhs.hasSameCurrency(rhs), Error.currencyNotSame.description)
     let normalizedPrecision = Money.normalizePrecision([lhs, rhs])
     let unitValue = normalizedPrecision[0].unitValue * normalizedPrecision[1].unitValue
     return .init(cents: convertToCents(unitValue, precision: normalizedPrecision[0].precision),
-                 currencyCode: lhs.currency.code,
+                 currency: lhs.currency,
                  localeIdentifier: lhs.localeIdentifier,
                  precision: normalizedPrecision[0].precision)
   }
   
   public static func /(_ lhs: Money, _ rhs: Money) -> Money {
-    precondition(lhs.hasSameCurrency(rhs), MoneyError.currencyNotSame.description)
+    precondition(lhs.hasSameCurrency(rhs), Error.currencyNotSame.description)
     let cents = convertToCents(lhs.unitValue / rhs.unitValue, precision: lhs.precision)
     return .init(cents: cents,
-                 currencyCode: lhs.currency.code,
+                 currency: lhs.currency,
                  localeIdentifier: lhs.localeIdentifier,
                  precision: lhs.precision)
   }
@@ -123,13 +125,13 @@ extension Money: Equatable, Comparable, Hashable {
 
 extension Money: Codable {
   private enum CodingKeys: CodingKey {
-    case cents, currencyCode, localeIdentifier, precision
+    case cents, currency, localeIdentifier, precision
   }
   
   public init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     cents = try values.decode(Int.self, forKey: .cents)
-    currency = try CurrencyGenerator.get(values.decode(CurrencyCode.self, forKey: .currencyCode))
+    currency = try values.decode(Currency.self, forKey: .currency)
     localeIdentifier = try values.decode(String.self, forKey: .localeIdentifier)
     precision = try values.decode(Int.self, forKey: .precision)
   }
@@ -137,7 +139,7 @@ extension Money: Codable {
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(cents, forKey: .cents)
-    try container.encode(currency.code, forKey: .currencyCode)
+    try container.encode(currency, forKey: .currency)
     try container.encode(localeIdentifier, forKey: .localeIdentifier)
     try container.encode(precision, forKey: .precision)
   }
@@ -146,9 +148,9 @@ extension Money: Codable {
 extension Money: ExpressibleByIntegerLiteral, CustomStringConvertible {
    public init(integerLiteral value: Int) {
      self.cents = value
-     self.currency = CurrencyGenerator.get(.usd)
+     self.currency = .usd
      self.localeIdentifier = Locale.current.identifier
-     self.precision = MoneyConstants.defaultPrecision
+     self.precision = Constants.defaultPrecision
   }
 
   public var description: String {
@@ -163,7 +165,7 @@ public extension Money {
    ```
    // Example:
    // This returns 10.545
-   Money(cents: 10545, currencyCode: .usd, precision: 3).unitValue
+   Money(cents: 10545, currency: .usd, precision: 3).unitValue
    ```
    */
   var unitValue: Double {
@@ -175,11 +177,11 @@ public extension Money {
    ```
    // Example:
    // This returns $1,234.57
-   Money(cents: 123457, currencyCode: .usd, localeIdentifier: "en_US").formatted
+   Money(cents: 123457, currency: .usd, localeIdentifier: "en_US").formatted
    ```
    */
   var formatted: String? {
-    unitValue.format(currencyCode: currency.currencyCode, precision: precision, locale: locale)
+    unitValue.format(currencyCode: currency.code, precision: precision, locale: locale)
   }
   
   /// Locale object from the current _localeIdentifier_
@@ -203,7 +205,7 @@ public extension Money {
   ) -> Money {
     let cents = calculateMultiply(amount: cents.double, multiplier: multiplier, roundingMode: roundingMode)
     return Money(cents: cents,
-                 currencyCode: currency.code,
+                 currency: currency,
                  localeIdentifier: localeIdentifier,
                  precision: precision)
   }
@@ -221,7 +223,7 @@ public extension Money {
   ) -> Money {
     let cents = calculateDivide(amount: cents.double, divisor: divisor, roundingMode: roundingMode)
     return Money(cents: cents,
-                 currencyCode: currency.code,
+                 currency: currency,
                  localeIdentifier: localeIdentifier,
                  precision: precision)
   }
@@ -239,7 +241,7 @@ public extension Money {
   ) -> Money {
     let cents = calculatePercentageAmount(amount: cents.double, percentage: percentage, roundingMode: roundingMode)
     return Money(cents: cents,
-                 currencyCode: currency.code,
+                 currency: currency,
                  localeIdentifier: localeIdentifier,
                  precision: precision)
   }
@@ -252,7 +254,7 @@ public extension Money {
    */
   func setLocaleIdentifier(_ locale: String) -> Money {
     Money(cents: cents,
-          currencyCode: currency.code,
+          currency: currency,
           localeIdentifier: locale,
           precision: precision)
   }
@@ -330,7 +332,7 @@ private extension Money {
    - Returns: An array of the Money objects in the same order as provided, but with applied calculated precision on each element
    */
   static func normalizePrecision(_ objects: [Money]) -> [Money] {
-    let highestPrecision = objects.max { $0.precision < $1.precision }?.precision ?? MoneyConstants.defaultPrecision
+    let highestPrecision = objects.max { $0.precision < $1.precision }?.precision ?? Constants.defaultPrecision
     return objects.map {
       $0.precision == highestPrecision ? $0 : $0.convertPrecision(highestPrecision)
     }
@@ -386,7 +388,7 @@ private extension Money {
     let newAmount = cents.double * pow(10, Double(newPrecision - precision))
     let rounded = round(newAmount, roundingMode)
     return Money(cents: rounded,
-                 currencyCode: currency.code,
+                 currency: currency,
                  localeIdentifier: localeIdentifier,
                  precision: newPrecision)
     

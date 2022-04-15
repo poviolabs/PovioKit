@@ -8,18 +8,7 @@
 
 import Foundation
 
-public protocol Currency {
-  var code: CurrencyCode { get }
-  var symbol: String { get }
-}
-
-public extension Currency {
-  var currencyCode: String {
-    code.stringValue
-  }
-}
-
-public enum CurrencyCode: Codable {
+public enum Currency: Codable {
   /// U.S. Dollar (USD)
   case usd
   /// European Euro (EUR)
@@ -34,8 +23,10 @@ public enum CurrencyCode: Codable {
   case gbp
   /// Swiss Franc (CHF)
   case chf
-  
-  var stringValue: String {
+}
+
+extension Currency {
+  var code: String {
     switch self {
     case .usd:
       return "USD"
@@ -53,60 +44,23 @@ public enum CurrencyCode: Codable {
       return "CHF"
     }
   }
-}
-
-struct CurrencyGenerator {
-  static func get(_ code: CurrencyCode) -> Currency {
-    switch code {
+  
+  var symbol: String {
+    switch self {
     case .usd:
-      return USD()
+      return "$"
     case .eur:
-      return EUR()
+      return "€"
     case .cad:
-      return CAD()
+      return "$"
     case .cny:
-      return CNY()
+      return "¥"
     case .jpy:
-      return JPY()
+      return "¥"
     case .gbp:
-      return GBP()
+      return "£"
     case .chf:
-      return CHF()
+      return "Fr"
     }
-  }
-  
-  private struct USD: Currency {
-    var code = CurrencyCode.usd
-    var symbol = "$"
-  }
-  
-  private struct EUR: Currency {
-    var code = CurrencyCode.eur
-    var symbol = "€"
-  }
-  
-  private struct CAD: Currency {
-    var code = CurrencyCode.cad
-    var symbol = "$"
-  }
-  
-  private struct CNY: Currency {
-    var code = CurrencyCode.cny
-    var symbol = "¥"
-  }
-  
-  private struct JPY: Currency {
-    var code = CurrencyCode.jpy
-    var symbol = "¥"
-  }
-  
-  private struct GBP: Currency {
-    var code = CurrencyCode.gbp
-    var symbol = "£"
-  }
-  
-  private struct CHF: Currency {
-    var code = CurrencyCode.chf
-    var symbol = "Fr"
   }
 }
