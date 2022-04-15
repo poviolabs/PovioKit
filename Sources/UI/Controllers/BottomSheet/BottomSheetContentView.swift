@@ -1,5 +1,5 @@
 //
-//  WizardContentView.swift
+//  BottomSheetContentView.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 29/09/2021.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-open class WizardContentView: UIView {
+open class BottomSheetContentView: UIView {
   /// Layout the view per your requirements
   public let contentView = UIView()
   private(set) var isPerformingLayout = false
@@ -17,6 +17,7 @@ open class WizardContentView: UIView {
   public init() {
     super.init(frame: .zero)
     contentView.translatesAutoresizingMaskIntoConstraints = false
+    addHelperGestureRecognizer()
   }
   
   required public init?(coder: NSCoder) {
@@ -24,11 +25,11 @@ open class WizardContentView: UIView {
   }
 }
 
-extension WizardContentView {
+extension BottomSheetContentView {
   func transitionToView(
     _ view: UIView,
     transitionDuration duration: TimeInterval,
-    animate: Wizard<WizardContentView>.AnimatorFactory.Animator?,
+    animate: BottomSheet<BottomSheetContentView>.AnimatorFactory.Animator?,
     completion: @escaping () -> Void
   ) {
     view.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +47,7 @@ extension WizardContentView {
 }
 
 // MARK: - Private Methods
-private extension WizardContentView {
+private extension BottomSheetContentView {
   func firstTransition(
     _ view: UIView,
     transitionDuration duration: TimeInterval,
@@ -62,22 +63,18 @@ private extension WizardContentView {
     contentView.layoutIfNeeded()
     
     view.alpha = 0
-    UIView.animate(
-      withDuration: duration,
-      animations: {
-        view.alpha = 1
-      },
-      completion: { _ in
-        completion()
-      }
-    )
+    UIView.animate(withDuration: duration, animations: {
+      view.alpha = 1
+    }, completion: { _ in
+      completion()
+    })
   }
   
   func nextTransition(
     current: UIView,
     next: UIView,
     transitionDuration duration: TimeInterval,
-    animate: Wizard<WizardContentView>.AnimatorFactory.Animator?,
+    animate: BottomSheet<BottomSheetContentView>.AnimatorFactory.Animator?,
     completion: @escaping () -> Void
   ) {
     contentView.addSubview(next)
@@ -97,14 +94,19 @@ private extension WizardContentView {
     }
     
     isPerformingLayout = true
-    UIView.animate(
-      withDuration: duration,
-      animations: layoutIfNeeded,
-      completion: { _ in
-        self.isPerformingLayout = false
-        current.removeFromSuperview()
-        completion()
-      }
-    )
+    UIView.animate(withDuration: duration, animations: layoutIfNeeded) { _ in
+      self.isPerformingLayout = false
+      current.removeFromSuperview()
+      completion()
+    }
   }
+}
+
+// MARK: - Private Methods - Utils
+private extension BottomSheetContentView {
+  func addHelperGestureRecognizer() {
+    contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(skipTap)))
+  }
+  
+  @objc func skipTap() { }
 }

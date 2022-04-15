@@ -1,5 +1,5 @@
 //
-//  WizardAnimators.swift
+//  BottomSheetAnimators.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 29/09/2021.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-public extension Wizard {
+public extension BottomSheet {
   enum AnimatorFactory {
     public typealias Animator = (UIView, UIView) -> Void
   }
 }
 
-public extension Wizard.AnimatorFactory {
+public extension BottomSheet.AnimatorFactory {
   static func slideInSlideOut(
     animationDuration: TimeInterval,
     withDelay delay: TimeInterval = 0

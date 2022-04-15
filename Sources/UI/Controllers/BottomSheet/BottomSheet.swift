@@ -1,5 +1,5 @@
 //
-//  Wizard.swift
+//  BottomSheet.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 29/09/2021.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public protocol WizardStep: UIViewController { }
+public protocol BottomSheetStep: UIViewController { }
 
 /// An automatically resizable dialog superclass.
 ///
@@ -18,18 +18,15 @@ public protocol WizardStep: UIViewController { }
 /// The UI, presentation, and layout are completely decoupled,
 /// allowing for maximum specialization.
 ///
-open class Wizard<ContentView: WizardContentView>: UIViewController {
-  public typealias DataSource = WizardDataSource
+open class BottomSheet<ContentView: BottomSheetContentView>: UIViewController {
+  public typealias DataSource = BottomSheetDataSource
   public typealias LazyStep = DataSource.LazyStep
   
   public let contentView: ContentView
   let dataSource: DataSource
   
-  public init(
-    steps: [LazyStep],
-    contentView: ContentView
-  ) {
-    self.contentView = contentView
+  public init(steps: [LazyStep], mainContentView: ContentView) {
+    self.contentView = mainContentView
     self.dataSource = .init(steps: steps)
     super.init(nibName: nil, bundle: nil)
   }
@@ -48,13 +45,17 @@ open class Wizard<ContentView: WizardContentView>: UIViewController {
     initialStep()
   }
   
-  open func configureStep(beforeTransition step: WizardStep) {
+  open func configureStep(beforeTransition step: BottomSheetStep) {
     /// Override in subclass if necessary
+  }
+  
+  @objc func tapOutsideToDismiss(gesture: UITapGestureRecognizer) {
+    dismiss(animated: true)
   }
 }
 
 // MARK: - API
-public extension Wizard {
+public extension BottomSheet {
   func addStep(_ step: @escaping LazyStep) {
     dataSource.steps.append(step)
   }
@@ -78,7 +79,7 @@ public extension Wizard {
     dataSource.steps.append(contentsOf: steps)
   }
   
-  var currentStep: WizardStep? {
+  var currentStep: BottomSheetStep? {
     dataSource.currentStep
   }
 
@@ -87,7 +88,9 @@ public extension Wizard {
     animator: AnimatorFactory.Animator?
   ) {
     guard !contentView.isPerformingLayout else {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.nextStep(transitionDuration: duration, animator: animator) }
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.nextStep(transitionDuration: duration, animator: animator)
+      }
       return
     }
     
@@ -108,7 +111,9 @@ public extension Wizard {
     animator: AnimatorFactory.Animator?
   ) {
     guard !contentView.isPerformingLayout else {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.previousStep(transitionDuration: duration, animator: animator) }
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.previousStep(transitionDuration: duration, animator: animator)
+      }
       return
     }
     
@@ -126,8 +131,9 @@ public extension Wizard {
 }
 
 // MARK: - Private Methods
-private extension Wizard {
+private extension BottomSheet {
   func setupViews() {
+    view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapOutsideToDismiss)))
     setupContentView()
   }
   

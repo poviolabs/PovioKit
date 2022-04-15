@@ -1,5 +1,5 @@
 //
-//  WizardDataSource.swift
+//  BottomSheetDataSource.swift
 //  PovioKit
 //
 //  Created by Marko Mijatovic on 13/04/2022.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class WizardDataSource: NSObject {
-  public typealias LazyStep = () -> WizardStep
+public class BottomSheetDataSource: NSObject {
+  public typealias LazyStep = () -> BottomSheetStep
   
   var currentStepIndex = -1
-  var currentStep: WizardStep?
+  var currentStep: BottomSheetStep?
   var steps: [LazyStep]
   
   init(steps: [LazyStep]) {
@@ -20,8 +20,8 @@ public class WizardDataSource: NSObject {
   }
 }
 
-public extension WizardDataSource {
-  func nextStep() -> WizardStep? {
+public extension BottomSheetDataSource {
+  func nextStep() -> BottomSheetStep? {
     currentStepIndex += 1
     guard let thunk = steps[safe: currentStepIndex] else {
       currentStepIndex -= 1
@@ -32,7 +32,7 @@ public extension WizardDataSource {
     return step
   }
   
-  func previousStep() -> WizardStep? {
+  func previousStep() -> BottomSheetStep? {
     currentStepIndex -= 1
     guard let thunk = steps[safe: currentStepIndex] else {
       currentStepIndex += 1
