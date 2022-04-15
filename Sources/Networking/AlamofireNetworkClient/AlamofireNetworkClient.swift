@@ -248,6 +248,7 @@ public extension AlamofireNetworkClient.Error {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
+  @available(*, deprecated, message: "Legacy")
   var asJson: Promise<Any> {
     .init { promise in
       dataRequest.responseJSON {

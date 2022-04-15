@@ -11,6 +11,7 @@ let package = Package(
     .library(name: "PovioKit", targets: ["PovioKit"]),
     .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
+    .library(name: "PovioKitUI", targets: ["PovioKitUI"])
   ],
   dependencies: [
     .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.5.0"))
@@ -33,6 +34,11 @@ let package = Package(
       name: "PovioKitPromise",
       dependencies: [],
       path: "Sources/PromiseKit"
+    ),
+    .target(
+      name: "PovioKitUI",
+      dependencies: [],
+      path: "Sources/UI"
     ),
     .testTarget(
       name: "Tests",

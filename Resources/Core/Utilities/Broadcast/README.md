@@ -6,7 +6,7 @@ Implement `Observer / Listener` pattern with ease.
 
 In iOS, we often use the `delegate` pattern to delegate some responsibilites, or to notify objects of some events. But sometimes we don't want to limit ourselves to only one listener. Let's see an example of this in action:
 
-```Swift
+```swift
 protocol AppEventObserver {
   func keyboardWillShow(animationDuration: CGFloat, keyboardSize: CGSize)
   func keyboardWillHide(animationDuration: CGFloat, keyboardSize: CGSize)
@@ -34,7 +34,7 @@ class KeyboardBroadcast {
 
 Subscribing to keyboard notifications is as easy as:
 
-```Swift
+```swift
 let keyboardBrodcast = KeyboardBroadcast()
 
 ...

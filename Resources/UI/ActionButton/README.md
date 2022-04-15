@@ -28,7 +28,7 @@ struct ContentView: View {
 ### Example: Implementation in UIKit
 ```swift
 var actionButton = ActionButton()
-private func addGenericButton() {
+private func addActionButton() {
   let hostingController = UIHostingController(rootView: actionButton)
     
   addChild(hostingController)

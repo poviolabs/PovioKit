@@ -8,21 +8,36 @@
 
 import UIKit
 
-public extension UICollectionView {    
+public extension UICollectionView {
+  @available(*, deprecated, renamed: "register(_:)")
   func register<T: UICollectionViewCell>(_: T.Type) {
     register(T.self, forCellWithReuseIdentifier: T.identifier)
   }
   
-  func registerSupplementaryView<T: UICollectionReusableView>(_: T.Type, kind: String) {
-    register(T.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: T.identifier)
-  }
-  
+  @available(*, deprecated, renamed: "registerHeaderViews")
   func register<T: UICollectionReusableView>(headerView: T.Type) {
     registerSupplementaryView(headerView, kind: UICollectionView.elementKindSectionHeader)
   }
   
+  @available(*, deprecated, renamed: "registerFooterViews")
   func register<T: UICollectionReusableView>(footerView: T.Type) {
     registerSupplementaryView(footerView, kind: UICollectionView.elementKindSectionFooter)
+  }
+  
+  func register(_ cells: UICollectionViewCell.Type...) {
+    cells.forEach { register($0.self, forCellWithReuseIdentifier: $0.identifier) }
+  }
+  
+  func registerSupplementaryView(_ view: UICollectionReusableView.Type, kind: String) {
+    register(view.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: view.identifier)
+  }
+  
+  func registerHeaderViews(_ headerViews: UICollectionReusableView.Type...) {
+    headerViews.forEach { registerSupplementaryView($0, kind: UICollectionView.elementKindSectionHeader) }
+  }
+  
+  func registerFooterViews(_ footerViews: UICollectionReusableView.Type...) {
+    footerViews.forEach { registerSupplementaryView($0, kind: UICollectionView.elementKindSectionFooter) }
   }
   
   func dequeuReusableCell<T: UICollectionViewCell>(at indexPath: IndexPath) -> T {

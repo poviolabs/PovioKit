@@ -7,7 +7,7 @@ Global configuration without making `AppDelegate` look like a mess.
 `AppDelegate`'s `application(_ application:, didFinishLaunchingWithOptions:)` method is a place where we usually do some app configuration, apply default UI settings, initialize outside dependencies and so on.
 The code might look something like this:
 
-```Swift
+```swift
 import UIKit
 import FBSDKCoreKit
 import TwitterKit
@@ -40,7 +40,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 There are two main issues with the code above:
 First of all, the method is doing too many things at the same time, violating single responsibility principle. The second code smell is that we have to import a great number of dependencies. By using `StartupProcessService` we can refactor the code:
 
-```Swift
+```swift
 import Foundation
 
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -56,7 +56,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 The resulting code is much easier to understand, the method is now doing just one thing, that is, executing different startup processes, and there is no need to import other modules.
 A startup process' code looks something like:
 
-```Swift
+```swift
 import FBSDKCoreKit
 
 public final class FacebookSetupProcess: StartupProcess {

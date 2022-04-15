@@ -44,15 +44,6 @@ public func all<T, C: Collection>(
   }
 }
 
-@available(*, deprecated, renamed: "all")
-@inline(__always)
-public func combine<T>(
-  on dispatchQueue: DispatchQueue? = .main,
-  promises: [Promise<T>]
-) -> Promise<[T]> {
-  all(on: dispatchQueue, promises: promises)
-}
-
 /// Returns a new Promise combining the results of the two promises of possibly
 /// different types.
 ///
@@ -71,16 +62,6 @@ public func all<T, U>(
     .map { _ in (p1.value!, p2.value!) }
 }
 
-@available(*, deprecated, renamed: "all")
-@inline(__always)
-public func combine<T, U>(
-  on dispatchQueue: DispatchQueue? = .main,
-  _ p1: Promise<T>,
-  _ p2: Promise<U>
-) -> Promise<(T, U)> {
-  all(on: dispatchQueue, p1, p2)
-}
-
 /// Returns a new Promise combining the results of three promises of possibly
 /// different types.
 ///
@@ -97,17 +78,6 @@ public func all<T, U, V>(
 ) -> Promise<(T, U, V)> {
   all(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!) }
-}
-
-@available(*, deprecated, renamed: "all")
-@inline(__always)
-public func combine<T, U, V>(
-  on dispatchQueue: DispatchQueue? = .main,
-  _ p1: Promise<T>,
-  _ p2: Promise<U>,
-  _ p3: Promise<V>
-) -> Promise<(T, U, V)> {
-  all(on: dispatchQueue, p1, p2, p3)
 }
 
 /// Returns a new Promise combining the results of four promises of possibly
@@ -130,18 +100,6 @@ public func all<T, U, V, Z>(
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!) }
 }
 
-@available(*, deprecated, renamed: "all")
-@inline(__always)
-public func combine<T, U, V, Z>(
-  on dispatchQueue: DispatchQueue? = .main,
-  _ p1: Promise<T>,
-  _ p2: Promise<U>,
-  _ p3: Promise<V>,
-  _ p4: Promise<Z>
-) -> Promise<(T, U, V, Z)> {
-  all(on: dispatchQueue, p1, p2, p3, p4)
-}
-
 /// Returns a new Promise combining the results of four promises of possibly
 /// different types.
 ///
@@ -161,17 +119,4 @@ public func all<T, U, V, Z, X>(
 ) -> Promise<(T, U, V, Z, X)> {
   all(on: dispatchQueue, promises: [p1.asVoid, p2.asVoid, p3.asVoid, p4.asVoid, p5.asVoid])
     .map(on: dispatchQueue) { _ in (p1.value!, p2.value!, p3.value!, p4.value!, p5.value!) }
-}
-
-@available(*, deprecated, renamed: "all")
-@inline(__always)
-public func combine<T, U, V, Z, X>(
-  on dispatchQueue: DispatchQueue? = .main,
-  _ p1: Promise<T>,
-  _ p2: Promise<U>,
-  _ p3: Promise<V>,
-  _ p4: Promise<Z>,
-  _ p5: Promise<X>
-) -> Promise<(T, U, V, Z, X)> {
-  all(on: dispatchQueue, p1, p2, p3, p4, p5)
 }
