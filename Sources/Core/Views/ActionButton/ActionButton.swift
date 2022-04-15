@@ -9,7 +9,7 @@
 import SwiftUI
 
 @available(iOS 13, *)
-public class ActionButtonPropertiesViewModel: ObservableObject {
+public class ActionButtonViewModel: ObservableObject {
   @Published public var title: String = ""
   @Published public var font: Font = .system(size: 18)
   @Published public var textColor: Color = .white
@@ -22,7 +22,7 @@ public class ActionButtonPropertiesViewModel: ObservableObject {
 
 @available(iOS 13, *)
 public struct ActionButton: View {
-  @ObservedObject public var properties = ActionButtonPropertiesViewModel()
+  @ObservedObject public var properties = ActionButtonViewModel()
   private var actionHandler: (() -> Void)?
   
   public init() {}
@@ -93,7 +93,7 @@ private extension ActionButton {
   struct ButtonView: View {
     var size: CGSize
     var action: () -> Void
-    var properties: ActionButtonPropertiesViewModel
+    var properties: ActionButtonViewModel
     
     var body: some View {
       Button(action: {
