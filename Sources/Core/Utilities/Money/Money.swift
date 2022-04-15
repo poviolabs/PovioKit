@@ -9,10 +9,6 @@
 import Foundation
 
 public struct Money {
-  enum Constants {
-    static let defaultPrecision: Int = 2
-  }
-  
   typealias Cents = Int
   /// Amount in minor currency units (eg. cents)
   private(set) var cents: Cents
@@ -46,6 +42,10 @@ public struct Money {
 }
 
 public extension Money {
+  enum Constants {
+    static let defaultPrecision: Int = 2
+  }
+  
   enum Error {
     case currencyNotSame
     
