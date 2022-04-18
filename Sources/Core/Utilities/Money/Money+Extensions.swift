@@ -14,12 +14,6 @@ extension Comparable {
   }
 }
 
-extension Int {
-  var double: Double {
-    Double(self)
-  }
-}
-
 extension Double {
   /**
    Formats the Double value as a currency string using the provided currencyCode.
