@@ -106,10 +106,13 @@ class MoneyTests: XCTestCase {
     XCTAssertEqual((x * y).unitValue, <#T##expression2: Equatable##Equatable#>)
   }
   
-//  func testPercentage() {
-//    let money = Money(cents: 2000, currency: .usd).percentage(50)
-//    XCTAssert(money.unitValue == 10, "Money percentage value should be correct!")
-//  }
+  func testTax() {
+    // https://v2.dinerojs.com/docs/core-concepts/scale
+    let m1 = Money(cents: 1995, currency: .usd)
+    let m2 = Money(cents: 55, currency: .usd, precision: 3)
+    let total = m1 * m2 + m1
+    XCTAssertEqual(total.unitValue, 21.04725)
+  }
   
   // MARK: - Testing Comparison
   func testIsPositive() {
