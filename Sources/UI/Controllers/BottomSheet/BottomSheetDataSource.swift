@@ -23,10 +23,11 @@ public class BottomSheetDataSource: NSObject {
 public extension BottomSheetDataSource {
   func nextStep() -> BottomSheetStep? {
     currentStepIndex += 1
-    guard let thunk = steps[safe: currentStepIndex] else {
+    guard currentStepIndex < steps.count else {
       currentStepIndex -= 1
       return nil
     }
+    let thunk = steps[currentStepIndex]
     let step = thunk()
     self.currentStep = step
     return step
@@ -34,10 +35,11 @@ public extension BottomSheetDataSource {
   
   func previousStep() -> BottomSheetStep? {
     currentStepIndex -= 1
-    guard let thunk = steps[safe: currentStepIndex] else {
+    guard currentStepIndex >= 0 else {
       currentStepIndex += 1
       return nil
     }
+    let thunk = steps[currentStepIndex]
     let step = thunk()
     self.currentStep = step
     return step
