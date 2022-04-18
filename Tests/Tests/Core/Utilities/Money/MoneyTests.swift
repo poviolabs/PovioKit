@@ -139,4 +139,29 @@ class MoneyTests: XCTestCase {
     XCTAssertLessThan(money, other, "One Money objects should be less than the other!")
     XCTAssertLessThanOrEqual(money, other, "One Money objects should be less than or equal the other!")
   }
+  
+  func testPerformance() {
+    let m1 = Money(amount: 1995, currency: .usd)
+    let m2 = Money(amount: 55, currency: .usd, precision: 3)
+    
+    func bench(repeat: Int = 100_000_000, op: (Money, Money) -> Money) {
+      for i in 0..<`repeat` {
+        let res = op(m1, m2)
+      }
+    }
+    
+    let timeAdd = benchmark { bench(op: +) }
+    print("Done add")
+    let timeSub = benchmark { bench(op: -) }
+    print("Done sub")
+    let timeMul = benchmark { bench(op: *) }
+    print("Done")
+    print(timeAdd, timeSub, timeMul)
+  }
+}
+
+func benchmark(task: () -> Void) -> Double {
+  let start = CFAbsoluteTimeGetCurrent()
+  task()
+  return CFAbsoluteTimeGetCurrent() - start
 }
