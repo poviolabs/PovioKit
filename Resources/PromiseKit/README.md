@@ -6,7 +6,7 @@ A lightweight `Promise` implementation.
 
 A common pattern used by developers for handling asynchronous results is to inject a completion handler closure as a function argument to handle the result. For instance:
 
-```Swift
+```swift
 func fetchUser(with id: User.ID, completion: @escaping (Result<User, Error>) -> Void) {
   apiRequest {
     completion($0)
@@ -27,7 +27,7 @@ fetchUser(with: 10) { result in
 
 Using `Promise` pattern we can instead solve the problem like this:
 
-```Swift
+```swift
 func fetchUser(with id: User.ID) -> Promise<User> {
   Promise { seal in
     apiRequest {
@@ -71,7 +71,7 @@ The advantage of using Promises is that they simplify asynchronous programming s
 
 Often, we find ourselves writing code that looks something like this:
 
-```Swift
+```swift
 func download(_ handler: @escaping (Result<C, Error>) -> Void) {
  downloadA { resultA in
   switch resultA {
@@ -114,7 +114,7 @@ The above solution has a couple of issues:
 
 Can we do better? Let's try to refactor the code using `PromiseKit`:
 
-```Swift
+```swift
 func download() -> Promise<C> {
  downloadA()
    .chain(with: downloadB)
