@@ -90,20 +90,20 @@ var symbol: String {
 To initialize Money item, we call init method:  
 ``` swift
  // This represents 1$
-let money = Money(cents: 100, currency: .usd, localeIdentifier: "en_US", precision: 2)
+let money = Money(amount: 100, currency: .usd, localeIdentifier: "en_US", precision: 2)
 ```
 We can use default values and init same Money item like this:  
 ``` swift
  // This represents 1$
-let money = Money(cents: 100, currency: .usd)
+let money = Money(amount: 100, currency: .usd)
 ```  
 
 ## Precision
 Because we store value in cents (minor currency unit) as an Integer, we also need to define the precision parameter as the number of decimal places to represent the unit value of the Money. This can lead to the different definitions of the same Money value, and we need to be aware of it when doing any of the manipulations:
 ``` swift
-let money1 = Money(cents: 200, currency: .usd)  // 2 $
-let money2 = Money(cents: 2000, currency: .usd, precision: 3)  // 2 $
-let money3 = Money(cents: 20, currency: .usd, precision: 1) // 2 $
+let money1 = Money(amount: 200, currency: .usd)  // 2 $
+let money2 = Money(amount: 2000, currency: .usd, precision: 3)  // 2 $
+let money3 = Money(amount: 20, currency: .usd, precision: 1) // 2 $
 ```
 
 ## Examples
@@ -111,7 +111,7 @@ let money3 = Money(cents: 20, currency: .usd, precision: 1) // 2 $
 ### Formatting:
 We can format String representation of the Money item with the locale and currency properties. This is how different localeIdentifier can format the same currency value:
 ``` swift 
-let money = Money(cents: 123457, currency: .usd, localeIdentifier: "en_US")
+let money = Money(amount: 123457, currency: .usd, localeIdentifier: "en_US")
 print(money.formatted) // $1,234.57
 let dinero = money.setLocaleIdentifier("es")
 print(dinero.formatted) // 1234,57 US$
@@ -124,7 +124,7 @@ print(dinero.formatted) // 1234,57 US$
 We have set of *mutating* or *non-mutating* operations available on Money items.  
 When calling immutable operations, we are always returning *new* Money item with applied operation as a result. That way we can also chain couple operations. For example:
 ``` swift
-let money = Money(cents: 2000, currency: .usd, precision: 3)
+let money = Money(amount: 2000, currency: .usd, precision: 3)
   .multiply(4.5)
   .divide(3)
   .percentage(30)
@@ -132,8 +132,8 @@ print(money.formatted) // $0.99 = 2$ * 4.5 / 3 * 30%
 ```
 We can also do manipulations on two Money items:
 ``` swift
-let money = Money(cents: 200, currency: .usd) // 2 $
-let other = Money(cents: 183456, currency: .usd, precision: 4) // 18.3456 $
+let money = Money(amount: 200, currency: .usd) // 2 $
+let other = Money(amount: 183456, currency: .usd, precision: 4) // 18.3456 $
 let result = money * other // new Money item
 print(result.unitValue) // 36.6912 $
 ```
@@ -141,9 +141,9 @@ print(result.unitValue) // 36.6912 $
 ### Comparison:
 We can compare two Money items with standard comparison operators:
 ``` swift
-let money1 = Money(cents: 200, currency: .usd)  // 2 $
-let money2 = Money(cents: 1990, currency: .usd, precision: 3) // 1.99$
-let money3 = Money(cents: 2000, currency: .usd, precision: 3)  // 2 $
+let money1 = Money(amount: 200, currency: .usd)  // 2 $
+let money2 = Money(amount: 1990, currency: .usd, precision: 3) // 1.99$
+let money3 = Money(amount: 2000, currency: .usd, precision: 3)  // 2 $
 print(money1 > money2) // true
 print(money1 == money3) // true
 print(money2 < money3) // true
