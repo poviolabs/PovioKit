@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PovioKit
 import UIKit
 
 class ThirdStepViewController: UIViewController, StepViewController {

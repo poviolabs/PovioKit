@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import PovioKit
+import PovioKitUI
 
 protocol StepViewController: BottomSheetStep {
   var wizard: MainBottomSheet? { get set }

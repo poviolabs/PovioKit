@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import PovioKit
 
 class SecondStepViewController: UIViewController, StepViewController {
   private lazy var contentView = SecondStepContentView()

@@ -25,6 +25,7 @@
 		ADA677DF2806FD7B00E243EC /* FirstStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA677DE2806FD7B00E243EC /* FirstStepContentView.swift */; };
 		ADA677E12806FDA300E243EC /* SecondStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA677E02806FDA300E243EC /* SecondStepViewController.swift */; };
 		ADA677E32806FDB200E243EC /* SecondStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA677E22806FDB200E243EC /* SecondStepContentView.swift */; };
+		ADD30309280DA484007BFC5A /* PovioKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = ADD30308280DA484007BFC5A /* PovioKitUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 				3716F8CE26B2C4AA00B19A77 /* SnapKit in Frameworks */,
 				3716F8B326B2ABD200B19A77 /* PovioKitNetworking in Frameworks */,
 				3716F8B526B2ABD200B19A77 /* PovioKitPromise in Frameworks */,
+				ADD30309280DA484007BFC5A /* PovioKitUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +148,7 @@
 				3716F8B226B2ABD200B19A77 /* PovioKitNetworking */,
 				3716F8B426B2ABD200B19A77 /* PovioKitPromise */,
 				3716F8CD26B2C4AA00B19A77 /* SnapKit */,
+				ADD30308280DA484007BFC5A /* PovioKitUI */,
 			);
 			productName = Demo;
 			productReference = 378164B326B2AB9C007ABF13 /* Demo.app */;
@@ -437,6 +440,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3716F8CC26B2C4AA00B19A77 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		ADD30308280DA484007BFC5A /* PovioKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PovioKitUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

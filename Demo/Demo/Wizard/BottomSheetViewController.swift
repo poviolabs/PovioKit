@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import PovioKit
+import PovioKitUI
 
 protocol MainBottomSheet: UIViewController {
   func dismissBottomSheet()

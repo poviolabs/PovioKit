@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import PovioKit
+import PovioKitUI
 import UIKit
 
 extension BottomSheet.AnimatorFactory {

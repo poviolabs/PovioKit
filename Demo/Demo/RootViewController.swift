@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PovioKit
+import PovioKitUI
 
 class RootViewController: UIViewController {
   private let titleLabel = UILabel()

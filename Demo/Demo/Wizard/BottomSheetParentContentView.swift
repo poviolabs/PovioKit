@@ -8,7 +8,7 @@
 
 import Foundation
 import SnapKit
-import PovioKit
+import PovioKitUI
 import UIKit
 
 class BottomSheetParentContentView: BottomSheetContentView {
