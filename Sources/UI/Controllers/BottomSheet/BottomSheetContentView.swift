@@ -9,8 +9,16 @@
 import Foundation
 import UIKit
 
+/// Main content view of the BottomSheet
+///
+/// When implementing BottomSheet, main component needs to add  BottomSheetContentView's ``contentView`` as a subview:
+/// ```swift
+/// addSubview(contentView)
+/// contentView.snp.makeConstraints {
+///  $0.bottom.leading.trailing.equalToSuperview()
+/// }
+/// ```
 open class BottomSheetContentView: UIView {
-  /// Layout the view per your requirements
   public let contentView = UIView()
   private(set) var isPerformingLayout = false
   

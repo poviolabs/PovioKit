@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Class that holds a list of all Steps and is handling navigation from Step to Step (next and previous)
 public class BottomSheetDataSource: NSObject {
   public typealias LazyStep = () -> BottomSheetStep
   

@@ -9,6 +9,16 @@
 import Foundation
 import UIKit
 
+/// Protocol that defines every Step.
+/// This protocol is intended for extension based on your needs.
+/// ```swift
+/// //Example:
+/// protocol StepViewController: BottomSheetStep {
+///  var wizard: MainBottomSheet? { get set }
+///  func didTapNextButton()
+///  func didTapPreviousButton()
+/// }
+/// ```
 public protocol BottomSheetStep: UIViewController { }
 
 /// An automatically resizable dialog superclass.
@@ -25,6 +35,11 @@ open class BottomSheet<ContentView: BottomSheetContentView>: UIViewController {
   public let contentView: ContentView
   let dataSource: DataSource
   
+  
+  /// Init main BottomSheet component
+  /// - Parameters:
+  ///   - steps: List of ``LazyStep`` (UIViewControllers) to be displayed in BottomSheet
+  ///   - mainContentView: ``BottomSheetContentView`` that holds content of the Steps
   public init(steps: [LazyStep], mainContentView: ContentView) {
     self.contentView = mainContentView
     self.dataSource = .init(steps: steps)
@@ -45,9 +60,12 @@ open class BottomSheet<ContentView: BottomSheetContentView>: UIViewController {
     initialStep()
   }
   
-  open func configureStep(beforeTransition step: BottomSheetStep) {
-    /// Override in subclass if necessary
-  }
+  
+  /// Configure Step before it is presented
+  ///
+  /// Override in subclass if necessary
+  /// - Parameter step: BottomSheetStep that will be presented
+  open func configureStep(beforeTransition step: BottomSheetStep) { }
   
   @objc func tapOutsideToDismiss(gesture: UITapGestureRecognizer) {
     dismiss(animated: true)
@@ -56,33 +74,18 @@ open class BottomSheet<ContentView: BottomSheetContentView>: UIViewController {
 
 // MARK: - API
 public extension BottomSheet {
-  func addStep(_ step: @escaping LazyStep) {
-    dataSource.steps.append(step)
-  }
-  
-  func insertStep(_ step: @escaping LazyStep, at index: Int) {
-    dataSource.steps.insert(step, at: index)
-    if dataSource.currentStepIndex > index {
-      dataSource.currentStepIndex += 1
-    }
-  }
-  
-  func insertStep(afterCurrentStep step: @escaping LazyStep) {
-    insertStep(step, at: dataSource.currentStepIndex + 1)
-  }
-  
-  func addSteps(_ steps: LazyStep...) {
-    dataSource.steps.append(contentsOf: steps)
-  }
-  
-  func addSteps<C: Collection>(_ steps: C) where C.Element == LazyStep {
-    dataSource.steps.append(contentsOf: steps)
-  }
-  
+  /// Get the currently presented Step (UIViewController)
   var currentStep: BottomSheetStep? {
     dataSource.currentStep
   }
-
+  
+  
+  /// Go to the next Step with animation
+  ///
+  /// ``configureStep(beforeTransition:)`` will be called before animation
+  /// - Parameters:
+  ///   - transitionDuration: The total duration of the animations, measured in seconds
+  ///   - animator: ``AnimatorFactory`` that defines custom transition
   func nextStep(
     transitionDuration duration: TimeInterval,
     animator: AnimatorFactory.Animator?
@@ -106,6 +109,13 @@ public extension BottomSheet {
     )
   }
   
+  
+  /// Go to the previous Step with animation
+  ///
+  /// ``configureStep(beforeTransition:)`` will be called before animation
+  /// - Parameters:
+  ///   - transitionDuration: The total duration of the animations, measured in seconds
+  ///   - animator: ``AnimatorFactory.Animator`` that defines custom transition
   func previousStep(
     transitionDuration duration: TimeInterval,
     animator: AnimatorFactory.Animator?
@@ -127,6 +137,29 @@ public extension BottomSheet {
       animate: animator,
       completion: { [weak view] in view?.isUserInteractionEnabled = true }
     )
+  }
+  
+  func addStep(_ step: @escaping LazyStep) {
+    dataSource.steps.append(step)
+  }
+  
+  func insertStep(_ step: @escaping LazyStep, at index: Int) {
+    dataSource.steps.insert(step, at: index)
+    if dataSource.currentStepIndex > index {
+      dataSource.currentStepIndex += 1
+    }
+  }
+  
+  func insertStep(afterCurrentStep step: @escaping LazyStep) {
+    insertStep(step, at: dataSource.currentStepIndex + 1)
+  }
+  
+  func addSteps(_ steps: LazyStep...) {
+    dataSource.steps.append(contentsOf: steps)
+  }
+  
+  func addSteps<C: Collection>(_ steps: C) where C.Element == LazyStep {
+    dataSource.steps.append(contentsOf: steps)
   }
 }
 
