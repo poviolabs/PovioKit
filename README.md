@@ -60,6 +60,7 @@
 
 | Components |
 | :--- |
+| [ActionButton](Resources/UI/ActionButton/) |
 | [GradientView](Resources/UI/GradientView/) |
 | [PaddingLabel](Resources/UI/PaddingLabel/) |
 | [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
