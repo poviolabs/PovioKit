@@ -6,6 +6,7 @@
 //  Copyright © 2020 Povio Labs. All rights reserved.
 //
 
+import PovioKit
 import UIKit
 
 public protocol ValidationFormViewDelegate: AnyObject {
@@ -164,9 +165,9 @@ extension ValidationFormView {
   func processKeyboardNotification(_ notification: Notification, shown: Bool) {
     do {
       let (animationDuration, keyboardSize, _) = try parser.parse(from: notification)
-      shown ?
-        keyboardWillShow(animationDuration: animationDuration, keyboardSize: keyboardSize) :
-        keyboardWillHide(animationDuration: animationDuration, keyboardSize: keyboardSize)
+      shown
+        ? keyboardWillShow(animationDuration: animationDuration, keyboardSize: keyboardSize)
+        : keyboardWillHide(animationDuration: animationDuration, keyboardSize: keyboardSize)
     } catch {
       Logger.error("Error parsing keyboard notification: \(error.localizedDescription)")
     }
