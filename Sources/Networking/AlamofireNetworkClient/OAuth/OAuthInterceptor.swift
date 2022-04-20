@@ -12,8 +12,7 @@ import PovioKit
 import PovioKitPromise
 
 public protocol OAuthStorage: AnyObject {
-  var accessToken: String? { get set }
-  var refreshToken: String? { get set }
+  var oauthContainer: OAuthContainer? { get set }
 }
 
 public protocol OAuthProvider {
@@ -99,29 +98,29 @@ extension OAuthRequestInterceptor: RequestInterceptor {
   }
 }
 
+// MARK: - Private Methods
 private extension OAuthRequestInterceptor {
   func task(seal: Promise<String>) {
-    guard !provider.isAccessTokenValid() else {
-      Logger.debug("No need to fetch access token as it is valid.")
-      seal.resolve(with: self.storage.accessToken!)
+    guard let container = storage.oauthContainer else {
+      Logger.debug("OAuth credentials are missing, we should logout user!")
+      seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
       return
     }
     
-    guard let refreshToken = storage.refreshToken else {
-      Logger.debug("Refresh token is missing, we should logout user")
-      seal.reject(with: AlamofireNetworkClient.Error.unauthorized)
+    guard !provider.isAccessTokenValid() else {
+      Logger.debug("No need to fetch access token as it is valid.")
+      seal.resolve(with: container.accessToken)
       return
     }
     
     Logger.debug("Fetching access token!")
     provider
-      .refresh(with: refreshToken)
+      .refresh(with: container.refreshToken)
       .finally {
         switch $0 {
         case .success(let response):
           Logger.debug("Refresh token success!")
-          self.storage.accessToken = response.accessToken
-          self.storage.refreshToken = response.refreshToken
+          self.storage.oauthContainer = response
           seal.resolve(with: response.accessToken)
         case .failure(let error):
           Logger.debug("Refresh token failed with error \(error.localizedDescription), we should logout user")
