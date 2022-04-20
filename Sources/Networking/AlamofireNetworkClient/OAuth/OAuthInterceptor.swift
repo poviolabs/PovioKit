@@ -11,19 +11,6 @@ import Alamofire
 import PovioKit
 import PovioKitPromise
 
-public struct OAuthContainer {
-  public let accessToken: String
-  public let refreshToken: String
-  
-  public init(
-    accessToken: String,
-    refreshToken: String
-  ) {
-    self.accessToken = accessToken
-    self.refreshToken = refreshToken
-  }
-}
-
 public protocol OAuthStorage: AnyObject {
   var accessToken: String? { get set }
   var refreshToken: String? { get set }
