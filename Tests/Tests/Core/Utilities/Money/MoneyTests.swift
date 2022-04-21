@@ -9,6 +9,7 @@
 import XCTest
 @testable import PovioKit
 
+// @TODO: - Use `XCAssertEqual` instead of `XCAssert`.
 class MoneyTests: XCTestCase {
   // MARK: - Testing Getters
   func testGetAmount() {

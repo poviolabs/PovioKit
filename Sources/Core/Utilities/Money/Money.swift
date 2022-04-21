@@ -8,15 +8,6 @@
 
 import Foundation
 
-public struct Defaults {
-  public var precision = 2
-  public var currency = Currency.usd
-  public var locale = Locale.current
-}
-
-// NOTE: - Not thread safe! Previous instances won't be affected.
-public var defaults = Defaults()
-
 public struct Money: Hashable {
   public typealias Cents = Int
   
