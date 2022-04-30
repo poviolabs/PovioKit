@@ -9,11 +9,34 @@
 import Foundation
 import UIKit
 
+/// Dialog component - Present custom view in a UIAlertController alternative.
+///
+/// Subclass and present it as any other UIViewController
+///
+/// - Size will be dynamically adjusted based on the content (it will scroll if needed)
+/// - Define presenting animation and screen position
+///```swift
+///// Example:
+///class DialogExampleViewController: Dialog<DialogContentView> {
+///  override init(contentView: DialogContentView, position: DialogPosition, animation: DialogAnimationType?) {
+///    super.init(contentView: contentView, position: position, animation: animation)
+///  } ...
+/// }
+///
+/// let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: .top, animation: .fade)
+/// self.navigationController?.present(dialog, animated: true)
+///```
 open class Dialog<ContentView: DialogContentView>: UIViewController {
   public let contentView: ContentView
   private let position: DialogPosition
   private let transitionDelegate: DialogTransitionDelegate
   
+  
+  /// Init
+  /// - Parameters:
+  ///   - contentView: ``DialogContentView`` UIView that holds user-defined custom UI
+  ///   - position: ``DialogPosition`` - Dialog position on the screen
+  ///   - animation: ``DialogAnimationType`` (**optional**) it can be one of the predefined animations, custom or .none
   public init(contentView: ContentView, position: DialogPosition, animation: DialogAnimationType? = .none) {
     self.contentView = contentView
     self.position = position
@@ -56,6 +79,7 @@ private extension Dialog {
     contentView.setPosition(position)
   }
   
+  /// Add tap to dismiss gesture
   func addGesture() {
     let dismissGesture = UITapGestureRecognizer(target: self, action: #selector(dismissDialog))
     contentView.addDismissGesture(dismissGesture)

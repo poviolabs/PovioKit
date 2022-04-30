@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DialogTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
+internal class DialogTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
   let animation: DialogAnimationType?
   
   init(animation: DialogAnimationType? = .none) {
@@ -28,6 +28,10 @@ class DialogTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate 
 }
 
 private extension DialogTransitionDelegate {
+  
+  /// Get DialogTransitionAnimation for presenting or dismissing
+  /// - Parameter presenting: true if presenting, false for dismissing
+  /// - Returns: ``DialogTransitionAnimation`` from provided ``DialogAnimationType`` (**can be nil**)
   func getAnimation(presenting: Bool) -> DialogTransitionAnimation? {
     switch animation {
     case .fade:

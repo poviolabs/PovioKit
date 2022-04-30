@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Dialog position on the screen
 public enum DialogPosition {
   case bottom
   case top
