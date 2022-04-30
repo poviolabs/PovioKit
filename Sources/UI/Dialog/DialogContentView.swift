@@ -9,9 +9,22 @@
 import Foundation
 import UIKit
 
+/// UIView that holds user-defined custom UI
+/// In subclass, use ``content`` UIView to addSubview
+///
+/// ```swift
+/// //Example:
+/// content.addSubview(button)
+/// ```
 open class DialogContentView: UIView {
+  
+  /// Background view that will hold tap gesture for dismissing Dialog
   private let backgroundView = UIView()
+  
+  /// UIScrollView that will be responsible for scrollable content (if content can not fit the screen)
   private let scrollView = UIScrollView()
+  
+  /// Main content view. Use it to add subviews
   public let content = UIView()
   
   public init() {
@@ -25,6 +38,9 @@ open class DialogContentView: UIView {
 }
 
 internal extension DialogContentView {
+  
+  /// Set NSLayoutConstraint based on the provided ``DialogPosition``
+  /// - Parameter position: ``DialogPosition``
   func setPosition(_ position: DialogPosition) {
     switch position {
     case .bottom:
@@ -36,6 +52,7 @@ internal extension DialogContentView {
     }
   }
   
+  /// Add tap to dismiss gesture on background view
   func addDismissGesture(_ gesture: UITapGestureRecognizer) {
     backgroundView.addGestureRecognizer(gesture)
   }
