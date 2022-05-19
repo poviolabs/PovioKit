@@ -111,6 +111,29 @@ public extension AlamofireNetworkClient {
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
+  func request<E: Encodable>(
+    method: HTTPMethod,
+    endpoint: URLConvertible,
+    headers: HTTPHeaders? = nil,
+    encode: E,
+    parameterEncoder: ParameterEncoder,
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
+  ) -> Request {
+    let request = session
+      .request(
+        endpoint,
+        method: method,
+        parameters: encode,
+        encoder: parameterEncoder,
+        headers: headers,
+        interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
+    return .init(with: request, eventMonitors: eventMonitors)
+  }
+  
   func upload(
     method: HTTPMethod,
     endpoint: URLConvertible,
