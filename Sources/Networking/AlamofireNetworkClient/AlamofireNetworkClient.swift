@@ -77,6 +77,7 @@ public extension AlamofireNetworkClient {
     return .init(with: request, eventMonitors: eventMonitors)
   }
   
+  @available(*, deprecated, renamed: "request(_:)")
   func request<E: Encodable>(
     method: HTTPMethod,
     endpoint: URLConvertible,
