@@ -14,6 +14,7 @@ public extension Image {}
 #if canImport(Kingfisher)
 import Kingfisher
 
+@available(iOS 14, *)
 private extension Image {
   func resolveWithKingFisher(from url: URL?, placeholder: Image?) -> some View {
     KFImage(url)
