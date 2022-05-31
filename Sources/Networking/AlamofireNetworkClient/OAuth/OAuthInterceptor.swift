@@ -29,7 +29,7 @@ open class OAuthRequestInterceptor {
   private let storage: OAuthStorage
   private let adapter: OAuthHeadersAdapter
   private let lock: NSLock = .init()
-  private var activeRequests: [Request: RequestState] = .init()
+  private var activeRequests: [UUID: RequestState] = .init()
   
   public init(
     provider: OAuthProvider,
@@ -71,13 +71,13 @@ extension OAuthRequestInterceptor: RequestInterceptor {
     case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)):
       lock.lock()
       
-      switch activeRequests[request] {
+      switch activeRequests[request.id] {
       case nil:
-        activeRequests[request] = .retry
+        activeRequests[request.id] = .retry
       case .retry:
-        activeRequests[request] = .reject
+        activeRequests[request.id] = .reject
       case .reject:
-        activeRequests.removeValue(forKey: request)
+        activeRequests.removeValue(forKey: request.id)
         completion(.doNotRetryWithError(error))
         lock.unlock()
         return
