@@ -29,7 +29,8 @@ open class OAuthRequestInterceptor {
   private let storage: OAuthStorage
   private let adapter: OAuthHeadersAdapter
   private let lock: NSLock = .init()
-  private var activeRequests: [UUID: RequestState] = .init()
+  private var activeRequests: [UUID: RequestState] = .init() /// @TODO: - Design a strategy to clear `activeRequests`
+                                                             /// once in a while ...
   
   public init(
     provider: OAuthProvider,
