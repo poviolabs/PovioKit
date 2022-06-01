@@ -11,20 +11,44 @@ import PovioKit
 
 class BundleReaderTests: XCTestCase {
   func test_init_doesNotMessageTheReader() {
-    let reader = BundleSpy()
-    let _ = BundleReader(bundle: reader)
+    let (_, reader) = makeSUT()
     
     XCTAssertNil(reader.capturedRead)
+  }
+  
+  func test_object_returnsExpectedValue() {
+    let (sut, reader) = makeSUT()
+    let key = "key"
+    let value = "value"
+    
+    reader.replaceDictionaryWith([key: value])
+    let fetchedValue = sut.object(forInfoDictionaryKey: "key") as? String
+    let fetchedNilValue = sut.object(forInfoDictionaryKey: "anyKey")
+
+    XCTAssertEqual(fetchedValue, value)
+    XCTAssertNil(fetchedNilValue)
   }
 }
 
 // MARK: - Helpers
+private extension BundleReaderTests {
+  func makeSUT() -> (sut: BundleReader, reader: BundleSpy) {
+    let reader = BundleSpy()
+    let sut = BundleReader(bundle: reader)
+    
+    return (sut, reader)
+  }
+}
 private class BundleSpy: Bundle {
   private(set) var capturedRead: String?
-  
+  private var internalDictionary: [String: String] = [:]
   override func object(forInfoDictionaryKey key: String) -> Any? {
     capturedRead = key
     
-    return nil
+    return internalDictionary[key]
+  }
+  
+  func replaceDictionaryWith(_ newDictionary: [String: String]) {
+    internalDictionary = newDictionary
   }
 }
