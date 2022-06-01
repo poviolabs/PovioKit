@@ -20,4 +20,10 @@ class DispatchTimeIntervalTests: XCTestCase {
     let timeInterval = dispatchInterval.timeInterval
     XCTAssertEqual(timeInterval, 5)
   }
+  
+  func test_timeInterval_returnsTimeIntervalWithMicroSeconds() {
+    let dispatchInterval: DispatchTimeInterval = .microseconds(5_000_000)
+    let timeInterval = dispatchInterval.timeInterval
+    XCTAssertEqual(timeInterval, 5)
+  }
 }
