@@ -7,7 +7,24 @@
 //
 
 import XCTest
+import PovioKit
 
 class BundleReaderTests: XCTestCase {
+  func test_init_doesNotMessageTheReader() {
+    let reader = BundleSpy()
+    let _ = BundleReader(bundle: reader)
+    
+    XCTAssertNil(reader.capturedRead)
+  }
+}
+
+// MARK: - Helpers
+private class BundleSpy: Bundle {
+  private(set) var capturedRead: String?
   
+  override func object(forInfoDictionaryKey key: String) -> Any? {
+    capturedRead = key
+    
+    return nil
+  }
 }
