@@ -70,7 +70,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
   ) {
     switch error.asAFError {
     case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)):
-      lock.signal()
+      lock.wait(timeout: .distantFuture)
       
       switch activeRequests[request.id] {
       case nil:
@@ -80,7 +80,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
       case .reject:
         activeRequests.removeValue(forKey: request.id)
         completion(.doNotRetryWithError(error))
-        lock.wait()
+        lock.signal()
         return
       }
       
@@ -91,7 +91,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
         case .failure(let error):
           completion(.doNotRetryWithError(error))
         }
-        self.lock.wait()
+        self.lock.signal()
       }
     case _:
       completion(.doNotRetryWithError(error))
