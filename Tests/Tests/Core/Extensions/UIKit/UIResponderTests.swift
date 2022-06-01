@@ -11,8 +11,7 @@ import PovioKit
 
 class UIResponderTests: XCTestCase {
   func test_firstResponder_returnsCorrectType() {
-    let sut = MainViewController()
-    sut.loadView()
+    let sut = makeSUT()
     
     let firstResponder = sut.buttonsContainerView.firstResponder(ofType: type(of: sut))
     
@@ -22,6 +21,14 @@ class UIResponderTests: XCTestCase {
 }
 
 // MARK: - Helpers
+private extension UIResponderTests {
+  func makeSUT() -> MainViewController {
+    let sut = MainViewController()
+    sut.loadView()
+    
+    return sut
+  }
+}
 private class MainViewController: UIViewController {
   let contentView = ContentView()
   let buttonsContainerView = ButtonsContainerView()
