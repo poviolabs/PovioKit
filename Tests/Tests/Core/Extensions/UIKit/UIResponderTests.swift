@@ -18,6 +18,14 @@ class UIResponderTests: XCTestCase {
     XCTAssertNotNil(firstResponder)
     XCTAssertEqual(sut, firstResponder)
   }
+  
+  func test_firstResponder_returnsNilOnNotMatchingType() {
+    let sut = makeSUT()
+    
+    let firstResponder = sut.buttonsContainerView.firstResponder(ofType: SecondaryViewController.self)
+    
+    XCTAssertNil(firstResponder)
+  }
 }
 
 // MARK: - Helpers
@@ -41,3 +49,4 @@ private class MainViewController: UIViewController {
 
 private class ContentView: UIView { }
 private class ButtonsContainerView: UIView { }
+private class SecondaryViewController: UIViewController { }
