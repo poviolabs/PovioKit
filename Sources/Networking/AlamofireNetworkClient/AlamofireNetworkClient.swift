@@ -19,17 +19,21 @@ public typealias URLConvertible = Alamofire.URLConvertible
 public typealias Parameters = [String: Any]
 public typealias MultipartBuilder = (MultipartFormData) -> Void
 public typealias ProgressHandler = Alamofire.Request.ProgressHandler
+public typealias ErrorHandler = (Swift.Error, Data) throws -> Swift.Error
 
 open class AlamofireNetworkClient {
   private let session: Alamofire.Session
   private let eventMonitors: [RequestMonitor]
+  private let defaultErrorHandler: ErrorHandler?
   
   public init(
     session: Alamofire.Session = .default,
-    eventMonitors: [RequestMonitor]
+    eventMonitors: [RequestMonitor],
+    defaultErrorHandler errorHandler: ErrorHandler? = nil
   ) {
     self.session = session
     self.eventMonitors = eventMonitors
+    self.defaultErrorHandler = errorHandler
   }
 }
 
@@ -51,7 +55,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func request(
@@ -74,7 +78,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   @available(*, deprecated, renamed: "request(_:)")
@@ -109,7 +113,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func request<E: Encodable>(
@@ -165,7 +169,7 @@ public extension AlamofireNetworkClient {
       interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -186,7 +190,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -208,7 +212,7 @@ public extension AlamofireNetworkClient {
         fileManager: .default)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func cancelAllRequests(
@@ -231,15 +235,17 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
-    private var errorHandler: ((Swift.Error, Data) throws -> Swift.Error)?
+    private var errorHandler: ErrorHandler?
     private let eventMonitors: [RequestMonitor]
     
     init(
       with dataRequest: DataRequest,
-      eventMonitors: [RequestMonitor]
+      eventMonitors: [RequestMonitor],
+      defaultErrorHandler: ErrorHandler?
     ) {
       self.dataRequest = dataRequest
       self.eventMonitors = eventMonitors
+      self.errorHandler = defaultErrorHandler
     }
   }
 }
