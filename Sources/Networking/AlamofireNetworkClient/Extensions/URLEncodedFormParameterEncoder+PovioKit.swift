@@ -12,11 +12,12 @@ import PovioKit
 
 public extension URLEncodedFormParameterEncoder {
   convenience init(encoder: JSONEncoder,
-                   arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets) {
+                   arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
+                   boolEncoding: URLEncodedFormEncoder.BoolEncoding = .numeric) {
     let formEncoder = URLEncodedFormEncoder(
       alphabetizeKeyValuePairs: true,
       arrayEncoding: arrayEncoding,
-      boolEncoding: .numeric,
+      boolEncoding: boolEncoding,
       dataEncoding: Self.dataEncoding(from: encoder.dataEncodingStrategy),
       dateEncoding: Self.dateEncoding(from: encoder.dateEncodingStrategy),
       keyEncoding: Self.keyEncoding(from: encoder.keyEncodingStrategy),
