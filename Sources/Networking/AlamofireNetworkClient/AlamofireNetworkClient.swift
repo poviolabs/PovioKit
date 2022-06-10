@@ -136,7 +136,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
