@@ -78,8 +78,9 @@
 ## Installation
 
 ### Swift Package Manager
-
-In Xcode, click `File` -> `Swift Packages` -> `Add Package Dependency` and enter `https://github.com/poviolabs/PovioKit`.
+- In Xcode, click `File` -> `Add Packages...`  
+- Insert `https://github.com/poviolabs/PovioKit` in the search field.
+- Select `Dependency Rule` "Up to Next Major Version" with "1.0.0"
 
 Currently, there are three packages to choose from:
 - *PovioKit* (core)

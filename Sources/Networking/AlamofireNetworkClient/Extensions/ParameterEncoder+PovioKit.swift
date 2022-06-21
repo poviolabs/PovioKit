@@ -12,9 +12,10 @@ import Foundation
 public extension ParameterEncoder where Self == URLEncodedFormParameterEncoder {
   static func urlEncoder(
     encoder: JSONEncoder = .init(),
-    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .noBrackets
+    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .noBrackets,
+    boolEncoding: URLEncodedFormEncoder.BoolEncoding = .numeric
   ) -> URLEncodedFormParameterEncoder {
-    .init(encoder: encoder, arrayEncoding: arrayEncoding)
+    .init(encoder: encoder, arrayEncoding: arrayEncoding, boolEncoding: boolEncoding)
   }
 }
 
