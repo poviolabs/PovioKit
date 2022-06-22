@@ -1,6 +1,6 @@
 ## Migration Guides
 
-### Migrating from versions < 2.0.0
+### Migration from versions < 1.4.0
 * [UI] New product `PovioKitUI` is introduced. In order to use it, please re-intall dependency and select it from product selection list.
 * [Networking] Method `asJson` was marked as deprecated. Please stop using it soon.
 * [PromiseKit] Removed deprecated methods.

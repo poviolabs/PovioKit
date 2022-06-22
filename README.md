@@ -56,7 +56,7 @@
 | [UIProgressView](Sources/Core/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Core/Extensions/Foundation/Encodable+Povio.swift) | |
 | [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | |
 
-<!--### UI
+### UI
 
 | Components |
 | :--- |
@@ -64,7 +64,7 @@
 | [GradientView](Resources/UI/GradientView/) |
 | [PaddingLabel](Resources/UI/PaddingLabel/) |
 | [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
-| [ProfileImageView](Resources/UI/ProfileImageView) |-->
+| [ProfileImageView](Resources/UI/ProfileImageView) |
 
 ### Networking
 
@@ -86,7 +86,7 @@ Currently, there are three packages to choose from:
 - *PovioKit* (core)
 - *PovioKitNetworking* (networking library, depends on `core` and `promise` package)
 - *PovioKitPromise* (lightweight promises library)
-<!--- *PovioKitUI* (UI components)-->
+- *PovioKitUI* (UI components)
 
 ### Migration
 
