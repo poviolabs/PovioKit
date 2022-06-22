@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 28/10/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -28,8 +28,9 @@ open class OAuthRequestInterceptor {
   private let provider: OAuthProvider
   private let storage: OAuthStorage
   private let adapter: OAuthHeadersAdapter
-  private let lock: NSLock = .init()
-  private var activeRequests: [Request: RequestState] = .init()
+  private let lock: DispatchSemaphore = .init(value: 1)
+  private var activeRequests: [UUID: RequestState] = .init() /// @TODO: - Design a strategy to clear `activeRequests`
+                                                             /// once in a while ...
   
   public init(
     provider: OAuthProvider,
@@ -69,17 +70,17 @@ extension OAuthRequestInterceptor: RequestInterceptor {
   ) {
     switch error.asAFError {
     case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)):
-      lock.lock()
+      lock.wait(timeout: .distantFuture)
       
-      switch activeRequests[request] {
+      switch activeRequests[request.id] {
       case nil:
-        activeRequests[request] = .retry
+        activeRequests[request.id] = .retry
       case .retry:
-        activeRequests[request] = .reject
+        activeRequests[request.id] = .reject
       case .reject:
-        activeRequests.removeValue(forKey: request)
+        activeRequests.removeValue(forKey: request.id)
         completion(.doNotRetryWithError(error))
-        lock.unlock()
+        lock.signal()
         return
       }
       
@@ -90,7 +91,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
         case .failure(let error):
           completion(.doNotRetryWithError(error))
         }
-        self.lock.unlock()
+        self.lock.signal()
       }
     case _:
       completion(.doNotRetryWithError(error))

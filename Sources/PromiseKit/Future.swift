@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 04/03/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -53,24 +53,6 @@ public extension Future {
       observers.append(.failure(callback))
       internalResult.map { observers.last?.notifity($0) }
     }
-  }
-  
-  @available(*, deprecated, renamed: "finally")
-  @inline(__always)
-  func observe(with callback: @escaping (FutureResult) -> Void) {
-    self.finally(with: callback)
-  }
-  
-  @available(*, deprecated, renamed: "then")
-  @inline(__always)
-  func onSuccess(_ callback: @escaping (Value) -> Void) {
-    self.then(callback)
-  }
-  
-  @available(*, deprecated, renamed: "catch")
-  @inline(__always)
-  func onFailure(_ callback: @escaping (Error) -> Void) {
-    self.catch(callback)
   }
 }
 

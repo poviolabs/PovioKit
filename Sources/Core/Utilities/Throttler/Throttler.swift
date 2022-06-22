@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Domagoj Kulundzic on 1/05/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -24,6 +24,18 @@ public extension Throttler {
     cancelPendingJob()
     
     let newJob = DispatchWorkItem(block: work)
+    job = newJob
+    queue.asyncAfter(deadline: .now() + delay, execute: newJob)
+  }
+  
+  func executeWithResult<T>(
+    work: @escaping () -> T,
+    completion: @escaping (T) -> Void
+  ) {
+    cancelPendingJob()
+    let newJob = DispatchWorkItem {
+      completion(work())
+    }
     job = newJob
     queue.asyncAfter(deadline: .now() + delay, execute: newJob)
   }

@@ -3,12 +3,12 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 26/04/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
 import UIKit
 
-public protocol BuilderCompatible: class {
+public protocol BuilderCompatible: AnyObject {
   var attributedText: NSAttributedString? { get set }
   var text: String? { get }
   var bd: AttributedStringBuilder { get }

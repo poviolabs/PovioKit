@@ -1,5 +1,10 @@
 ## Migration Guides
 
+### Migrating from versions < 2.0.0
+* [UI] New product `PovioKitUI` is introduced. In order to use it, please re-intall dependency and select it from product selection list.
+* [Networking] Method `asJson` was marked as deprecated. Please stop using it soon.
+* [PromiseKit] Removed deprecated methods.
+
 ### Migrating from versions < 1.3.1
 * [Networking] OAuthStorage protocol now accepts `OAuthContainer` only instead of separate values for `accessToken` and `refreshToken`. Change your implementation accordingly.
 

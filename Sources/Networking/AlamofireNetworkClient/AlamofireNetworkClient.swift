@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 28/10/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -19,17 +19,21 @@ public typealias URLConvertible = Alamofire.URLConvertible
 public typealias Parameters = [String: Any]
 public typealias MultipartBuilder = (MultipartFormData) -> Void
 public typealias ProgressHandler = Alamofire.Request.ProgressHandler
+public typealias ErrorHandler = (Swift.Error, Data) throws -> Swift.Error
 
 open class AlamofireNetworkClient {
   private let session: Alamofire.Session
   private let eventMonitors: [RequestMonitor]
+  private let defaultErrorHandler: ErrorHandler?
   
   public init(
     session: Alamofire.Session = .default,
-    eventMonitors: [RequestMonitor]
+    eventMonitors: [RequestMonitor],
+    defaultErrorHandler errorHandler: ErrorHandler? = nil
   ) {
     self.session = session
     self.eventMonitors = eventMonitors
+    self.defaultErrorHandler = errorHandler
   }
 }
 
@@ -51,7 +55,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func request(
@@ -74,15 +78,17 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
+  @available(*, deprecated, renamed: "request(_:)")
   func request<E: Encodable>(
     method: HTTPMethod,
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
     encode: E,
     encoder: JSONEncoder = .init(),
+    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
@@ -90,7 +96,9 @@ public extension AlamofireNetworkClient {
     let parameterEncoder: ParameterEncoder
     switch method {
     case .get, .delete, .head:
-      parameterEncoder = URLEncodedFormParameterEncoder(encoder: encoder)
+      parameterEncoder = URLEncodedFormParameterEncoder(
+        encoder: encoder,
+        arrayEncoding: arrayEncoding)
     default:
       parameterEncoder = JSONParameterEncoder(encoder: encoder)
     }
@@ -105,7 +113,30 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
+  }
+  
+  func request<E: Encodable>(
+    method: HTTPMethod,
+    endpoint: URLConvertible,
+    headers: HTTPHeaders? = nil,
+    encode: E,
+    parameterEncoder: ParameterEncoder,
+    interceptor: RequestInterceptor? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
+  ) -> Request {
+    let request = session
+      .request(
+        endpoint,
+        method: method,
+        parameters: encode,
+        encoder: parameterEncoder,
+        headers: headers,
+        interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -138,7 +169,7 @@ public extension AlamofireNetworkClient {
       interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -159,7 +190,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -181,7 +212,7 @@ public extension AlamofireNetworkClient {
         fileManager: .default)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func cancelAllRequests(
@@ -204,15 +235,17 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
-    private var errorHandler: ((Swift.Error, Data) throws -> Swift.Error)?
+    private var errorHandler: ErrorHandler?
     private let eventMonitors: [RequestMonitor]
     
     init(
       with dataRequest: DataRequest,
-      eventMonitors: [RequestMonitor]
+      eventMonitors: [RequestMonitor],
+      defaultErrorHandler: ErrorHandler?
     ) {
       self.dataRequest = dataRequest
       self.eventMonitors = eventMonitors
+      self.errorHandler = defaultErrorHandler
     }
   }
 }
@@ -245,6 +278,7 @@ public extension AlamofireNetworkClient.Error {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
+  @available(*, deprecated, message: "Legacy")
   var asJson: Promise<Any> {
     .init { promise in
       dataRequest.responseJSON {
