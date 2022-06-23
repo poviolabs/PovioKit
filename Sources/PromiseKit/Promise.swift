@@ -107,6 +107,7 @@ public class Promise<Value>: Future<Value, Error> {
   }
 }
 
+// MARK: - States
 public extension Promise {
   var isResolved: Bool {
     result != nil
@@ -153,6 +154,7 @@ public extension Promise {
   }
 }
 
+// MARK: - Utils
 public extension Promise {
   /// Convert this Promise to a new Promise where `Value` == ()
   var asVoid: Promise<()> {
@@ -199,6 +201,7 @@ public extension Promise {
   }
 }
 
+// MARK: - Core
 public extension Promise {
   /// Returns a composition of this Promise with the result of calling `transform`.
   ///
