@@ -176,6 +176,27 @@ public extension Promise {
     `catch`(work)
     return self
   }
+  
+  /// Sleep promise execution for given `duration` interval and return new promise with existing value.
+  func sleep(
+    duration: DispatchTimeInterval,
+    on dispatchQueue: DispatchQueue = .main
+  ) -> Promise<Value> {
+    Promise { seal in
+      self.finally {
+        switch $0 {
+        case .success(let value):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.resolve(with: value)
+          }
+        case .failure(let error):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.reject(with: error, on: dispatchQueue)
+          }
+        }
+      }
+    }
+  }
 }
 
 public extension Promise {
