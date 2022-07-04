@@ -28,7 +28,7 @@ open class OAuthRequestInterceptor {
   private let provider: OAuthProvider
   private let storage: OAuthStorage
   private let adapter: OAuthHeadersAdapter
-  private let lock: DispatchSemaphore = .init(value: 1)
+  private let lock: NSLock = .init()
   private var activeRequests: [UUID: RequestState] = .init() /// @TODO: - Design a strategy to clear `activeRequests`
                                                              /// once in a while ...
   
@@ -70,7 +70,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
   ) {
     switch error.asAFError {
     case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)):
-      lock.wait(timeout: .distantFuture)
+      lock.lock()
       
       switch activeRequests[request.id] {
       case nil:
@@ -80,7 +80,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
       case .reject:
         activeRequests.removeValue(forKey: request.id)
         completion(.doNotRetryWithError(error))
-        lock.signal()
+        lock.unlock()
         return
       }
       
@@ -91,7 +91,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
         case .failure(let error):
           completion(.doNotRetryWithError(error))
         }
-        self.lock.signal()
+        self.lock.unlock()
       }
     case _:
       completion(.doNotRetryWithError(error))
