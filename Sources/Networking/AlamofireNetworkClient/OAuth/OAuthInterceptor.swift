@@ -70,7 +70,7 @@ extension OAuthRequestInterceptor: RequestInterceptor {
   ) {
     switch error.asAFError {
     case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)):
-      _ = lock.wait(timeout: .distantFuture)
+      lock.wait(timeout: .distantFuture)
       
       switch activeRequests[request.id] {
       case nil:
