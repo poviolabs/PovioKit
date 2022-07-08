@@ -1,4 +1,4 @@
-name: CI
+name: Tests
 
 on: 
   push:
@@ -7,15 +7,15 @@ on:
 
 jobs:
   Tests:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - name: Cancel previous jobs
-      uses: styfle/cancel-workflow-action@0.9.1
+      uses: styfle/cancel-workflow-action@0.10.0
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 #    - name: Lint
 #      run: swiftlint
     - name: Generate xcodeproj
       run: swift package generate-xcodeproj
     - name: Run tests
-      run: xcodebuild test -destination 'name=iPhone 13' -scheme 'PovioKit-Package'
+      run: xcodebuild test -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package'
