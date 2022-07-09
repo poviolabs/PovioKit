@@ -20,5 +20,8 @@ jobs:
       with:
         xcode-version: latest-stable
 
+    - name: Build project
+      run: xcodebuild build-for-testing -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package'
+
     - name: Run tests
-      run: xcodebuild test -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package'
+      run: xcodebuild test-without-building -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package'
