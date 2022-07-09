@@ -20,8 +20,5 @@ jobs:
       with:
         xcode-version: latest-stable
 
-    - name: Generate Project
-      run: swift package generate-xcodeproj
-
     - name: Run tests
       run: xcodebuild test -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package'
