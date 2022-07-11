@@ -29,8 +29,17 @@ public struct Scene {
     let ui: UIScene?
     let activationState: UIWindowScene.ActivationState
 }
+
+@available(iOS 14.0, *)
 class SKStoreReviewControllerTests: XCTestCase {
-  
+  func test_requestReviewInCurrentScene_messagesSceneProvider() {
+    let sceneProvider = MockSceneProvider()
+    let reviewProvider = MockReviewProvider()
+    
+    tempRequestReviewInCurrentScene(sceneProvider: sceneProvider, reviewProvider: reviewProvider)
+    
+    XCTAssertTrue(sceneProvider.didCallGetGonnectedScene)
+  }
 }
 
 @available(iOS 14.0, *)
