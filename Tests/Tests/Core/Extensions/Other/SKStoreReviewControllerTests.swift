@@ -39,6 +39,17 @@ class SKStoreReviewControllerTests: XCTestCase {
     
     XCTAssertTrue(sceneProvider.didCallGetGonnectedScene)
   }
+  
+  func test_requestReviewInCurrentScene_sendsCorrectSceneToReviewProvider() {
+    let scene = Scene(ui: nil, activationState: .unattached)
+    let (sceneProvider, reviewProvider) = makeSUT(scene: scene)
+    
+    tempRequestReviewInCurrentScene(sceneProvider: sceneProvider, reviewProvider: reviewProvider)
+    
+    XCTAssertTrue(reviewProvider.capturedScene?.activationState == scene.activationState)
+  }
+}
+
 @available(iOS 14.0, *)
 private extension SKStoreReviewControllerTests {
   func makeSUT(scene: Scene? = nil) -> (sceneProvider: MockSceneProvider, reviewProvider: MockReviewProvider) {
@@ -53,15 +64,21 @@ private extension SKStoreReviewControllerTests {
 private class MockSceneProvider: SceneProviding {
   var scene: Scene?
   private(set) var didCallGetGonnectedScene = false
-  public init() {}
+  public init(scene: Scene?) {
+    self.scene = scene
+  }
 
   func getConnectedScene() -> Scene? {
     didCallGetGonnectedScene = true
-    return nil
+    return scene
   }
 }
 
 @available(iOS 14.0, *)
 private class MockReviewProvider: RequestReviewProviding {
-  func requestReview(in scene: Scene?) { }
+  var capturedScene: Scene?
+  
+  func requestReview(in scene: Scene?) {
+    capturedScene = scene
+  }
 }
