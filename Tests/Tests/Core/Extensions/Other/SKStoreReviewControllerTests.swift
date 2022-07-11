@@ -41,7 +41,7 @@ class SKStoreReviewControllerTests: XCTestCase {
   }
   
   func test_requestReviewInCurrentScene_sendsCorrectSceneToReviewProvider() {
-    let scene = Scene(ui: nil, activationState: .foregroundActive)
+    let scene = anyScene(activationState: .foregroundActive)
     let (sceneProvider, reviewProvider) = makeSUT(scenes: [scene])
     
     tempRequestReviewInCurrentScene(sceneProvider: sceneProvider, reviewProvider: reviewProvider)
