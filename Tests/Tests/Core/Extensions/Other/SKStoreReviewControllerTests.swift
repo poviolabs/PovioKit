@@ -44,3 +44,8 @@ private class MockSceneProvider: SceneProviding {
     return nil
   }
 }
+
+@available(iOS 14.0, *)
+private class MockReviewProvider: RequestReviewProviding {
+  func requestReview(in scene: Scene?) { }
+}
