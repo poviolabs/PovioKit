@@ -17,6 +17,12 @@ public protocol RequestReviewProviding {
 public protocol SceneProviding {
   func getConnectedScene() -> Scene?
 }
+
+@available(iOS 14.0, *)
+func tempRequestReviewInCurrentScene(sceneProvider: SceneProviding, reviewProvider: RequestReviewProviding) {
+  let scene = sceneProvider.getConnectedScene()
+  reviewProvider.requestReview(in: scene)
+}
 class SKStoreReviewControllerTests: XCTestCase {
   
 }
