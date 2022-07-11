@@ -59,6 +59,7 @@ class SKStoreReviewControllerTests: XCTestCase {
   }
 }
 
+// MARK: - Helpers
 @available(iOS 14.0, *)
 private extension SKStoreReviewControllerTests {
   func makeSUT(scenes: [Scene] = []) -> (sceneProvider: MockSceneProvider, reviewProvider: MockReviewProvider) {
