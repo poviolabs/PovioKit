@@ -30,7 +30,7 @@ public struct UIApplicationSceneProvider: SceneProviding {
 }
 
 @available(iOS 14.0, *)
-func tempRequestReviewInCurrentScene(sceneProvider: SceneProviding, reviewProvider: RequestReviewProviding) {
+func tempRequestReviewInCurrentScene(sceneProvider: SceneProviding = UIApplicationSceneProvider(), reviewProvider: RequestReviewProviding) {
   let scene = sceneProvider.getConnectedScene()
   reviewProvider.requestReview(in: scene)
 }
