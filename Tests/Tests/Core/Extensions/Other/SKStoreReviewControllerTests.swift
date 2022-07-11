@@ -19,6 +19,17 @@ public protocol SceneProviding {
 }
 
 @available(iOS 14.0, *)
+public struct UIApplicationSceneProvider: SceneProviding {
+  private let connectedScenes = UIApplication.shared.connectedScenes
+  
+  public func getConnectedScene() -> Scene? {
+    connectedScenes
+      .first(where: { $0.activationState == .foregroundActive })
+      .map { Scene(ui: $0, activationState: $0.activationState) }
+  }
+}
+
+@available(iOS 14.0, *)
 func tempRequestReviewInCurrentScene(sceneProvider: SceneProviding, reviewProvider: RequestReviewProviding) {
   let scene = sceneProvider.getConnectedScene()
   reviewProvider.requestReview(in: scene)
