@@ -32,3 +32,15 @@ public struct Scene {
 class SKStoreReviewControllerTests: XCTestCase {
   
 }
+
+@available(iOS 14.0, *)
+private class MockSceneProvider: SceneProviding {
+  var scene: Scene?
+  private(set) var didCallGetGonnectedScene = false
+  public init() {}
+
+  func getConnectedScene() -> Scene? {
+    didCallGetGonnectedScene = true
+    return nil
+  }
+}
