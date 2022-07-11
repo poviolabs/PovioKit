@@ -8,6 +8,15 @@
 
 import XCTest
 
+@available(iOS 14.0, *)
+public protocol RequestReviewProviding {
+  func requestReview(in scene: Scene?)
+}
+
+@available(iOS 14.0, *)
+public protocol SceneProviding {
+  func getConnectedScene() -> Scene?
+}
 class SKStoreReviewControllerTests: XCTestCase {
   
 }
