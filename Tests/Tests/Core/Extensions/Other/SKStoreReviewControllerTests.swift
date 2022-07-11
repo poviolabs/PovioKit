@@ -41,36 +41,49 @@ class SKStoreReviewControllerTests: XCTestCase {
   }
   
   func test_requestReviewInCurrentScene_sendsCorrectSceneToReviewProvider() {
-    let scene = Scene(ui: nil, activationState: .unattached)
-    let (sceneProvider, reviewProvider) = makeSUT(scene: scene)
+    let scene = Scene(ui: nil, activationState: .foregroundActive)
+    let (sceneProvider, reviewProvider) = makeSUT(scenes: [scene])
     
     tempRequestReviewInCurrentScene(sceneProvider: sceneProvider, reviewProvider: reviewProvider)
     
     XCTAssertTrue(reviewProvider.capturedScene?.activationState == scene.activationState)
   }
+  
+  func test_requestReviewInCurrentScene_sceneProviderDoesntMessageReviewProviderOnInvalidActivationStates() {
+    let scenes = [anyScene(activationState: .unattached), anyScene(activationState: .background), anyScene(activationState: .foregroundInactive), anyScene(activationState: .unattached)]
+    let (sceneProvider, reviewProvider) = makeSUT(scenes: scenes)
+    
+    tempRequestReviewInCurrentScene(sceneProvider: sceneProvider, reviewProvider: reviewProvider)
+    
+    XCTAssertNil(reviewProvider.capturedScene)
+  }
 }
 
 @available(iOS 14.0, *)
 private extension SKStoreReviewControllerTests {
-  func makeSUT(scene: Scene? = nil) -> (sceneProvider: MockSceneProvider, reviewProvider: MockReviewProvider) {
-    let sceneProvider = MockSceneProvider(scene: scene)
+  func makeSUT(scenes: [Scene] = []) -> (sceneProvider: MockSceneProvider, reviewProvider: MockReviewProvider) {
+    let sceneProvider = MockSceneProvider(scenes: scenes)
     let reviewProvider = MockReviewProvider()
 
     return (sceneProvider, reviewProvider)
+  }
+  
+  func anyScene(activationState: UIScene.ActivationState) -> Scene {
+    Scene(ui: nil, activationState: activationState)
   }
 }
 
 @available(iOS 14.0, *)
 private class MockSceneProvider: SceneProviding {
-  var scene: Scene?
+  var scenes: [Scene] = []
   private(set) var didCallGetGonnectedScene = false
-  public init(scene: Scene?) {
-    self.scene = scene
+  public init(scenes: [Scene]) {
+    self.scenes = scenes
   }
 
   func getConnectedScene() -> Scene? {
     didCallGetGonnectedScene = true
-    return scene
+    return scenes.first(where: { $0.activationState == .foregroundActive })
   }
 }
 
