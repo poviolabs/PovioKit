@@ -23,6 +23,12 @@ func tempRequestReviewInCurrentScene(sceneProvider: SceneProviding, reviewProvid
   let scene = sceneProvider.getConnectedScene()
   reviewProvider.requestReview(in: scene)
 }
+
+@available(iOS 14.0, *)
+public struct Scene {
+    let ui: UIScene?
+    let activationState: UIWindowScene.ActivationState
+}
 class SKStoreReviewControllerTests: XCTestCase {
   
 }
