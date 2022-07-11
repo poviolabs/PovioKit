@@ -33,12 +33,19 @@ public struct Scene {
 @available(iOS 14.0, *)
 class SKStoreReviewControllerTests: XCTestCase {
   func test_requestReviewInCurrentScene_messagesSceneProvider() {
-    let sceneProvider = MockSceneProvider()
-    let reviewProvider = MockReviewProvider()
-    
+    let (sceneProvider, reviewProvider) = makeSUT()
+
     tempRequestReviewInCurrentScene(sceneProvider: sceneProvider, reviewProvider: reviewProvider)
     
     XCTAssertTrue(sceneProvider.didCallGetGonnectedScene)
+  }
+@available(iOS 14.0, *)
+private extension SKStoreReviewControllerTests {
+  func makeSUT(scene: Scene? = nil) -> (sceneProvider: MockSceneProvider, reviewProvider: MockReviewProvider) {
+    let sceneProvider = MockSceneProvider(scene: scene)
+    let reviewProvider = MockReviewProvider()
+
+    return (sceneProvider, reviewProvider)
   }
 }
 
