@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import StoreKit
 
 @available(iOS 14.0, *)
 public protocol RequestReviewProviding {
@@ -26,6 +27,15 @@ public struct UIApplicationSceneProvider: SceneProviding {
     connectedScenes
       .first(where: { $0.activationState == .foregroundActive })
       .map { Scene(ui: $0, activationState: $0.activationState) }
+  }
+}
+
+@available(iOS 14.0, *)
+public struct SKStoreReviewProvider: RequestReviewProviding {
+  public func requestReview(in scene: Scene?) {
+    if let scene = scene?.ui as? UIWindowScene {
+      SKStoreReviewController.requestReview(in: scene)
+    }
   }
 }
 
