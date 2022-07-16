@@ -60,11 +60,6 @@ public extension SKStoreReviewController {
 }
 
 @available(iOS 14.0, *)
-public protocol SceneProviding {
-  func getConnectedScenes() -> [Scene]
-}
-
-@available(iOS 14.0, *)
 public struct Scene {
     let ui: UIScene?
     let activationState: UIWindowScene.ActivationState
