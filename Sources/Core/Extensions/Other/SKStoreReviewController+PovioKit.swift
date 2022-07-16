@@ -60,11 +60,6 @@ public extension SKStoreReviewController {
 }
 
 @available(iOS 14.0, *)
-public protocol RequestReviewProviding {
-  func requestReview(in scene: Scene?)
-}
-
-@available(iOS 14.0, *)
 public protocol SceneProviding {
   func getConnectedScenes() -> [Scene]
 }
