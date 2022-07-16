@@ -79,6 +79,15 @@ class SKStoreReviewControllerTests: XCTestCase {
     
     XCTAssertNil(reviewProvider.capturedScene)
   }
+  
+  func test_requestReviewInCurrentScene_sceneProviderDoesntMessageReviewProviderOnEmptyScenes() {
+    let (sceneProvider, reviewProvider) = makeSUT()
+
+    tempRequestReviewInCurrentScene(sceneProvider: sceneProvider, reviewProvider: reviewProvider)
+    
+    XCTAssertTrue(sceneProvider.scenes.isEmpty)
+    XCTAssertNil(reviewProvider.capturedScene)
+  }
 }
 
 // MARK: - Helpers
