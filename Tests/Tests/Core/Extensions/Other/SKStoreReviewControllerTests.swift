@@ -117,3 +117,17 @@ private class MockReviewProvider: RequestReviewProviding {
     capturedScene = scene
   }
 }
+
+@available(iOS 14.0, *)
+struct SceneManager {
+  private let provider: SceneProviding
+  
+  public init(provider: SceneProviding) {
+    self.provider = provider
+  }
+  
+  func getActiveScene() -> Scene? {
+    provider.getConnectedScenes()
+      .first(where: { $0.activationState == .foregroundActive })
+  }
+}
