@@ -16,16 +16,15 @@ public protocol RequestReviewProviding {
 
 @available(iOS 14.0, *)
 public protocol SceneProviding {
-  func getConnectedScene() -> Scene?
+  func getConnectedScenes() -> [Scene]
 }
 
 @available(iOS 14.0, *)
 public struct UIApplicationSceneProvider: SceneProviding {
   private let connectedScenes = UIApplication.shared.connectedScenes
   
-  public func getConnectedScene() -> Scene? {
+  public func getConnectedScenes() -> [Scene] {
     connectedScenes
-      .first(where: { $0.activationState == .foregroundActive })
       .map { Scene(ui: $0, activationState: $0.activationState) }
   }
 }
@@ -104,9 +103,9 @@ private class MockSceneProvider: SceneProviding {
     self.scenes = scenes
   }
 
-  func getConnectedScene() -> Scene? {
+  func getConnectedScenes() -> [Scene] {
     didCallGetGonnectedScene = true
-    return scenes.first(where: { $0.activationState == .foregroundActive })
+    return scenes
   }
 }
 
