@@ -41,8 +41,9 @@ public struct SKStoreReviewProvider: RequestReviewProviding {
 @available(iOS 14.0, *)
 func tempRequestReviewInCurrentScene(sceneProvider: SceneProviding = UIApplicationSceneProvider(),
                                      reviewProvider: RequestReviewProviding = SKStoreReviewProvider()) {
-  let scene = sceneProvider.getConnectedScene()
-  reviewProvider.requestReview(in: scene)
+  let sceneManager = SceneManager(provider: sceneProvider)
+  let activeScene = sceneManager.getActiveScene()
+  reviewProvider.requestReview(in: activeScene)
 }
 
 @available(iOS 14.0, *)
