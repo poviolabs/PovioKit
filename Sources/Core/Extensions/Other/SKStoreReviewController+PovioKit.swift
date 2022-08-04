@@ -9,15 +9,18 @@
 import StoreKit
 
 public extension SKStoreReviewController {
-  @available(iOS 14.0, *)
   /// Request a review popup on the current scene.
   ///
   /// Example: `SKStoreReviewController.requestReviewInCurrentScene()`
   static func requestReviewInCurrentScene() {
-    (UIApplication
-      .shared
-      .connectedScenes
-      .first { $0.activationState == .foregroundActive } as? UIWindowScene
-    ).map { requestReview(in: $0) }
+    if #available(iOS 14.0, *) {
+      (UIApplication
+        .shared
+        .connectedScenes
+        .first { $0.activationState == .foregroundActive } as? UIWindowScene
+      ).map { requestReview(in: $0) }
+    } else {
+      requestReview()
+    }
   }
 }
