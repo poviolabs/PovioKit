@@ -11,7 +11,7 @@ import XCTest
 
 class ThrottlerTests: XCTestCase {
   func testShouldExecuteWhenDelayed() {
-    let delay = 100
+    let delay = 10
     let waiting = delay + 500
     let throttler = MockedThrottler(delay: .milliseconds(delay))
     let expectation = self.expectation(description: "delay")
@@ -24,8 +24,8 @@ class ThrottlerTests: XCTestCase {
   }
   
   func testShouldNotExecuteWhenCanceled() {
-    let delay = 100
-    let waiting = delay + 500
+    let delay = 10
+    let waiting = delay + 50
     let throttler = MockedThrottler(delay: .milliseconds(delay))
     let expectation = self.expectation(description: "delay")
     throttler.execute { }
@@ -38,7 +38,7 @@ class ThrottlerTests: XCTestCase {
   }
   
   func testShouldSkipExecutionWhenThereIsAnotherOne() {
-    let delay = 100
+    let delay = 10
     let waiting = delay + 500
     let throttler = MockedThrottler(delay: .milliseconds(delay))
     let expectation = self.expectation(description: "delay")
@@ -51,7 +51,7 @@ class ThrottlerTests: XCTestCase {
   }
   
   func testShouldExecuteTwiceWhenTwoSequentialCalls() {
-    let delay = 100
+    let delay = 10
     let waiting = 2 * delay + 500
     let throttler = MockedThrottler(delay: .milliseconds(delay))
     let expectation = self.expectation(description: "delay")

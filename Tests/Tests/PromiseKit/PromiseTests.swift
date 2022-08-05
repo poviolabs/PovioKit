@@ -1011,7 +1011,7 @@ extension PromiseTests {
 func async<E: Error, T>(
   _ error: E,
   _ type: T.Type,
-  delay: TimeInterval = 0.05,
+  delay: TimeInterval = 0.01,
   on: DispatchQueue = .global()
 ) -> Promise<T> {
   after(.now() + delay, on: on)
@@ -1022,7 +1022,7 @@ func async<E: Error, T>(
 
 func async<T>(
   _ val: T,
-  delay: TimeInterval = 0.05,
+  delay: TimeInterval = 0.01,
   on: DispatchQueue = .global()
 ) -> Promise<T> {
   after(.now() + delay, on: on, val)
@@ -1031,7 +1031,7 @@ func async<T>(
 func async<T>(
   _ val: T
 ) -> Promise<T> {
-  async(val, delay: 0.05, on: .global())
+  async(val, delay: 0.01, on: .global())
 }
 
 
