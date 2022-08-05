@@ -20,8 +20,9 @@ jobs:
       with:
         xcode-version: latest-stable
 
-    - name: Generate Project
-      run: swift package generate-xcodeproj
+    - name: Build project
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild build-for-testing -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package' | xcpretty
 
     - name: Run tests
-      run: xcodebuild test -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package'
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild test-without-building -destination 'name=iPhone 13 Pro' -scheme 'PovioKit-Package' | xcpretty
+      
