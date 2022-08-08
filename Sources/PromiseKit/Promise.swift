@@ -107,6 +107,7 @@ public class Promise<Value>: Future<Value, Error> {
   }
 }
 
+// MARK: - States
 public extension Promise {
   var isResolved: Bool {
     result != nil
@@ -153,6 +154,7 @@ public extension Promise {
   }
 }
 
+// MARK: - Utils
 public extension Promise {
   /// Convert this Promise to a new Promise where `Value` == ()
   var asVoid: Promise<()> {
@@ -176,8 +178,30 @@ public extension Promise {
     `catch`(work)
     return self
   }
+  
+  /// Sleep promise execution for given `duration` interval and return new promise with existing value.
+  func sleep(
+    duration: DispatchTimeInterval,
+    on dispatchQueue: DispatchQueue = .main
+  ) -> Promise<Value> {
+    Promise { seal in
+      self.finally {
+        switch $0 {
+        case .success(let value):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.resolve(with: value, on: dispatchQueue)
+          }
+        case .failure(let error):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.reject(with: error, on: dispatchQueue)
+          }
+        }
+      }
+    }
+  }
 }
 
+// MARK: - Core
 public extension Promise {
   /// Returns a composition of this Promise with the result of calling `transform`.
   ///
