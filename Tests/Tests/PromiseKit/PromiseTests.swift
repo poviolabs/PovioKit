@@ -826,7 +826,7 @@ extension PromiseTests {
   func testConcurrentDispatch1() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...0.5))
+      return async((), delay: .random(in: 0.01...0.05))
     }
     
     let ex = expectation(description: "")
@@ -838,7 +838,7 @@ extension PromiseTests {
   func testConcurrentDispatch2() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...0.5))
+      return async((), delay: .random(in: 0.01...0.05))
     }
     
     let ex = expectation(description: "")
@@ -850,7 +850,7 @@ extension PromiseTests {
   func testConcurrentDispatch3() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...0.5))
+      return async((), delay: .random(in: 0.01...0.05))
     }
     
     let ex = expectation(description: "")
@@ -862,7 +862,7 @@ extension PromiseTests {
   func testConcurrentDispatch4() {
     func next(_ idx: Int) -> Promise<()>? {
       guard idx < 10 else { return nil }
-      return async(NSError.err, Void.self, delay: .random(in: 0.01...0.5))
+      return async(NSError.err, Void.self, delay: .random(in: 0.01...0.05))
     }
     
     let ex = expectation(description: "")
@@ -877,7 +877,7 @@ extension PromiseTests {
       guard idx < 10 else { return nil }
       if !shouldFail.contains(idx) {
         shouldFail.insert(idx)
-        return async(NSError.err, Void.self, delay: .random(in: 0.01...0.5))
+        return async(NSError.err, Void.self, delay: .random(in: 0.01...0.05))
       }
       return async((), delay: .random(in: 0.01...1))
     }
@@ -1009,10 +1009,10 @@ extension PromiseTests {
 // MARK: - Sequence tests
 
 extension PromiseTests {
-  func testSequence1() {
+  func testSequenceSucceeds() {
     func next(_ idx: Int) -> Promise<Int>? {
       guard idx < 10 else { return nil }
-      return async(idx, delay: .random(in: 0.01...0.5))
+      return async(idx, delay: .random(in: 0.01...0.05))
     }
     
     let ex = expectation(description: "")
@@ -1021,15 +1021,15 @@ extension PromiseTests {
     waitForExpectations(timeout: 10)
   }
   
-  func testSequence2() {
+  func testSequenceSucceedsAfterRetrying() {
     var shouldFail = true
     func next(_ idx: Int) -> Promise<Int>? {
       guard idx < 1 else { return nil }
       if shouldFail {
         shouldFail = false
-        return async(NSError.err, Int.self, delay: .random(in: 0.01...0.5))
+        return async(NSError.err, Int.self, delay: .random(in: 0.01...0.05))
       }
-      return async(idx, delay: .random(in: 0.01...0.5))
+      return async(idx, delay: .random(in: 0.01...0.05))
     }
     
     let ex = expectation(description: "")
@@ -1038,9 +1038,9 @@ extension PromiseTests {
     waitForExpectations(timeout: 10)
   }
   
-  func testSequence3() {
+  func testSequenceFails() {
     func next(_ idx: Int) -> Promise<Int>? {
-      async(NSError.err, Int.self, delay: .random(in: 0.01...0.5))
+      async(NSError.err, Int.self, delay: .random(in: 0.01...0.05))
     }
     
     let ex = expectation(description: "")
@@ -1049,13 +1049,13 @@ extension PromiseTests {
     waitForExpectations(timeout: 10)
   }
   
-  func testSequence4() {
+  func testSequenceCollectionSucceeds() {
     let promises = [
-      { async(0, delay: .random(in: 0.01...0.5)) },
-      { async(1, delay: .random(in: 0.01...0.5)) },
-      { async(2, delay: .random(in: 0.01...0.5)) },
-      { async(3, delay: .random(in: 0.01...0.5)) },
-      { async(4, delay: .random(in: 0.01...0.5)) },
+      { async(0, delay: .random(in: 0.01...0.05)) },
+      { async(1, delay: .random(in: 0.01...0.05)) },
+      { async(2, delay: .random(in: 0.01...0.05)) },
+      { async(3, delay: .random(in: 0.01...0.05)) },
+      { async(4, delay: .random(in: 0.01...0.05)) },
     ]
     let ex = expectation(description: "")
     sequence(promises: promises)
@@ -1063,13 +1063,13 @@ extension PromiseTests {
     waitForExpectations(timeout: 10)
   }
   
-  func testSequence5() {
+  func testSequenceCollectionFails() {
     let promises = [
-      { async(0, delay: .random(in: 0.01...0.5)) },
-      { async(1, delay: .random(in: 0.01...0.5)) },
-      { async(2, delay: .random(in: 0.01...0.5)) },
-      { async(NSError.err, Int.self, delay: .random(in: 0.01...0.5)) },
-      { async(4, delay: .random(in: 0.01...0.5)) },
+      { async(0, delay: .random(in: 0.01...0.05)) },
+      { async(1, delay: .random(in: 0.01...0.05)) },
+      { async(2, delay: .random(in: 0.01...0.05)) },
+      { async(NSError.err, Int.self, delay: .random(in: 0.01...0.05)) },
+      { async(4, delay: .random(in: 0.01...0.05)) },
     ]
     let ex = expectation(description: "")
     sequence(promises: promises)
