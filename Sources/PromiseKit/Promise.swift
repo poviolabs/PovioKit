@@ -189,7 +189,7 @@ public extension Promise {
         switch $0 {
         case .success(let value):
           dispatchQueue.asyncAfter(deadline: .now() + duration) {
-            seal.resolve(with: value)
+            seal.resolve(with: value, on: dispatchQueue)
           }
         case .failure(let error):
           dispatchQueue.asyncAfter(deadline: .now() + duration) {
