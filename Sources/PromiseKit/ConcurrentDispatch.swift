@@ -43,7 +43,7 @@ public func concurrentlyDispatch<T>(
   retryCount: Int = 2,
   on dispatchQueue: DispatchQueue? = .main
 ) -> Promise<()> {
-  return .init { seal in
+  .init { seal in
     let barrier = DispatchQueue(label: "com.poviokit.promisekit.barrier", attributes: .concurrent)
     
     var segmentIndex = concurrent

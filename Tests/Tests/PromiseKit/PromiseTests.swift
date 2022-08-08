@@ -1006,6 +1006,78 @@ extension PromiseTests {
   }
 }
 
+// MARK: - Sequence tests
+
+extension PromiseTests {
+  func testSequence1() {
+    func next(_ idx: Int) -> Promise<Int>? {
+      guard idx < 10 else { return nil }
+      return async(idx, delay: .random(in: 0.01...0.5))
+    }
+    
+    let ex = expectation(description: "")
+    sequence(spawnTask: next)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequence2() {
+    var shouldFail = true
+    func next(_ idx: Int) -> Promise<Int>? {
+      guard idx < 1 else { return nil }
+      if shouldFail {
+        shouldFail = false
+        return async(NSError.err, Int.self, delay: .random(in: 0.01...0.5))
+      }
+      return async(idx, delay: .random(in: 0.01...0.5))
+    }
+    
+    let ex = expectation(description: "")
+    sequence(spawnTask: next, retryCount: 1)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequence3() {
+    func next(_ idx: Int) -> Promise<Int>? {
+      async(NSError.err, Int.self, delay: .random(in: 0.01...0.5))
+    }
+    
+    let ex = expectation(description: "")
+    sequence(spawnTask: next, retryCount: 1)
+      .catch { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequence4() {
+    let promises = [
+      { async(0, delay: .random(in: 0.01...0.5)) },
+      { async(1, delay: .random(in: 0.01...0.5)) },
+      { async(2, delay: .random(in: 0.01...0.5)) },
+      { async(3, delay: .random(in: 0.01...0.5)) },
+      { async(4, delay: .random(in: 0.01...0.5)) },
+    ]
+    let ex = expectation(description: "")
+    sequence(promises: promises)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequence5() {
+    let promises = [
+      { async(0, delay: .random(in: 0.01...0.5)) },
+      { async(1, delay: .random(in: 0.01...0.5)) },
+      { async(2, delay: .random(in: 0.01...0.5)) },
+      { async(NSError.err, Int.self, delay: .random(in: 0.01...0.5)) },
+      { async(4, delay: .random(in: 0.01...0.5)) },
+    ]
+    let ex = expectation(description: "")
+    sequence(promises: promises)
+      .catch { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+}
+
 ///
 
 func async<E: Error, T>(
