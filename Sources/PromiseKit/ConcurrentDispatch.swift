@@ -32,6 +32,9 @@ import Foundation
 /// )
 /// .finally { print("Upload result: \($0)") }
 ///
+/// In scenarious where only one concurrent task can be executed at once,
+/// using `sequence` is preferable as it is much faster.
+///
 /// - Parameter next: Spawn a task with the given index. Return `nil` if all tasks have been spawn.
 /// - Parameter concurrent: The number of concurrent tasks executing at a given time.
 /// - Parameter retryCount: The number of times a task should be retried in case it fails.
