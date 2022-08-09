@@ -222,8 +222,7 @@ public extension Promise {
         case .success(let value):
           dispatchQueue.async {
             do {
-              let promise = try transform(value)
-              promise.finally {
+              try transform(value).finally {
                 switch $0 {
                 case .success(let value):
                   seal.resolve(with: value, on: dispatchQueue)
