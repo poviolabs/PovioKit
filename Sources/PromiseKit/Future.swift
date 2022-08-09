@@ -21,9 +21,9 @@ public extension Future {
   }
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
-    barrier.sync(flags: .barrier) {
-      internalResult = result
-      guard isEnabled else { return }
+    barrier.async(flags: .barrier) {
+      self.internalResult = result
+      guard self.isEnabled else { return }
       dispatchQueue.async {
         result.map { value in self.observers.forEach { $0.notifity(value) } }
       }
@@ -35,23 +35,23 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func finally(with callback: @escaping (FutureResult) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.both(callback))
-      internalResult.map(callback)
+    barrier.async(flags: .barrier) {
+      self.observers.append(.both(callback))
+      self.internalResult.map(callback)
     }
   }
   
   func then(_ callback: @escaping (Value) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.success(callback))
-      internalResult.map { observers.last?.notifity($0) }
+    barrier.async(flags: .barrier) {
+      self.observers.append(.success(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
   
   func `catch`(_ callback: @escaping (Error) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.failure(callback))
-      internalResult.map { observers.last?.notifity($0) }
+    barrier.async(flags: .barrier) {
+      self.observers.append(.failure(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
 }
