@@ -1,5 +1,8 @@
 ## Migration Guides
 
+### Migration from versions < 1.5.0
+* [Networking] File `OAuthRequestInterceptor` has been completely removed due to some critical issues. We encourage you to migrate to Alamofire's `Authenticator` protocol. Instructions can be found [here](Resources/Networking/AlamofireNetworkClient#oauth).
+
 ### Migration from versions < 1.4.0
 * [UI] New product `PovioKitUI` is introduced. In order to use it, please re-intall dependency and select it from product selection list.
 * [Networking] Method `asJson` was marked as deprecated. Please stop using it soon.
