@@ -193,6 +193,43 @@ extension AlamofireNetworkClient {
 By doing that we'll see logs in the console for each request start, success and failure.
 
 
+## OAuth
+
+Properly handling OAuth is a challening task that needs special attention in order to make user re/authorization seamless as possible. Up until recently, we have been using internal `OAuthRequestInterceptor`, which has it's flaws. Therefore, we needed a better solution. Fortunatelly, Alamofire released it's own [solution](https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#authenticationinterceptor) to handle locking and threading issues in version [5.2](https://github.com/Alamofire/Alamofire/releases/tag/5.2.0).
+
+In order to implement this into your app, create a class and conform to `Authenticator` protocol.
+
+```swift
+class OAuthAuthenticator: Authenticator {
+  func apply(_ credential: OAuthCredential, to urlRequest: inout URLRequest) {
+    // add request header with token info
+  }
+
+  func refresh(_ credential: OAuthCredential,
+               for session: Session,
+               completion: @escaping (Result<OAuthCredential, Error>) -> Void) {
+    // request new token and return it in `completion`
+  }
+
+  func didRequest(_ urlRequest: URLRequest,
+                  with response: HTTPURLResponse,
+                  failDueToAuthenticationError error: Error) -> Bool {
+    false // depends on the server implementation
+  }
+
+  func isRequest(_ urlRequest: URLRequest, authenticatedWith credential: OAuthCredential) -> Bool {
+    true // depends on the server implementation
+  }
+}
+```
+
+Create interceptor and attach it to a session.
+```swift
+let interceptor = AuthenticationInterceptor(authenticator: OAuthAuthenticator())
+let session = Session(interceptor: interceptor)
+```
+
+
 ## Error handling
 
 `AlamofireRestClient` is designed so that error handling would be as intuitive as possible. `AlamofireRestClient.Error` type has two cases - it's either a `request` error or some other error (wrapping the underlying error).
