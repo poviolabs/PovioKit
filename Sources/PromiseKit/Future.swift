@@ -9,7 +9,10 @@
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
-  private let barrier = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
+//  private let lock = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
+  private let lock = NSLock()
+//  private let lock = RWLock()
+//  private let lock = Mutex()
   private var observers = [Observer]()
   public var isEnabled = true
   private var internalResult: FutureResult?
@@ -17,15 +20,17 @@ public class Future<Value, Error: Swift.Error> {
 
 public extension Future {
   var result: FutureResult? {
-    barrier.sync { internalResult }
+    read {
+      internalResult
+    }
   }
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
-    barrier.async(flags: .barrier) {
+    write {
       self.internalResult = result
-      guard self.isEnabled else { return }
+      guard self.isEnabled, let result = result else { return }
       dispatchQueue.async {
-        result.map { value in self.observers.forEach { $0.notifity(value) } }
+        self.observers.forEach { $0.notifity(result) }
       }
     }
   }
@@ -35,24 +40,34 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func finally(with callback: @escaping (FutureResult) -> Void) {
-    barrier.async(flags: .barrier) {
+    write {
       self.observers.append(.both(callback))
       self.internalResult.map(callback)
     }
   }
   
   func then(_ callback: @escaping (Value) -> Void) {
-    barrier.async(flags: .barrier) {
+    write {
       self.observers.append(.success(callback))
       self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
   
   func `catch`(_ callback: @escaping (Error) -> Void) {
-    barrier.async(flags: .barrier) {
+    write {
       self.observers.append(.failure(callback))
       self.internalResult.map { self.observers.last?.notifity($0) }
     }
+  }
+  
+  @inline(__always)
+  func write(_ work: @escaping () -> Void) {
+    lock.write(work)
+  }
+  
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    lock.read(work)
   }
 }
 
@@ -74,5 +89,85 @@ private extension Future {
         break
       }
     }
+  }
+}
+
+final class Mutex {
+  private var mutex: pthread_mutex_t = {
+    var mutex = pthread_mutex_t()
+    pthread_mutex_init(&mutex, nil)
+    return mutex
+  }()
+  
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    lock()
+    defer { unlock() }
+    return work()
+  }
+  
+  @inline(__always)
+  func write(_ work: () -> Void) {
+    lock()
+    defer { unlock() }
+    return work()
+  }
+  
+  func lock() {
+    pthread_mutex_lock(&mutex)
+  }
+  
+  func unlock() {
+    pthread_mutex_unlock(&mutex)
+  }
+}
+
+final class RWLock {
+  private(set) var lock: pthread_rwlock_t = {
+    var lock = pthread_rwlock_t()
+    pthread_rwlock_init(&lock, nil)
+    return lock
+  }()
+  
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    pthread_rwlock_rdlock(&lock)
+    defer { pthread_rwlock_unlock(&lock) }
+    return work()
+  }
+  
+  @inline(__always)
+  func write(_ work: () -> Void) {
+    pthread_rwlock_wrlock(&lock)
+    defer { pthread_rwlock_unlock(&lock) }
+    return work()
+  }
+}
+
+extension NSLock {
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    lock()
+    defer { unlock() }
+    return work()
+  }
+  
+  @inline(__always)
+  func write(_ work: () -> Void) {
+    lock()
+    defer { unlock() }
+    return work()
+  }
+}
+
+extension DispatchQueue {
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    sync(execute: work)
+  }
+  
+  @inline(__always)
+  func write(_ work: @escaping () -> Void) {
+    sync(flags: .barrier, execute: work)
   }
 }
