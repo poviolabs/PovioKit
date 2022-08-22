@@ -25,12 +25,27 @@ struct RequiredRule: RuleValidatable {
 ```
 
 
+Create rule and attach it to textfield on initial creation:
+```
+lazy var requiredRule = RequiredRule()
+
+let validatableTextField = TextField(with: requiredRule)
+
+```
+
+Rule can also be attached later:
 ```
 let requiredRule = RequiredRule()
-let validatableTextField = TextField(with: requiredRule)
+
+let validatableTextField = TextField()
 
 ...
 
+validatableTextField.set(rule)
+```
+
+To check if textField is valid:
+```
 guard validatableTextField.isValid else { return }
 ```
 
