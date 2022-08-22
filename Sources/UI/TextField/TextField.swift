@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PovioKit
 
 public protocol RuleValidatable {
   var error: String { get }
