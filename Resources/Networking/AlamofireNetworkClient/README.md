@@ -195,7 +195,7 @@ By doing that we'll see logs in the console for each request start, success and 
 
 ## OAuth
 
-Properly handling OAuth is a challening task that needs special attention in order to make user re/authorization seamless as possible. Up until recently, we have been using internal `OAuthRequestInterceptor`, which has it's flaws. Therefore, we needed a better solution. Fortunatelly, Alamofire released it's own [solution](https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#authenticationinterceptor) to handle locking and threading issues in version [5.2](https://github.com/Alamofire/Alamofire/releases/tag/5.2.0).
+Properly handling OAuth is a challenging task that needs special attention in order to make user re/authorization as seamless as possible. Up until recently, we have been using internal `OAuthRequestInterceptor`, which has its flaws. Therefore, we needed a better solution. Fortunately, Alamofire released its own [solution](https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#authenticationinterceptor) to handle locking and threading issues in version [5.2](https://github.com/Alamofire/Alamofire/releases/tag/5.2.0).
 
 In order to implement this into your app, create a class and conform to `Authenticator` protocol.
 
