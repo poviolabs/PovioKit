@@ -54,10 +54,6 @@ public class TextField: UIView {
     didSet { textFieldHeightAnchor?.constant = inputFieldHeight }
   }
   
-  public var inputFieldCornerRadius: CGFloat = 10 {
-    didSet { valueContainerView.layer.cornerRadius = inputFieldCornerRadius }
-  }
-  
   private var error: String? {
     didSet { errorStateChanged() }
   }
@@ -181,6 +177,13 @@ public class TextField: UIView {
   }
 }
 
+// MARK: - Public Methods
+public extension TextField {
+  func setRule(_ rule: RuleValidatable) {
+    self.rule = rule
+  }
+}
+
 // MARK: - Private Methods
 private extension TextField {
   func setupViews() {
@@ -199,7 +202,7 @@ private extension TextField {
     func setupValueContainerView() {
       stackView.addArrangedSubview(valueContainerView)
       valueContainerView.backgroundColor = textFieldBackgroundColor
-      valueContainerView.layer.cornerRadius = inputFieldCornerRadius
+      valueContainerView.layer.cornerRadius = textFieldCornerRadius
       valueContainerView.layer.masksToBounds = true
       
       valueContainerView.translatesAutoresizingMaskIntoConstraints = false
