@@ -9,10 +9,7 @@
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
-//  private let lock = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
   private let lock = NSLock()
-//  private let lock = RWLock()
-//  private let lock = Mutex()
   private var observers = [Observer]()
   public var isEnabled = true
   private var internalResult: FutureResult?
@@ -92,59 +89,8 @@ private extension Future {
   }
 }
 
-final class Mutex {
-  private var mutex: pthread_mutex_t = {
-    var mutex = pthread_mutex_t()
-    pthread_mutex_init(&mutex, nil)
-    return mutex
-  }()
-  
-  @inline(__always)
-  func read<T>(_ work: () -> T) -> T {
-    lock()
-    defer { unlock() }
-    return work()
-  }
-  
-  @inline(__always)
-  func write(_ work: () -> Void) {
-    lock()
-    defer { unlock() }
-    return work()
-  }
-  
-  func lock() {
-    pthread_mutex_lock(&mutex)
-  }
-  
-  func unlock() {
-    pthread_mutex_unlock(&mutex)
-  }
-}
-
-final class RWLock {
-  private(set) var lock: pthread_rwlock_t = {
-    var lock = pthread_rwlock_t()
-    pthread_rwlock_init(&lock, nil)
-    return lock
-  }()
-  
-  @inline(__always)
-  func read<T>(_ work: () -> T) -> T {
-    pthread_rwlock_rdlock(&lock)
-    defer { pthread_rwlock_unlock(&lock) }
-    return work()
-  }
-  
-  @inline(__always)
-  func write(_ work: () -> Void) {
-    pthread_rwlock_wrlock(&lock)
-    defer { pthread_rwlock_unlock(&lock) }
-    return work()
-  }
-}
-
 extension NSLock {
+  @inlinable
   @inline(__always)
   func read<T>(_ work: () -> T) -> T {
     lock()
@@ -152,22 +98,11 @@ extension NSLock {
     return work()
   }
   
+  @inlinable
   @inline(__always)
   func write(_ work: () -> Void) {
     lock()
     defer { unlock() }
     return work()
-  }
-}
-
-extension DispatchQueue {
-  @inline(__always)
-  func read<T>(_ work: () -> T) -> T {
-    sync(execute: work)
-  }
-  
-  @inline(__always)
-  func write(_ work: @escaping () -> Void) {
-    sync(flags: .barrier, execute: work)
   }
 }

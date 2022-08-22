@@ -873,6 +873,7 @@ public extension Promise where Value == Void {
 }
 
 extension Optional where Wrapped == DispatchQueue {
+  @inlinable
   @inline(__always)
   func async(execute work: @escaping () -> Void) {
     switch self {
