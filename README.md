@@ -65,7 +65,7 @@
 | [PaddingLabel](Resources/UI/PaddingLabel/) |
 | [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
 | [ProfileImageView](Resources/UI/ProfileImageView) |
-
+| [TextField](Resources/UI/TextField) |
 ### Networking
 
 [AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/)
