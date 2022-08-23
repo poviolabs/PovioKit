@@ -12,8 +12,8 @@
     <a href="./LICENCE" alt="License">
         <img src="https://img.shields.io/badge/Licence-MIT-red.svg" />
     </a>
-    <a href="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml" alt="CI Status">
-        <img src="https://github.com/poviolabs/PovioKit/actions/workflows/CI.yml/badge.svg" />
+    <a href="https://github.com/poviolabs/PovioKit/actions/workflows/Tests.yml" alt="Tests Status">
+        <img src="https://github.com/poviolabs/PovioKit/actions/workflows/Tests.yml/badge.svg" />
     </a>
 </p>
 
