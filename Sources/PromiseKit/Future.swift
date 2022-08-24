@@ -90,7 +90,6 @@ private extension Future {
 }
 
 extension NSLock {
-  @inlinable
   @inline(__always)
   func read<T>(_ work: () -> T) -> T {
     lock()
@@ -98,7 +97,6 @@ extension NSLock {
     return work()
   }
   
-  @inlinable
   @inline(__always)
   func write(_ work: () -> Void) {
     lock()
