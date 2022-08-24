@@ -132,23 +132,6 @@ class PromiseTests: XCTestCase {
       }
     waitForExpectations(timeout: 2)
   }
-  
-  func testSynchronization() {
-    let promise = Promise<Int>()
-    let ex1 = expectation(description: "")
-    (0...19).forEach { idx in
-      let thread = Thread {
-        promise.then { _ in }
-        promise.catch { _ in }
-        promise.finally { _ in }
-      }
-      thread.start()
-    }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-      ex1.fulfill()
-    }
-    waitForExpectations(timeout: 10)
-  }
 }
 
 extension PromiseTests {

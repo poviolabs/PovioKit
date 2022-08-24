@@ -15,7 +15,7 @@ public class Future<Value, Error: Swift.Error> {
   private var internalResult: FutureResult?
 }
 
-public extension Future {
+internal extension Future {
   var result: FutureResult? {
     read {
       internalResult
@@ -24,10 +24,11 @@ public extension Future {
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
     write {
+      guard self.internalResult == nil else { return }
       self.internalResult = result
       guard self.isEnabled, let result = result else { return }
-      dispatchQueue.async {
-        self.observers.forEach { $0.notifity(result) }
+      for observer in self.observers {
+        dispatchQueue.async { observer.notifity(result) }
       }
     }
   }
