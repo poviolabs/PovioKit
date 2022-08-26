@@ -81,7 +81,9 @@ public class TwoLineLabel: UIView {
   public var primaryText: String = ""
   public var secondaryText: String = ""
   
-  private var internalIntrinsicContentSize: CGSize = .zero
+  private lazy var internalIntrinsicContentSize: CGSize = {
+    .init(width: UIScreen.main.bounds.width, height: primaryFont.lineHeight + secondaryFont.lineHeight + 10)
+  }()
   
   public override func draw(_ rect: CGRect) {
     defer { invalidateIntrinsicContentSize() }
