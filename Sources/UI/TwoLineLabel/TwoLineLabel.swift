@@ -1,8 +1,9 @@
 //
 //  TwoLineLabel.swift
-//  
+//  PovioKit
 //
 //  Created by Toni K. Turk on 25/08/2022.
+//  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
 import UIKit
@@ -19,14 +20,12 @@ import UIKit
 // |                           secondary label   |
 //  ---------------------------------------------
 //
-// 3. Strings do not fit into a single line, however,
-// there is enough space for both of them in two lines.
 //  ---------------------------------------------
 // |   This is a longer two-line text, lorem     |
 // |   ipsum dolor.            secondary label   |
 //  ---------------------------------------------
 //
-// 4. Strings do not fit into a single line and there is also
+// 3. Strings do not fit into a single line and there is also
 // not enough space for the primary string in the second line.
 // Primary string, therefore, has to be truncated with '...'.
 //  ---------------------------------------------
