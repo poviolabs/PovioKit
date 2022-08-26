@@ -7,6 +7,33 @@
 
 import UIKit
 
+// 1. Boths string fit into a single line
+//  ---------------------------------------------
+// |   This is a short text.   secondary label   |
+//  ---------------------------------------------
+//
+// 2. Strings do not fit into a single line, however,
+// there is enough space for both of them in two lines.
+//  ---------------------------------------------
+// |   This is a longer single-line text.        |
+// |                           secondary label   |
+//  ---------------------------------------------
+//
+// 3. Strings do not fit into a single line, however,
+// there is enough space for both of them in two lines.
+//  ---------------------------------------------
+// |   This is a longer two-line text, lorem     |
+// |   ipsum dolor.            secondary label   |
+//  ---------------------------------------------
+//
+// 4. Strings do not fit into a single line and there is also
+// not enough space for the primary string in the second line.
+// Primary string, therefore, has to be truncated with '...'.
+//  ---------------------------------------------
+// |   This is a long text that has to be split  |
+// |   into two lines, ho...    secondary label  |
+//  ---------------------------------------------
+//
 public class TwoLineLabel: UIView {
   // @NOTE: - For performance reasons, it is the responsibility of the
   // user to call `setNeedsDisplay()` on the view after modifying attributes.
