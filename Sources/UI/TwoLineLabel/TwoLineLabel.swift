@@ -60,49 +60,55 @@ public class TwoLineLabel: UIView {
   public override func draw(_ rect: CGRect) {
     defer { invalidateIntrinsicContentSize() }
     
-    var index = primaryText.startIndex
+    var firstSplitIndex = primaryText.endIndex
     var lastSpaceIndex: String.Index?
     var primarySize: CGSize = .zero
-    while true {
-      guard index != primaryText.endIndex else { break }
+    
+    let offset: CGFloat = 5
+    let dots = "... "
+    
+    /// find the index at which the primary string would be drawn out of the horizontal boundary.
+    for index in primaryText.indices {
       if primaryText[index] == " " { lastSpaceIndex = index }
       primarySize = (primaryText[..<index] as NSString).size(
         withAttributes: primaryTextAttributes)
-      if primarySize.width > frame.width - 5 {
-        index = primaryText.index(after: lastSpaceIndex ?? index)
+      if primarySize.width > frame.width - offset {
+        firstSplitIndex = lastSpaceIndex.map(primaryText.index(after:)) ?? index
         break
       }
-      index = primaryText.index(after: index)
     }
     
-    let primary1 = primaryText[..<index] as NSString
-    let secondarySize = (secondaryText as NSString).size(withAttributes: secondaryTextAttributes)
-    
-    var newIndex = index
-    while true {
-      guard newIndex != primaryText.endIndex else { break }
-      primarySize = (primaryText[index..<newIndex] + "... " as NSString).size(
-        withAttributes: primaryTextAttributes)
-      if primarySize.width > frame.width - secondarySize.width - 10 {
-        break
-      }
-      newIndex = primaryText.index(after: newIndex)
-    }
-    
-    let offset: CGFloat = 5
-    let append = primarySize.width > frame.width - secondarySize.width - 10 ? "... " : ""
-    let primary2 = (primaryText[index..<newIndex] + append) as NSString
+    /// `primary1` is the (sub)string drawn in the first line
+    let primary1 = primaryText[..<firstSplitIndex] as NSString
+    /// draw the first line
     primary1.draw(at: .zero, withAttributes: primaryTextAttributes)
-    if index != newIndex {
-      primary2.draw(
-        at: .init(x: 0, y: primarySize.height + offset),
-        withAttributes: primaryTextAttributes
-      )
+    
+    /// calculate the length of the secondary string
+    let secondaryString = secondaryText as NSString
+    let secondarySize = secondaryString.size(withAttributes: secondaryTextAttributes)
+    /// available width for remainder of the primary string
+    let availableWidth = frame.width - secondarySize.width - offset*2
+    
+    /// calculate the index at which the remaining part of the primary string would be drawn
+    /// over the secondary string
+    var secondSplitIndex = firstSplitIndex
+    var appendDots = false
+    while true { // @FIXME: - Use for loop?
+      guard secondSplitIndex != primaryText.endIndex else { break }
+      primarySize = (primaryText[firstSplitIndex..<secondSplitIndex] + dots as NSString).size(withAttributes: primaryTextAttributes)
+      if primarySize.width > availableWidth {
+        appendDots = true
+        break
+      }
+      secondSplitIndex = primaryText.index(after: secondSplitIndex)
     }
     
-    if index == newIndex && primarySize.width + secondarySize.width + offset <= frame.width {
-      // enough space for both strings in a single line
-      (secondaryText as NSString).draw(
+    /// `primary2` is the substring drawn in the second line
+    let primary2 = (primaryText[firstSplitIndex..<secondSplitIndex] + (appendDots ? dots : .init())) as NSString
+    
+    if firstSplitIndex == secondSplitIndex && primarySize.width + secondarySize.width + offset <= frame.width {
+      /// enough space for both strings in a single line
+      secondaryString.draw(
         at: .init(
           x: frame.width - secondarySize.width,
           y: (primarySize.height - secondarySize.height)*0.5),
@@ -113,11 +119,19 @@ public class TwoLineLabel: UIView {
       return
     }
     
-    (secondaryText as NSString).draw(
+    /// draw the second line
+    primary2.draw(
+      at: .init(x: 0, y: primarySize.height + offset),
+      withAttributes: primaryTextAttributes
+    )
+    
+    /// draw secondary string
+    secondaryString.draw(
       at: .init(
         x: frame.width - secondarySize.width,
         y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
       withAttributes: secondaryTextAttributes)
+    
     internalIntrinsicContentSize = .init(
       width: frame.width,
       height: primarySize.height + offset + max(primarySize.height, secondarySize.height))
