@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  TwoLineLabel.swift
 //  
 //
 //  Created by Toni K. Turk on 25/08/2022.
@@ -8,6 +8,9 @@
 import UIKit
 
 public class TwoLineLabel: UIView {
+  // @NOTE: - For performance reasons, it is the responsibility of the
+  // user to call `setNeedsDisplay()` on the view after modifying attributes.
+  
   private var primaryTextAttributes: [NSAttributedString.Key: Any] = [
     .font: UIFont.systemFont(ofSize: 14),
     .foregroundColor: UIColor.gray
@@ -52,72 +55,76 @@ public class TwoLineLabel: UIView {
   public var primaryText: String = ""
   public var secondaryText: String = ""
   
-  private var intrinsic: CGSize = .zero
+  private var internalIntrinsicContentSize: CGSize = .zero
   
   public override func draw(_ rect: CGRect) {
     defer { invalidateIntrinsicContentSize() }
     
     var index = primaryText.startIndex
     var lastSpaceIndex: String.Index?
-    var bounding: CGSize!
+    var primarySize: CGSize = .zero
     while true {
       guard index != primaryText.endIndex else { break }
       if primaryText[index] == " " { lastSpaceIndex = index }
-      bounding = NSString(string: String(primaryText[..<index])).size(
+      primarySize = (primaryText[..<index] as NSString).size(
         withAttributes: primaryTextAttributes)
-      if bounding.width > frame.width - 5 {
+      if primarySize.width > frame.width - 5 {
         index = primaryText.index(after: lastSpaceIndex ?? index)
         break
       }
       index = primaryText.index(after: index)
     }
     
-//    if index == primaryText.startIndex {
-//      // there is enough space for the whole string
-//      // in a single line
-//    }
-    
-    let primary1 = NSString(string: String(primaryText[..<index]))
-    let secondarySize = NSString(string: secondaryText).size(withAttributes: secondaryTextAttributes)
+    let primary1 = primaryText[..<index] as NSString
+    let secondarySize = (secondaryText as NSString).size(withAttributes: secondaryTextAttributes)
     
     var newIndex = index
     while true {
       guard newIndex != primaryText.endIndex else { break }
-      bounding = NSString(string: String(primaryText[index..<newIndex]) + "... ").size(
+      primarySize = (primaryText[index..<newIndex] + "... " as NSString).size(
         withAttributes: primaryTextAttributes)
-      if bounding.width > frame.width - secondarySize.width - 10 {
+      if primarySize.width > frame.width - secondarySize.width - 10 {
         break
       }
       newIndex = primaryText.index(after: newIndex)
     }
     
     let offset: CGFloat = 5
-    let append = bounding.width > frame.width - secondarySize.width - 10 ? "... " : ""
-    let primary2 = NSString(string: String(primaryText[index..<newIndex]) + append)
+    let append = primarySize.width > frame.width - secondarySize.width - 10 ? "... " : ""
+    let primary2 = (primaryText[index..<newIndex] + append) as NSString
     primary1.draw(at: .zero, withAttributes: primaryTextAttributes)
     if index != newIndex {
-      primary2.draw(at: .init(x: 0, y: bounding.height + offset), withAttributes: primaryTextAttributes)
+      primary2.draw(
+        at: .init(x: 0, y: primarySize.height + offset),
+        withAttributes: primaryTextAttributes
+      )
     }
     
-    if index == newIndex && bounding.width + secondarySize.width + offset <= frame.width {
+    if index == newIndex && primarySize.width + secondarySize.width + offset <= frame.width {
       // enough space for both strings in a single line
-      NSString(string: secondaryText).draw(
-        at: .init(x: frame.width - secondarySize.width, y: 0),
+      (secondaryText as NSString).draw(
+        at: .init(
+          x: frame.width - secondarySize.width,
+          y: (primarySize.height - secondarySize.height)*0.5),
         withAttributes: secondaryTextAttributes)
-      intrinsic = .init(
+      internalIntrinsicContentSize = .init(
         width: frame.width,
-        height: max(bounding.height, secondarySize.height))
+        height: max(primarySize.height, secondarySize.height))
       return
     }
     
-    NSString(string: secondaryText).draw(
-      at: .init(x: frame.width - secondarySize.width, y: bounding.height + offset),
+    (secondaryText as NSString).draw(
+      at: .init(
+        x: frame.width - secondarySize.width,
+        y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
       withAttributes: secondaryTextAttributes)
-    intrinsic = .init(width: frame.width, height: bounding.height + offset + max(bounding.height, secondarySize.height))
+    internalIntrinsicContentSize = .init(
+      width: frame.width,
+      height: primarySize.height + offset + max(primarySize.height, secondarySize.height))
   }
   
   public override var intrinsicContentSize: CGSize {
-    intrinsic
+    internalIntrinsicContentSize
   }
   
   public init() {
