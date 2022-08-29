@@ -36,8 +36,9 @@ import UIKit
 public class TwoLineLabel: UIView {
   // @NOTE: - For performance reasons, it is the responsibility of the
   // user to call `setNeedsDisplay()` on the view after modifying attributes.
-  // @NOTE: - For autolayout to work properly, the at least width of the view
-  // should be 'statically' determined by the constraint setup, i.e., bind
+  // @NOTE: - For autolayout to work properly, at least the width of the view
+  // should be 'statically' determined (that is, layoutSubviews() should
+  // receive a frame with valid width) by the constraint setup, i.e., bind
   // the leading and trailing constraints to the parent view.
   
   private var primaryTextAttributes: [NSAttributedString.Key: Any] = [
@@ -81,21 +82,16 @@ public class TwoLineLabel: UIView {
       primaryTextAttributes[.font] = newValue
     }
   }
+  public var gravity: Gravity = .left
   public var primaryText: String = ""
   public var secondaryText: String = ""
   
-  private lazy var internalIntrinsicContentSize: CGSize = {
-    .init(
-      width: UIScreen.main.bounds.width,
-      height: primaryFont.lineHeight + secondaryFont.lineHeight + 10
-    )
-  }()
+  private var internalIntrinsicContentSize: CGSize = .init(width: UIScreen.main.bounds.width, height: 1)
   
   public override func layoutSubviews() {
     super.layoutSubviews()
-    print(frame)
     internalIntrinsicContentSize.width = frame.width
-    invalidateIntrinsicContentSize()
+    setNeedsDisplay()
   }
   
   public override func draw(_ rect: CGRect) {
@@ -107,13 +103,14 @@ public class TwoLineLabel: UIView {
     
     let offset: CGFloat = 5
     let dots = "... "
+    let dotsWidth = (dots as NSString).size(withAttributes: primaryTextAttributes).width
     
     /// find the index at which the primary string would be drawn out of the horizontal boundary.
     for index in primaryText.indices {
       if primaryText[index] == " " { lastSpaceIndex = index }
       primarySize = (primaryText[..<index] as NSString).size(
         withAttributes: primaryTextAttributes)
-      if primarySize.width > frame.width - offset {
+      if primarySize.width > frame.width - offset*2 {
         firstSplitIndex = lastSpaceIndex.map(primaryText.index(after:)) ?? index
         break
       }
@@ -121,8 +118,12 @@ public class TwoLineLabel: UIView {
     
     /// `primary1` is the (sub)string drawn in the first line
     let primary1 = primaryText[..<firstSplitIndex] as NSString
+    primarySize = primary1.size(withAttributes: primaryTextAttributes)
     /// draw the first line
-    primary1.draw(at: .zero, withAttributes: primaryTextAttributes)
+    primary1.draw(
+      at: .zero,
+      withAttributes: primaryTextAttributes
+    )
     
     /// calculate the length of the secondary string
     let secondaryString = secondaryText as NSString
@@ -136,8 +137,8 @@ public class TwoLineLabel: UIView {
     var appendDots = false
     while true { // @FIXME: - Use for loop?
       guard secondSplitIndex != primaryText.endIndex else { break }
-      primarySize = (primaryText[firstSplitIndex..<secondSplitIndex] + dots as NSString).size(withAttributes: primaryTextAttributes)
-      if primarySize.width > availableWidth {
+      primarySize = (primaryText[firstSplitIndex..<secondSplitIndex] as NSString).size(withAttributes: primaryTextAttributes)
+      if primarySize.width + dotsWidth + offset*2 > availableWidth {
         appendDots = true
         break
       }
@@ -147,13 +148,19 @@ public class TwoLineLabel: UIView {
     /// `primary2` is the substring drawn in the second line
     let primary2 = (primaryText[firstSplitIndex..<secondSplitIndex] + (appendDots ? dots : .init())) as NSString
     
-    if firstSplitIndex == secondSplitIndex && primarySize.width + secondarySize.width + offset <= frame.width {
+    if firstSplitIndex == secondSplitIndex && primarySize.width + secondarySize.width + offset*2 <= frame.width {
       /// enough space for both strings in a single line
+      
+      let secondaryStartPosition = gravity == .left
+      ? primarySize.width + offset*2
+      : frame.width - secondarySize.width
+      
       secondaryString.draw(
         at: .init(
-          x: frame.width - secondarySize.width,
+          x: secondaryStartPosition,
           y: (primarySize.height - secondarySize.height)*0.5),
-        withAttributes: secondaryTextAttributes)
+        withAttributes: secondaryTextAttributes
+      )
       internalIntrinsicContentSize = .init(
         width: frame.width,
         height: max(primarySize.height, secondarySize.height))
@@ -166,10 +173,14 @@ public class TwoLineLabel: UIView {
       withAttributes: primaryTextAttributes
     )
     
+    let secondaryStartPosition = gravity == .left
+    ? (primary2.length == 0 ? 0 : primary2.size(withAttributes: primaryTextAttributes).width + offset*2)
+    : frame.width - secondarySize.width
+    
     /// draw secondary string
     secondaryString.draw(
       at: .init(
-        x: frame.width - secondarySize.width,
+        x: secondaryStartPosition,
         y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
       withAttributes: secondaryTextAttributes)
     
@@ -189,5 +200,39 @@ public class TwoLineLabel: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+public extension TwoLineLabel {
+  // @NOTE: - Control the alignment of the secondary text:
+  // When set to `left`, the secondary label will gravitate toward
+  // left (either touching primary text or the left edge):
+  //  -------------------------------------------
+  // |   This is a short text. secondary label   |
+  //  -------------------------------------------
+  //  -------------------------------------------
+  // |   This is a longer single-line text.      |
+  // |   secondary label                         |
+  //  -------------------------------------------
+  //  -------------------------------------------
+  // |   This is a longer two-line text, lorem   |
+  // |   ipsum dolor. secondary label            |
+  //  -------------------------------------------
+  //
+  // When set to `right`, the secondary label will gravitate toward
+  // right:
+  //  -------------------------------------------
+  // |  This is a short text.   secondary label  |
+  //  -------------------------------------------
+  //  -------------------------------------------
+  // |  This is a longer single-line text.       |
+  // |                          secondary label  |
+  //  -------------------------------------------
+  //  -------------------------------------------
+  // |  This is a longer two-line text, lorem    |
+  // |  ipsum dolor.            secondary label  |
+  //  -------------------------------------------
+  enum Gravity {
+    case left, right
   }
 }
