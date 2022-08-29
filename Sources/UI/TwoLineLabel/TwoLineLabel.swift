@@ -36,6 +36,9 @@ import UIKit
 public class TwoLineLabel: UIView {
   // @NOTE: - For performance reasons, it is the responsibility of the
   // user to call `setNeedsDisplay()` on the view after modifying attributes.
+  // @NOTE: - For autolayout to work properly, the at least width of the view
+  // should be 'statically' determined by the constraint setup, i.e., bind
+  // the leading and trailing constraints to the parent view.
   
   private var primaryTextAttributes: [NSAttributedString.Key: Any] = [
     .font: UIFont.systemFont(ofSize: 14),
@@ -82,8 +85,18 @@ public class TwoLineLabel: UIView {
   public var secondaryText: String = ""
   
   private lazy var internalIntrinsicContentSize: CGSize = {
-    .init(width: UIScreen.main.bounds.width, height: primaryFont.lineHeight + secondaryFont.lineHeight + 10)
+    .init(
+      width: UIScreen.main.bounds.width,
+      height: primaryFont.lineHeight + secondaryFont.lineHeight + 10
+    )
   }()
+  
+  public override func layoutSubviews() {
+    super.layoutSubviews()
+    print(frame)
+    internalIntrinsicContentSize.width = frame.width
+    invalidateIntrinsicContentSize()
+  }
   
   public override func draw(_ rect: CGRect) {
     defer { invalidateIntrinsicContentSize() }
