@@ -1,5 +1,5 @@
 //
-//  TwoLineLabel.swift
+//  TruncatingLabel.swift
 //  PovioKit
 //
 //  Created by Toni K. Turk on 25/08/2022.
@@ -33,7 +33,7 @@ import UIKit
 // |   into two lines, ho...    secondary label  |
 //  ---------------------------------------------
 //
-public class TwoLineLabel: UIView {
+public class TruncatingLabel: UIView {
   // @NOTE: - For performance reasons, it is the responsibility of the
   // user to call `setNeedsDisplay()` on the view after modifying attributes.
   // @NOTE: - For autolayout to work properly, at least the width of the view
@@ -86,6 +86,7 @@ public class TwoLineLabel: UIView {
   public var primaryText: String = ""
   public var secondaryText: String = ""
   
+  // @NOTE: - Initial intrinsic height is set to 1, so that draw(_:) gets called!
   private var internalIntrinsicContentSize: CGSize = .init(width: UIScreen.main.bounds.width, height: 1)
   
   public override func layoutSubviews() {
@@ -203,7 +204,7 @@ public class TwoLineLabel: UIView {
   }
 }
 
-public extension TwoLineLabel {
+public extension TruncatingLabel {
   // @NOTE: - Control the alignment of the secondary text:
   // When set to `left`, the secondary label will gravitate toward
   // left (either touching primary text or the left edge):
