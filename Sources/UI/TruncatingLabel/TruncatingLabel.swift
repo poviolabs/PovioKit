@@ -36,10 +36,12 @@ import UIKit
 public class TruncatingLabel: UIView {
   // @NOTE: - For performance reasons, it is the responsibility of the
   // user to call `setNeedsDisplay()` on the view after modifying attributes.
+  
   // @NOTE: - For autolayout to work properly, at least the width of the view
   // should be 'statically' determined (that is, layoutSubviews() should
   // receive a frame with valid width) by the constraint setup, i.e., bind
-  // the leading and trailing constraints to the parent view.
+  // the leading and trailing constraints to the parent view. The height of the
+  // view is dynamic and the intrinsic content size updated accordingly.
   
   private var primaryTextAttributes: [NSAttributedString.Key: Any] = [
     .font: UIFont.systemFont(ofSize: 14),
@@ -64,6 +66,7 @@ public class TruncatingLabel: UIView {
     }
     set {
       primaryTextAttributes[.font] = newValue
+      internalIntrinsicContentSize = calculateIntrinsicContentSize()
     }
   }
   public var secondaryColor: UIColor {
@@ -80,14 +83,14 @@ public class TruncatingLabel: UIView {
     }
     set {
       primaryTextAttributes[.font] = newValue
+      internalIntrinsicContentSize = calculateIntrinsicContentSize()
     }
   }
   public var gravity: Gravity = .left
   public var primaryText: String = ""
   public var secondaryText: String = ""
   
-  // @NOTE: - Initial intrinsic height is set to 1, so that draw(_:) gets called!
-  private var internalIntrinsicContentSize: CGSize = .init(width: UIScreen.main.bounds.width, height: 1)
+  private lazy var internalIntrinsicContentSize: CGSize = calculateIntrinsicContentSize()
   
   public override func layoutSubviews() {
     super.layoutSubviews()
@@ -96,7 +99,10 @@ public class TruncatingLabel: UIView {
   }
   
   public override func draw(_ rect: CGRect) {
-    defer { invalidateIntrinsicContentSize() }
+    defer {
+      invalidateIntrinsicContentSize()
+      print(intrinsicContentSize)
+    }
     
     var firstSplitIndex = primaryText.endIndex
     var lastSpaceIndex: String.Index?
@@ -235,5 +241,14 @@ public extension TruncatingLabel {
   //  -------------------------------------------
   enum Gravity {
     case left, right
+  }
+}
+
+extension TruncatingLabel {
+  func calculateIntrinsicContentSize() -> CGSize {
+    .init(
+      width: UIScreen.main.bounds.width,
+      height: primaryFont.lineHeight + secondaryFont.lineHeight + 10
+    )
   }
 }
