@@ -57,6 +57,9 @@ let package = Package(
         "PovioKitUI",
         .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
         "SnapKit",
+      ],
+      exclude: [
+        "UI/__Snapshots__/"
       ]
     ),
   ],

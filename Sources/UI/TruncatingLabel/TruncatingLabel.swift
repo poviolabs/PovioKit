@@ -117,7 +117,7 @@ public class TruncatingLabel: UIView {
       primarySize = (primaryText[..<index] as NSString).size(
         withAttributes: primaryTextAttributes)
       if primarySize.width > frame.width - offset*2 {
-        firstSplitIndex = lastSpaceIndex.map(primaryText.index(after:)) ?? index
+        firstSplitIndex = lastSpaceIndex.map(primaryText.index(after:)) ?? index //primaryText.index(before: index)
         break
       }
     }
@@ -141,12 +141,14 @@ public class TruncatingLabel: UIView {
     /// over the secondary string
     var secondSplitIndex = firstSplitIndex
     var appendDots = false
+    
+    var primary2Size: CGSize = .zero
     while true { // @FIXME: - Use for loop?
       guard secondSplitIndex != primaryText.endIndex else { break }
-      primarySize = (primaryText[firstSplitIndex..<secondSplitIndex] as NSString).size(withAttributes: primaryTextAttributes)
-      if primarySize.width + dotsWidth + offset*2 > availableWidth {
+      primary2Size = (primaryText[firstSplitIndex..<secondSplitIndex] as NSString).size(withAttributes: primaryTextAttributes)
+      if primary2Size.width + dotsWidth + offset*2 > availableWidth {
         appendDots = true
-        secondSplitIndex = primaryText.index(before: secondSplitIndex)
+        secondSplitIndex = secondSplitIndex == firstSplitIndex ? firstSplitIndex : primaryText.index(before: secondSplitIndex)
         break
       }
       secondSplitIndex = primaryText.index(after: secondSplitIndex)
@@ -155,12 +157,16 @@ public class TruncatingLabel: UIView {
     /// `primary2` is the substring drawn in the second line
     let primary2 = (primaryText[firstSplitIndex..<secondSplitIndex] + (appendDots ? dots : .init())) as NSString
     
-    if firstSplitIndex == secondSplitIndex && primarySize.width + secondarySize.width + offset*2 <= frame.width {
+    if primary2.length == 0 && primarySize.width + secondarySize.width + offset*2 <= frame.width {
       /// enough space for both strings in a single line
       
       let secondaryStartPosition = gravity == .left
       ? primarySize.width + offset*2
       : frame.width - secondarySize.width
+      
+      if secondaryStartPosition < 100 && primaryText.count > 30 {
+        print()
+      }
       
       secondaryString.draw(
         at: .init(
@@ -192,7 +198,6 @@ public class TruncatingLabel: UIView {
         y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
       withAttributes: secondaryTextAttributes
     )
-    
     internalIntrinsicContentSize = .init(
       width: frame.width,
       height: primarySize.height + offset + max(primarySize.height, secondarySize.height)

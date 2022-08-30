@@ -11,15 +11,15 @@ import SnapshotTesting
 import UIKit
 import SnapKit
 
+var rng = RNG(seed: 42349023)
+let randomStrings: [(String, String)] = (0..<400).map { _ in
+  let primary = (0..<Int.random(in: 1...15, using: &rng)).map { _ in words.randomElement(using: &rng)! }.joined(separator: " ")
+  let secondary = (0..<Int.random(in: 1...3, using: &rng)).map { _ in words.randomElement(using: &rng)! }.joined(separator: " ")
+  return (primary, secondary)
+}
+
 class TruncatingLabelTests: XCTestCase {
-  static var rng = RNG(seed: 42349023)
-  var record = false // set to true if you want to re-record screenshots
-  
-  let randomStrings: [(String, String)] = (0..<400).map { _ in
-    let primary = "a" + (0..<Int.random(in: 30...100, using: &rng)).map { _ in Int.random(in: 0...10, using: &rng) == 0 ? " " : "a" }.joined(separator: "")
-    let secondary = (0..<Int.random(in: 5...20, using: &rng)).map { _ in "b" }.joined(separator: "")
-    return (primary, secondary)
-  }
+  var record = true // set to true if you want to re-record screenshots
   
   func testTruncatingLabelInAListGravityLeft1412() {
     for i in 0..<20 {
@@ -194,3 +194,55 @@ class Cell: UITableViewCell {
   }
 }
 
+let words = """
+execute
+creation
+variant
+gown
+elephant
+situation
+action
+appetite
+archive
+steward
+sand
+convention
+feather
+conceive
+enfix
+honor
+progress
+flock
+watch
+wind
+penetrate
+conference
+privilege
+literature
+mud
+effort
+expose
+liability
+sport
+family
+stomach
+chance
+scholar
+organisation
+cat
+drawing
+siege
+period
+seize
+clerk
+mosque
+undermine
+pound
+raid
+vegetarian
+ignite
+narrow
+imposter
+development
+strip
+""".split(separator: "\n")
