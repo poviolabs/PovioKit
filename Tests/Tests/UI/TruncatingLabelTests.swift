@@ -19,7 +19,7 @@ let randomStrings: [(String, String)] = (0..<400).map { _ in
 }
 
 class TruncatingLabelTests: XCTestCase {
-  var record = true // set to true if you want to re-record screenshots
+  var record = false // set to true if you want to re-record screenshots
   
   func testTruncatingLabelInAListGravityLeft1412() {
     for i in 0..<20 {
