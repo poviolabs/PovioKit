@@ -14,7 +14,15 @@ let package = Package(
     .library(name: "PovioKitUI", targets: ["PovioKitUI"])
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.5.0"))
+    .package(
+      url: "https://github.com/Alamofire/Alamofire",
+      .upToNextMajor(from: "5.5.0")),
+    .package(
+      url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
+      .upToNextMajor(from: "1.9.0")),
+    .package(
+      url: "https://github.com/SnapKit/SnapKit.git",
+      .upToNextMajor(from: "5.0.1")),
   ],
   targets: [
     .target(
@@ -45,7 +53,10 @@ let package = Package(
       dependencies: [
         "PovioKit",
         "PovioKitPromise",
-        "PovioKitNetworking"
+        "PovioKitNetworking",
+        "PovioKitUI",
+        .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+        "SnapKit",
       ]
     ),
   ],

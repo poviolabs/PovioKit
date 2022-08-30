@@ -82,7 +82,7 @@ public class TruncatingLabel: UIView {
       secondaryTextAttributes[.font]! as! UIFont
     }
     set {
-      primaryTextAttributes[.font] = newValue
+      secondaryTextAttributes[.font] = newValue
       internalIntrinsicContentSize = calculateIntrinsicContentSize()
     }
   }
@@ -101,7 +101,6 @@ public class TruncatingLabel: UIView {
   public override func draw(_ rect: CGRect) {
     defer {
       invalidateIntrinsicContentSize()
-      print(intrinsicContentSize)
     }
     
     var firstSplitIndex = primaryText.endIndex
@@ -147,6 +146,7 @@ public class TruncatingLabel: UIView {
       primarySize = (primaryText[firstSplitIndex..<secondSplitIndex] as NSString).size(withAttributes: primaryTextAttributes)
       if primarySize.width + dotsWidth + offset*2 > availableWidth {
         appendDots = true
+        secondSplitIndex = primaryText.index(before: secondSplitIndex)
         break
       }
       secondSplitIndex = primaryText.index(after: secondSplitIndex)
@@ -170,7 +170,8 @@ public class TruncatingLabel: UIView {
       )
       internalIntrinsicContentSize = .init(
         width: frame.width,
-        height: max(primarySize.height, secondarySize.height))
+        height: max(primarySize.height, secondarySize.height)
+      )
       return
     }
     
@@ -189,11 +190,13 @@ public class TruncatingLabel: UIView {
       at: .init(
         x: secondaryStartPosition,
         y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
-      withAttributes: secondaryTextAttributes)
+      withAttributes: secondaryTextAttributes
+    )
     
     internalIntrinsicContentSize = .init(
       width: frame.width,
-      height: primarySize.height + offset + max(primarySize.height, secondarySize.height))
+      height: primarySize.height + offset + max(primarySize.height, secondarySize.height)
+    )
   }
   
   public override var intrinsicContentSize: CGSize {
