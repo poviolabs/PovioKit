@@ -327,17 +327,21 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder = .init()) -> Promise<D> {
+  func decode<D: Decodable>(
+    _ decodable: D.Type,
+    decoder: JSONDecoder = .init(),
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<D> {
     .init { promise in
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
           self.eventMonitors.forEach { $0.requestDidSucceed(self) }
-          promise.resolve(with: decodedObject)
+          promise.resolve(with: decodedObject, on: dispatchQueue)
         case .failure(let error):
           let error = self.handleError(error)
           self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-          promise.reject(with: error)
+          promise.reject(with: error, on: dispatchQueue)
         }
       }
     }

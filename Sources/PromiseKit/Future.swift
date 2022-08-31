@@ -9,7 +9,7 @@
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
-  private let barrier = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
+  private let lock = NSLock()
   private var observers = [Observer]()
   public var isEnabled = true
   private var internalResult: FutureResult?
@@ -17,15 +17,17 @@ public class Future<Value, Error: Swift.Error> {
 
 public extension Future {
   var result: FutureResult? {
-    barrier.sync { internalResult }
+    read {
+      internalResult
+    }
   }
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
-    barrier.sync(flags: .barrier) {
-      internalResult = result
-      guard isEnabled else { return }
+    write {
+      self.internalResult = result
+      guard self.isEnabled, let result = result else { return }
       dispatchQueue.async {
-        result.map { value in self.observers.forEach { $0.notifity(value) } }
+        self.observers.forEach { $0.notifity(result) }
       }
     }
   }
@@ -35,24 +37,34 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func finally(with callback: @escaping (FutureResult) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.both(callback))
-      internalResult.map(callback)
+    write {
+      self.observers.append(.both(callback))
+      self.internalResult.map(callback)
     }
   }
   
   func then(_ callback: @escaping (Value) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.success(callback))
-      internalResult.map { observers.last?.notifity($0) }
+    write {
+      self.observers.append(.success(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
   
   func `catch`(_ callback: @escaping (Error) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.failure(callback))
-      internalResult.map { observers.last?.notifity($0) }
+    write {
+      self.observers.append(.failure(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
     }
+  }
+  
+  @inline(__always)
+  func write(_ work: @escaping () -> Void) {
+    lock.write(work)
+  }
+  
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    lock.read(work)
   }
 }
 
@@ -74,5 +86,21 @@ private extension Future {
         break
       }
     }
+  }
+}
+
+fileprivate extension NSLock {
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    lock()
+    defer { unlock() }
+    return work()
+  }
+  
+  @inline(__always)
+  func write(_ work: () -> Void) {
+    lock()
+    defer { unlock() }
+    return work()
   }
 }
