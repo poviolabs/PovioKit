@@ -11,13 +11,6 @@ import SnapshotTesting
 import UIKit
 import SnapKit
 
-var rng = RNG(seed: 42349023)
-let randomStrings: [(String, String)] = (0..<400).map { _ in
-  let primary = (0..<Int.random(in: 1...15, using: &rng)).map { _ in words.randomElement(using: &rng)! }.joined(separator: " ")
-  let secondary = (0..<Int.random(in: 1...3, using: &rng)).map { _ in words.randomElement(using: &rng)! }.joined(separator: " ")
-  return (primary, secondary)
-}
-
 class TruncatingLabelTests: XCTestCase {
   var record = false // set to true if you want to re-record screenshots
   
@@ -192,6 +185,13 @@ class Cell: UITableViewCell {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+}
+
+var rng = RNG(seed: 42349023)
+let randomStrings: [(String, String)] = (0..<400).map { _ in
+  let primary = (0..<Int.random(in: 1...15, using: &rng)).map { _ in words.randomElement(using: &rng)! }.joined(separator: " ")
+  let secondary = (0..<Int.random(in: 1...3, using: &rng)).map { _ in words.randomElement(using: &rng)! }.joined(separator: " ")
+  return (primary, secondary)
 }
 
 let words = """
