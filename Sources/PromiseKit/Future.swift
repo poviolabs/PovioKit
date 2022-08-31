@@ -89,7 +89,7 @@ private extension Future {
   }
 }
 
-extension NSLock {
+fileprivate extension NSLock {
   @inline(__always)
   func read<T>(_ work: () -> T) -> T {
     lock()
