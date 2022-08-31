@@ -56,12 +56,10 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = .main) {
-    guard isAwaiting else { return }
     setResult(.success(value), on: dispatchQueue)
   }
   
   public func reject(with error: Error, on dispatchQueue: DispatchQueue? = .main) {
-    guard isAwaiting else { return }
     setResult(.failure(error), on: dispatchQueue)
   }
   
