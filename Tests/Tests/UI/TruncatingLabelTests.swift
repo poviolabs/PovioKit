@@ -12,89 +12,91 @@ import UIKit
 import SnapKit
 
 class TruncatingLabelTests: XCTestCase {
+  let imageConfig = ViewImageConfig.iPhone8
   var record = false // set to true if you want to re-record screenshots
+  let count = 20 // must be <= 20
   
   func testTruncatingLabelInAListGravityLeft1412() {
-    for i in 0..<20 {
-      let startIndex = i * 20
-      let endIndex = i * 20 + 20
+    for i in 0..<count {
+      let startIndex = i * count
+      let endIndex = i * count + count
       let vc = ViewController2(
         dataSource: Array(randomStrings[startIndex..<endIndex]),
         primaryFont: .systemFont(ofSize: 14),
         secondaryFont: .systemFont(ofSize: 12),
         gravitiy: .left
       )
-      assertSnapshot(matching: vc, as: .image, record: record)
+      assertSnapshot(matching: vc, as: .image(on: imageConfig), record: record)
     }
   }
   
   func testTruncatingLabelInAListGravityLeft2014() {
-    for i in 0..<20 {
-      let startIndex = i * 20
-      let endIndex = i * 20 + 20
+    for i in 0..<count {
+      let startIndex = i * count
+      let endIndex = i * count + count
       let vc = ViewController2(
         dataSource: Array(randomStrings[startIndex..<endIndex]),
         primaryFont: .systemFont(ofSize: 20),
         secondaryFont: .systemFont(ofSize: 14),
         gravitiy: .left
       )
-      assertSnapshot(matching: vc, as: .image, record: record)
+      assertSnapshot(matching: vc, as: .image(on: imageConfig), record: record)
     }
   }
   
   func testTruncatingLabelInAListGravityLeft3024() {
-    for i in 0..<20 {
-      let startIndex = i * 20
-      let endIndex = i * 20 + 20
+    for i in 0..<count {
+      let startIndex = i * count
+      let endIndex = i * count + count
       let vc = ViewController2(
         dataSource: Array(randomStrings[startIndex..<endIndex]),
         primaryFont: .systemFont(ofSize: 30),
         secondaryFont: .systemFont(ofSize: 24),
         gravitiy: .left
       )
-      assertSnapshot(matching: vc, as: .image, record: record)
+      assertSnapshot(matching: vc, as: .image(on: imageConfig), record: record)
     }
   }
   
   func testTruncatingLabelInAListGravityRight1412() {
-    for i in 0..<20 {
-      let startIndex = i * 20
-      let endIndex = i * 20 + 20
+    for i in 0..<count {
+      let startIndex = i * count
+      let endIndex = i * count + count
       let vc = ViewController2(
         dataSource: Array(randomStrings[startIndex..<endIndex]),
         primaryFont: .systemFont(ofSize: 14),
         secondaryFont: .systemFont(ofSize: 12),
         gravitiy: .right
       )
-      assertSnapshot(matching: vc, as: .image, record: record)
+      assertSnapshot(matching: vc, as: .image(on: imageConfig), record: record)
     }
   }
   
   func testTruncatingLabelInAListGravityRight2014() {
-    for i in 0..<20 {
-      let startIndex = i * 20
-      let endIndex = i * 20 + 20
+    for i in 0..<count {
+      let startIndex = i * count
+      let endIndex = i * count + count
       let vc = ViewController2(
         dataSource: Array(randomStrings[startIndex..<endIndex]),
         primaryFont: .systemFont(ofSize: 20),
         secondaryFont: .systemFont(ofSize: 14),
         gravitiy: .right
       )
-      assertSnapshot(matching: vc, as: .image, record: record)
+      assertSnapshot(matching: vc, as: .image(on: imageConfig), record: record)
     }
   }
   
   func testTruncatingLabelInAListGravityRight3024() {
-    for i in 0..<20 {
-      let startIndex = i * 20
-      let endIndex = i * 20 + 20
+    for i in 0..<count {
+      let startIndex = i * count
+      let endIndex = i * count + count
       let vc = ViewController2(
         dataSource: Array(randomStrings[startIndex..<endIndex]),
         primaryFont: .systemFont(ofSize: 30),
         secondaryFont: .systemFont(ofSize: 24),
         gravitiy: .right
       )
-      assertSnapshot(matching: vc, as: .image, record: record)
+      assertSnapshot(matching: vc, as: .image(on: imageConfig), record: record)
     }
   }
 }

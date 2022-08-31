@@ -104,35 +104,35 @@ public class TruncatingLabel: UIView {
     }
     
     var firstSplitIndex = primaryText.endIndex
+    var firstSplitIndexWithDots = primaryText.endIndex
     var lastSpaceIndex: String.Index?
     var primarySize: CGSize = .zero
     
     let offset: CGFloat = 5
-    let dots = "... "
+    let dots = "..."
     let dotsWidth = (dots as NSString).size(withAttributes: primaryTextAttributes).width
     
     /// find the index at which the primary string would be drawn out of the horizontal boundary.
     for index in primaryText.indices {
-      if primaryText[index] == " " { lastSpaceIndex = index }
-      primarySize = (primaryText[..<index] as NSString).size(
-        withAttributes: primaryTextAttributes)
-      if primarySize.width > frame.width - offset*2 {
-        firstSplitIndex = lastSpaceIndex.map(primaryText.index(after:)) ?? index //primaryText.index(before: index)
+      primarySize = (primaryText[..<index] as NSString).size(withAttributes: primaryTextAttributes)
+      
+      if firstSplitIndexWithDots == primaryText.endIndex && (primaryText[..<index] + dots as NSString).size(withAttributes: primaryTextAttributes).width > frame.width {
+        firstSplitIndexWithDots = primaryText.index(before: index)
+      }
+      
+      if primarySize.width > frame.width {
+        firstSplitIndex = lastSpaceIndex.map(primaryText.index(after:)) ?? primaryText.index(before: index)
         break
       }
+      if primaryText[index] == " " { lastSpaceIndex = index }
     }
     
     /// `primary1` is the (sub)string drawn in the first line
-    let primary1 = primaryText[..<firstSplitIndex] as NSString
+    var primary1 = primaryText[..<firstSplitIndex] as NSString
     primarySize = primary1.size(withAttributes: primaryTextAttributes)
-    /// draw the first line
-    primary1.draw(
-      at: .zero,
-      withAttributes: primaryTextAttributes
-    )
     
     /// calculate the length of the secondary string
-    let secondaryString = secondaryText as NSString
+    var secondaryString = secondaryText as NSString
     let secondarySize = secondaryString.size(withAttributes: secondaryTextAttributes)
     /// available width for remainder of the primary string
     let availableWidth = frame.width - secondarySize.width - offset*2
@@ -148,14 +148,16 @@ public class TruncatingLabel: UIView {
       primary2Size = (primaryText[firstSplitIndex..<secondSplitIndex] as NSString).size(withAttributes: primaryTextAttributes)
       if primary2Size.width + dotsWidth + offset*2 > availableWidth {
         appendDots = true
-        secondSplitIndex = secondSplitIndex == firstSplitIndex ? firstSplitIndex : primaryText.index(before: secondSplitIndex)
+        if secondSplitIndex != firstSplitIndex {
+          secondSplitIndex = primaryText.index(before: secondSplitIndex)
+        }
         break
       }
       secondSplitIndex = primaryText.index(after: secondSplitIndex)
     }
     
     /// `primary2` is the substring drawn in the second line
-    let primary2 = (primaryText[firstSplitIndex..<secondSplitIndex] + (appendDots ? dots : .init())) as NSString
+    let primary2 = (primaryText[firstSplitIndex..<secondSplitIndex].trimmingCharacters(in: .whitespaces) + (appendDots ? dots : .init())) as NSString
     
     if primary2.length == 0 && primarySize.width + secondarySize.width + offset*2 <= frame.width {
       /// enough space for both strings in a single line
@@ -164,16 +166,21 @@ public class TruncatingLabel: UIView {
       ? primarySize.width + offset*2
       : frame.width - secondarySize.width
       
-      if secondaryStartPosition < 100 && primaryText.count > 30 {
-        print()
-      }
-      
+      /// draw the first line (both primary and secondary texts)
+      /// i)
+      primary1.draw(
+        at: .zero,
+        withAttributes: primaryTextAttributes
+      )
+      /// ii)
       secondaryString.draw(
         at: .init(
           x: secondaryStartPosition,
           y: (primarySize.height - secondarySize.height)*0.5),
         withAttributes: secondaryTextAttributes
       )
+      
+      /// update intrinsic content size (the height is just the maximum of height of both texts)
       internalIntrinsicContentSize = .init(
         width: frame.width,
         height: max(primarySize.height, secondarySize.height)
@@ -181,23 +188,64 @@ public class TruncatingLabel: UIView {
       return
     }
     
-    /// draw the second line
-    primary2.draw(
-      at: .init(x: 0, y: primarySize.height + offset),
-      withAttributes: primaryTextAttributes
-    )
-    
-    let secondaryStartPosition = gravity == .left
+    var secondaryStartPosition = gravity == .left
     ? (primary2.length == 0 ? 0 : primary2.size(withAttributes: primaryTextAttributes).width + offset*2)
     : frame.width - secondarySize.width
     
-    /// draw secondary string
-    secondaryString.draw(
-      at: .init(
-        x: secondaryStartPosition,
-        y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
-      withAttributes: secondaryTextAttributes
-    )
+    if secondarySize.width > frame.width || primary2 == dots as NSString {
+      /// there is not enough space for the whole second string, therefore we have to truncate it
+      secondaryStartPosition = 0
+      
+      if secondaryStartPosition + secondarySize.width > frame.width {
+        // @NOTE: - We assume that secondary strings are 'short', so we start from the back
+        for index in secondaryText.indices.reversed() {
+          secondaryString = (secondaryText[..<index] + dots) as NSString
+          guard secondaryString.size(withAttributes: secondaryTextAttributes).width > frame.width else {
+            break
+          }
+        }
+      }
+      
+      if primary2.length > 0 {
+        /// because the whole second line must be allocated to the secondary label,
+        /// we have to move the dots to the first line
+        precondition(primary2 == dots as NSString)
+        primary1 = primaryText[..<firstSplitIndexWithDots].trimmingCharacters(in: .whitespaces) + dots as NSString
+      }
+      /// 1. draw the first line
+      primary1.draw(
+        at: .zero,
+        withAttributes: primaryTextAttributes
+      )
+      /// 2. draw the second line
+      secondaryString.draw(
+        at: .init(
+          x: secondaryStartPosition,
+          y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
+        withAttributes: secondaryTextAttributes
+      )
+    } else {
+      /// 1. draw the first line
+      primary1.draw(
+        at: .zero,
+        withAttributes: primaryTextAttributes
+      )
+      /// 2. draw the second line
+      /// i)
+      primary2.draw(
+        at: .init(x: 0, y: primarySize.height + offset),
+        withAttributes: primaryTextAttributes
+      )
+      /// ii)
+      secondaryString.draw(
+        at: .init(
+          x: secondaryStartPosition,
+          y: primarySize.height + offset + (primarySize.height - secondarySize.height)*0.5),
+        withAttributes: secondaryTextAttributes
+      )
+    }
+    
+    /// update intrinsic content size
     internalIntrinsicContentSize = .init(
       width: frame.width,
       height: primarySize.height + offset + max(primarySize.height, secondarySize.height)
