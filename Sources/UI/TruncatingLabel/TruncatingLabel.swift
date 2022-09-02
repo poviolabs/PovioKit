@@ -8,7 +8,7 @@
 
 import UIKit
 
-// 1. Both string fit into a single line
+// 1. Both strings fit into a single line
 //  ---------------------------------------------
 // |   This is a short text.   secondary label   |
 //  ---------------------------------------------
@@ -31,6 +31,13 @@ import UIKit
 //  ---------------------------------------------
 // |   This is a long text that has to be split  |
 // |   into two lines, ho...    secondary label  |
+//  ---------------------------------------------
+//
+// 4. There is not enough space for the secondary text
+// in the whole line. Truncate primary text in the first line.
+//  ---------------------------------------------
+// |   This is a long text that has to be sp...  |
+// |   secondary label is too long to be disp... |
 //  ---------------------------------------------
 //
 public class TruncatingLabel: UIView {
