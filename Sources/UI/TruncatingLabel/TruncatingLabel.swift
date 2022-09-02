@@ -8,7 +8,7 @@
 
 import UIKit
 
-// 1. Boths string fit into a single line
+// 1. Both string fit into a single line
 //  ---------------------------------------------
 // |   This is a short text.   secondary label   |
 //  ---------------------------------------------
@@ -34,9 +34,6 @@ import UIKit
 //  ---------------------------------------------
 //
 public class TruncatingLabel: UIView {
-  // @NOTE: - For performance reasons, it is the responsibility of the
-  // user to call `setNeedsDisplay()` on the view after modifying attributes.
-  
   // @NOTE: - For autolayout to work properly, at least the width of the view
   // should be 'statically' determined (that is, layoutSubviews() should
   // receive a frame with valid width) by the constraint setup, i.e., bind
@@ -58,6 +55,7 @@ public class TruncatingLabel: UIView {
     }
     set {
       primaryTextAttributes[.foregroundColor] = newValue
+      setNeedsDisplay()
     }
   }
   public var primaryFont: UIFont {
@@ -67,6 +65,7 @@ public class TruncatingLabel: UIView {
     set {
       primaryTextAttributes[.font] = newValue
       internalIntrinsicContentSize = calculateIntrinsicContentSize()
+      setNeedsDisplay()
     }
   }
   public var secondaryColor: UIColor {
@@ -75,6 +74,7 @@ public class TruncatingLabel: UIView {
     }
     set {
       secondaryTextAttributes[.foregroundColor] = newValue
+      setNeedsDisplay()
     }
   }
   public var secondaryFont: UIFont {
@@ -84,11 +84,18 @@ public class TruncatingLabel: UIView {
     set {
       secondaryTextAttributes[.font] = newValue
       internalIntrinsicContentSize = calculateIntrinsicContentSize()
+      setNeedsDisplay()
     }
   }
-  public var gravity: Gravity = .left
-  public var primaryText: String = ""
-  public var secondaryText: String = ""
+  public var gravity: Gravity = .left {
+    didSet { setNeedsDisplay() }
+  }
+  public var primaryText: String = "" {
+    didSet { setNeedsDisplay() }
+  }
+  public var secondaryText: String = "" {
+    didSet { setNeedsDisplay() }
+  }
   
   private lazy var internalIntrinsicContentSize: CGSize = calculateIntrinsicContentSize()
   
@@ -308,3 +315,4 @@ extension TruncatingLabel {
     )
   }
 }
+
