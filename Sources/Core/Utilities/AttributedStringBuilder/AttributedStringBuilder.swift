@@ -18,7 +18,7 @@ extension BuilderCompatible {
   public var bd: AttributedStringBuilder { return AttributedStringBuilder(self) }
 }
 
-public class AttributedStringBuilder {
+public final class AttributedStringBuilder {
   private let compatible: BuilderCompatible?
   
   public init() {
@@ -48,7 +48,7 @@ public class AttributedStringBuilder {
   }
 }
 
-open class Builder {
+public final class Builder {
   private enum StringBuilderError: Error {
     case invalidRange
     case substringNotFound
