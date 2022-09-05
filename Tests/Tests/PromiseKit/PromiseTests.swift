@@ -941,7 +941,7 @@ extension PromiseTests {
     let ex = expectation(description: "")
     poll(
       repeat: check,
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .then { _ in ex.fulfill() }
@@ -960,7 +960,7 @@ extension PromiseTests {
     let ex = expectation(description: "")
     poll(
       repeat: check,
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 },
       maxRetry: 1
     )
@@ -973,13 +973,13 @@ extension PromiseTests {
     let ex2 = expectation(description: "")
     poll(
       repeat: { async(NSError.err, Bool.self) },
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .catch { _ in ex1.fulfill() }
     poll(
       repeat: { sync(NSError.err, Bool.self) },
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .catch { _ in ex2.fulfill() }
@@ -998,7 +998,7 @@ extension PromiseTests {
     let ex = expectation(description: "")
     poll(
       repeat: check,
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .catch { _ in ex.fulfill() }
