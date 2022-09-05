@@ -54,7 +54,7 @@
 | [UIEdgeInsets](Sources/Core/Extensions/UIKit/UIEdgeInsets+Povio.swift) | [DecodableDictionary](Sources/Core/Extensions/Foundation/DecodableDictionary+Povio.swift) | |
 | [UIApplication](Sources/Core/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Core/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | |
 | [UIProgressView](Sources/Core/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Core/Extensions/Foundation/Encodable+Povio.swift) | |
-| [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | |
+| [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | [Double](Sources/Core/Extensions/Foundation/Double+Povio.swift) | |
 
 ### UI
 
