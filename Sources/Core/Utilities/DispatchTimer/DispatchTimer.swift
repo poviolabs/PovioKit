@@ -9,7 +9,7 @@
 import Foundation
 
 /// A NSTimer replacement using GCD.
-public class DispatchTimer {
+public final class DispatchTimer {
   private var timer: DispatchSourceTimer?
   
   public init() {}

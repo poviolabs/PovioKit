@@ -9,7 +9,7 @@
 import Foundation
 
 @available(iOS 13.0, *)
-extension SignInWithApple {
+public extension SignInWithApple {
   enum Error: Swift.Error {
     case missingNonce
     case missingIdentityToken
