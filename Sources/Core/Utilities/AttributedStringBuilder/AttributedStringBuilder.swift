@@ -30,7 +30,7 @@ public class AttributedStringBuilder {
   }
   
   @discardableResult
-  open func apply(on text: String, _ closure: (Builder) -> Void) -> NSAttributedString {
+  public func apply(on text: String, _ closure: (Builder) -> Void) -> NSAttributedString {
     let builder = Builder(text: text)
     closure(builder)
     let attributedString = builder.create()
@@ -39,7 +39,7 @@ public class AttributedStringBuilder {
   }
   
   @discardableResult
-  open func apply(_ closure: (Builder) -> Void) -> NSAttributedString {
+  public func apply(_ closure: (Builder) -> Void) -> NSAttributedString {
     let builder = Builder(text: compatible?.text ?? "")
     closure(builder)
     let attributedString = builder.create()
@@ -69,14 +69,14 @@ open class Builder {
 
 // MARK: - Custom initializers
 extension Builder {
-  open func create() -> NSAttributedString {
+  public func create() -> NSAttributedString {
     if rangeAttributes.isEmpty {
       return NSAttributedString(string: text, attributes: attributes)
     }
     return createMutable() as NSAttributedString
   }
   
-  open func createMutable() -> NSMutableAttributedString {
+  public func createMutable() -> NSMutableAttributedString {
     let mutableString = NSMutableAttributedString(string: text, attributes: attributes)
     for (key, value, range) in rangeAttributes {
       mutableString.addAttribute(key, value: value, range: range)
@@ -88,7 +88,7 @@ extension Builder {
 // MARK: - Add Attribute Setters
 extension Builder {
   @discardableResult
-  open func addAttribute(key: NSAttributedString.Key, object: Any?) -> Builder {
+  public func addAttribute(key: NSAttributedString.Key, object: Any?) -> Builder {
     if let object = object {
       attributes[key] = object
     }
@@ -96,7 +96,7 @@ extension Builder {
   }
   
   @discardableResult
-  open func addAttribute(key: NSAttributedString.Key, object: Any?, range: NSRange) -> Builder {
+  public func addAttribute(key: NSAttributedString.Key, object: Any?, range: NSRange) -> Builder {
     guard validate(range: range) else { return self }
     if let object = object {
       rangeAttributes.append((key, object, range))
@@ -105,7 +105,7 @@ extension Builder {
   }
   
   @discardableResult
-  open func addAttribute(key: NSAttributedString.Key, object: Any?, substring: String) -> Builder {
+  public func addAttribute(key: NSAttributedString.Key, object: Any?, substring: String) -> Builder {
     guard let range = text.range(of: substring) else { return self }
     return addAttribute(key: key, object: object, range: NSRange(range, in: text))
   }
@@ -114,26 +114,26 @@ extension Builder {
 // MARK: - Other Setters
 extension Builder {
   @discardableResult
-  open func setFont(_ font: UIFont?) -> Builder {
-    return addAttribute(key: .font, object: font)
+  public func setFont(_ font: UIFont?) -> Builder {
+    addAttribute(key: .font, object: font)
   }
   
   @discardableResult
-  open func setTextColor(_ color: UIColor?) -> Builder {
-    return addAttribute(key: .foregroundColor, object: color)
+  public func setTextColor(_ color: UIColor?) -> Builder {
+    addAttribute(key: .foregroundColor, object: color)
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: NSUnderlineStyle) -> Builder {
-    return addAttribute(key: .underlineStyle, object: style.rawValue)
+  public func setUnderlineStyle(_ style: NSUnderlineStyle) -> Builder {
+    addAttribute(key: .underlineStyle, object: style.rawValue)
   }
   
   @discardableResult
-  open func setParagraphStyle(lineSpacing: CGFloat,
-                              heightMultiple: CGFloat = 1,
-                              lineHeight: CGFloat,
-                              lineBreakMode: NSLineBreakMode = .byWordWrapping,
-                              textAlignment: NSTextAlignment = .left) -> Builder {
+  public func setParagraphStyle(lineSpacing: CGFloat,
+                                heightMultiple: CGFloat = 1,
+                                lineHeight: CGFloat,
+                                lineBreakMode: NSLineBreakMode = .byWordWrapping,
+                                textAlignment: NSTextAlignment = .left) -> Builder {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = lineSpacing
     paragraphStyle.lineHeightMultiple = heightMultiple
@@ -144,27 +144,27 @@ extension Builder {
   }
   
   @discardableResult
-  open func setFont(_ font: UIFont?, range: NSRange) -> Builder {
-    return addAttribute(key: .font, object: font, range: range)
+  public func setFont(_ font: UIFont?, range: NSRange) -> Builder {
+    addAttribute(key: .font, object: font, range: range)
   }
   
   @discardableResult
-  open func setTextColor(_ color: UIColor?, range: NSRange) -> Builder {
-    return addAttribute(key: .foregroundColor, object: color, range: range)
+  public func setTextColor(_ color: UIColor?, range: NSRange) -> Builder {
+    addAttribute(key: .foregroundColor, object: color, range: range)
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: NSUnderlineStyle, range: NSRange) -> Builder {
-    return addAttribute(key: .underlineStyle, object: style.rawValue, range: range)
+  public func setUnderlineStyle(_ style: NSUnderlineStyle, range: NSRange) -> Builder {
+    addAttribute(key: .underlineStyle, object: style.rawValue, range: range)
   }
   
   @discardableResult
-  open func setParagraphStyle(lineSpacing: CGFloat,
-                              heightMultiple: CGFloat = 1,
-                              lineHeight: CGFloat,
-                              lineBreakMode: NSLineBreakMode = .byWordWrapping,
-                              textAlignment: NSTextAlignment = .left,
-                              range: NSRange) -> Builder {
+  public func setParagraphStyle(lineSpacing: CGFloat,
+                                heightMultiple: CGFloat = 1,
+                                lineHeight: CGFloat,
+                                lineBreakMode: NSLineBreakMode = .byWordWrapping,
+                                textAlignment: NSTextAlignment = .left,
+                                range: NSRange) -> Builder {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = lineSpacing
     paragraphStyle.lineHeightMultiple = heightMultiple
@@ -175,27 +175,27 @@ extension Builder {
   }
   
   @discardableResult
-  open func setFont(_ font: UIFont?, substring: String) -> Builder {
-    return addAttribute(key: .font, object: font, substring: substring)
+  public func setFont(_ font: UIFont?, substring: String) -> Builder {
+    addAttribute(key: .font, object: font, substring: substring)
   }
   
   @discardableResult
-  open func setTextColor(_ color: UIColor?, substring: String) -> Builder {
-    return addAttribute(key: .foregroundColor, object: color, substring: substring)
+  public func setTextColor(_ color: UIColor?, substring: String) -> Builder {
+    addAttribute(key: .foregroundColor, object: color, substring: substring)
   }
   
   @discardableResult
-  open func setUnderlineStyle(_ style: NSUnderlineStyle, substring: String) -> Builder {
-    return addAttribute(key: .underlineStyle, object: style.rawValue, substring: substring)
+  public func setUnderlineStyle(_ style: NSUnderlineStyle, substring: String) -> Builder {
+    addAttribute(key: .underlineStyle, object: style.rawValue, substring: substring)
   }
   
   @discardableResult
-  open func setParagraphStyle(lineSpacing: CGFloat,
-                              heightMultiple: CGFloat = 1,
-                              lineHeight: CGFloat,
-                              lineBreakMode: NSLineBreakMode = .byWordWrapping,
-                              textAlignment: NSTextAlignment = .left,
-                              substring: String) -> Builder {
+  public func setParagraphStyle(lineSpacing: CGFloat,
+                                heightMultiple: CGFloat = 1,
+                                lineHeight: CGFloat,
+                                lineBreakMode: NSLineBreakMode = .byWordWrapping,
+                                textAlignment: NSTextAlignment = .left,
+                                substring: String) -> Builder {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = lineSpacing
     paragraphStyle.lineHeightMultiple = heightMultiple
