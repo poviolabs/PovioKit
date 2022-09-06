@@ -10,7 +10,7 @@ import Alamofire
 import Foundation
 
 @available(*, deprecated, message: "Use Alamofire's `RetryPolicy` class instead")
-public class AlamofireRetryInterceptor: RequestInterceptor {
+public final class AlamofireRetryInterceptor: RequestInterceptor {
   private let limit: Int
   private let delay: TimeInterval
   

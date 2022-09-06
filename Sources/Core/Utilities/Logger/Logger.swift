@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Logger {
+public final class Logger {
   public typealias Parameters = [String: Any]
   public static let shared = Logger()
   public var logLevel: LogLevel = .none
