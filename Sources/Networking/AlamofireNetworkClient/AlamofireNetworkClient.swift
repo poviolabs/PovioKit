@@ -81,41 +81,6 @@ public extension AlamofireNetworkClient {
     return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
-  @available(*, deprecated, renamed: "request(_:)")
-  func request<E: Encodable>(
-    method: HTTPMethod,
-    endpoint: URLConvertible,
-    headers: HTTPHeaders? = nil,
-    encode: E,
-    encoder: JSONEncoder = .init(),
-    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
-    interceptor: RequestInterceptor? = nil,
-    uploadProgress: ProgressHandler? = nil,
-    downloadProgress: ProgressHandler? = nil
-  ) -> Request {
-    let parameterEncoder: ParameterEncoder
-    switch method {
-    case .get, .delete, .head:
-      parameterEncoder = URLEncodedFormParameterEncoder(
-        encoder: encoder,
-        arrayEncoding: arrayEncoding)
-    default:
-      parameterEncoder = JSONParameterEncoder(encoder: encoder)
-    }
-    
-    let request = session
-      .request(
-        endpoint,
-        method: method,
-        parameters: encode,
-        encoder: parameterEncoder,
-        headers: headers,
-        interceptor: interceptor)
-    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
-    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
-  }
-  
   func request<E: Encodable>(
     method: HTTPMethod,
     endpoint: URLConvertible,
@@ -278,23 +243,6 @@ public extension AlamofireNetworkClient.Error {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
-  @available(*, deprecated, message: "Legacy")
-  var asJson: Promise<Any> {
-    .init { promise in
-      dataRequest.responseJSON {
-        switch $0.result {
-        case .success(let json):
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
-          promise.resolve(with: json)
-        case .failure(let error):
-          let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-          promise.reject(with: error)
-        }
-      }
-    }
-  }
-  
   var asData: Promise<Data> {
     .init { promise in
       dataRequest.responseData { (response: AFDataResponse<Data>) in
