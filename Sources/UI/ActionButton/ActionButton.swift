@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(iOS 13, *)
 public class ActionButtonViewModel: ObservableObject {
   @Published public var title: String = ""
   @Published public var font: Font = .system(size: 18)
@@ -20,7 +19,6 @@ public class ActionButtonViewModel: ObservableObject {
   @Published public var extraImage: ActionButton.ExtraImage?
 }
 
-@available(iOS 13, *)
 public struct ActionButton: View {
   @ObservedObject public var properties = ActionButtonViewModel()
   private var actionHandler: (() -> Void)?
@@ -49,7 +47,6 @@ public struct ActionButton: View {
 }
 
 // MARK: - Public Properties
-@available(iOS 13, *)
 public extension ActionButton {
   enum ExtraImage {
     case left(Image)
@@ -64,7 +61,6 @@ public extension ActionButton {
 }
 
 // MARK: - Private Methods
-@available(iOS 13, *)
 private extension ActionButton {
   func buttonAction() {
     actionHandler?()
@@ -88,7 +84,6 @@ private extension ActionButton {
 }
 
 // MARK: Views
-@available(iOS 13, *)
 private extension ActionButton {
   struct ButtonView: View {
     var size: CGSize
@@ -167,7 +162,6 @@ private extension ActionButton {
   }
 }
 
-@available(iOS 13, *)
 struct PovioButton_Previews: PreviewProvider {
   static var previews: some View {
     ActionButton()
