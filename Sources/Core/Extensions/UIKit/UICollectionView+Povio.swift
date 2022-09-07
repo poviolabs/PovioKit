@@ -9,21 +9,6 @@
 import UIKit
 
 public extension UICollectionView {
-  @available(*, deprecated, renamed: "register(_:)")
-  func register<T: UICollectionViewCell>(_: T.Type) {
-    register(T.self, forCellWithReuseIdentifier: T.identifier)
-  }
-  
-  @available(*, deprecated, renamed: "registerHeaderViews")
-  func register<T: UICollectionReusableView>(headerView: T.Type) {
-    registerSupplementaryView(headerView, kind: UICollectionView.elementKindSectionHeader)
-  }
-  
-  @available(*, deprecated, renamed: "registerFooterViews")
-  func register<T: UICollectionReusableView>(footerView: T.Type) {
-    registerSupplementaryView(footerView, kind: UICollectionView.elementKindSectionFooter)
-  }
-  
   func register(_ cells: UICollectionViewCell.Type...) {
     cells.forEach { register($0.self, forCellWithReuseIdentifier: $0.identifier) }
   }
