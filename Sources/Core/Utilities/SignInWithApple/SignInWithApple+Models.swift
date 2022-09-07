@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(iOS 13.0, *)
 public extension SignInWithApple {
   enum Error: Swift.Error {
     case missingNonce
