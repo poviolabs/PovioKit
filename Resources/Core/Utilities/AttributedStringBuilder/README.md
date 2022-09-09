@@ -95,25 +95,3 @@ let attributedText = AttributedStringBuilder().apply(on: "My custom text") {
 
 We've shown how we can configure a couple of attributed parameters, like color, font, paragraph style, ... But what if we want to configure any other attribute? 
 The methods shown through examples above are actually just convenience methods calling generic `addAttribute(key: NSAttributedString.Key, object: Any?)` method. We can use this method instead to configure any other attributes we'd like. 
-
-## Installation
-
-PovioKit/Utilities/AttributedStringBuilder is available through PovioKit cocoapod. To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'PovioKit/Utilities/AttributedStringBuilder', :git => 'git@github.com:poviolabs/PovioKit.git'
-```
-
-or if you want the whole PovioKit package:
-```ruby
-pod 'PovioKit', :git => 'git@github.com:poviolabs/PovioKit.git', :branch => 'feature/poviokit-pod-setup'
-```
-
-## Author
-
-Povio Inc., services@poviolabs.com
-
-## License
-
-PovioKit is available under the MIT license. See the LICENSE file for more info.

@@ -9,7 +9,7 @@
     <a href="https://www.swift.org" alt="Swift">
         <img src="https://img.shields.io/badge/Swift-5-orange.svg" />
     </a>
-    <a href="./LICENCE" alt="License">
+    <a href="./LICENSE" alt="License">
         <img src="https://img.shields.io/badge/Licence-MIT-red.svg" />
     </a>
     <a href="https://github.com/poviolabs/PovioKit/actions/workflows/Tests.yml" alt="Tests Status">
