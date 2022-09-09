@@ -16,12 +16,12 @@ public extension URL {
   
   /// Append parameter to the URL
   /// ```
-  /// let someURL: URL = "https://poviolabs.com"
+  /// let someURL: URL = "https://povio.com"
   /// let newURL = someURL
   ///   .appending("accept", value: "developers")
   ///   .appending("tech", value: "iOS"
   ///
-  /// print(newURL) // https://poviolabs.com?accept=developers&tech=iOS
+  /// print(newURL) // https://povio.com?accept=developers&tech=iOS
   /// ```
   func appending(_ name: String, value: String?) -> URL {
     guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return absoluteURL }
