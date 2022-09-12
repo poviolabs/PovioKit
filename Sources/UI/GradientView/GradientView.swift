@@ -15,15 +15,23 @@ public class GradientView: UIView {
     }
   }
   
-  let gradientLayer: CAGradientLayer = CAGradientLayer()
+  let gradientLayer: CAGradientLayer
   
   public init(colors: [UIColor]) {
-    gradientLayer.colors = colors.map { $0.cgColor }
+    self.gradientLayer = .init()
+    self.gradientLayer.colors = colors.map { $0.cgColor }
+    super.init(frame: .zero)
+    setupViews()
+  }
+  
+  public init(layer: CAGradientLayer) {
+    self.gradientLayer = layer
     super.init(frame: .zero)
     setupViews()
   }
   
   public override init(frame: CGRect) {
+    self.gradientLayer = .init()
     super.init(frame: frame)
     setupViews()
   }

@@ -1,11 +1,10 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.4
 import PackageDescription
 
 let package = Package(
   name: "PovioKit",
   platforms: [
-    .iOS(.v12),
-    .macOS(.v10_12)
+    .iOS(.v13)
   ],
   products: [
     .library(name: "PovioKit", targets: ["PovioKit"]),
@@ -14,7 +13,9 @@ let package = Package(
     .library(name: "PovioKitUI", targets: ["PovioKitUI"])
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.5.0"))
+    .package(
+      url: "https://github.com/Alamofire/Alamofire",
+      .upToNextMajor(from: "5.6.2"))
   ],
   targets: [
     .target(

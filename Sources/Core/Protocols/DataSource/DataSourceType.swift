@@ -8,11 +8,13 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Please migrate to diffable datasource instead.")
 public protocol DataSourceType {
   associatedtype Section: SectionType
   var sections: [Section] { get set }
 }
 
+@available(*, deprecated, message: "Please migrate to diffable datasource instead.")
 public extension DataSourceType {
   func numberOfSections() -> Int {
     sections.count

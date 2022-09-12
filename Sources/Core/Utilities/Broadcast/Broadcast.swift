@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Broadcast<T> {
+public final class Broadcast<T> {
   class Weak<T: AnyObject> {
     weak var reference: T?
     init(_ object: T) { self.reference = object }

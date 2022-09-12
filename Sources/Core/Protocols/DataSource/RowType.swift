@@ -8,4 +8,5 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Please migrate to diffable datasource instead.")
 public protocol RowType { }

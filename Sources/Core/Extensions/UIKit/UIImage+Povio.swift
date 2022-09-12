@@ -11,11 +11,7 @@ import UIKit
 public extension UIImage {
   /// Initializes a symbol image on iOS 13 or image from the given `bundle` for given `name`
   convenience init?(systemNameOr name: String, in bundle: Bundle? = Bundle.main, compatibleWith traitCollection: UITraitCollection? = nil) {
-    if #available(iOS 13, *) {
-      self.init(systemName: name, compatibleWith: traitCollection)
-    } else {
-      self.init(named: name, in: bundle, compatibleWith: traitCollection)
-    }
+    self.init(systemName: name, compatibleWith: traitCollection)
   }
   
   /// Tints image with given color

@@ -56,12 +56,10 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = .main) {
-    guard isAwaiting else { return }
     setResult(.success(value), on: dispatchQueue)
   }
   
   public func reject(with error: Error, on dispatchQueue: DispatchQueue? = .main) {
-    guard isAwaiting else { return }
     setResult(.failure(error), on: dispatchQueue)
   }
   
@@ -107,6 +105,7 @@ public class Promise<Value>: Future<Value, Error> {
   }
 }
 
+// MARK: - States
 public extension Promise {
   var isResolved: Bool {
     result != nil
@@ -153,6 +152,7 @@ public extension Promise {
   }
 }
 
+// MARK: - Utils
 public extension Promise {
   /// Convert this Promise to a new Promise where `Value` == ()
   var asVoid: Promise<()> {
@@ -176,8 +176,30 @@ public extension Promise {
     `catch`(work)
     return self
   }
+  
+  /// Sleep promise execution for given `duration` interval and return new promise with existing value.
+  func sleep(
+    duration: DispatchTimeInterval,
+    on dispatchQueue: DispatchQueue = .main
+  ) -> Promise<Value> {
+    Promise { seal in
+      self.finally {
+        switch $0 {
+        case .success(let value):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.resolve(with: value, on: dispatchQueue)
+          }
+        case .failure(let error):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.reject(with: error, on: dispatchQueue)
+          }
+        }
+      }
+    }
+  }
 }
 
+// MARK: - Core
 public extension Promise {
   /// Returns a composition of this Promise with the result of calling `transform`.
   ///
@@ -198,8 +220,7 @@ public extension Promise {
         case .success(let value):
           dispatchQueue.async {
             do {
-              let promise = try transform(value)
-              promise.finally {
+              try transform(value).finally {
                 switch $0 {
                 case .success(let value):
                   seal.resolve(with: value, on: dispatchQueue)
@@ -850,6 +871,7 @@ public extension Promise where Value == Void {
 }
 
 extension Optional where Wrapped == DispatchQueue {
+  @inline(__always)
   func async(execute work: @escaping () -> Void) {
     switch self {
     case let queue?:
