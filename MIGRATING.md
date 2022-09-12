@@ -1,9 +1,10 @@
 ## Migration Guides
 
 ### Migration from versions < 2.0.0
-* [Networking] File `OAuthRequestInterceptor` has been completely removed due to some critical issues. We encourage you to migrate to Alamofire's `Authenticator` protocol. Instructions can be found [here](Resources/Networking/AlamofireNetworkClient#oauth).
+* [Networking] File `OAuthRequestInterceptor` has been completely removed due to some critical issues. We encourage you to migrate to Alamofire's `Authenticator` protocol. Instructions can be found [here](Resources/Networking/AlamofireNetworkClient#oauth). Deprecated methods have also been removed.
 * [Package] The minimum supported version of iOS is 13. If you still support iOS 12, please evaluate this update.
 * [DataSource] Protocols have been deprecated in favor or diffable data source.
+* [UI] Removed deprecated methods.
 
 ### Migration from versions < 1.4.1
 * [Networking] File `OAuthRequestInterceptor` has been deprecated due to some critical issues. We encourage you to migrate to Alamofire's `Authenticator` protocol. Instructions can be found [here](Resources/Networking/AlamofireNetworkClient#oauth).
