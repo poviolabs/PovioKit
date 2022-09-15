@@ -48,4 +48,18 @@ final class XCTestCaseTests: XCTestCase {
       }
     }
   }
+  
+  func test_XCTAssertEqualURLRequest_failsOnDifferentHttpMethods() {
+    let url = URL(string: "https://www.povio.com")!
+    var getRequest = URLRequest(url: url)
+    getRequest.httpMethod = "GET"
+    
+    var postRequest = URLRequest(url: url)
+    postRequest.httpMethod = "POST"
+    
+    XCTExpectFailure("Expected test to fail since httpMethod is different.") {
+      XCTAssertEqual(getRequest, postRequest)
+      XCTAssertEqualURLRequest(getRequest, postRequest)
+    }
+  }
 }
