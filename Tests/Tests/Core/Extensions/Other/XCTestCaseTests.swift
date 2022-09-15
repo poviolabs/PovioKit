@@ -10,14 +10,13 @@ import XCTest
 
 final class XCTestCaseTests: XCTestCase {
   func test_XCTAssertEqualURLRequest_httpBodyFailsOnDifferentDataSets() {
-    let url = URL(string: "https://www.povio.com")!
     let data1 = "TestData".data(using: .utf8)
     let data2 = "Povio🚀".data(using: .utf8)
     
-    var firstUrlRequest = URLRequest(url: url)
+    var firstUrlRequest = anyRequest()
     firstUrlRequest.httpBody = data1
     
-    var secondUrlRequest = URLRequest(url: url)
+    var secondUrlRequest = anyRequest()
     secondUrlRequest.httpBody = data2
     
     // Test passes even though httpBody is different.
@@ -30,14 +29,11 @@ final class XCTestCaseTests: XCTestCase {
   }
   
   func test_XCTAssertEqualURLRequest_hasExpectedFailures() {
-    let url1 = URL(string: "https://www.povio.com")!
-    let url2 = URL(string: "https://www.pov.io")!
-    
-    let firstUrlRequest = URLRequest(url: url1)
-    let secondUrlRequest = URLRequest(url: url2)
+    let firstUrlRequest = anyRequest()
+    let secondUrlRequest = anyRequest(urlString: "https://www.pov.io")
 
 
-    let possibleCombinations: [(URLRequest?, URLRequest?)] = [ (firstUrlRequest, nil),
+    let possibleCombinations: [(URLRequest?, URLRequest?)] = [(firstUrlRequest, nil),
                                                                (nil, secondUrlRequest),
                                                                (firstUrlRequest, secondUrlRequest)]
     
@@ -50,16 +46,23 @@ final class XCTestCaseTests: XCTestCase {
   }
   
   func test_XCTAssertEqualURLRequest_failsOnDifferentHttpMethods() {
-    let url = URL(string: "https://www.povio.com")!
-    var getRequest = URLRequest(url: url)
+    var getRequest = anyRequest()
     getRequest.httpMethod = "GET"
     
-    var postRequest = URLRequest(url: url)
+    var postRequest = anyRequest()
     postRequest.httpMethod = "POST"
     
     XCTExpectFailure("Expected test to fail since httpMethod is different.") {
       XCTAssertEqual(getRequest, postRequest)
       XCTAssertEqualURLRequest(getRequest, postRequest)
     }
+  }
+}
+
+// MARK: - Helpers
+private extension XCTestCaseTests {
+  func anyRequest(urlString: String = "https://www.povio.com") -> URLRequest {
+    let url = URL(string: urlString)!
+    return URLRequest(url: url)
   }
 }
