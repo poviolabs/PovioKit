@@ -46,4 +46,34 @@ public extension XCTestCase {
     XCTAssertNotEqual(lhs.httpBody ?? Data(), rhs.httpBody ?? Data(), "Expected httpBody not to be equal", file: file, line: line)
     XCTAssertNotEqual(lhs.allHTTPHeaderFields ?? [:], rhs.allHTTPHeaderFields ?? [:], "Expected HTTPHeaderFields not to be equal", file: file, line: line)
   }
+  
+  func XCTAssertEqualImage(_ lhs: UIImage?, _ rhs: UIImage?, file: StaticString = #filePath, line: UInt = #line) {
+    XCTAssertNotNil(lhs, "Left image is nil", file: file, line: line)
+    XCTAssertNotNil(rhs, "Right image is nil", file: file, line: line)
+    guard let imageData1 = lhs?.pngData(),
+          let imageData2 = rhs?.pngData() else { return }
+    XCTAssertTrue(imageData1.elementsEqual(imageData2), "Images doesn't equal!", file: file, line: line)
+  }
+  
+  func XCTAssertNotEqualImage(_ lhs: UIImage?, _ rhs: UIImage?, file: StaticString = #filePath, line: UInt = #line) {
+    guard let imageData1 = lhs?.pngData(),
+          let imageData2 = rhs?.pngData() else { return }
+    XCTAssertFalse(imageData1.elementsEqual(imageData2), "Images do equal!", file: file, line: line)
+  }
+  
+  func XCTAssertEqualFont(lhs: UIFont?, rhs: UIFont?, file: StaticString = #filePath, line: UInt = #line) {
+    XCTAssertEqual(lhs?.pointSize, rhs?.pointSize, "PointSize doesn't equal!", file: file, line: line)
+    XCTAssertEqual(lhs?.fontName, rhs?.fontName, "FontName doesn't equal!", file: file, line: line)
+    XCTAssertEqual(lhs?.familyName, rhs?.familyName, "FamilyName doesn't equal!", file: file, line: line)
+  }
+  
+  func XCTAssertNotEqualFont(lhs: UIFont?, rhs: UIFont?, file: StaticString = #filePath, line: UInt = #line) {
+    XCTAssertNotNil(lhs, "Left font is nil", file: file, line: line)
+    XCTAssertNotNil(rhs, "Right font is nil", file: file, line: line)
+    let pointSizeEquals = lhs?.pointSize == rhs?.pointSize
+    let fontNameEquals = lhs?.fontName == rhs?.fontName
+    let familyNameEquals = lhs?.familyName == rhs?.familyName
+    guard pointSizeEquals, fontNameEquals, familyNameEquals else { return }
+    XCTFail("Fonts do equal!", file: file, line: line)
+  }
 }
