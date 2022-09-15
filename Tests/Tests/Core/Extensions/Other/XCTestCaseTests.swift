@@ -38,10 +38,7 @@ final class XCTestCaseTests: XCTestCase {
                                                                (firstUrlRequest, secondUrlRequest)]
     
     possibleCombinations.forEach { combination in
-      XCTExpectFailure("Expected test to fail \(combination)") {
-        XCTAssertEqual(combination.0, combination.1)
-        XCTAssertEqualURLRequest(combination.0, combination.1)
-      }
+      expectFailures(combination.0, combination.1, message: "Expected test to fail \(combination)")
     }
   }
   
@@ -52,10 +49,7 @@ final class XCTestCaseTests: XCTestCase {
     var postRequest = anyRequest()
     postRequest.httpMethod = "POST"
     
-    XCTExpectFailure("Expected test to fail since httpMethod is different.") {
-      XCTAssertEqual(getRequest, postRequest)
-      XCTAssertEqualURLRequest(getRequest, postRequest)
-    }
+    expectFailures(getRequest, postRequest, message: "Expected test to fail since httpMethod is different.")
   }
   
   func test_XCTAssertEqualURLRequest_failsOnDifferentHttpHeaderFields() {
@@ -64,10 +58,7 @@ final class XCTestCaseTests: XCTestCase {
     
     let postRequest = anyRequest()
     
-    XCTExpectFailure("Expected test to fail since httpHeaderField is different.") {
-      XCTAssertEqual(getRequest, postRequest)
-      XCTAssertEqualURLRequest(getRequest, postRequest)
-    }
+    expectFailures(getRequest, postRequest, message: "Expected test to fail since httpHeaderField is different.")
   }
 }
 
@@ -76,5 +67,12 @@ private extension XCTestCaseTests {
   func anyRequest(urlString: String = "https://www.povio.com") -> URLRequest {
     let url = URL(string: urlString)!
     return URLRequest(url: url)
+  }
+  
+  func expectFailures(_ lhs: URLRequest?, _ rhs: URLRequest?, message: String, file: StaticString = #filePath, line: UInt = #line) {
+    XCTExpectFailure(message) {
+      XCTAssertEqual(lhs, rhs, file: file, line: line)
+      XCTAssertEqualURLRequest(lhs, rhs, file: file, line: line)
+    }
   }
 }
