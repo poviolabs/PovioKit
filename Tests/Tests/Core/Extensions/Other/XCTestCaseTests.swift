@@ -57,6 +57,18 @@ final class XCTestCaseTests: XCTestCase {
       XCTAssertEqualURLRequest(getRequest, postRequest)
     }
   }
+  
+  func test_XCTAssertEqualURLRequest_failsOnDifferentHttpHeaderFields() {
+    var getRequest = anyRequest()
+    getRequest.setValue("", forHTTPHeaderField: "")
+    
+    let postRequest = anyRequest()
+    
+    XCTExpectFailure("Expected test to fail since httpHeaderField is different.") {
+      XCTAssertEqual(getRequest, postRequest)
+      XCTAssertEqualURLRequest(getRequest, postRequest)
+    }
+  }
 }
 
 // MARK: - Helpers
