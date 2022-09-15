@@ -28,4 +28,24 @@ final class XCTestCaseTests: XCTestCase {
       XCTAssertEqualURLRequest(firstUrlRequest, secondUrlRequest)
     }
   }
+  
+  func test_XCTAssertEqualURLRequest_hasExpectedFailures() {
+    let url1 = URL(string: "https://www.povio.com")!
+    let url2 = URL(string: "https://www.pov.io")!
+    
+    let firstUrlRequest = URLRequest(url: url1)
+    let secondUrlRequest = URLRequest(url: url2)
+
+
+    let possibleCombinations: [(URLRequest?, URLRequest?)] = [ (firstUrlRequest, nil),
+                                                               (nil, secondUrlRequest),
+                                                               (firstUrlRequest, secondUrlRequest)]
+    
+    possibleCombinations.forEach { combination in
+      XCTExpectFailure("Expected test to fail \(combination)") {
+        XCTAssertEqual(combination.0, combination.1)
+        XCTAssertEqualURLRequest(combination.0, combination.1)
+      }
+    }
+  }
 }
