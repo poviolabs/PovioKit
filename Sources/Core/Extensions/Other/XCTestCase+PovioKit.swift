@@ -61,13 +61,13 @@ public extension XCTestCase {
     XCTAssertFalse(imageData1.elementsEqual(imageData2), "Images do equal!", file: file, line: line)
   }
   
-  func XCTAssertEqualFont(lhs: UIFont?, rhs: UIFont?, file: StaticString = #filePath, line: UInt = #line) {
+  func XCTAssertEqualFont(_ lhs: UIFont?, _ rhs: UIFont?, file: StaticString = #filePath, line: UInt = #line) {
     XCTAssertEqual(lhs?.pointSize, rhs?.pointSize, "PointSize doesn't equal!", file: file, line: line)
     XCTAssertEqual(lhs?.fontName, rhs?.fontName, "FontName doesn't equal!", file: file, line: line)
     XCTAssertEqual(lhs?.familyName, rhs?.familyName, "FamilyName doesn't equal!", file: file, line: line)
   }
   
-  func XCTAssertNotEqualFont(lhs: UIFont?, rhs: UIFont?, file: StaticString = #filePath, line: UInt = #line) {
+  func XCTAssertNotEqualFont(_ lhs: UIFont?, _ rhs: UIFont?, file: StaticString = #filePath, line: UInt = #line) {
     XCTAssertNotNil(lhs, "Left font is nil", file: file, line: line)
     XCTAssertNotNil(rhs, "Right font is nil", file: file, line: line)
     let pointSizeEquals = lhs?.pointSize == rhs?.pointSize

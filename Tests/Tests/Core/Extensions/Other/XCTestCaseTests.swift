@@ -123,13 +123,13 @@ final class XCTestCaseTests: XCTestCase {
   }
   
   func test_font_isEqual() {
-    XCTAssertEqualFont(lhs: UIFont.systemFont(ofSize: 12), rhs: UIFont.systemFont(ofSize: 12))
+    XCTAssertEqualFont(UIFont.systemFont(ofSize: 12), UIFont.systemFont(ofSize: 12))
   }
   
   func test_font_isNotEqual() {
-    XCTAssertNotEqualFont(lhs: UIFont.systemFont(ofSize: 12), rhs: UIFont.systemFont(ofSize: 13))
-    XCTAssertNotEqualFont(lhs: UIFont.systemFont(ofSize: 12), rhs: UIFont.boldSystemFont(ofSize: 12))
-    XCTAssertNotEqualFont(lhs: UIFont.systemFont(ofSize: 12), rhs: UIFont.italicSystemFont(ofSize: 12))
+    XCTAssertNotEqualFont(UIFont.systemFont(ofSize: 12), UIFont.systemFont(ofSize: 13))
+    XCTAssertNotEqualFont(UIFont.systemFont(ofSize: 12), UIFont.boldSystemFont(ofSize: 12))
+    XCTAssertNotEqualFont(UIFont.systemFont(ofSize: 12), UIFont.italicSystemFont(ofSize: 12))
   }
 }
 
