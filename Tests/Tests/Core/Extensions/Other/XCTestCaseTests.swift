@@ -60,6 +60,27 @@ final class XCTestCaseTests: XCTestCase {
     
     expectFailures(getRequest, postRequest, message: "Expected test to fail since httpHeaderField is different.")
   }
+  
+  func test_XCTAssertNotEqualURLRequest_passesOnDifferentURLRequest() {
+    let data1 = "TestData".data(using: .utf8)
+    let data2 = "Povio👨‍💻".data(using: .utf8)
+    
+    var firstUrlRequest = anyRequest()
+    firstUrlRequest.httpBody = data1
+    firstUrlRequest.httpMethod = "POST"
+    firstUrlRequest.setValue("", forHTTPHeaderField: "")
+    
+    var secondUrlRequest = anyRequest(urlString: "https://www.pov.io")
+    secondUrlRequest.httpBody = data2
+    firstUrlRequest.httpMethod = "PUT"
+    
+    XCTAssertNotEqualURLRequest(firstUrlRequest, secondUrlRequest)
+    XCTAssertNotEqual(firstUrlRequest, secondUrlRequest)
+    XCTAssertNotEqual(firstUrlRequest.url, secondUrlRequest.url)
+    XCTAssertNotEqual(firstUrlRequest.httpMethod, secondUrlRequest.httpMethod)
+    XCTAssertNotEqual(firstUrlRequest.httpBody ?? Data(), secondUrlRequest.httpBody ?? Data())
+    XCTAssertNotEqual(firstUrlRequest.allHTTPHeaderFields ?? [:], secondUrlRequest.allHTTPHeaderFields ?? [:])
+  }
 }
 
 // MARK: - Helpers
