@@ -81,6 +81,26 @@ final class XCTestCaseTests: XCTestCase {
     XCTAssertNotEqual(firstUrlRequest.httpBody ?? Data(), secondUrlRequest.httpBody ?? Data())
     XCTAssertNotEqual(firstUrlRequest.allHTTPHeaderFields ?? [:], secondUrlRequest.allHTTPHeaderFields ?? [:])
   }
+  
+  func test_XCTAssertNotEqualURLRequest_passesOnDifferentURLRequestCombinations() {
+    let firstUrlRequest = anyRequest()
+    
+    var secondUrlRequest = anyRequest(urlString: "https://www.pov.io")
+    secondUrlRequest.httpBody = "Povio👨‍💻".data(using: .utf8)
+    secondUrlRequest.httpMethod = "PUT"
+    secondUrlRequest.setValue("", forHTTPHeaderField: "")
+
+    let possibleCombinations: [(URLRequest?, URLRequest?)] = [(firstUrlRequest, nil),
+                                                               (nil, secondUrlRequest),
+                                                               (firstUrlRequest, secondUrlRequest)]
+    
+    possibleCombinations.forEach { combination in
+      XCTAssertNotEqualURLRequest(combination.0, combination.1)
+    }
+    XCTExpectFailure("Expected nil URLRequest to not be equal") {
+      XCTAssertNotEqualURLRequest(nil, nil)
+    }
+  }
 }
 
 // MARK: - Helpers
