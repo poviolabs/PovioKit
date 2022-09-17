@@ -9,6 +9,16 @@
 import XCTest
 
 public extension XCTestCase {
+  /**
+   Use this method when you need to thoroughly assert URLRequest.
+   
+   Asserted properties:
+   - `Self`
+   - `url`
+   - `httpMethod`
+   - `httpBody`
+   - `allHTTPHeaderFields`
+   */
   func XCTAssertEqualURLRequest(_ lhs: URLRequest?, _ rhs: URLRequest?, file: StaticString = #filePath, line: UInt = #line) {
     XCTAssertEqual(lhs, rhs, "Expected URLRequest to be equal", file: file, line: line)
     guard let lhs = lhs, let rhs = rhs else { return }
@@ -18,6 +28,16 @@ public extension XCTestCase {
     XCTAssertEqual(lhs.allHTTPHeaderFields ?? [:], rhs.allHTTPHeaderFields ?? [:], "Expected HTTPHeaderFields to be equal", file: file, line: line)
   }
   
+  /**
+   Use this method when you need to thoroughly assert URLRequest.
+   
+   Asserted properties:
+   - `Self`
+   - `url`
+   - `httpMethod`
+   - `httpBody`
+   - `allHTTPHeaderFields`
+   */
   func XCTAssertNotEqualURLRequest(_ lhs: URLRequest?, _ rhs: URLRequest?, file: StaticString = #filePath, line: UInt = #line) {
     XCTAssertNotEqual(lhs, rhs, "Expected URLRequest not to be equal", file: file, line: line)
     guard let lhs = lhs, let rhs = rhs else { return }
