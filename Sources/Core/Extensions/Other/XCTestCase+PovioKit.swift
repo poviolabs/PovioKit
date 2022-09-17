@@ -17,4 +17,13 @@ public extension XCTestCase {
     XCTAssertEqual(lhs.httpBody ?? Data(), rhs.httpBody ?? Data(), "Expected httpBody to be equal", file: file, line: line)
     XCTAssertEqual(lhs.allHTTPHeaderFields ?? [:], rhs.allHTTPHeaderFields ?? [:], "Expected HTTPHeaderFields to be equal", file: file, line: line)
   }
+  
+  func XCTAssertNotEqualURLRequest(_ lhs: URLRequest?, _ rhs: URLRequest?, file: StaticString = #filePath, line: UInt = #line) {
+    XCTAssertNotEqual(lhs, rhs, "Expected URLRequest not to be equal", file: file, line: line)
+    guard let lhs = lhs, let rhs = rhs else { return }
+    XCTAssertNotEqual(lhs.url, rhs.url, "Expected url not to be equal", file: file, line: line)
+    XCTAssertNotEqual(lhs.httpMethod, rhs.httpMethod, "Expected httpMethod not to be equal", file: file, line: line)
+    XCTAssertNotEqual(lhs.httpBody ?? Data(), rhs.httpBody ?? Data(), "Expected httpBody not to be equal", file: file, line: line)
+    XCTAssertNotEqual(lhs.allHTTPHeaderFields ?? [:], rhs.allHTTPHeaderFields ?? [:], "Expected HTTPHeaderFields not to be equal", file: file, line: line)
+  }
 }
