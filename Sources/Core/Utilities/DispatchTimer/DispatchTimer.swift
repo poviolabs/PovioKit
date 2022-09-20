@@ -11,10 +11,8 @@ import Foundation
 /// A NSTimer replacement using GCD.
 public final class DispatchTimer {
   private var timer: DispatchSourceTimer?
-  private var isExecuting: Bool = false
   
   public init() {}
-  
   deinit { stop() }
 }
 
@@ -23,7 +21,6 @@ public extension DispatchTimer {
   /// Creates and schedules a timer (repeating or one time execution) afer given time interval
   func schedule(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) {
     timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
-    isExecuting = true
     switch repeating {
     case true:
       timer?.schedule(deadline: .now() + interval, repeating: interval)
@@ -51,11 +48,10 @@ public extension DispatchTimer {
   func stop() {
     timer?.cancel()
     timer = nil
-    isExecuting = false
   }
   
+  /// Flag to determine when timer is running
   var isActive: Bool {
-    guard let timer = timer else { return false }
-    return !timer.isCancelled && isExecuting
+    timer.map { !$0.isCancelled } ?? false
   }
 }

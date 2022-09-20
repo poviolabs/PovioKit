@@ -68,7 +68,7 @@ final class DispatchTimerTests: XCTestCase {
     
     // kickoff another timer to continuosly monitor static instance so we can stop it at the desired `repeatCount`
     let secondTimer = DispatchTimer()
-    secondTimer.schedule(interval: .milliseconds(25), repeating: true, on: .main) {
+    secondTimer.schedule(interval: .milliseconds(10), repeating: true, on: .main) {
       if repeatCount >= 5 {
         timer.stop()
         secondTimer.stop()

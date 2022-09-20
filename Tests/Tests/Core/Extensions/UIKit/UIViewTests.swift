@@ -63,11 +63,11 @@ class UIViewTests: XCTestCase {
     XCTAssertEqual(view.alpha, 1)
     
     let promise = expectation(description: "Wait for animation...")
-    view.setHidden(true, animationDuration: 0.1) {
+    view.setHidden(true, animationDuration: 0.01) {
       promise.fulfill()
     }
     
-    waitForExpectations(timeout: 0.5)
+    waitForExpectations(timeout: 0.1)
     
     XCTAssertTrue(view.isHidden)
     XCTAssertEqual(view.alpha, 0)
@@ -79,11 +79,11 @@ class UIViewTests: XCTestCase {
     view.alpha = 0
     
     let promise = expectation(description: "Wait for animation...")
-    view.setHidden(false, animationDuration: 0.1) {
+    view.setHidden(false, animationDuration: 0.01) {
       promise.fulfill()
     }
     
-    waitForExpectations(timeout: 0.5)
+    waitForExpectations(timeout: 0.1)
     
     XCTAssertFalse(view.isHidden)
     XCTAssertEqual(view.alpha, 1)
