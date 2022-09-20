@@ -47,7 +47,7 @@ final class DispatchTimerTests: XCTestCase {
   
   func test_dispatchTimer_static_noRepeating() {
     let promise = expectation(description: "Wait for timer...")
-    let timer = DispatchTimer.scheduled(interval: .milliseconds(100), repeating: false, on: .main) {
+    let timer = DispatchTimer.scheduled(interval: .milliseconds(100), repeating: false, on: .main) { _ in
       promise.fulfill()
     }
     
@@ -61,17 +61,12 @@ final class DispatchTimerTests: XCTestCase {
     promise.expectedFulfillmentCount = 5
     
     var repeatCount = 0
-    let timer = DispatchTimer.scheduled(interval: .milliseconds(50), repeating: true, on: .main) {
+    let timer = DispatchTimer.scheduled(interval: .milliseconds(50), repeating: true, on: .main) { timer in
       repeatCount += 1
       promise.fulfill()
-    }
-    
-    // kickoff another timer to continuosly monitor static instance so we can stop it at the desired `repeatCount`
-    let secondTimer = DispatchTimer()
-    secondTimer.schedule(interval: .milliseconds(10), repeating: true, on: .main) {
+      
       if repeatCount >= 5 {
         timer.stop()
-        secondTimer.stop()
       }
     }
     
@@ -82,12 +77,14 @@ final class DispatchTimerTests: XCTestCase {
   
   func test_dispatchTimer_stop() {
     let timer = DispatchTimer()
-    XCTAssertFalse(timer.isActive)
     
-    timer.schedule(interval: .milliseconds(100), repeating: false, on: .main, nil)
-    
-    XCTAssertTrue(timer.isActive)
-    timer.stop()
-    XCTAssertFalse(timer.isActive)
+    (0...100).forEach { _ in
+      XCTAssertFalse(timer.isActive)
+      timer.schedule(interval: .milliseconds(1), repeating: false, on: .main, nil)
+      
+      XCTAssertTrue(timer.isActive)
+      timer.stop()
+      XCTAssertFalse(timer.isActive)
+    }
   }
 }

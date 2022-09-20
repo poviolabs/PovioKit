@@ -38,9 +38,11 @@ public extension DispatchTimer {
   }
   
   /// Creates and returns `DispatchTimer` object and schedules timer (repeating or one time execution) after given time interval
-  static func scheduled(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) -> DispatchTimer {
+  static func scheduled(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: ((DispatchTimer) -> Swift.Void)?) -> DispatchTimer {
     let timer = DispatchTimer()
-    timer.schedule(interval: interval, repeating: repeating, on: queue, completion)
+    timer.schedule(interval: interval, repeating: repeating, on: queue) {
+      completion?(timer)
+    }
     return timer
   }
   

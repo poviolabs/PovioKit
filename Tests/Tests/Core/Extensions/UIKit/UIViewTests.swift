@@ -91,24 +91,28 @@ class UIViewTests: XCTestCase {
   
   func test_rotate_clockwise() {
     let view = UIView()
+    let expectedStartAngle = 0
+    let expectedEndAngle = (Float.pi * 2.0) * 1
     
     view.rotate(speed: 1, clockwise: true)
     let animation = view.layer.animation(forKey: UIView.AnimationKey.rotation) as? CABasicAnimation
     XCTAssertNotNil(animation)
-    XCTAssertEqual(animation?.fromValue as? Int, 0)
-    XCTAssertEqual(animation?.toValue as? Float, (Float.pi * 2.0) * 1)
+    XCTAssertEqual(animation?.fromValue as? Int, expectedStartAngle)
+    XCTAssertEqual(animation?.toValue as? Float, expectedEndAngle)
     XCTAssertEqual(animation?.duration, 1)
     XCTAssertEqual(animation?.repeatCount, Float.infinity)
   }
   
   func test_rotate_anticlockwise() {
     let view = UIView()
+    let expectedStartAngle = 0
+    let expectedEndAngle = (Float.pi * 2.0) * -1
     
     view.rotate(speed: 1, clockwise: false)
     let animation = view.layer.animation(forKey: UIView.AnimationKey.rotation) as? CABasicAnimation
     XCTAssertNotNil(animation)
-    XCTAssertEqual(animation?.fromValue as? Int, 0)
-    XCTAssertEqual(animation?.toValue as? Float, (Float.pi * 2.0) * -1)
+    XCTAssertEqual(animation?.fromValue as? Int, expectedStartAngle)
+    XCTAssertEqual(animation?.toValue as? Float, expectedEndAngle)
     XCTAssertEqual(animation?.duration, 1)
     XCTAssertEqual(animation?.repeatCount, Float.infinity)
   }
