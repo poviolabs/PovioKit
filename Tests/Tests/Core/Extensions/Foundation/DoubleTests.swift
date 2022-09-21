@@ -19,4 +19,12 @@ class DoubleTests: XCTestCase {
     XCTAssertEqual(1.5.degrees, 1.5 * 180 / .pi)
     XCTAssertEqual(1.5.degrees, 85.94366926962348)
   }
+  
+  func testMilesToMeters() {
+    XCTAssertEqual(100.miles, 100 / 1609.344)
+  }
+  
+  func testMetersToMiles() {
+    XCTAssertEqual(100.meters, 100 * 1609.344)
+  }
 }
