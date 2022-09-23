@@ -45,18 +45,18 @@ class StringTests: XCTestCase {
   }
   
   func testFirstNCharacters() {
-    XCTAssertEqual("ThisIsATestString".first(n: 0), "")
-    XCTAssertEqual("ThisIsATestString".first(n: 1), "T")
-    XCTAssertEqual("ThisIsATestString".first(n: 2), "Th")
-    XCTAssertEqual("ThisIsATestString".first(n: 4), "This")
-    XCTAssertEqual("ThisIsATestString".first(n: 100), "ThisIsATestString")
+    XCTAssertEqual("ThisIsATestString".safePrefix(0), "")
+    XCTAssertEqual("ThisIsATestString".safePrefix(1), "T")
+    XCTAssertEqual("ThisIsATestString".safePrefix(2), "Th")
+    XCTAssertEqual("ThisIsATestString".safePrefix(4), "This")
+    XCTAssertEqual("ThisIsATestString".safePrefix(100), "ThisIsATestString")
   }
   
   func testLastNCharacters() {
-    XCTAssertEqual("ThisIsATestString".last(n: 0), "")
-    XCTAssertEqual("ThisIsATestString".last(n: 1), "g")
-    XCTAssertEqual("ThisIsATestString".last(n: 2), "ng")
-    XCTAssertEqual("ThisIsATestString".last(n: 6), "String")
-    XCTAssertEqual("ThisIsATestString".first(n: 100), "ThisIsATestString")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(0), "")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(1), "g")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(2), "ng")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(6), "String")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(100), "ThisIsATestString")
   }
 }

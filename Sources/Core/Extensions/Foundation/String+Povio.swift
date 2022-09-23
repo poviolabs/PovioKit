@@ -38,13 +38,17 @@ public extension String {
     return emailTest.evaluate(with: self)
   }
   
-  /// Returns first n characters from string
-  func first(n characters: UInt) -> String {
-    .init(prefix(min(count, Int(characters))))
+  /// Returns substring containing up to `maxLength` characters from the beginning of the string.
+  ///
+  /// This method is just a wrapper around swift's standard library `prefix` method, but it ensures only positive values are accepted.
+  func safePrefix(_ maxLength: UInt) -> Substring {
+    prefix(Int(maxLength))
   }
   
-  /// Returns last n characters from string
-  func last(n characters: UInt) -> String {
-    .init(suffix(min(count, Int(characters))))
+  /// Returns substring containing up to `maxLength` characters from the end of the string.
+  ///
+  /// This method is just a wrapper around swift's standard library `suffix` method, but it ensures only positive values are accepted.
+  func safeSuffix(_ maxLength: UInt) -> Substring {
+    suffix(Int(maxLength))
   }
 }
