@@ -182,13 +182,19 @@ extension Money: Codable {
   }
 }
 
-// MARK: - ExpressibleByIntegerLiteral, CustomStringConvertible
-extension Money: ExpressibleByIntegerLiteral, CustomStringConvertible {
-  public init(integerLiteral value: Cents) {
-    self.amount = value
+// MARK: - ExpressibleByFloatLiteral, CustomStringConvertible
+extension Money: ExpressibleByFloatLiteral, CustomStringConvertible {
+  /// Initialize a new Money instance from a literal.
+  ///
+  /// The literal gets automatically converted to Cents.
+  /// We use `ExpressibleByFloatLiteral` instead of
+  /// `ExpressibleByIntegerLiteral` so that multiplying by
+  /// a factor works as expected.
+  public init(floatLiteral cents: Double) {
+    self.amount = Cents(cents)
     self.currency = defaults.currency
     self.localeIdentifier = defaults.locale.identifier
-    self.precision = defaults.precision
+    self.precision = 2
   }
   
   public var description: String {

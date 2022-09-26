@@ -69,10 +69,10 @@ class MoneyTests: XCTestCase {
     XCTAssert(unitValue == 1.6544, "Subtract Money with different precision should be correct!")
   }
   
-  // @TODO: - Not working because type inference
   func testMultiplyByNumber() {
     let money = Money(amount: 200, currency: .usd) // 2 $
-    let unitValue = (money * 4).unitValue // This should be 800 cents, or unit value of 8 $
+    let moneyTimesFour = money * 4
+    let unitValue = moneyTimesFour.unitValue // This should be 800 cents, or unit value of 8 $
     XCTAssertEqual(unitValue, 8, "Multiply Money by number should be correct!")
   }
 
