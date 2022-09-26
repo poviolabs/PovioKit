@@ -26,11 +26,11 @@ extension Double {
    - Parameter locale: Locale object used for formatting. `Locale.current` is used if other value is not provided
    - Returns: The string value of the formatted currency Double value
    */
-  func format(formatter: NumberFormatter = NumberFormatter(),
-              numberStyle: NumberFormatter.Style = .currency,
+  func format(formatter: NumberFormatter,
+              numberStyle: NumberFormatter.Style,
               currencyCode: String,
               precision: Int,
-              locale: Locale = Locale.current) -> String? {
+              locale: Locale) -> String? {
     let currencyFormatter = formatter
     currencyFormatter.numberStyle = numberStyle
     currencyFormatter.currencyCode = currencyCode

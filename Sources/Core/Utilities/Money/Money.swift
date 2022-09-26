@@ -104,7 +104,13 @@ public extension Money {
    ```
    */
   var formatted: String? {
-    unitValue.format(currencyCode: currency.code, precision: precision, locale: locale)
+    unitValue.format(
+      formatter: .init(),
+      numberStyle: .currency,
+      currencyCode: currency.code,
+      precision: precision,
+      locale: locale
+    )
   }
   
   /// Locale object from the current _localeIdentifier_
