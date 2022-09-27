@@ -13,24 +13,15 @@ class XCTestCaseTests_Promise: XCTestCase {
   func test_awaitPromise_returnsSuccessResultWithExpectedObject() throws {
     let anyObject = anyObject()
     
-    switch try awaitPromise(anySuccessPromise(anyObject)) {
-    case .success(let object):
-      XCTAssertEqual(anyObject, object)
-    case .failure:
-      XCTFail("Expected success result")
-    }
+    let successPromise = anySuccessPromise(anyObject)
+    try expect(successPromise, toCompleteWith: .success(anyObject))
   }
   
   func test_awaitPromise_returnsFailureResultWithExpectedError() throws {
     let anyError = anyNSError()
     
     let failurePromise: Promise<TestDouble> = anyFailurePromise(anyError)
-    switch try awaitPromise(failurePromise) {
-    case .failure(let error as NSError):
-      XCTAssertEqual(anyError as NSError, error)
-    case .success:
-      XCTFail("Expected failure result")
-    }
+    try expect(failurePromise, toCompleteWith: .failure(anyError))
   }
 }
 
@@ -53,5 +44,19 @@ extension XCTestCaseTests_Promise {
   
   func anyFailurePromise<U>(_ error: Error) -> Promise<U> {
     .init(reject: error)
+  }
+  
+  func expect<T: Equatable>(_ promise: Promise<T>,
+                            toCompleteWith expectedResult: Result<T, Error>,
+                            file: StaticString = #file,
+                            line: UInt = #line) throws {
+    switch try (awaitPromise(promise), expectedResult) {
+    case let (.success(success), .success(expectedSuccess)):
+      XCTAssertEqual(success, expectedSuccess, "Expected \(expectedSuccess) got \(success) instead", file: file, line: line)
+    case let (.failure(error as NSError), .failure(expectedError as NSError)):
+      XCTAssertEqual(error, expectedError, "Expected \(expectedError) got \(error) instead", file: file, line: line)
+    default:
+      XCTFail("Expected \(expectedResult)", file: file, line: line)
+    }
   }
 }
