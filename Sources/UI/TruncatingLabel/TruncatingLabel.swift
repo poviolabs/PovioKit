@@ -128,7 +128,7 @@ public class TruncatingLabel: UIView {
     
     /// find the index at which the primary string would be drawn out of the horizontal boundary.
     for index in primaryText.indices {
-      primarySize = (primaryText[..<index] as NSString).size(withAttributes: primaryTextAttributes)
+      primarySize = (primaryText[...index] as NSString).size(withAttributes: primaryTextAttributes)
       
       if firstSplitIndexWithDots == primaryText.endIndex && (primaryText[..<index] + dots as NSString).size(withAttributes: primaryTextAttributes).width > frame.width {
         firstSplitIndexWithDots = primaryText.index(before: index)
