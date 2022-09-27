@@ -144,22 +144,20 @@ class MoneyTests: XCTestCase {
   func testPerformance() {
     let m1 = Money(amount: 1995, currency: .usd)
     let m2 = Money(amount: 55, currency: .usd, precision: 3)
-    
+
     func bench<T>(repeat: Int = 100_000_000, op: (Money, Money) -> T) {
       for i in 0..<`repeat` {
         let res = op(m1, m2)
       }
     }
-    
+
     let timeAdd = benchmark { bench(op: +) }
     print("Done add")
     let timeSub = benchmark { bench(op: -) }
     print("Done sub")
     let timeMul = benchmark { bench(op: *) }
     print("Done mul")
-    let timeEq = benchmark { bench(op: ==) }
-    print("Done eq")
-    print(timeAdd, timeSub, timeMul, timeEq)
+    print(timeAdd, timeSub, timeMul)
   }
 }
 

@@ -115,7 +115,7 @@ public extension Money {
   
   /// Locale object from the current _localeIdentifier_
   var locale: Locale {
-    Locale(identifier: localeIdentifier)
+    .init(identifier: localeIdentifier)
   }
   
   /// Return a new instance with precision trimed down to the safest possible scale.
