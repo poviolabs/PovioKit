@@ -145,7 +145,7 @@ class MoneyTests: XCTestCase {
     let m1 = Money(amount: 1995, currency: .usd)
     let m2 = Money(amount: 55, currency: .usd, precision: 3)
     
-    func bench(repeat: Int = 100_000_000, op: (Money, Money) -> Money) {
+    func bench<T>(repeat: Int = 100_000_000, op: (Money, Money) -> T) {
       for i in 0..<`repeat` {
         let res = op(m1, m2)
       }
@@ -156,8 +156,10 @@ class MoneyTests: XCTestCase {
     let timeSub = benchmark { bench(op: -) }
     print("Done sub")
     let timeMul = benchmark { bench(op: *) }
-    print("Done")
-    print(timeAdd, timeSub, timeMul)
+    print("Done mul")
+    let timeEq = benchmark { bench(op: ==) }
+    print("Done eq")
+    print(timeAdd, timeSub, timeMul, timeEq)
   }
 }
 
