@@ -1,16 +1,15 @@
 #  TextField
 
-A generic-customizable textfield with optional validation.
-Includes `RuleValidatable` protocol to validate input and show appropriate error message.
+A generic, customizable textfield with optional validation.
+Includes `RuleValidatable` protocol to validate input and show an appropriate error message.
 
 ### Example
 
-Usage:  
-1. Create textfield without validation
+1. Create a textfield without validation
 `let textField = TextField()`
 
-2. Create textfield with validation
-```
+2. Create a textfield with validation
+```swift
 struct RequiredRule: RuleValidatable {
   let error: String
   
@@ -24,29 +23,24 @@ struct RequiredRule: RuleValidatable {
 }
 ```
 
-
-Create rule and attach it to textfield on initial creation:
-```
+Create a rule and attach it to the textfield on initial creation
+```swift
 lazy var requiredRule = RequiredRule()
-
 let validatableTextField = TextField(with: requiredRule)
-
 ```
 
-Rule can also be attached later:
-```
+A rule can also be attached later
+```swift
 let requiredRule = RequiredRule()
-
 let validatableTextField = TextField()
-
 ...
 
 validatableTextField.set(rule)
 ```
 
-To check if textField is valid:
-```
+To check if textField is valid
+```swift
 guard validatableTextField.isValid else { return }
 ```
 
-Validation will be triggered when `validatableTextField.isValid` is called and if validation doesn't pass then the error message will automatically be shown under the textfield.
+Validation will be triggered when `validatableTextField.isValid` is called. If validation doesn't pass, the error message will automatically display under the textfield.
