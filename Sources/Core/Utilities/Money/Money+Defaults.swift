@@ -1,8 +1,9 @@
 //
 //  Money+Defaults.swift
-//  
+//  PovioKit
 //
 //  Created by Toni K. Turk on 19/04/2022.
+//  Copyright © 2022 Povio Labs. All rights reserved.
 //
 
 import Foundation

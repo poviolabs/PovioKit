@@ -9,49 +9,48 @@
 import XCTest
 @testable import PovioKit
 
-// @TODO: - Use `XCAssertEqual` instead of `XCAssert`.
 class MoneyTests: XCTestCase {
   // MARK: - Testing Getters
   func testGetAmount() {
     let initialAmount: Money.Cents = 100
     let money = Money(amount: initialAmount, currency: .usd)
-    XCTAssert(money.amount == initialAmount, "Money amount should be equal to initial value!")
+    XCTAssertEqual(money.amount, initialAmount, "Money amount should be equal to initial value!")
   }
   
   func testGetCurrency() {
     let money = Money(amount: 100, currency: .usd)
-    XCTAssert(money.currency == .usd, "Money currency should be equal to initial value!")
+    XCTAssertEqual(money.currency, .usd, "Money currency should be equal to initial value!")
   }
   
   func testSameCurrency() {
     let money = Money(amount: 100, currency: .usd)
     let dinero = Money(amount: 200, currency: .usd)
-    XCTAssert(money.currency == dinero.currency, "Two Money objects should have the same currencies!")
+    XCTAssertEqual(money.currency, dinero.currency, "Two Money objects should have the same currencies!")
   }
   
   func testDifferentCurrency() {
     let money = Money(amount: 100, currency: .usd)
     let dinero = Money(amount: 200, currency: .eur)
-    XCTAssert(money.currency != dinero.currency, "Two Money objects should have different currencies!")
+    XCTAssertNotEqual(money.currency, dinero.currency, "Two Money objects should have different currencies!")
   }
   
   func testGetLocale() {
     let dinero = Money(amount: 100, currency: .eur, localeIdentifier: "es", precision: 2)
-    XCTAssert(dinero.locale.identifier == "es", "Money object should be with Spanish locale!")
+    XCTAssertEqual(dinero.locale.identifier, "es", "Money object should be with Spanish locale!")
   }
   
   func testGetPrecision() {
     let money = Money(amount: 100, currency: .usd, precision: 3) // 0.1 $
-    XCTAssert(money.unitValue == 0.1, "Money with 100 cents and precision 3 should have unit value of 0.1!")
+    XCTAssertEqual(money.unitValue, 0.1, "Money with 100 cents and precision 3 should have unit value of 0.1!")
   }
   
   func testGetFormatted() {
     var money = Money(amount: 123457, currency: .usd, localeIdentifier: "en_US")
     let formattedUS = money.formatted
-    XCTAssert(formattedUS == "$1,234.57", "Money should be formatted correctly!")
+    XCTAssertEqual(formattedUS, "$1,234.57", "Money should be formatted correctly!")
     money.localeIdentifier = "es"
     let formattedES = money.formatted
-    XCTAssert(formattedES == "1234,57 US$", "Money should be formatted correctly!")
+    XCTAssertEqual(formattedES, "1234,57 US$", "Money should be formatted correctly!")
   }
   
   // MARK: - Testing Manipulations
@@ -66,7 +65,7 @@ class MoneyTests: XCTestCase {
     let money = Money(amount: 2000, currency: .usd) // 20 $
     let other = Money(amount: 183456, currency: .usd, precision: 4) // 18.3456 $
     let unitValue = (money - other).unitValue // This should be 16544 cents, or unit value of 1.6544 $
-    XCTAssert(unitValue == 1.6544, "Subtract Money with different precision should be correct!")
+    XCTAssertEqual(unitValue, 1.6544, "Subtract Money with different precision should be correct!")
   }
   
   func testMultiplyByNumber() {
@@ -145,9 +144,9 @@ class MoneyTests: XCTestCase {
     let m1 = Money(amount: 1995, currency: .usd)
     let m2 = Money(amount: 55, currency: .usd, precision: 3)
 
-    func bench<T>(repeat: Int = 100_000_000, op: (Money, Money) -> T) {
-      for i in 0..<`repeat` {
-        let res = op(m1, m2)
+    func bench<T>(repeat: Int = 1_000_000, op: (Money, Money) -> T) {
+      for _ in 0..<`repeat` {
+        let _ = op(m1, m2)
       }
     }
 
