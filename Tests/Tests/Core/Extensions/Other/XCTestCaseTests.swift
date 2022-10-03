@@ -31,11 +31,11 @@ final class XCTestCaseTests: XCTestCase {
   func test_XCTAssertEqualURLRequest_hasExpectedFailures() {
     let firstUrlRequest = anyRequest()
     let secondUrlRequest = anyRequest(urlString: "https://www.pov.io")
-
-
+    
+    
     let possibleCombinations: [(URLRequest?, URLRequest?)] = [(firstUrlRequest, nil),
-                                                               (nil, secondUrlRequest),
-                                                               (firstUrlRequest, secondUrlRequest)]
+                                                              (nil, secondUrlRequest),
+                                                              (firstUrlRequest, secondUrlRequest)]
     
     possibleCombinations.forEach { combination in
       expectFailures(combination.0, combination.1, message: "Expected test to fail \(combination)")
@@ -100,6 +100,36 @@ final class XCTestCaseTests: XCTestCase {
     XCTExpectFailure("Expected nil URLRequest to not be equal") {
       XCTAssertNotEqualURLRequest(nil, nil)
     }
+  }
+  
+  func test_image_isEqual() {
+    XCTAssertEqualImage(UIImage(systemName: "sun.min"), UIImage(systemName: "sun.min"))
+    XCTAssertEqualImage(UIImage(), UIImage())
+    
+    XCTExpectFailure("Failed", options: .nonStrict()) {
+      XCTAssertEqualImage(UIImage(), nil)
+      XCTAssertEqualImage(nil, UIImage())
+      XCTAssertEqualImage(nil, nil)
+    }
+  }
+  
+  func test_image_isNotEqual() {
+    XCTAssertNotEqualImage(UIImage(systemName: "sun.min"), UIImage(systemName: "sun.max"))
+    XCTAssertNotEqualImage(UIImage(), nil)
+    
+    XCTExpectFailure {
+      XCTAssertNotEqualImage(UIImage(systemName: "sun.min"), UIImage(systemName: "sun.min"))  
+    }
+  }
+  
+  func test_font_isEqual() {
+    XCTAssertEqualFont(UIFont.systemFont(ofSize: 12), UIFont.systemFont(ofSize: 12))
+  }
+  
+  func test_font_isNotEqual() {
+    XCTAssertNotEqualFont(UIFont.systemFont(ofSize: 12), UIFont.systemFont(ofSize: 13))
+    XCTAssertNotEqualFont(UIFont.systemFont(ofSize: 12), UIFont.boldSystemFont(ofSize: 12))
+    XCTAssertNotEqualFont(UIFont.systemFont(ofSize: 12), UIFont.italicSystemFont(ofSize: 12))
   }
 }
 

@@ -21,17 +21,3 @@ public extension Collection {
     lazy.filter(clause).count
   }
 }
-
-// NOTE: disabled due to the race condition issue
-//public extension MutableCollection {
-//  /// Allows setting or getting an element withed checked index bounds
-//  subscript(safe index: Index) -> Iterator.Element? {
-//    get {
-//      return indices.contains(index) ? self[index] : nil
-//    }
-//    set {
-//      guard let newValue = newValue, indices.contains(index) else { return }
-//      self[index] = newValue
-//    }
-//  }
-//}
