@@ -10,21 +10,20 @@ import XCTest
 import PovioKit
 
 class DoubleTests: XCTestCase {
-  func testDegreesToRadians() {
-    XCTAssertEqual(90.radians, 90 * .pi / 180)
-    XCTAssertEqual(90.radians, 1.5707963267948966)
+  func test_convert_angles() {
+    XCTAssertEqual(90.convert(from: UnitAngle.degrees, to: UnitAngle.radians), 90 * .pi / 180)
+    XCTAssertEqual(90.convert(from: UnitAngle.degrees, to: UnitAngle.radians), 1.5707963267948966)
+    XCTAssertEqual(1.5.convert(from: UnitAngle.radians, to: UnitAngle.degrees), 1.5 * 180 / .pi)
+    XCTAssertEqual(1.5.convert(from: UnitAngle.radians, to: UnitAngle.degrees), 85.94366926962348)
   }
   
-  func testRadiansToDegress() {
-    XCTAssertEqual(1.5.degrees, 1.5 * 180 / .pi)
-    XCTAssertEqual(1.5.degrees, 85.94366926962348)
+  func test_convert_length() {
+    XCTAssertEqual(100.convert(from: UnitLength.miles, to: UnitLength.meters), 100 * 1609.344)
+    XCTAssertEqual(100.convert(from: UnitLength.meters, to: UnitLength.miles), 100 / 1609.344)
   }
   
-  func testMilesToMeters() {
-    XCTAssertEqual(100.miles, 100 / 1609.344)
-  }
-  
-  func testMetersToMiles() {
-    XCTAssertEqual(100.meters, 100 * 1609.344)
+  func test_convert_weight() {
+    XCTAssertEqual(1.5.convert(from: UnitMass.kilograms, to: UnitMass.grams), 1500)
+    XCTAssertEqual(1500.convert(from: UnitMass.grams, to: UnitMass.kilograms), 1.5)
   }
 }
