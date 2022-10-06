@@ -9,15 +9,10 @@
 import Foundation
 
 public extension Double {
-  var radians: Double {
-    Measurement(value: self, unit: UnitAngle.degrees)
-      .converted(to: .radians)
-      .value
-  }
-  
-  var degrees: Double {
-    Measurement(value: self, unit: UnitAngle.radians)
-      .converted(to: .degrees)
+  /// Convert from one dimension to another one
+  func convert(from: Dimension, to: Dimension) -> Double {
+    Measurement(value: self, unit: from)
+      .converted(to: to)
       .value
   }
 }
