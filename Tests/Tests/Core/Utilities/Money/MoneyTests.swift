@@ -57,14 +57,14 @@ class MoneyTests: XCTestCase {
   func testAdd() {
     let money = Money(amount: 100, currency: .usd) // 1 $
     let other = Money(amount: 183456, currency: .usd, precision: 4) // 18.3456 $
-    let cents = (money + other).unitValue // This should be 193456 cents, or unit value of 19.3456 $
+    let cents = (try? money + other)?.unitValue // This should be 193456 cents, or unit value of 19.3456 $
     XCTAssertEqual(cents, 19.3456, "Adding Money with different precision should be correct!")
   }
 
   func testSubtract() {
     let money = Money(amount: 2000, currency: .usd) // 20 $
     let other = Money(amount: 183456, currency: .usd, precision: 4) // 18.3456 $
-    let unitValue = (money - other).unitValue // This should be 16544 cents, or unit value of 1.6544 $
+    let unitValue = (try? money - other)?.unitValue // This should be 16544 cents, or unit value of 1.6544 $
     XCTAssertEqual(unitValue, 1.6544, "Subtract Money with different precision should be correct!")
   }
   
@@ -78,7 +78,7 @@ class MoneyTests: XCTestCase {
   func testMultiply() {
     let money = Money(amount: 200, currency: .usd) // 2 $
     let other = Money(amount: 183456, currency: .usd, precision: 4) // 18.3456 $
-    let unitValue = (money * other).unitValue // This should be 366912 cents, or unit value of 36.6912 $
+    let unitValue = (try? money * other)?.unitValue // This should be 366912 cents, or unit value of 36.6912 $
     XCTAssertEqual(unitValue, 36.6912, "Multiply two Money objects should be correct!")
   }
   
@@ -86,8 +86,8 @@ class MoneyTests: XCTestCase {
     // https://v2.dinerojs.com/docs/core-concepts/scale
     let m1 = Money(amount: 1995, currency: .usd)
     let m2 = Money(amount: 55, currency: .usd, precision: 3)
-    let total = m1 * m2 + m1
-    XCTAssertEqual(total.unitValue, 21.04725)
+    let total = try? (m1 * m2 + m1)
+    XCTAssertEqual(total?.unitValue, 21.04725)
   }
   
   func testTrimPrecision() {
@@ -144,9 +144,9 @@ class MoneyTests: XCTestCase {
     let m1 = Money(amount: 1995, currency: .usd)
     let m2 = Money(amount: 55, currency: .usd, precision: 3)
 
-    func bench<T>(repeat: Int = 1_000_000, op: (Money, Money) -> T) {
+    func bench<T>(repeat: Int = 1_000_000, op: (Money, Money) throws -> T) {
       for _ in 0..<`repeat` {
-        let _ = op(m1, m2)
+        let _ = try? op(m1, m2)
       }
     }
 

@@ -81,11 +81,24 @@ extension Money: Equatable, Comparable {
   }
 }
 
+public extension Money {
+  enum Error: Swift.Error {
+    case currencyNotSame
+    
+    var description: String {
+      switch self {
+      case .currencyNotSame:
+        return "Currencies must be the same!"
+      }
+    }
+  }
+}
+
 // MARK: - Public Methods - Getters
 public extension Money {
   /**
    Convert amount value (representing minor currency units) to the unit value based on the current precision
-   ```
+   ```swift
    // Example:
    // This returns 10.545
    Money(amount: 10545, currency: .usd, precision: 3).unitValue
@@ -97,7 +110,7 @@ public extension Money {
   
   /**
    Return unit value formatted with currently set locale
-   ```
+   ```swift
    // Example:
    // This returns $1,234.57
    Money(amount: 123457, currency: .usd, localeIdentifier: "en_US").formatted
@@ -118,24 +131,30 @@ public extension Money {
     .init(identifier: localeIdentifier)
   }
   
-  /// Return a new instance with precision trimed down to the safest possible scale.
-  ///
-  ///     let m = Money(amount: 99250, precision: 4)
-  ///     let trimed = m.trimedPrecision()
-  ///     XCAssertEqual(trimed.amount, 9925)
-  ///     XCAssertEqual(trimed.precision, 3)
+  /**
+   Return a new instance with precision trimed down to the safest possible scale.
+   ```swift
+   let m = Money(amount: 99250, precision: 4)
+   let trimed = m.trimedPrecision()
+   XCAssertEqual(trimed.amount, 9925)
+   XCAssertEqual(trimed.precision, 3)
+   ```
+   */
   func trimedPrecision() -> Self {
     var res = self
     res.trimPrecision()
     return res
   }
   
-  /// Trim the instance down to the safest possible scale.
-  ///
-  ///     let m = Money(amount: 99250, precision: 4)
-  ///     let trimed = m.trimedPrecision()
-  ///     XCAssertEqual(trimed.amount, 9925)
-  ///     XCAssertEqual(trimed.precision, 3)
+  /**
+   Trim the instance down to the safest possible scale.
+   ```swift
+   let m = Money(amount: 99250, precision: 4)
+   m.trimedPrecision()
+   XCAssertEqual(m.amount, 9925)
+   XCAssertEqual(m.precision, 3)
+   ```
+   */
   mutating func trimPrecision() {
     while amount % 10 == 0 {
       amount /= 10
@@ -204,8 +223,14 @@ extension Money: ExpressibleByFloatLiteral, CustomStringConvertible {
 
 // MARK: - Math operators
 
-public func + (_ lhs: Money, _ rhs: Money) -> Money {
-  precondition(lhs.currency == rhs.currency)
+/// A math operation to sum two `Money` objects.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
+public func + (_ lhs: Money, _ rhs: Money) throws -> Money {
+  guard lhs.currency == rhs.currency else {
+    throw Money.Error.currencyNotSame
+  }
   var lhs = lhs
   var rhs = rhs
   alignToSamePrecision(m1: &lhs, m2: &rhs)
@@ -217,8 +242,14 @@ public func + (_ lhs: Money, _ rhs: Money) -> Money {
   )
 }
 
-public func - (_ lhs: Money, _ rhs: Money) -> Money {
-  precondition(lhs.currency == rhs.currency)
+/// A math operation to divide two `Money` objects.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
+public func - (_ lhs: Money, _ rhs: Money) throws -> Money {
+  guard lhs.currency == rhs.currency else {
+    throw Money.Error.currencyNotSame
+  }
   var lhs = lhs
   var rhs = rhs
   alignToSamePrecision(m1: &lhs, m2: &rhs)
@@ -229,8 +260,14 @@ public func - (_ lhs: Money, _ rhs: Money) -> Money {
     precision: lhs.precision)
 }
 
-public func * (_ lhs: Money, _ rhs: Money) -> Money {
-  precondition(lhs.currency == rhs.currency)
+/// A math operation to multiply two `Money` objects.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
+public func * (_ lhs: Money, _ rhs: Money) throws -> Money {
+  guard lhs.currency == rhs.currency else {
+    throw Money.Error.currencyNotSame
+  }
   return .init(
     amount: lhs.amount * rhs.amount,
     currency: lhs.currency,
@@ -240,46 +277,73 @@ public func * (_ lhs: Money, _ rhs: Money) -> Money {
 
 // NOTE: - We do not support division, use multiplication instead!
 
-/// - Parameter rhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: 2)
-public func + (lhs: Money, rhs: Money.Cents) -> Money {
-  let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: 2)
-  return lhs + rhs
-}
-  
-/// - Parameter lhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: 2)
-public func + (lhs: Money.Cents, rhs: Money) -> Money {
-  let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: 2)
-  return lhs + rhs
+/// A math operation to sum the `Money` object and the cents.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Parameter rhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: defaults.precision)
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
+public func + (lhs: Money, rhs: Money.Cents) throws -> Money {
+  let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: defaults.precision)
+  return try lhs + rhs
 }
 
-/// - Parameter rhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: 2)
-public func - (lhs: Money, rhs: Money.Cents) -> Money {
-  let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: 2)
-  return lhs - rhs
-}
-  
-/// - Parameter lhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: 2)
-public func - (lhs: Money.Cents, rhs: Money) -> Money {
-  let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: 2)
-  return lhs - rhs
+/// A math operation to sum cents and the `Money` object.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Parameter lhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: defaults.precision)
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
+public func + (lhs: Money.Cents, rhs: Money) throws -> Money {
+  let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: defaults.precision)
+  return try lhs + rhs
 }
 
+/// A math operation to division of the `Money` object and the cents.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Parameter rhs: The amount of cents to be divided. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: defaults.precision)
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
+public func - (lhs: Money, rhs: Money.Cents) throws -> Money {
+  let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: defaults.precision)
+  return try lhs - rhs
+}
+
+/// A math operation to division of the cents and the `Money` object.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Parameter rhs: The amount of cents to be divided. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: defaults.precision)
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
+public func - (lhs: Money.Cents, rhs: Money) throws -> Money {
+  let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: defaults.precision)
+  return try lhs - rhs
+}
+
+/// A math operation to multiply the `Money` object with the Int multiplier.
+/// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: An integer multiplier.
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
 public func * (_ lhs: Money, _ rhs: Int) -> Money {
   var res = lhs
   res.amount *= rhs
   return res
 }
   
-/// - Parameter rhs: An integer multiplier.
+/// A math operation to multiply the `Money` object with the Int multiplier.
+/// - Important: Both objects need to be of the same `currency`!
+/// - Parameter lhs: An integer multiplier.
+/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Returns: **New** Money object
 public func * (_ lhs: Int, _ rhs: Money) -> Money {
   var res = rhs
   res.amount *= lhs
   return res
 }
 
-///
-
+/**
+ Align precision for two Money objects.
+ 
+ We will get maximum precision of the two and align another Money object to that value.
+ */
 fileprivate func alignToSamePrecision(m1: inout Money, m2: inout Money) {
   if m1.precision > m2.precision {
     m2.amount    = m2.amount * Money.Cents(pow(10, Double(m1.precision - m2.precision)))
