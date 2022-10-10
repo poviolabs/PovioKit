@@ -81,19 +81,6 @@ extension Money: Equatable, Comparable {
   }
 }
 
-public extension Money {
-  enum Error: Swift.Error {
-    case currencyNotSame
-    
-    var description: String {
-      switch self {
-      case .currencyNotSame:
-        return "Currencies must be the same!"
-      }
-    }
-  }
-}
-
 // MARK: - Public Methods - Getters
 public extension Money {
   /**
@@ -225,12 +212,10 @@ extension Money: ExpressibleByFloatLiteral, CustomStringConvertible {
 
 /// A math operation to sum two `Money` objects.
 /// - Important: Both objects need to be of the same `currency`!
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
-public func + (_ lhs: Money, _ rhs: Money) throws -> Money {
-  guard lhs.currency == rhs.currency else {
-    throw Money.Error.currencyNotSame
-  }
+public func + (_ lhs: Money, _ rhs: Money) -> Money {
+  guard lhs.currency == rhs.currency else { fatalError("Currencies must be the same!") }
   var lhs = lhs
   var rhs = rhs
   alignToSamePrecision(m1: &lhs, m2: &rhs)
@@ -244,12 +229,10 @@ public func + (_ lhs: Money, _ rhs: Money) throws -> Money {
 
 /// A math operation to divide two `Money` objects.
 /// - Important: Both objects need to be of the same `currency`!
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
-public func - (_ lhs: Money, _ rhs: Money) throws -> Money {
-  guard lhs.currency == rhs.currency else {
-    throw Money.Error.currencyNotSame
-  }
+public func - (_ lhs: Money, _ rhs: Money) -> Money {
+  guard lhs.currency == rhs.currency else { fatalError("Currencies must be the same!") }
   var lhs = lhs
   var rhs = rhs
   alignToSamePrecision(m1: &lhs, m2: &rhs)
@@ -262,12 +245,10 @@ public func - (_ lhs: Money, _ rhs: Money) throws -> Money {
 
 /// A math operation to multiply two `Money` objects.
 /// - Important: Both objects need to be of the same `currency`!
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
-public func * (_ lhs: Money, _ rhs: Money) throws -> Money {
-  guard lhs.currency == rhs.currency else {
-    throw Money.Error.currencyNotSame
-  }
+public func * (_ lhs: Money, _ rhs: Money) -> Money {
+  guard lhs.currency == rhs.currency else { fatalError("Currencies must be the same!") }
   return .init(
     amount: lhs.amount * rhs.amount,
     currency: lhs.currency,
@@ -280,47 +261,47 @@ public func * (_ lhs: Money, _ rhs: Money) throws -> Money {
 /// A math operation to sum the `Money` object and the cents.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: defaults.precision)
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
-public func + (lhs: Money, rhs: Money.Cents) throws -> Money {
+public func + (lhs: Money, rhs: Money.Cents) -> Money {
   let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: defaults.precision)
-  return try lhs + rhs
+  return lhs + rhs
 }
 
 /// A math operation to sum cents and the `Money` object.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter lhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: defaults.precision)
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
-public func + (lhs: Money.Cents, rhs: Money) throws -> Money {
+public func + (lhs: Money.Cents, rhs: Money) -> Money {
   let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: defaults.precision)
-  return try lhs + rhs
+  return lhs + rhs
 }
 
 /// A math operation to division of the `Money` object and the cents.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: The amount of cents to be divided. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: defaults.precision)
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
-public func - (lhs: Money, rhs: Money.Cents) throws -> Money {
+public func - (lhs: Money, rhs: Money.Cents) -> Money {
   let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: defaults.precision)
-  return try lhs - rhs
+  return lhs - rhs
 }
 
 /// A math operation to division of the cents and the `Money` object.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: The amount of cents to be divided. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: defaults.precision)
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
-public func - (lhs: Money.Cents, rhs: Money) throws -> Money {
+public func - (lhs: Money.Cents, rhs: Money) -> Money {
   let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: defaults.precision)
-  return try lhs - rhs
+  return lhs - rhs
 }
 
 /// A math operation to multiply the `Money` object with the Int multiplier.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: An integer multiplier.
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func * (_ lhs: Money, _ rhs: Int) -> Money {
   var res = lhs
@@ -331,7 +312,7 @@ public func * (_ lhs: Money, _ rhs: Int) -> Money {
 /// A math operation to multiply the `Money` object with the Int multiplier.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter lhs: An integer multiplier.
-/// - Throws: `Money.Error.currencyNotSame` when the currencies are not the same
+/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func * (_ lhs: Int, _ rhs: Money) -> Money {
   var res = rhs
