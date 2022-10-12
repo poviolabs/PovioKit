@@ -261,7 +261,6 @@ public func * (_ lhs: Money, _ rhs: Money) -> Money {
 /// A math operation to sum the `Money` object and the cents.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: defaults.precision)
-/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func + (lhs: Money, rhs: Money.Cents) -> Money {
   let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: defaults.precision)
@@ -271,7 +270,6 @@ public func + (lhs: Money, rhs: Money.Cents) -> Money {
 /// A math operation to sum cents and the `Money` object.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter lhs: The amount of cents to be added. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: defaults.precision)
-/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func + (lhs: Money.Cents, rhs: Money) -> Money {
   let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: defaults.precision)
@@ -281,7 +279,6 @@ public func + (lhs: Money.Cents, rhs: Money) -> Money {
 /// A math operation to division of the `Money` object and the cents.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: The amount of cents to be divided. It is converted to `Money`:  Money(amount: rhs, currency: lhs.currency, precision: defaults.precision)
-/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func - (lhs: Money, rhs: Money.Cents) -> Money {
   let rhs = Money(amount: rhs, currency: lhs.currency, localeIdentifier: lhs.localeIdentifier, precision: defaults.precision)
@@ -291,7 +288,6 @@ public func - (lhs: Money, rhs: Money.Cents) -> Money {
 /// A math operation to division of the cents and the `Money` object.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: The amount of cents to be divided. It is converted to `Money`:  Money(amount: lhs, currency: rhs.currency, precision: defaults.precision)
-/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func - (lhs: Money.Cents, rhs: Money) -> Money {
   let lhs = Money(amount: lhs, currency: rhs.currency, localeIdentifier: rhs.localeIdentifier, precision: defaults.precision)
@@ -301,7 +297,6 @@ public func - (lhs: Money.Cents, rhs: Money) -> Money {
 /// A math operation to multiply the `Money` object with the Int multiplier.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter rhs: An integer multiplier.
-/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func * (_ lhs: Money, _ rhs: Int) -> Money {
   var res = lhs
@@ -312,7 +307,6 @@ public func * (_ lhs: Money, _ rhs: Int) -> Money {
 /// A math operation to multiply the `Money` object with the Int multiplier.
 /// - Important: Both objects need to be of the same `currency`!
 /// - Parameter lhs: An integer multiplier.
-/// - Important: *FatalError* will be raised when the currencies are not the same
 /// - Returns: **New** Money object
 public func * (_ lhs: Int, _ rhs: Money) -> Money {
   var res = rhs
