@@ -37,4 +37,18 @@ public extension String {
     let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
     return emailTest.evaluate(with: self)
   }
+  
+  /// Returns substring containing up to `maxLength` characters from the beginning of the string.
+  ///
+  /// This method is just a wrapper around swift's standard library `prefix` method, but it ensures only positive values are accepted.
+  func safePrefix(_ maxLength: UInt) -> Substring {
+    prefix(Int(maxLength))
+  }
+  
+  /// Returns substring containing up to `maxLength` characters from the end of the string.
+  ///
+  /// This method is just a wrapper around swift's standard library `suffix` method, but it ensures only positive values are accepted.
+  func safeSuffix(_ maxLength: UInt) -> Substring {
+    suffix(Int(maxLength))
+  }
 }

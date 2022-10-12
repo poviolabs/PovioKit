@@ -28,6 +28,16 @@ class DataTests: XCTestCase {
       XCTFail("Could not decode TestResponse!")
     }
   }
+  
+  func test_decode_throwsErrorOnWrongResponse() {
+    struct Sample: Decodable {
+      let value: String
+    }
+    
+    let responseData = "{\"value\": 5}".data(using: .utf8)!
+    
+    XCTAssertThrowsError(try responseData.decode(Sample.self, with: JSONDecoder()))
+  }
 }
 
 private extension DataTests {

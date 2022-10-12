@@ -16,6 +16,13 @@ class StartupProcessServiceTests: XCTestCase {
     sut.execute(process: mock)
     XCTAssertEqual(mock.completed, true)
   }
+  
+  func test_id_isUniqueForDifferentInstances() {
+    let process1 = MockedStartupService()
+    let process2 = MockedStartupService()
+    
+    XCTAssertNotEqual(process1.id, process2.id)
+  }
 }
 
 private class MockedStartupService: StartupProcess {

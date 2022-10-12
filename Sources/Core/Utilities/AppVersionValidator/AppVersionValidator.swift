@@ -7,7 +7,7 @@
 
 import Foundation
 
-final public class AppVersionValidator {
+public final class AppVersionValidator {
   public init() {}
   
   /// Validate given app version with minimum required version:

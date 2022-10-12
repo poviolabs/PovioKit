@@ -12,7 +12,7 @@ public protocol BundleReadable {
   func object(forInfoDictionaryKey key: String) -> Any?
 }
 
-public class BundleReader: BundleReadable {
+public final class BundleReader: BundleReadable {
   private let bundle: Bundle
   
   public init(bundle: Bundle = .main) {

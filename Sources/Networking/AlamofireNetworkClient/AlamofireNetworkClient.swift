@@ -19,17 +19,21 @@ public typealias URLConvertible = Alamofire.URLConvertible
 public typealias Parameters = [String: Any]
 public typealias MultipartBuilder = (MultipartFormData) -> Void
 public typealias ProgressHandler = Alamofire.Request.ProgressHandler
+public typealias ErrorHandler = (Swift.Error, Data) throws -> Swift.Error
 
 open class AlamofireNetworkClient {
   private let session: Alamofire.Session
   private let eventMonitors: [RequestMonitor]
+  private let defaultErrorHandler: ErrorHandler?
   
   public init(
     session: Alamofire.Session = .default,
-    eventMonitors: [RequestMonitor]
+    eventMonitors: [RequestMonitor],
+    defaultErrorHandler errorHandler: ErrorHandler? = nil
   ) {
     self.session = session
     self.eventMonitors = eventMonitors
+    self.defaultErrorHandler = errorHandler
   }
 }
 
@@ -51,7 +55,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func request(
@@ -74,7 +78,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func request<E: Encodable>(
@@ -82,22 +86,11 @@ public extension AlamofireNetworkClient {
     endpoint: URLConvertible,
     headers: HTTPHeaders? = nil,
     encode: E,
-    encoder: JSONEncoder = .init(),
-    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
+    parameterEncoder: ParameterEncoder,
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
   ) -> Request {
-    let parameterEncoder: ParameterEncoder
-    switch method {
-    case .get, .delete, .head:
-      parameterEncoder = URLEncodedFormParameterEncoder(
-        encoder: encoder,
-        arrayEncoding: arrayEncoding)
-    default:
-      parameterEncoder = JSONParameterEncoder(encoder: encoder)
-    }
-    
     let request = session
       .request(
         endpoint,
@@ -108,7 +101,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -141,7 +134,7 @@ public extension AlamofireNetworkClient {
       interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -162,7 +155,7 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func upload(
@@ -184,7 +177,7 @@ public extension AlamofireNetworkClient {
         fileManager: .default)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
-    return .init(with: request, eventMonitors: eventMonitors)
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
   
   func cancelAllRequests(
@@ -207,15 +200,17 @@ public extension AlamofireNetworkClient {
   
   class Request {
     private let dataRequest: DataRequest
-    private var errorHandler: ((Swift.Error, Data) throws -> Swift.Error)?
+    private var errorHandler: ErrorHandler?
     private let eventMonitors: [RequestMonitor]
     
     init(
       with dataRequest: DataRequest,
-      eventMonitors: [RequestMonitor]
+      eventMonitors: [RequestMonitor],
+      defaultErrorHandler: ErrorHandler?
     ) {
       self.dataRequest = dataRequest
       self.eventMonitors = eventMonitors
+      self.errorHandler = defaultErrorHandler
     }
   }
 }
@@ -248,23 +243,6 @@ public extension AlamofireNetworkClient.Error {
 
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
-  @available(*, deprecated, message: "Legacy")
-  var asJson: Promise<Any> {
-    .init { promise in
-      dataRequest.responseJSON {
-        switch $0.result {
-        case .success(let json):
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
-          promise.resolve(with: json)
-        case .failure(let error):
-          let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-          promise.reject(with: error)
-        }
-      }
-    }
-  }
-  
   var asData: Promise<Data> {
     .init { promise in
       dataRequest.responseData { (response: AFDataResponse<Data>) in
@@ -297,17 +275,21 @@ public extension AlamofireNetworkClient.Request {
     }
   }
   
-  func decode<D: Decodable>(_ decodable: D.Type, decoder: JSONDecoder = .init()) -> Promise<D> {
+  func decode<D: Decodable>(
+    _ decodable: D.Type,
+    decoder: JSONDecoder = .init(),
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<D> {
     .init { promise in
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
           self.eventMonitors.forEach { $0.requestDidSucceed(self) }
-          promise.resolve(with: decodedObject)
+          promise.resolve(with: decodedObject, on: dispatchQueue)
         case .failure(let error):
           let error = self.handleError(error)
           self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-          promise.reject(with: error)
+          promise.reject(with: error, on: dispatchQueue)
         }
       }
     }

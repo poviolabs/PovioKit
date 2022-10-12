@@ -9,17 +9,16 @@
 import Foundation
 
 /// A NSTimer replacement using GCD.
-public class DispatchTimer {
+public final class DispatchTimer {
   private var timer: DispatchSourceTimer?
   
   public init() {}
-  
   deinit { stop() }
 }
 
 // MARK: - Public Methods
 public extension DispatchTimer {
-  /// Creates and schedules repeating timer or one time execution afer given time interval
+  /// Creates and schedules a timer (repeating or one time execution) afer given time interval
   func schedule(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) {
     timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
     switch repeating {
@@ -38,10 +37,12 @@ public extension DispatchTimer {
     timer?.activate()
   }
   
-  /// Creates and returns `DispatchTimer` object and schedules repeating timer or one time execution after given time interval
-  static func scheduled(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: (() -> Swift.Void)?) -> DispatchTimer {
+  /// Creates and returns `DispatchTimer` object and schedules timer (repeating or one time execution) after given time interval
+  static func scheduled(interval: DispatchTimeInterval, repeating: Bool, on queue: DispatchQueue, _ completion: ((DispatchTimer) -> Swift.Void)?) -> DispatchTimer {
     let timer = DispatchTimer()
-    timer.schedule(interval: interval, repeating: repeating, on: queue, completion)
+    timer.schedule(interval: interval, repeating: repeating, on: queue) {
+      completion?(timer)
+    }
     return timer
   }
   
@@ -49,5 +50,10 @@ public extension DispatchTimer {
   func stop() {
     timer?.cancel()
     timer = nil
+  }
+  
+  /// Flag to determine when timer is running
+  var isActive: Bool {
+    timer.map { !$0.isCancelled } ?? false
   }
 }

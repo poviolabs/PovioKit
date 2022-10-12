@@ -10,8 +10,7 @@ import AuthenticationServices
 import CryptoKit
 import Foundation
 
-@available(iOS 13.0, *)
-protocol SignInWithAppleProtocol: AnyObject {
+public protocol SignInWithAppleProtocol: AnyObject {
   /// Starts the authorization flow
   func authorizeSignIn(with nonce: SignInWithApple.Nonce?)
   /// Check if user is already authorized
@@ -21,15 +20,13 @@ protocol SignInWithAppleProtocol: AnyObject {
   func resetAuthorizationState()
 }
 
-@available(iOS 13.0, *)
-protocol SignInWithAppleDelegate: AnyObject {
+public protocol SignInWithAppleDelegate: AnyObject {
   func signInWithAppleDidAuthorize(token: String, nonce: String, displayName: String?)
   func signInWithAppleDidFail(with error: Error)
   func signInWithAppleCredentialsRevoked()
 }
 
-@available(iOS 13.0, *)
-class SignInWithApple: NSObject {
+public final class SignInWithApple: NSObject {
   weak var delegate: SignInWithAppleDelegate?
   private let presentationAnchor: ASPresentationAnchor?
   private var currentNonce: String?
@@ -37,7 +34,7 @@ class SignInWithApple: NSObject {
   
   /// Class initializer with optional `presentationAnchor` param. You should usually pass the main window.
   /// If you don't pass it, `UIWindow()` is created manually for it.
-  init(with presentationAnchor: ASPresentationAnchor? = nil) {
+  public init(with presentationAnchor: ASPresentationAnchor? = nil) {
     self.presentationAnchor = presentationAnchor
     super.init()
     setupCredentialsRevokeListener()
@@ -49,9 +46,8 @@ class SignInWithApple: NSObject {
 }
 
 // MARK: - Public Methods
-@available(iOS 13.0, *)
 extension SignInWithApple: SignInWithAppleProtocol {
-  func authorizeSignIn(with nonce: Nonce?) {
+  public func authorizeSignIn(with nonce: Nonce?) {
     let request = ASAuthorizationAppleIDProvider().createRequest()
     request.requestedScopes = [.fullName, .email]
     
@@ -70,7 +66,7 @@ extension SignInWithApple: SignInWithAppleProtocol {
     controller.performRequests()
   }
   
-  func checkAuthorizationState() {
+  public func checkAuthorizationState() {
     guard let userId = UserDefaults.standard.string(forKey: userIdStorageKey) else { return }
     ASAuthorizationAppleIDProvider().getCredentialState(forUserID: userId) { [weak self] state, _ in
       switch state {
@@ -84,15 +80,14 @@ extension SignInWithApple: SignInWithAppleProtocol {
     }
   }
   
-  func resetAuthorizationState() {
+  public func resetAuthorizationState() {
     UserDefaults.standard.removeObject(forKey: userIdStorageKey)
   }
 }
 
 // MARK: - ASAuthorizationControllerDelegate
-@available(iOS 13.0, *)
 extension SignInWithApple: ASAuthorizationControllerDelegate {
-  func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+  public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
     switch authorization.credential {
     case let credential as ASAuthorizationAppleIDCredential:
       guard let nonce = currentNonce else {
@@ -127,22 +122,20 @@ extension SignInWithApple: ASAuthorizationControllerDelegate {
     }
   }
   
-  func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Swift.Error) {
+  public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Swift.Error) {
     Logger.error("Sign in with Apple failed", params: ["error": error.localizedDescription])
     delegate?.signInWithAppleDidFail(with: error)
   }
 }
 
 // MARK: - ASAuthorizationControllerPresentationContextProviding
-@available(iOS 13.0, *)
 extension SignInWithApple: ASAuthorizationControllerPresentationContextProviding {
-  func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+  public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
     presentationAnchor ?? UIWindow()
   }
 }
 
 // MARK: - Private Methods
-@available(iOS 13.0, *)
 private extension SignInWithApple {
   func generateRandomNonceString(length: Int = 32) -> String {
     precondition(length > 0)
@@ -161,7 +154,6 @@ private extension SignInWithApple {
 }
 
 // MARK: - Actions
-@available(iOS 13.0, *)
 private extension SignInWithApple {
   @objc func appleCredentialRevoked() {
     delegate?.signInWithAppleCredentialsRevoked()
@@ -169,7 +161,6 @@ private extension SignInWithApple {
 }
 
 // MARK: - Private String Extension Methods
-@available(iOS 13.0, *)
 private extension String {
   var sha256: String {
     SHA256
