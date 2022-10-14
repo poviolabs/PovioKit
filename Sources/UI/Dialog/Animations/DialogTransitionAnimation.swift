@@ -12,8 +12,6 @@ import UIKit
 /// Predefined Dialog animation types
 public enum DialogAnimationType {
   case fade
-  case flip
-  case pushPop
   case custom(DialogTransitionAnimation)
 }
 
@@ -21,7 +19,6 @@ public enum DialogAnimationType {
 ///
 /// Use it when creating custom transition animation.
 public protocol DialogTransitionAnimation: UIViewControllerAnimatedTransitioning {
-  
   /// Animation duration in seconds
   var duration: TimeInterval { get set }
   

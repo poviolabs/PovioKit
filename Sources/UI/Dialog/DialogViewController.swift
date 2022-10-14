@@ -17,7 +17,7 @@ import UIKit
 /// - Define presenting animation and screen position
 ///```swift
 ///// Example:
-///class DialogExampleViewController: Dialog<DialogContentView> {
+///class DialogExampleViewController: DialogViewController<DialogContentView> {
 ///  override init(contentView: DialogContentView, position: DialogPosition, animation: DialogAnimationType?) {
 ///    super.init(contentView: contentView, position: position, animation: animation)
 ///  } ...
@@ -26,20 +26,25 @@ import UIKit
 /// let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: .top, animation: .fade)
 /// self.navigationController?.present(dialog, animated: true)
 ///```
-open class Dialog<ContentView: DialogContentView>: UIViewController {
+open class DialogViewController<ContentView: DialogContentView>: UIViewController {
   public let contentView: ContentView
   private let position: DialogPosition
+  private let contentWidth: DialogContentWidth
   private let transitionDelegate: DialogTransitionDelegate
-  
   
   /// Init
   /// - Parameters:
   ///   - contentView: ``DialogContentView`` UIView that holds user-defined custom UI
   ///   - position: ``DialogPosition`` - Dialog position on the screen
+  ///   - width: ``DialogContentView`` - Create dialog with specific width
   ///   - animation: ``DialogAnimationType`` (**optional**) it can be one of the predefined animations, custom or .none
-  public init(contentView: ContentView, position: DialogPosition, animation: DialogAnimationType? = .none) {
+  public init(contentView: ContentView,
+              position: DialogPosition = .bottom,
+              width: DialogContentWidth = .normal,
+              animation: DialogAnimationType? = .none) {
     self.contentView = contentView
     self.position = position
+    self.contentWidth = width
     self.transitionDelegate = DialogTransitionDelegate(animation: animation)
     super.init(nibName: nil, bundle: nil)
     self.transitioningDelegate = transitionDelegate
@@ -61,7 +66,7 @@ open class Dialog<ContentView: DialogContentView>: UIViewController {
 }
 
 // MARK: - Private Methods
-private extension Dialog {
+private extension DialogViewController {
   func setupViews() {
     setupContentView()
     addGesture()
@@ -77,6 +82,7 @@ private extension Dialog {
       contentView.topAnchor.constraint(equalTo: view.topAnchor)
     ])
     contentView.setPosition(position)
+    contentView.setContentWidth(contentWidth)
   }
   
   /// Add tap to dismiss gesture
