@@ -26,23 +26,24 @@ class RootViewController: UIViewController {
 private extension RootViewController {
   func setupViews() {
     contentView.simpleCallback = {
-      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: self.getPosition(), animation: .none)
+      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(),
+                                               position: self.getPosition(),
+                                               width: .normal,
+                                               animation: .none)
       self.navigationController?.present(dialog, animated: true)
     }
     contentView.fadeCallback = {
-      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: self.getPosition(), animation: .fade)
-      self.navigationController?.present(dialog, animated: true)
-    }
-    contentView.flipCallback = {
-      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: self.getPosition(), animation: .flip)
-      self.navigationController?.present(dialog, animated: true)
-    }
-    contentView.pushCallback = {
-      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: self.getPosition(), animation: .pushPop)
+      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(),
+                                               position: self.getPosition(),
+                                               width: .customWidth(200),
+                                               animation: .fade)
       self.navigationController?.present(dialog, animated: true)
     }
     contentView.customCallback = {
-      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: self.getPosition(), animation: .custom(CustomAnimation()))
+      let dialog = DialogExampleViewController(contentView: DialogExampleContentView(),
+                                               position: self.getPosition(),
+                                               width: .customInsets(leading: 20, trailing: -100),
+                                               animation: .custom(CustomAnimation()))
       self.navigationController?.present(dialog, animated: true)
     }
   }

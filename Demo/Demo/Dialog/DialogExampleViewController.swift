@@ -10,9 +10,12 @@ import Foundation
 import PovioKitUI
 import UIKit
 
-class DialogExampleViewController: Dialog<DialogContentView> {
-  override init(contentView: DialogContentView, position: DialogPosition, animation: DialogAnimationType?) {
-    super.init(contentView: contentView, position: position, animation: animation)
+class DialogExampleViewController: DialogViewController<DialogContentView> {
+  override init(contentView: DialogContentView,
+                position: DialogPosition,
+                width: DialogContentWidth = .normal,
+                animation: DialogAnimationType? = .none) {
+    super.init(contentView: contentView, position: position, width: width, animation: animation)
   }
   
   required init?(coder: NSCoder) {
