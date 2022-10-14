@@ -28,7 +28,6 @@ internal class DialogTransitionDelegate: NSObject, UIViewControllerTransitioning
 }
 
 private extension DialogTransitionDelegate {
-  
   /// Get DialogTransitionAnimation for presenting or dismissing
   /// - Parameter presenting: true if presenting, false for dismissing
   /// - Returns: ``DialogTransitionAnimation`` from provided ``DialogAnimationType`` (**can be nil**)
@@ -36,10 +35,6 @@ private extension DialogTransitionDelegate {
     switch animation {
     case .fade:
       return FadeAnimation(presenting: presenting)
-    case .flip:
-      return FlipAnimation(presenting: presenting)
-    case .pushPop:
-      return PushPopAnimation(presenting: presenting)
     case .custom(let animator):
       animator.presenting = presenting
       return animator

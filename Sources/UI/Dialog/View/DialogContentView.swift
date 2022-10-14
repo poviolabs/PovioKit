@@ -10,14 +10,13 @@ import Foundation
 import UIKit
 
 /// UIView that holds user-defined custom UI
-/// In subclass, use ``content`` UIView to addSubview
 ///
+/// In subclass, use ``content`` UIView to addSubview
 /// ```swift
-/// //Example:
+/// // Example:
 /// content.addSubview(button)
 /// ```
 open class DialogContentView: UIView {
-  
   /// Background view that will hold tap gesture for dismissing Dialog
   private let backgroundView = UIView()
   
@@ -37,9 +36,18 @@ open class DialogContentView: UIView {
   }
 }
 
+public extension DialogContentView {
+  /// Sets background color
+  /// - Parameters:
+  ///   - color: UIColor
+  ///   - alpha: alpha component, default = 1.0
+  func setDialogBackground(color: UIColor, alpha: CGFloat = 1.0) {
+    backgroundView.backgroundColor = color.withAlphaComponent(alpha)
+  }
+}
+
 internal extension DialogContentView {
-  
-  /// Set NSLayoutConstraint based on the provided ``DialogPosition``
+  /// Set NSLayoutConstraint for Dialog based on the provided ``DialogPosition``
   /// - Parameter position: ``DialogPosition``
   func setPosition(_ position: DialogPosition) {
     switch position {
@@ -49,6 +57,19 @@ internal extension DialogContentView {
       setTopStyleConstraints()
     case .center:
       setCenterStyleConstraints()
+    }
+  }
+  
+  /// Set NSLayoutConstraint for ContentView based on the provided ``DialogContentWidth``
+  /// - Parameter widthStyle: ``DialogContentWidth``
+  func setContentWidth(_ widthStyle: DialogContentWidth) {
+    switch widthStyle {
+    case .normal:
+      setupNormalWidthConstraints()
+    case .customWidth(let width):
+      setupCustomWidthConstraints(width)
+    case .customInsets(let leading, let trailing):
+      setupCustomInsetsConstraints(leading: leading, trailing: trailing)
     }
   }
   
@@ -85,14 +106,6 @@ private extension DialogContentView {
   func setupContent() {
     scrollView.addSubview(content)
     content.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      content.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-      content.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-      content.topAnchor.constraint(equalTo: scrollView.topAnchor),
-      content.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-      content.widthAnchor.constraint(greaterThanOrEqualTo: scrollView.widthAnchor),
-      content.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)
-    ])
   }
 }
 
@@ -133,6 +146,45 @@ private extension DialogContentView {
       scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
       scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
       topAnchor, bottomAnchor
+    ])
+  }
+}
+
+// MARK: - ContentView width constraints
+private extension DialogContentView {
+  func setupNormalWidthConstraints() {
+    NSLayoutConstraint.activate([
+      content.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+      content.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+      content.topAnchor.constraint(equalTo: scrollView.topAnchor),
+      content.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      content.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+      content.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)
+    ])
+  }
+  
+  func setupCustomWidthConstraints(_ width: CGFloat) {
+    NSLayoutConstraint.activate([
+      content.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+      content.topAnchor.constraint(equalTo: scrollView.topAnchor),
+      content.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      content.widthAnchor.constraint(equalToConstant: width),
+      content.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)
+    ])
+  }
+  
+  func setupCustomInsetsConstraints(leading: CGFloat, trailing: CGFloat) {
+    let leadingAnchor = content.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: leading)
+    leadingAnchor.priority = .required
+    let trailingAnchor = content.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: trailing)
+    trailingAnchor.priority = .required
+    let widthAnchor = content.widthAnchor.constraint(lessThanOrEqualTo: scrollView.widthAnchor)
+    widthAnchor.priority = .defaultHigh
+    NSLayoutConstraint.activate([
+      leadingAnchor, trailingAnchor, widthAnchor,
+      content.topAnchor.constraint(equalTo: scrollView.topAnchor),
+      content.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      content.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)
     ])
   }
 }
