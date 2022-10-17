@@ -65,6 +65,7 @@
 | [PaddingLabel](Resources/UI/PaddingLabel/) |
 | [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
 | [ProfileImageView](Resources/UI/ProfileImageView) |
+| [Dialog](Resources/UI/Dialog) |
 
 ### Networking
 
