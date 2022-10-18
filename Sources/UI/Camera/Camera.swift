@@ -14,6 +14,8 @@ public class Camera: NSObject {
     cameraService.isCameraAvailable ? AVCaptureDevice.default(for: .video) : nil
   }
   let session = AVCaptureSession()
+  // Communicate with the session and other session objects on this queue.
+  let sessionQueue = DispatchQueue(label: "com.poviokit.camera")
   public lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
   private let cameraService: CameraServiceProtocol
   
@@ -47,7 +49,6 @@ public extension Camera {
     device.map { $0.hasTorch && $0.isTorchAvailable } ?? false
   }
   
-  @available(iOS 13.0.0, *)
   func getAuthorizationStatus() async -> CameraAuthorizationStatus {
     await withCheckedContinuation({ continuation in
       cameraService.requestCameraAuthorization { authorized in
@@ -57,15 +58,17 @@ public extension Camera {
   }
   
   func startSession() {
-    guard !session.isRunning else { return }
-    DispatchQueue.global(qos: .userInitiated).async {
+    sessionQueue.async {
+      guard !self.session.isRunning else { return }
       self.session.startRunning()
     }
   }
   
   func stopSession() {
-    guard session.isRunning else { return }
-    session.stopRunning()
+    sessionQueue.async {
+      guard self.session.isRunning else { return }
+      self.session.stopRunning()
+    }
     setTorch(on: false) // just in case but flashlight is automatically turned off when session is stopped
   }
   

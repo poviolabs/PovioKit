@@ -28,25 +28,37 @@ public class PhotoCamera: Camera {
 // MARK: - Public Methods
 public extension PhotoCamera {
   func prepare() throws {
-    try configureComponents()
+    sessionQueue.async {
+      do {
+        try self.configureComponents()
+      } catch {
+        
+      }
+    }
   }
   
   func takePhoto() {
-    guard session.isRunning else {
-      DispatchQueue.main.async { self.delegate?.photoCameraDidTriggerError(.missingSession) }
-      return
+    let viewPreviewLayerOrientation = previewLayer.connection?.videoOrientation ?? .portrait
+    sessionQueue.async {
+      guard self.session.isRunning else {
+        DispatchQueue.main.async { self.delegate?.photoCameraDidTriggerError(.missingSession) }
+        return
+      }
+      
+      let photoSettings = AVCapturePhotoSettings()
+      photoSettings.isHighResolutionPhotoEnabled = true
+      if self.photoOutput.supportedFlashModes.contains(.auto) {
+        photoSettings.flashMode = .auto
+      }
+      if let photoOutputConnection = self.photoOutput.connection(with: .video) {
+        photoOutputConnection.videoOrientation = viewPreviewLayerOrientation
+      }
+      if let firstAvailablePreviewPhotoPixelFormatTypes = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+        photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: firstAvailablePreviewPhotoPixelFormatTypes]
+      }
+      
+      self.photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
-    
-    let photoSettings = AVCapturePhotoSettings()
-    photoSettings.isHighResolutionPhotoEnabled = true
-    if photoOutput.supportedFlashModes.contains(.auto) {
-      photoSettings.flashMode = .auto
-    }
-    if let firstAvailablePreviewPhotoPixelFormatTypes = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
-      photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: firstAvailablePreviewPhotoPixelFormatTypes]
-    }
-    
-    photoOutput.capturePhoto(with: photoSettings, delegate: self)
   }
 }
 

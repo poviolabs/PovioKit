@@ -26,7 +26,9 @@ public class QRCodeScanner: Camera {
 // MARK: - Public Methods
 public extension QRCodeScanner {
   func prepare() {
-    configureComponents()
+    sessionQueue.async {
+      self.configureComponents()
+    }
   }
 }
 
