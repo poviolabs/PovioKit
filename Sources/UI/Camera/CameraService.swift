@@ -12,7 +12,7 @@ import PovioKit
 protocol CameraServiceProtocol: AnyObject {
   func requestCameraAuthorization(_ completion: ((Bool) -> Void)?)
   func authorizationStatus(forType mediaType: AVMediaType) -> AVAuthorizationStatus
-  var isCameraAvailable: Bool { get }
+  func isCameraAvailable(position: AVCaptureDevice.Position) -> Bool
 }
 
 class CameraService { /* see extension bellow for implementation */ }
@@ -47,8 +47,8 @@ extension CameraService: CameraServiceProtocol {
   }
   
   /// Check if camera is available on device
-  var isCameraAvailable: Bool {
-    let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .back)
+  func isCameraAvailable(position: AVCaptureDevice.Position) -> Bool {
+    let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: position)
     return !session.devices.isEmpty
   }
 }

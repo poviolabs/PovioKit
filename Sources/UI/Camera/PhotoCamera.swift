@@ -37,6 +37,14 @@ public extension PhotoCamera {
     }
   }
   
+  func changeCamera(position: CameraPosition) {
+    if cameraPosition == position {
+      return
+    }
+    cameraPosition = position
+    try? prepare()
+  }
+  
   func takePhoto() {
     let viewPreviewLayerOrientation = previewLayer.connection?.videoOrientation ?? .portrait
     sessionQueue.async {
@@ -81,19 +89,27 @@ private extension PhotoCamera {
     session.beginConfiguration()
     session.sessionPreset = .photo
     
+    // remove previous input if any
+    if let previousDeviceInput = self.deviceInput {
+      session.removeInput(previousDeviceInput)
+    }
+    
     // prepare input
     guard let deviceInput = try? AVCaptureDeviceInput(device: device), session.canAddInput(deviceInput) else {
       throw Camera.Error.missingInput
     }
+    
     self.deviceInput = deviceInput
     session.addInput(deviceInput)
     
     // prepare output
-    guard session.canAddOutput(photoOutput) else {
-      throw Camera.Error.missingOutput
+    if !session.outputs.contains(photoOutput) {
+      guard session.canAddOutput(photoOutput) else {
+        throw Camera.Error.missingOutput
+      }
+      session.addOutput(photoOutput)
+      photoOutput.isHighResolutionCaptureEnabled = true
     }
-    session.addOutput(photoOutput)
-    photoOutput.isHighResolutionCaptureEnabled = true
     
     session.commitConfiguration()
   }

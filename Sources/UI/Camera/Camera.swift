@@ -11,13 +11,19 @@ import PovioKit
 
 public class Camera: NSObject {
   var device: AVCaptureDevice? {
-    cameraService.isCameraAvailable ? AVCaptureDevice.default(for: .video) : nil
+    switch cameraPosition {
+    case .back:
+      return cameraService.isCameraAvailable(position: .back) ? AVCaptureDevice.default(for: .video) : nil
+    case .front:
+      return cameraService.isCameraAvailable(position: .front) ? AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) : nil
+    }
   }
   let session = AVCaptureSession()
   // Communicate with the session and other session objects on this queue.
   let sessionQueue = DispatchQueue(label: "com.poviokit.camera")
   public lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
   private let cameraService: CameraServiceProtocol
+  public var cameraPosition: CameraPosition = .back
   
   init(with cameraService: CameraServiceProtocol = CameraService()) {
     self.cameraService = cameraService
@@ -32,6 +38,11 @@ public class Camera: NSObject {
 
 // MARK: - Public Methods
 public extension Camera {
+  enum CameraPosition {
+    case back
+    case front
+  }
+  
   enum CameraAuthorizationStatus {
     case authorized
     case denied
@@ -80,7 +91,7 @@ public extension Camera {
 // MARK: - Private Methods
 private extension Camera {
   func configureComponents() {
-    guard cameraService.isCameraAvailable else { return }
+    guard cameraService.isCameraAvailable(position: cameraPosition == .back ? .back : .front) else { return }
     previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
   }
   
