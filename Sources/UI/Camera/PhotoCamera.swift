@@ -27,7 +27,7 @@ public class PhotoCamera: Camera {
 
 // MARK: - Public Methods
 public extension PhotoCamera {
-  func prepare() throws {
+  func prepare() {
     sessionQueue.async {
       do {
         try self.configureComponents()
@@ -42,7 +42,7 @@ public extension PhotoCamera {
       return
     }
     cameraPosition = position
-    try? prepare()
+    prepare()
   }
   
   func takePhoto() {

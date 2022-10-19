@@ -6,7 +6,7 @@ A UI component that simplifies handling with camera. `PhotoCamera` & `QRCodeScan
 ```swift
 let camera = PhotoCamera()
 func prepareCamera() {
-  try? camera.prepare()
+  camera.prepare()
     
   // add previewLayer to any view
   view.layer.addSublayer(camera.previewLayer)
@@ -15,13 +15,13 @@ func prepareCamera() {
   // set camera delegate
   camera.delegate = self
     
-  // get authorization status
-  let status = await camera.getAuthorizationStatus()
+  // request authorization status
+  let granted = await camera.requestAuthorizationStatus()
     
-  switch status {
-  case .authorized:
+  switch granted {
+  case true:
     self.camera.startSession()
-  case .denied:
+  case false:
     // handle denied status
     break
   }
@@ -55,13 +55,13 @@ func prepareQRCodeSCanner() {
   // set camera delegate
   scanner.delegate = self
     
-  // get authorization status
-  let status = await scanner.getAuthorizationStatus()
+  // request authorization status
+  let granted = await scanner.requestAuthorizationStatus()
     
-  switch status {
-  case .authorized:
-    self. scanner.startSession()
-  case .denied:
+  switch granted {
+  case true:
+    self.scanner.startSession()
+  case false:
     // handle denied status
     break
   }

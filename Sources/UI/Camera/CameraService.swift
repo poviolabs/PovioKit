@@ -9,46 +9,51 @@
 import AVFoundation.AVMediaFormat
 import PovioKit
 
-protocol CameraServiceProtocol: AnyObject {
-  func requestCameraAuthorization(_ completion: ((Bool) -> Void)?)
-  func authorizationStatus(forType mediaType: AVMediaType) -> AVAuthorizationStatus
-  func isCameraAvailable(position: AVCaptureDevice.Position) -> Bool
+public protocol CameraServiceProtocol: AnyObject {
+  func requestCameraAuthorization() async -> Bool
+  func authorizationStatus(forType mediaType: Camera.MediaType) -> Camera.CameraAuthorizationStatus
+  func isCameraAvailable(position: Camera.CameraPosition) -> Bool
 }
 
-class CameraService { /* see extension bellow for implementation */ }
+public class CameraService {
+  /* see extension bellow for implementation */
+  public init() { }
+}
 
 // MARK: - CameraService Protocol
 extension CameraService: CameraServiceProtocol {
   /// Check if app is authorized to use camera or not. For the first time this method will ask user for permission.
-  func requestCameraAuthorization(_ completion: ((Bool) -> Void)?) {
-    let mediaType = AVMediaType.video
+  public func requestCameraAuthorization() async -> Bool {
+    let mediaType = Camera.MediaType.video
     let authStatus = authorizationStatus(forType: mediaType)
-    
-    switch authStatus {
-    case .authorized:
-      completion?(true)
-    case .denied, .restricted:
-      completion?(false)
-    case .notDetermined:
-      // prompt user for camera permission only for the first time
-      AVCaptureDevice.requestAccess(for: mediaType) { granted in
-        DispatchQueue.main.async {
-          completion?(granted)
-        }
-      }
-    @unknown default:
-      Logger.debug("Audio device in an unknown state ...")
+
+    if authStatus == .notDetermined {
+      let granted = await AVCaptureDevice.requestAccess(for: mediaType.type)
+      return granted
     }
+    
+    return authStatus == .authorized ? true : false
   }
   
   /// Returns current camera authorization status
-  func authorizationStatus(forType mediaType: AVMediaType) -> AVAuthorizationStatus {
-    AVCaptureDevice.authorizationStatus(for: mediaType)
+  public func authorizationStatus(forType mediaType: Camera.MediaType) -> Camera.CameraAuthorizationStatus {
+    switch AVCaptureDevice.authorizationStatus(for: mediaType.type) {
+    case .authorized:
+      return .authorized
+    case .denied, .restricted:
+      return .denied
+    case .notDetermined:
+      return .notDetermined
+    @unknown default:
+      Logger.debug("Audio device in an unknown state ...")
+      return .denied
+    }
+    
   }
   
   /// Check if camera is available on device
-  func isCameraAvailable(position: AVCaptureDevice.Position) -> Bool {
-    let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: position)
+  public func isCameraAvailable(position: Camera.CameraPosition) -> Bool {
+    let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: position.devicePosition)
     return !session.devices.isEmpty
   }
 }

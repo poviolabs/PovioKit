@@ -22,7 +22,7 @@ public class Camera: NSObject {
   // Communicate with the session and other session objects on this queue.
   let sessionQueue = DispatchQueue(label: "com.poviokit.camera")
   public lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
-  private let cameraService: CameraServiceProtocol
+  public let cameraService: CameraServiceProtocol
   public var cameraPosition: CameraPosition = .back
   
   init(with cameraService: CameraServiceProtocol = CameraService()) {
@@ -41,11 +41,35 @@ public extension Camera {
   enum CameraPosition {
     case back
     case front
+    
+    var devicePosition: AVCaptureDevice.Position {
+      switch self {
+      case .back:
+        return .back
+      case .front:
+        return .front
+      }
+    }
   }
   
   enum CameraAuthorizationStatus {
     case authorized
     case denied
+    case notDetermined
+  }
+  
+  enum MediaType {
+    case video
+    case audio
+    
+    var type: AVMediaType {
+      switch self {
+      case .video:
+        return .video
+      case .audio:
+        return .audio
+      }
+    }
   }
   
   enum Error: Swift.Error {
@@ -60,12 +84,9 @@ public extension Camera {
     device.map { $0.hasTorch && $0.isTorchAvailable } ?? false
   }
   
-  func getAuthorizationStatus() async -> CameraAuthorizationStatus {
-    await withCheckedContinuation({ continuation in
-      cameraService.requestCameraAuthorization { authorized in
-        continuation.resume(returning: authorized ? .authorized : .denied)
-      }
-    })
+  func requestAuthorizationStatus() async -> Bool {
+    let authorized = await cameraService.requestCameraAuthorization()
+    return authorized
   }
   
   func startSession() {
@@ -91,7 +112,7 @@ public extension Camera {
 // MARK: - Private Methods
 private extension Camera {
   func configureComponents() {
-    guard cameraService.isCameraAvailable(position: cameraPosition == .back ? .back : .front) else { return }
+    guard cameraService.isCameraAvailable(position: cameraPosition) else { return }
     previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
   }
   
