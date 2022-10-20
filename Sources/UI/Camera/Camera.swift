@@ -22,10 +22,10 @@ public class Camera: NSObject {
   // Communicate with the session and other session objects on this queue.
   let sessionQueue = DispatchQueue(label: "com.poviokit.camera")
   public lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
-  public let cameraService: CameraServiceProtocol
+  public let cameraService: CameraPermissionProviding
   public var cameraPosition: CameraPosition = .back
   
-  init(with cameraService: CameraServiceProtocol = CameraService()) {
+  init(with cameraService: CameraPermissionProviding = CameraService()) {
     self.cameraService = cameraService
     super.init()
     configureComponents()
@@ -41,15 +41,6 @@ public extension Camera {
   enum CameraPosition {
     case back
     case front
-    
-    var devicePosition: AVCaptureDevice.Position {
-      switch self {
-      case .back:
-        return .back
-      case .front:
-        return .front
-      }
-    }
   }
   
   enum CameraAuthorizationStatus {
@@ -61,15 +52,6 @@ public extension Camera {
   enum MediaType {
     case video
     case audio
-    
-    var type: AVMediaType {
-      switch self {
-      case .video:
-        return .video
-      case .audio:
-        return .audio
-      }
-    }
   }
   
   enum Error: Swift.Error {
@@ -85,8 +67,7 @@ public extension Camera {
   }
   
   func requestAuthorizationStatus() async -> Bool {
-    let authorized = await cameraService.requestCameraAuthorization()
-    return authorized
+    await cameraService.requestCameraAuthorization()
   }
   
   func startSession() {
