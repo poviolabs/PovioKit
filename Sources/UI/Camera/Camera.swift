@@ -113,3 +113,26 @@ private extension Camera {
     }
   }
 }
+
+// MARK: - Camera Types Extension Methods
+extension Camera.CameraPosition {
+  var asAVCaptureDevicePosition: AVCaptureDevice.Position {
+    switch self {
+    case .back:
+      return .back
+    case .front:
+      return .front
+    }
+  }
+}
+
+extension Camera.MediaType {
+  var asAVMediaType: AVMediaType {
+    switch self {
+    case .video:
+      return .video
+    case .audio:
+      return .audio
+    }
+  }
+}
