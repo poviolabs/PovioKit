@@ -1,5 +1,5 @@
 //
-//  Image+Povio.swift
+//  Image+PovioKit.swift
 //  PovioKit
 //
 //  Created by Arlind Dushi on 3/22/22.
