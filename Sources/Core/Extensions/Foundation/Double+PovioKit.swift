@@ -1,5 +1,5 @@
 //
-//  Double+Povio.swift
+//  Double+PovioKit.swift
 //  PovioKit
 //
 //  Created by Borut Tomažin on 02/09/2022.

@@ -1,5 +1,5 @@
 //
-//  UICollectionView+Povio.swift
+//  UICollectionView+PovioKit.swift
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.

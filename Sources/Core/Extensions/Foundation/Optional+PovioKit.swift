@@ -1,5 +1,5 @@
 //
-//  Optional+Povio.swift
+//  Optional+PovioKit.swift
 //  PovioKit
 //
 //  Created by Povio Team on 26/04/2019.

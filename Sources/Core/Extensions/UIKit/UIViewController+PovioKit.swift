@@ -1,5 +1,5 @@
 //
-//  UIViewController+Povio.swift
+//  UIViewController+PovioKit.swift
 //  PovioKit
 //
 //  Created by Toni Kocjan on 26/07/2020.

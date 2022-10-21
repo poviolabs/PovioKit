@@ -1,5 +1,5 @@
 //
-//  Encodable+Povio.swift
+//  Encodable+PovioKit.swift
 //  PovioKit
 //
 //  Created by Borut Tomažin on 11/11/2020.

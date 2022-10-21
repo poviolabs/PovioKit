@@ -1,5 +1,5 @@
 //
-//  UIImage+Povio.swift
+//  UIImage+PovioKit.swift
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.
