@@ -1,5 +1,5 @@
 //
-//  UITableViewHeaderFooterView+Povio.swift
+//  UITableViewCell+PovioKit.swift
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension UITableViewHeaderFooterView {
+public extension UITableViewCell {
   /// Returns cell's reuse identifier
   static var identifier: String {
     String(describing: self)

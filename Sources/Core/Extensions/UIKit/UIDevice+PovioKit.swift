@@ -1,5 +1,5 @@
 //
-//  UIDevice+Povio.swift
+//  UIDevice+PovioKit.swift
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.

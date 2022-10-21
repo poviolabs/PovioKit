@@ -1,5 +1,5 @@
 //
-//  UIApplication+Povio.swift
+//  UIApplication+PovioKit.swift
 //  PovioKit
 //
 //  Created by Borut Tomažin on 13/11/2020.
