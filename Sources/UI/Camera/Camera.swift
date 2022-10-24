@@ -38,30 +38,6 @@ public class Camera: NSObject {
 
 // MARK: - Public Methods
 public extension Camera {
-  enum CameraPosition {
-    case back
-    case front
-  }
-  
-  enum CameraAuthorizationStatus {
-    case authorized
-    case denied
-    case notDetermined
-  }
-  
-  enum MediaType {
-    case video
-    case audio
-  }
-  
-  enum Error: Swift.Error {
-    case unavailable
-    case missingSession
-    case missingInput
-    case missingOutput
-    case invalidImage
-  }
-  
   var isTorchAvailable: Bool {
     device.map { $0.hasTorch && $0.isTorchAvailable } ?? false
   }
@@ -110,29 +86,6 @@ private extension Camera {
       device.unlockForConfiguration()
     } catch {
       Logger.debug("Could not lock the camera device")
-    }
-  }
-}
-
-// MARK: - Camera Types Extension Methods
-extension Camera.CameraPosition {
-  var asAVCaptureDevicePosition: AVCaptureDevice.Position {
-    switch self {
-    case .back:
-      return .back
-    case .front:
-      return .front
-    }
-  }
-}
-
-extension Camera.MediaType {
-  var asAVMediaType: AVMediaType {
-    switch self {
-    case .video:
-      return .video
-    case .audio:
-      return .audio
     }
   }
 }
