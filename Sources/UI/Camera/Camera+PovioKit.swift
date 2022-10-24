@@ -30,6 +30,7 @@ public extension Camera {
     case missingSession
     case missingInput
     case missingOutput
+    case missingMetadata
     case invalidImage
   }
 }

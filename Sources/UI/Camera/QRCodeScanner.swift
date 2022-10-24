@@ -25,10 +25,8 @@ public class QRCodeScanner: Camera {
 
 // MARK: - Public Methods
 public extension QRCodeScanner {
-  func prepare() {
-    sessionQueue.async {
-      self.configureComponents()
-    }
+  func prepare() async throws {
+    try self.configureComponents()
   }
 }
 
@@ -49,24 +47,28 @@ extension QRCodeScanner: AVCaptureMetadataOutputObjectsDelegate {
 
 // MARK: - Private Methods
 private extension QRCodeScanner {
-  func configureComponents() {
-    guard let device = device else { return }
+  func configureComponents() throws {
+    guard let device = device else { throw Camera.Error.unavailable }
     
     session.beginConfiguration()
     
     // add input
-    if let deviceInput = try? AVCaptureDeviceInput(device: device), session.canAddInput(deviceInput) {
-      session.addInput(deviceInput)
-      
-      // add output
-      if session.canAddOutput(metadataOutput) {
-        session.addOutput(metadataOutput)
-        metadataOutput.setMetadataObjectsDelegate(self, queue: .main)
-        if metadataOutput.availableMetadataObjectTypes.contains(.qr) {
-          metadataOutput.metadataObjectTypes = [.qr]
-        }
-      }
+    guard let deviceInput = try? AVCaptureDeviceInput(device: device), session.canAddInput(deviceInput) else {
+      throw Camera.Error.missingInput
     }
+    session.addInput(deviceInput)
+    
+    // prepare output
+    guard session.canAddOutput(metadataOutput) else {
+      throw Camera.Error.missingOutput
+    }
+    session.addOutput(metadataOutput)
+    metadataOutput.setMetadataObjectsDelegate(self, queue: .main)
+    
+    guard metadataOutput.availableMetadataObjectTypes.contains(.qr) else {
+      throw Camera.Error.missingMetadata
+    }
+    metadataOutput.metadataObjectTypes = [.qr]
     
     session.commitConfiguration()
   }
