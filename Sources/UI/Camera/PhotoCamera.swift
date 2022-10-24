@@ -10,8 +10,8 @@ import AVFoundation
 import UIKit
 
 public protocol PhotoCameraDelegate: AnyObject {
-  func photoCameraDidTakePhoto(_ image: UIImage)
-  func photoCameraDidTriggerError(_ error: Camera.Error)
+  func photoCamera(photoCamera: PhotoCamera, didTakePhoto image: UIImage)
+  func photoCamera(photoCamera: PhotoCamera, didTriggerError error: Camera.Error)
 }
 
 public class PhotoCamera: Camera {
@@ -41,7 +41,7 @@ public extension PhotoCamera {
     let viewPreviewLayerOrientation = previewLayer.connection?.videoOrientation ?? .portrait
     sessionQueue.async {
       guard self.session.isRunning else {
-        DispatchQueue.main.async { self.delegate?.photoCameraDidTriggerError(.missingSession) }
+        DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTriggerError: .missingSession) }
         return
       }
       
@@ -66,10 +66,10 @@ public extension PhotoCamera {
 extension PhotoCamera: AVCapturePhotoCaptureDelegate {
   public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Swift.Error?) {
     guard let data = photo.fileDataRepresentation(), let image = UIImage(data: data) else {
-      DispatchQueue.main.async { self.delegate?.photoCameraDidTriggerError(.invalidImage) }
+      DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTriggerError: .invalidImage) }
       return
     }
-    DispatchQueue.main.async { self.delegate?.photoCameraDidTakePhoto(image) }
+    DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTakePhoto: image) }
   }
 }
 
