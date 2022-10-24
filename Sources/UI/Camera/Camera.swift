@@ -21,14 +21,18 @@ public class Camera: NSObject {
   let session = AVCaptureSession()
   // Communicate with the session and other session objects on this queue.
   let sessionQueue = DispatchQueue(label: "com.poviokit.camera")
-  public lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
+  public lazy var previewLayer: AVCaptureVideoPreviewLayer = {
+    let pl = AVCaptureVideoPreviewLayer(session: session)
+    pl.videoGravity = AVLayerVideoGravity.resizeAspectFill
+    
+    return pl
+  }()
   public let cameraService: CameraPermissionProviding
   var cameraPosition: CameraPosition = .back
   
   init(with cameraService: CameraPermissionProviding = CameraService()) {
     self.cameraService = cameraService
     super.init()
-    configureComponents()
   }
   
   deinit {
@@ -68,11 +72,6 @@ public extension Camera {
 
 // MARK: - Private Methods
 private extension Camera {
-  func configureComponents() {
-    guard cameraService.isCameraAvailable(position: cameraPosition) else { return }
-    previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-  }
-  
   func setTorch(on: Bool) throws {
     guard let device = device, device.hasTorch, device.isTorchAvailable else { return }
     try device.lockForConfiguration()
