@@ -37,8 +37,8 @@ public extension PhotoCamera {
     try self.configureComponents()
   }
   
-  func takePhoto() {
-    let viewPreviewLayerOrientation = previewLayer.connection?.videoOrientation ?? .portrait
+  func takePhoto(isHighResolutionPhotoEnabled: Bool = true, flashMode: AVCaptureDevice.FlashMode = .auto, videoOrientation: AVCaptureVideoOrientation? = nil) {
+    let videoOrientation = (videoOrientation != nil) ? videoOrientation : previewLayer.connection?.videoOrientation
     sessionQueue.async {
       guard self.session.isRunning else {
         DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTriggerError: .missingSession) }
@@ -46,15 +46,31 @@ public extension PhotoCamera {
       }
       
       let photoSettings = AVCapturePhotoSettings()
-      photoSettings.isHighResolutionPhotoEnabled = true
-      if self.photoOutput.supportedFlashModes.contains(.auto) {
-        photoSettings.flashMode = .auto
+      photoSettings.isHighResolutionPhotoEnabled = isHighResolutionPhotoEnabled
+      if self.photoOutput.supportedFlashModes.contains(flashMode) {
+        photoSettings.flashMode = flashMode
       }
       if let photoOutputConnection = self.photoOutput.connection(with: .video) {
-        photoOutputConnection.videoOrientation = viewPreviewLayerOrientation
+        photoOutputConnection.videoOrientation = videoOrientation ?? .portrait
       }
       if let firstAvailablePreviewPhotoPixelFormatTypes = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
         photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: firstAvailablePreviewPhotoPixelFormatTypes]
+      }
+      
+      self.photoOutput.capturePhoto(with: photoSettings, delegate: self)
+    }
+  }
+  
+  func takePhoto(with photoSettings: AVCapturePhotoSettings, videoOrientation: AVCaptureVideoOrientation? = nil) {
+    let videoOrientation = (videoOrientation != nil) ? videoOrientation : previewLayer.connection?.videoOrientation
+    sessionQueue.async {
+      guard self.session.isRunning else {
+        DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTriggerError: .missingSession) }
+        return
+      }
+      
+      if let photoOutputConnection = self.photoOutput.connection(with: .video) {
+        photoOutputConnection.videoOrientation = videoOrientation ?? .portrait
       }
       
       self.photoOutput.capturePhoto(with: photoSettings, delegate: self)
