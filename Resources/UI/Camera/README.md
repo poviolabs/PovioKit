@@ -6,8 +6,12 @@ A UI component that simplifies handling with camera. `PhotoCamera` & `QRCodeScan
 ```swift
 let camera = PhotoCamera()
 func prepareCamera() {
-  camera.prepare()
-    
+  do {
+    try await camera.prepare()
+  } catch {
+    // error handling
+  }
+
   // add previewLayer to any view
   view.layer.addSublayer(camera.previewLayer)
   camera.previewLayer.frame = self.view.bounds
@@ -36,18 +40,21 @@ We can also switch from front facing to back camera:
 
 
 #### Photo Camera delegate
-`func photoCameraDidTakePhoto(_ image: UIImage)`
 
-`func photoCameraDidTriggerError(_ error: Camera.Error)`
+`func photoCamera(photoCamera: PhotoCamera, didTakePhoto image: UIImage)`
 
-
+`func photoCamera(photoCamera: PhotoCamera, didTriggerError error: Camera.Error)`
 
 ### QRCodeScanner Example:
 ```swift
 let scanner = QRCodeScanner()
 func prepareQRCodeSCanner() {
-  scanner.prepare()
-    
+  do {
+    try await camera.prepare()
+  } catch {
+    // error handling
+  }
+
   // add previewLayer to any view
   view.layer.addSublayer(scanner.previewLayer)
   scanner.previewLayer.frame = self.view.bounds
@@ -72,7 +79,3 @@ func prepareQRCodeSCanner() {
 `func codeScanned(code: String, boundingRect: CGRect)`
 
 `func scanFailure()`
-
-
-
-
