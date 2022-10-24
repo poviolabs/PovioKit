@@ -32,7 +32,7 @@ extension CameraService: CameraPermissionProviding {
       return granted
     }
     
-    return authStatus == .authorized ? true : false
+    return authStatus == .authorized
   }
   
   /// Returns current camera authorization status
@@ -45,10 +45,9 @@ extension CameraService: CameraPermissionProviding {
     case .notDetermined:
       return .notDetermined
     @unknown default:
-      Logger.debug("Audio device in an unknown state ...")
+      Logger.error("Camera device in an unknown state!")
       return .denied
     }
-    
   }
   
   /// Check if camera is available on device

@@ -27,22 +27,14 @@ public class PhotoCamera: Camera {
 
 // MARK: - Public Methods
 public extension PhotoCamera {
-  func prepare() {
-    sessionQueue.async {
-      do {
-        try self.configureComponents()
-      } catch {
-        
-      }
-    }
+  func prepare() async throws {
+    try self.configureComponents()
   }
   
-  func changeCamera(position: CameraPosition) {
-    if cameraPosition == position {
-      return
-    }
+  func setCameraPosition(_ position: CameraPosition) throws {
+    guard cameraPosition != position else { return }
     cameraPosition = position
-    prepare()
+    try self.configureComponents()
   }
   
   func takePhoto() {

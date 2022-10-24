@@ -23,7 +23,7 @@ public class Camera: NSObject {
   let sessionQueue = DispatchQueue(label: "com.poviokit.camera")
   public lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
   public let cameraService: CameraPermissionProviding
-  public var cameraPosition: CameraPosition = .back
+  var cameraPosition: CameraPosition = .back
   
   init(with cameraService: CameraPermissionProviding = CameraService()) {
     self.cameraService = cameraService
@@ -58,11 +58,11 @@ public extension Camera {
       guard self.session.isRunning else { return }
       self.session.stopRunning()
     }
-    setTorch(on: false) // just in case but flashlight is automatically turned off when session is stopped
+    try? setTorch(on: false) // just in case but flashlight is automatically turned off when session is stopped
   }
   
-  func toggleTorch() {
-    setTorch(on: !(device?.isTorchActive ?? true))
+  func toggleTorch() throws {
+    try setTorch(on: !(device?.isTorchActive ?? true))
   }
 }
 
@@ -73,19 +73,15 @@ private extension Camera {
     previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
   }
   
-  func setTorch(on: Bool) {
+  func setTorch(on: Bool) throws {
     guard let device = device, device.hasTorch, device.isTorchAvailable else { return }
-    do {
-      try device.lockForConfiguration()
-      switch on {
-      case true:
-        try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
-      case false:
-        device.torchMode = .off
-      }
-      device.unlockForConfiguration()
-    } catch {
-      Logger.debug("Could not lock the camera device")
+    try device.lockForConfiguration()
+    switch on {
+    case true:
+      try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
+    case false:
+      device.torchMode = .off
     }
+    device.unlockForConfiguration()
   }
 }
