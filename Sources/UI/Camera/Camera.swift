@@ -15,7 +15,7 @@ public class Camera: NSObject {
     case .back:
       return isCameraAvailable(position: .back) ? AVCaptureDevice.default(for: .video) : nil
     case .front:
-      return isCameraAvailable(position: .front) ? AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) : nil
+      return isCameraAvailable(position: .front) ? AVCaptureDevice.default(deviceType, for: .video, position: .front) : nil
     }
   }
   let session = AVCaptureSession()
@@ -28,6 +28,7 @@ public class Camera: NSObject {
     return pl
   }()
   public let cameraService: CameraService
+  public var deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera
   var cameraPosition: CameraPosition = .back
   
   init(with cameraService: CameraService = CameraService()) {
@@ -74,7 +75,7 @@ public extension Camera {
 private extension Camera {
   /// Check if camera is available on device
   func isCameraAvailable(position: Camera.CameraPosition) -> Bool {
-    let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: position.asAVCaptureDevicePosition)
+    let session = AVCaptureDevice.DiscoverySession(deviceTypes: [deviceType], mediaType: .video, position: position.asAVCaptureDevicePosition)
     return !session.devices.isEmpty
   }
   
