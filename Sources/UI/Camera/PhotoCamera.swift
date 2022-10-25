@@ -10,8 +10,8 @@ import AVFoundation
 import UIKit
 
 public protocol PhotoCameraDelegate: AnyObject {
-  func photoCamera(photoCamera: PhotoCamera, didTakePhoto image: UIImage)
-  func photoCamera(photoCamera: PhotoCamera, didTriggerError error: Camera.Error)
+  func photoCamera(_ photoCamera: PhotoCamera, didTakePhoto image: UIImage)
+  func photoCamera(_ photoCamera: PhotoCamera, didTriggerError error: Camera.Error)
 }
 
 public class PhotoCamera: Camera {
@@ -37,11 +37,15 @@ public extension PhotoCamera {
     try self.configureComponents()
   }
   
-  func takePhoto(isHighResolutionPhotoEnabled: Bool = true, flashMode: AVCaptureDevice.FlashMode = .auto, videoOrientation: AVCaptureVideoOrientation? = nil) {
+  func takePhoto(
+    isHighResolutionPhotoEnabled: Bool = true,
+    flashMode: AVCaptureDevice.FlashMode = .auto,
+    videoOrientation: AVCaptureVideoOrientation? = nil
+  ) {
     let videoOrientation = (videoOrientation != nil) ? videoOrientation : previewLayer.connection?.videoOrientation
     sessionQueue.async {
       guard self.session.isRunning else {
-        DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTriggerError: .missingSession) }
+        DispatchQueue.main.async { self.delegate?.photoCamera(self, didTriggerError: .missingSession) }
         return
       }
       
@@ -65,7 +69,7 @@ public extension PhotoCamera {
     let videoOrientation = (videoOrientation != nil) ? videoOrientation : previewLayer.connection?.videoOrientation
     sessionQueue.async {
       guard self.session.isRunning else {
-        DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTriggerError: .missingSession) }
+        DispatchQueue.main.async { self.delegate?.photoCamera(self, didTriggerError: .missingSession) }
         return
       }
       
@@ -82,10 +86,10 @@ public extension PhotoCamera {
 extension PhotoCamera: AVCapturePhotoCaptureDelegate {
   public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Swift.Error?) {
     guard let data = photo.fileDataRepresentation(), let image = UIImage(data: data) else {
-      DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTriggerError: .invalidImage) }
+      DispatchQueue.main.async { self.delegate?.photoCamera(self, didTriggerError: .invalidImage) }
       return
     }
-    DispatchQueue.main.async { self.delegate?.photoCamera(photoCamera: self, didTakePhoto: image) }
+    DispatchQueue.main.async { self.delegate?.photoCamera(self, didTakePhoto: image) }
   }
 }
 

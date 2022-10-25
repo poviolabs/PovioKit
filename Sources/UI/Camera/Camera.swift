@@ -22,10 +22,10 @@ public class Camera: NSObject {
   // Communicate with the session and other session objects on this queue.
   let sessionQueue = DispatchQueue(label: "com.poviokit.camera")
   public lazy var previewLayer: AVCaptureVideoPreviewLayer = {
-    let pl = AVCaptureVideoPreviewLayer(session: session)
-    pl.videoGravity = AVLayerVideoGravity.resizeAspectFill
+    let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+    previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
     
-    return pl
+    return previewLayer
   }()
   public let cameraService: CameraService
   public var deviceType: AVCaptureDevice.DeviceType = .builtInWideAngleCamera
@@ -75,8 +75,13 @@ public extension Camera {
 private extension Camera {
   /// Check if camera is available on device
   func isCameraAvailable(position: Camera.CameraPosition) -> Bool {
-    let session = AVCaptureDevice.DiscoverySession(deviceTypes: [deviceType], mediaType: .video, position: position.asAVCaptureDevicePosition)
-    return !session.devices.isEmpty
+    !AVCaptureDevice
+      .DiscoverySession(
+        deviceTypes: [deviceType],
+        mediaType: .video,
+        position: position.asAVCaptureDevicePosition)
+      .devices
+      .isEmpty
   }
   
   func setTorch(on: Bool) throws {
