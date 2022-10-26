@@ -44,10 +44,18 @@ public func concurrentlyDispatch<T>(
   spawnTask next: @escaping (Int) -> Promise<T>?,
   concurrent: Int,
   retryCount: Int = 2,
+  reserveCapacity: Int? = nil,
+  preserveOrder: Bool = false,
   on dispatchQueue: DispatchQueue? = .main
-) -> Promise<()> {
+) -> Promise<[T]> {
   .init { seal in
     let barrier = DispatchQueue(label: "com.poviokit.promisekit.barrier", attributes: .concurrent)
+    var taskCounter = concurrent
+    
+    var results = [(T, Int)]()
+    if let reserveCapacity {
+      results.reserveCapacity(reserveCapacity)
+    }
     
     var segmentIndex = concurrent
     var activePromises = [(promise: Promise<T>, retryCount: Int, segmentIndex: Int)]()
@@ -56,22 +64,31 @@ public func concurrentlyDispatch<T>(
     for segmentIndex in 0..<concurrent {
       guard let promise = next(segmentIndex) else { break }
       activePromises.append((promise: promise, retryCount: 0, segmentIndex: segmentIndex))
+      taskCounter += 1
     }
     
-    func observer(_ result: Result<T, Error>, arrayIndex: Int) {
+    func observer(_ result: Result<T, Error>, arrayIndex: Int, taskIndex: Int) {
       barrier.async(flags: .barrier) {
         let currentSegmentIndex = activePromises[arrayIndex].segmentIndex
         let alreadyRetriedCount = activePromises[arrayIndex].retryCount
         
         switch result {
-        case .success:
+        case .success(let result):
+          results.append((result, taskIndex))
           guard let promise = next(segmentIndex) else {
             if activePromises.allSatisfy({ $0.promise.isFulfilled }) { // TODO: - Should we optimise by keeping a counter of how many promises have succeeded thus far?
-              seal.resolve(on: dispatchQueue)
+              if preserveOrder {
+                results.sort { $0.1 < $1.1 }
+              }
+              seal.resolve(
+                with: results.map { $0.0 },
+                on: dispatchQueue
+              )
             }
             return
           }
-          promise.finally { observer($0, arrayIndex: arrayIndex) }
+          promise.finally { observer($0, arrayIndex: arrayIndex, taskIndex: taskCounter) }
+          taskCounter += 1
           activePromises[arrayIndex] = (
             promise: promise,
             retryCount: 0,
@@ -80,7 +97,7 @@ public func concurrentlyDispatch<T>(
           segmentIndex += 1
         case .failure where alreadyRetriedCount < retryCount:
           let promise = next(currentSegmentIndex)!
-          promise.finally { observer($0, arrayIndex: arrayIndex) }
+          promise.finally { observer($0, arrayIndex: arrayIndex, taskIndex: taskIndex) }
           activePromises[arrayIndex] = (
             promise: promise,
             retryCount: alreadyRetriedCount + 1,
@@ -95,8 +112,25 @@ public func concurrentlyDispatch<T>(
     
     activePromises.enumerated().forEach { (arrayIndex, tuple) in
       tuple.promise.finally {
-        observer($0, arrayIndex: arrayIndex)
+        observer($0, arrayIndex: arrayIndex, taskIndex: arrayIndex)
       }
     }
   }
+}
+
+public func concurrentlyDispatch<T, C>(
+  workItems: C,
+  concurrent: Int,
+  retryCount: Int = 2,
+  preserveOrder: Bool = false,
+  on dispatchQueue: DispatchQueue? = .main
+) -> Promise<[T]> where C: Collection, C.Element == () -> Promise<T>, C.Index == Int {
+  concurrentlyDispatch(
+    spawnTask: { (workItems.indices.contains($0) ? workItems[$0] : nil)?() }, 
+    concurrent: concurrent, 
+    retryCount: retryCount, 
+    reserveCapacity: workItems.count, 
+    preserveOrder: preserveOrder, 
+    on: dispatchQueue
+  )
 }
