@@ -118,6 +118,22 @@ public func concurrentlyDispatch<T>(
   }
 }
 
+public func concurrentlyDispatch(
+  spawnTask next: @escaping (Int) -> Promise<()>?,
+  concurrent: Int,
+  retryCount: Int = 2,
+  on dispatchQueue: DispatchQueue? = .main
+) -> Promise<()> {
+  concurrentlyDispatch(
+    spawnTask: next, 
+    concurrent: concurrent, 
+    retryCount: retryCount, 
+    reserveCapacity: nil, 
+    preserveOrder: false, 
+    on: dispatchQueue
+  ).asVoid
+}
+
 public func concurrentlyDispatch<T, C>(
   workItems: C,
   concurrent: Int,
