@@ -2,7 +2,7 @@
 //  UICollectionReusableViewTests.swift
 //  PovioKit_Tests
 //
-//  Created by Ndriqim Nagavci on 25.10.22.
+//  Created by Ndriqim Nagavci on 25/10/2022.
 //  Copyright © 2022 Povio Inc. All rights reserved.
 //
 

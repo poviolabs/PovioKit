@@ -38,4 +38,14 @@ class OptionalTests: XCTestCase {
     let sut: String? = "A"
     XCTAssertFalse(sut.isNilOrEmpty, "Should not return true when string contains characters")
   }
+  
+  func test_replacingString_producesExpectedResult() {
+    let sut: String? = "Nice day today!"
+    XCTAssertEqual(sut.replacingString(with: "night", range: NSRange(location: 5, length: 3)), "Nice night today!")
+  }
+  
+  func test_replacingString_doesNothingOnNilValue() {
+    let sut: String? = nil
+    XCTAssertNotEqual(sut.replacingString(with: "night", range: NSRange(location: 0, length: 0)), "Nice night today!")
+  }
 }
