@@ -10,20 +10,7 @@ import XCTest
 import PovioKit
 import PovioKitUI
 
-class UIViewControllerTests: XCTestCase {
-  func test_createAllButtonTypes() {
-    let viewController = UIViewController()
-    let barButtonItems = viewController.setLeftBarButtons([
-      .init(content: .title(.default("test_title")), action: #selector(testTarget)),
-      .init(content: .title(.attributed(normal: NSAttributedString(string: "attributed_title"))), action: nil),
-      .init(content: .title(.attributed(normal: NSAttributedString(string: "test_title"), disabled: nil)), action: #selector(testTarget)),
-      .init(content: .icon(UIImage(systemName: "sun.min")), action: nil),
-      .init(content: .icon(nil), action: nil)
-    ])
-    
-    XCTAssertEqual(viewController.navigationItem.leftBarButtonItems, barButtonItems)
-  }
-  
+class UIViewControllerTests: XCTestCase {  
   func test_setLeftBarButton_addsLeftBarButton() {
     let viewController = UIViewController()
     let barButtonItem = viewController.setLeftBarButton(.init(content: .title(.default("test_title")), action: nil))
@@ -44,8 +31,11 @@ class UIViewControllerTests: XCTestCase {
   func test_setLeftBarButtons_addsLeftBarButtons() {
     let viewController = UIViewController()
     let barButtonItems = viewController.setLeftBarButtons([
-      .init(content: .title(.default("test_title")), action: nil),
-      .init(content: .title(.default("test_title")), action: nil)
+      .init(content: .title(.default("test_title")), action: #selector(testTarget)),
+      .init(content: .title(.attributed(normal: NSAttributedString(string: "attributed_title"))), action: nil),
+      .init(content: .title(.attributed(normal: NSAttributedString(string: "test_title"), disabled: nil)), action: #selector(testTarget)),
+      .init(content: .icon(UIImage(systemName: "sun.min")), action: nil),
+      .init(content: .icon(nil), action: nil)
     ])
     
     XCTAssertEqual(viewController.navigationItem.leftBarButtonItems, barButtonItems)
