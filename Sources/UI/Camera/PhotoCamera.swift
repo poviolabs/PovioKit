@@ -28,13 +28,13 @@ public class PhotoCamera: Camera {
 // MARK: - Public Methods
 public extension PhotoCamera {
   func prepare() async throws {
-    try self.configureComponents()
+    try self.configure()
   }
   
   func setCameraPosition(_ position: CameraPosition) throws {
     guard cameraPosition != position else { return }
     cameraPosition = position
-    try self.configureComponents()
+    try self.configure()
   }
   
   func takePhoto(
@@ -95,7 +95,7 @@ extension PhotoCamera: AVCapturePhotoCaptureDelegate {
 
 // MARK: - Private Methods
 private extension PhotoCamera {
-  func configureComponents() throws {
+  func configure() throws {
     guard let device = device else { throw Camera.Error.unavailable }
     
     session.beginConfiguration()

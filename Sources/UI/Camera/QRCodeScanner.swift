@@ -26,7 +26,7 @@ public class QRCodeScanner: Camera {
 // MARK: - Public Methods
 public extension QRCodeScanner {
   func prepare() async throws {
-    try self.configureComponents()
+    try self.configure()
   }
 }
 
@@ -47,7 +47,7 @@ extension QRCodeScanner: AVCaptureMetadataOutputObjectsDelegate {
 
 // MARK: - Private Methods
 private extension QRCodeScanner {
-  func configureComponents() throws {
+  func configure() throws {
     guard let device = device else { throw Camera.Error.unavailable }
     
     session.beginConfiguration()
