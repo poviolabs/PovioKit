@@ -28,6 +28,12 @@ public class VirtualObject: SCNNode {
   /// The object's corresponding ARAnchor.
   var anchor: ARAnchor?
   
+  /// The associated tracked raycast used to place this object.
+  /// Tracked raycasting improves hit-testing techniques by repeating the query for a 3D position in succession. ARKit provides an updated position as it refines its understanding of world over time.
+  var raycast: ARTrackedRaycast?
+  
+  var updateAnchor: Bool = false
+  
   init(alignment: ARRaycastQuery.TargetAlignment, rootNode: SCNNode) {
     self.alignment = alignment
     self.rootNode = rootNode
@@ -42,6 +48,16 @@ public class VirtualObject: SCNNode {
   public override func addChildNode(_ child: SCNNode) {
     rootNode.addChildNode(child)
   }
+  
+  public override var scale: SCNVector3 {
+    get {
+      rootNode.scale
+    }
+    
+    set {
+      rootNode.scale = newValue
+    }
+  }
 }
 
 // MARK: - Public methods
@@ -51,6 +67,11 @@ public extension VirtualObject {
     childNodes.forEach({ $0.removeFromParentNode() })
     rootNode = node
     super.addChildNode(rootNode)
+  }
+  
+  func stopTrackedRaycast() {
+    raycast?.stopTracking()
+    raycast = nil
   }
   
   static func virtualObjectFromNode(_ node: SCNNode) -> VirtualObject? {

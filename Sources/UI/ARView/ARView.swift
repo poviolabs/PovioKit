@@ -11,25 +11,13 @@ import ARKit
 public protocol ARViewDelegate: AnyObject {
   func arView(_ arView: ARView, didTriggerError: Error?)
   func arView(_ arView: ARView, placedObject: VirtualObject)
+  func arView(_ arView: ARView, updatedPositionOf object: VirtualObject)
 }
 
 public class ARView: ARSCNView {
   public var viewDelegate: ARViewDelegate?
   /// A serial queue used to coordinate adding or removing nodes from the scene.
   let updateQueue = DispatchQueue(label: "com.poviokit.arview")
-
-  func createTrackedRaycastAndSet3DPosition(
-    of virtualObject: VirtualObject,
-    from query: ARRaycastQuery,
-    withInitialResult initialResult: ARRaycastResult? = nil) -> ARTrackedRaycast? {
-    if let initialResult = initialResult {
-      self.setTransform(of: virtualObject, with: initialResult)
-    }
-    
-    return session.trackedRaycast(query) { (results) in
-      self.setVirtualObject3DPosition(results, with: virtualObject)
-    }
-  }
 }
 
 // MARK: - Private methods
@@ -56,6 +44,14 @@ private extension ARView {
     // If the virtual object is not yet in the scene, add it.
     if virtualObject.parent == nil {
       self.scene.rootNode.addChildNode(virtualObject)
+      virtualObject.updateAnchor = true
+    }
+    
+    if virtualObject.updateAnchor {
+      virtualObject.updateAnchor = false
+      updateQueue.async {
+        self.addOrUpdateAnchor(for: virtualObject)
+      }
     }
   }
   
@@ -100,6 +96,42 @@ public extension ARView {
       object.anchor = newAnchor
       self.session.add(anchor: newAnchor)
     }
+  }
+  
+  func createTrackedRaycastAndSet3DPosition(
+    of virtualObject: VirtualObject,
+    from query: ARRaycastQuery,
+    withInitialResult initialResult: ARRaycastResult? = nil) -> ARTrackedRaycast? {
+    if let initialResult = initialResult {
+      self.setTransform(of: virtualObject, with: initialResult)
+    }
+    
+    return session.trackedRaycast(query) { (results) in
+      self.setVirtualObject3DPosition(results, with: virtualObject)
+    }
+  }
+  
+  func createRaycastAndUpdate3DPosition(
+    of virtualObject: VirtualObject,
+    from query: ARRaycastQuery,
+    on interaction: VirtualObjectInteraction) {
+      guard let result = self.session.raycast(query).first else {
+          return
+      }
+      
+      if virtualObject.alignment == .any && interaction.selectedObject == virtualObject {
+        // If an object that's aligned to a surface is being dragged, then
+        // smoothen its orientation to avoid visible jumps, and apply only the translation directly.
+        virtualObject.simdWorldPosition = result.worldTransform.translation
+        
+        let previousOrientation = virtualObject.simdWorldTransform.orientation
+        let currentOrientation = result.worldTransform.orientation
+        virtualObject.simdWorldOrientation = simd_slerp(previousOrientation, currentOrientation, 0.1)
+      } else {
+        self.setTransform(of: virtualObject, with: result)
+      }
+      
+      self.viewDelegate?.arView(self, updatedPositionOf: virtualObject)
   }
 }
 
