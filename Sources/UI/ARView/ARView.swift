@@ -8,7 +8,7 @@
 
 import ARKit
 
-public protocol ARViewDelegate: ARSCNViewDelegate {
+public protocol ARViewDelegate: AnyObject {
   func arView(_ arView: ARView, didTriggerError: Error?)
   func arView(_ arView: ARView, placedObject: VirtualObject)
 }
@@ -17,7 +17,7 @@ public class ARView: ARSCNView {
   public var viewDelegate: ARViewDelegate?
   /// A serial queue used to coordinate adding or removing nodes from the scene.
   let updateQueue = DispatchQueue(label: "com.poviokit.arview")
-  
+
   func createTrackedRaycastAndSet3DPosition(
     of virtualObject: VirtualObject,
     from query: ARRaycastQuery,
@@ -35,20 +35,20 @@ public class ARView: ARSCNView {
 // MARK: - Private methods
 private extension ARView {
   func castRay(for query: ARRaycastQuery) -> [ARRaycastResult] {
-      return session.raycast(query)
+    return session.raycast(query)
   }
   
   func getRaycastQuery(for alignment: ARRaycastQuery.TargetAlignment = .any) -> ARRaycastQuery? {
-      return raycastQuery(from: screenCenter, allowing: .estimatedPlane, alignment: alignment)
+    return raycastQuery(from: screenCenter, allowing: .estimatedPlane, alignment: alignment)
   }
   
   var screenCenter: CGPoint {
-      return CGPoint(x: bounds.midX, y: bounds.midY)
+    return CGPoint(x: bounds.midX, y: bounds.midY)
   }
   
   func setVirtualObject3DPosition(_ results: [ARRaycastResult], with virtualObject: VirtualObject) {
     guard let result = results.first else {
-        fatalError("Unexpected case: the update handler is always supposed to return at least one result.")
+      fatalError("Unexpected case: the update handler is always supposed to return at least one result.")
     }
     
     self.setTransform(of: virtualObject, with: result)
