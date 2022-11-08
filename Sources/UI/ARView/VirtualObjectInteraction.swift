@@ -30,6 +30,7 @@ private extension VirtualObjectInteraction {
     createTapGesture()
     createPanGesture()
     createPinchGesture()
+    createRotationGesture()
   }
   
   func createTapGesture() {
@@ -47,6 +48,12 @@ private extension VirtualObjectInteraction {
     let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
     pinchGesture.delegate = self
     sceneView.addGestureRecognizer(pinchGesture)
+  }
+  
+  func createRotationGesture() {
+    let rotationGesture = UIRotationGestureRecognizer(target: self, action: #selector(handleRotationGesture(_:)))
+    rotationGesture.delegate = self
+    sceneView.addGestureRecognizer(rotationGesture)
   }
   
   @objc func handleTapGesture(_ gesture: UITapGestureRecognizer) {
@@ -86,6 +93,12 @@ private extension VirtualObjectInteraction {
     default:
       break
     }
+  }
+  
+  @objc func handleRotationGesture(_ gesture: UIRotationGestureRecognizer) {
+    guard let selectedObject, gesture.state == .changed else { return }
+    selectedObject.objectRotation -= Float(gesture.rotation)
+    gesture.rotation = 0
   }
   
   private func objectInteracting(with gesture: UIGestureRecognizer) -> VirtualObject? {
