@@ -17,11 +17,11 @@ public class VirtualObject: SCNNode {
   /// Rotation of virtual object
   var objectRotation: Float {
     get {
-      eulerAngles.y
+      rootNode.eulerAngles.y
     }
     
     set {
-      eulerAngles.y = newValue
+      rootNode.eulerAngles.y = newValue
     }
   }
   

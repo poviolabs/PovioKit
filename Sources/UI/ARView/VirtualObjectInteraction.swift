@@ -101,7 +101,7 @@ private extension VirtualObjectInteraction {
     gesture.rotation = 0
   }
   
-  private func objectInteracting(with gesture: UIGestureRecognizer) -> VirtualObject? {
+  func objectInteracting(with gesture: UIGestureRecognizer) -> VirtualObject? {
     for index in 0..<gesture.numberOfTouches {
       let touchLocation = gesture.location(ofTouch: index, in: sceneView)
       
