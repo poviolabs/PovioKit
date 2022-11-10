@@ -9,14 +9,21 @@
 import ARKit
 import PovioKit
 
-public protocol ARViewDelegate: AnyObject {
+public protocol ARViewDelegate: ARSCNViewDelegate {
   func arView(_ arView: ARView, didTriggerError: Error?)
   func arView(_ arView: ARView, placedObject: VirtualObject)
   func arView(_ arView: ARView, updatedPositionOf object: VirtualObject)
 }
 
 public class ARView: ARSCNView {
-  public var viewDelegate: ARViewDelegate?
+  public var viewDelegate: ARViewDelegate? {
+    get {
+      delegate as? ARViewDelegate
+    }
+    set {
+      delegate = newValue
+    }
+  }
   /// A serial queue used to coordinate adding or removing nodes from the scene.
   public let updateQueue = DispatchQueue(label: "com.poviokit.arview")
 }
