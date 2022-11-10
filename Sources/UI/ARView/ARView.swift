@@ -80,7 +80,8 @@ public extension ARView {
       return
     }
     DispatchQueue.global(qos: .userInitiated).async {
-      let _ = self.createTrackedRaycastAndSet3DPosition(of: object, from: query, withInitialResult: result)
+      let raycast = self.createTrackedRaycastAndSet3DPosition(of: object, from: query, withInitialResult: result)
+      object.raycast = raycast
       self.viewDelegate?.arView(self, placedObject: object)
     }
   }
