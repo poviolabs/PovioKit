@@ -31,7 +31,7 @@ public class ARView: ARSCNView {
 // MARK: - Private methods
 private extension ARView {
   var screenCenter: CGPoint {
-    return CGPoint(x: bounds.midX, y: bounds.midY)
+    CGPoint(x: bounds.midX, y: bounds.midY)
   }
   
   func setVirtualObject3DPosition(_ results: [ARRaycastResult], with virtualObject: VirtualObject) {
@@ -63,11 +63,11 @@ private extension ARView {
 // MARK: - Public methods
 public extension ARView {
   func castRay(for query: ARRaycastQuery) -> [ARRaycastResult] {
-    return session.raycast(query)
+    session.raycast(query)
   }
   
   func getRaycastQuery(for alignment: ARRaycastQuery.TargetAlignment = .any) -> ARRaycastQuery? {
-    return raycastQuery(from: screenCenter, allowing: .estimatedPlane, alignment: alignment)
+    raycastQuery(from: screenCenter, allowing: .estimatedPlane, alignment: alignment)
   }
   
   func virtualObject(at point: CGPoint) -> VirtualObject? {
@@ -125,7 +125,7 @@ public extension ARView {
     from query: ARRaycastQuery,
     on interaction: VirtualObjectInteraction) {
       guard let result = self.session.raycast(query).first else {
-          return
+        return
       }
       
       if virtualObject.alignment == .any && interaction.selectedObject == virtualObject {

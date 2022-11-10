@@ -19,7 +19,6 @@ public class VirtualObject: SCNNode {
     get {
       rootNode.eulerAngles.y
     }
-    
     set {
       rootNode.eulerAngles.y = newValue
     }
@@ -53,7 +52,6 @@ public class VirtualObject: SCNNode {
     get {
       rootNode.scale
     }
-    
     set {
       rootNode.scale = newValue
     }
