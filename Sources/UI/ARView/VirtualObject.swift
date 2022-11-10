@@ -33,7 +33,7 @@ public class VirtualObject: SCNNode {
   
   var updateAnchor: Bool = false
   
-  init(alignment: ARRaycastQuery.TargetAlignment, rootNode: SCNNode) {
+  public init(alignment: ARRaycastQuery.TargetAlignment, rootNode: SCNNode) {
     self.alignment = alignment
     self.rootNode = rootNode
     super.init()
