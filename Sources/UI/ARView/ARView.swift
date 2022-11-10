@@ -26,6 +26,21 @@ public class ARView: ARSCNView {
   }
   /// A serial queue used to coordinate adding or removing nodes from the scene.
   public let updateQueue = DispatchQueue(label: "com.poviokit.arview")
+  
+  /// Coaching Overlay
+  public let coachingOverlay = ARCoachingOverlayView()
+  
+  public override init(frame: CGRect, options: [String : Any]? = nil) {
+    super.init(frame: frame, options: options)
+    
+    setupCoachingOverlay()
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    
+    setupCoachingOverlay()
+  }
 }
 
 // MARK: - Private methods
@@ -57,6 +72,25 @@ private extension ARView {
   
   func setTransform(of virtualObject: VirtualObject, with result: ARRaycastResult) {
     virtualObject.simdWorldTransform = result.worldTransform
+  }
+  
+  func setupCoachingOverlay() {
+    // Set up coaching view
+    coachingOverlay.session = session
+    
+    coachingOverlay.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(coachingOverlay)
+    
+    NSLayoutConstraint.activate([
+      coachingOverlay.centerXAnchor.constraint(equalTo: centerXAnchor),
+      coachingOverlay.centerYAnchor.constraint(equalTo: centerYAnchor),
+      coachingOverlay.widthAnchor.constraint(equalTo: widthAnchor),
+      coachingOverlay.heightAnchor.constraint(equalTo: heightAnchor)
+    ])
+    
+    coachingOverlay.activatesAutomatically = true
+    
+    setCoachingGoal(.horizontalPlane)
   }
 }
 
@@ -141,5 +175,9 @@ public extension ARView {
       }
       
       self.viewDelegate?.arView(self, updatedPositionOf: virtualObject)
+  }
+  
+  func setCoachingGoal(_ goal: ARCoachingOverlayView.Goal) {
+    coachingOverlay.goal = goal
   }
 }
