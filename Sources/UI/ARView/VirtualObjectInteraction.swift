@@ -6,17 +6,18 @@
 //  Copyright © 2022 Povio Inc. All rights reserved.
 //
 
-import UIKit
 import ARKit
+import UIKit
+import PovioKit
 
 public class VirtualObjectInteraction: NSObject {
-  var selectedObject: VirtualObject?
+  public var selectedObject: VirtualObject?
   private var initialObjectScale: Float = 1
   private var currentTrackingPosition: CGPoint?
   
   private let sceneView: ARView
   
-  init(sceneView: ARView) {
+  public init(sceneView: ARView) {
     self.sceneView = sceneView
     super.init()
     

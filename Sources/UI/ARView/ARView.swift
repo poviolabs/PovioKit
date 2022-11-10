@@ -7,6 +7,7 @@
 //
 
 import ARKit
+import PovioKit
 
 public protocol ARViewDelegate: AnyObject {
   func arView(_ arView: ARView, didTriggerError: Error?)
@@ -17,19 +18,11 @@ public protocol ARViewDelegate: AnyObject {
 public class ARView: ARSCNView {
   public var viewDelegate: ARViewDelegate?
   /// A serial queue used to coordinate adding or removing nodes from the scene.
-  let updateQueue = DispatchQueue(label: "com.poviokit.arview")
+  public let updateQueue = DispatchQueue(label: "com.poviokit.arview")
 }
 
 // MARK: - Private methods
 private extension ARView {
-  func castRay(for query: ARRaycastQuery) -> [ARRaycastResult] {
-    return session.raycast(query)
-  }
-  
-  func getRaycastQuery(for alignment: ARRaycastQuery.TargetAlignment = .any) -> ARRaycastQuery? {
-    return raycastQuery(from: screenCenter, allowing: .estimatedPlane, alignment: alignment)
-  }
-  
   var screenCenter: CGPoint {
     return CGPoint(x: bounds.midX, y: bounds.midY)
   }
@@ -62,6 +55,14 @@ private extension ARView {
 
 // MARK: - Public methods
 public extension ARView {
+  func castRay(for query: ARRaycastQuery) -> [ARRaycastResult] {
+    return session.raycast(query)
+  }
+  
+  func getRaycastQuery(for alignment: ARRaycastQuery.TargetAlignment = .any) -> ARRaycastQuery? {
+    return raycastQuery(from: screenCenter, allowing: .estimatedPlane, alignment: alignment)
+  }
+  
   func virtualObject(at point: CGPoint) -> VirtualObject? {
     let hitTestOptions: [SCNHitTestOption: Any] = [.boundingBoxOnly: true]
     let hitTestResults = hitTest(point, options: hitTestOptions)
