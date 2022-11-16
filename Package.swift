@@ -10,12 +10,11 @@ let package = Package(
     .library(name: "PovioKit", targets: ["PovioKit"]),
     .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
-    .library(name: "PovioKitUI", targets: ["PovioKitUI"])
+    .library(name: "PovioKitUI", targets: ["PovioKitUI"]),
+    .library(name: "PovioKitAuthApple", targets: ["PovioKitAuthApple"]),
   ],
   dependencies: [
-    .package(
-      url: "https://github.com/Alamofire/Alamofire",
-      .upToNextMajor(from: "5.6.2"))
+    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.6.2")),
   ],
   targets: [
     .target(
@@ -42,6 +41,11 @@ let package = Package(
         "PovioKit"
       ],
       path: "Sources/UI"
+    ),
+    .target(
+      name: "PovioKitAuthApple",
+      dependencies: [],
+      path: "Sources/Auth/Apple"
     ),
     .testTarget(
       name: "Tests",
