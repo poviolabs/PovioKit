@@ -12,9 +12,11 @@ let package = Package(
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
     .library(name: "PovioKitUI", targets: ["PovioKitUI"]),
     .library(name: "PovioKitAuthApple", targets: ["PovioKitAuthApple"]),
+    .library(name: "PovioKitAuthGoogle", targets: ["PovioKitAuthGoogle"]),
   ],
   dependencies: [
     .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.6.2")),
+    .package(url: "https://github.com/google/GoogleSignIn-iOS", .upToNextMajor(from: "6.2.4")),
   ],
   targets: [
     .target(
@@ -46,6 +48,13 @@ let package = Package(
       name: "PovioKitAuthApple",
       dependencies: [],
       path: "Sources/Auth/Apple"
+    ),
+    .target(
+      name: "PovioKitAuthGoogle",
+      dependencies: [
+        .product(name: "GoogleSignInSwift", package: "GoogleSignIn-iOS")
+      ],
+      path: "Sources/Auth/Google"
     ),
     .testTarget(
       name: "Tests",
