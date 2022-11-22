@@ -1,5 +1,5 @@
 //
-//  CollectionDatedTests.swift
+//  CollectionGroupedTests.swift
 //  PovioKit_Tests
 //
 //  Created by Yll Fejziu on 14/11/2022.
@@ -9,16 +9,16 @@
 import XCTest
 import PovioKit
 
-final class CollectionDatedTests: XCTestCase {
+final class CollectionGroupedTests: XCTestCase {
   func test_grouped_returnsEmptyDictionaryOnEmptyArray() {
     let sut: [Stub] = []
-    XCTAssertEqual(sut.grouped(), [:])
+    XCTAssertEqual(sut.grouped { $0.createdAt }, [:])
   }
   
   func test_grouped_returnsGroupedDictionaryCorrectlyForSameDates() {
     let sut: [Stub] = [anyStub(), anyStub()]
     
-    let grouped = sut.grouped()
+    let grouped = sut.grouped { $0.createdAt }
     
     XCTAssertEqual(grouped.keys.count, 1)
     XCTAssertEqual(grouped.values.first?.count, 2)
@@ -27,7 +27,7 @@ final class CollectionDatedTests: XCTestCase {
   func test_grouped_returnsGroupedDictionaryCorrectlyForDifferentDates() {
     let sut: [Stub] = [anyStub(), Stub(createdAt: currentDate())]
     
-    let grouped = sut.grouped()
+    let grouped = sut.grouped { $0.createdAt  }
     
     XCTAssertEqual(grouped.keys.count, 2)
     
@@ -38,11 +38,10 @@ final class CollectionDatedTests: XCTestCase {
 }
 
 // MARK: - Helpers
-extension CollectionDatedTests {
-  class Stub: Dated {
+extension CollectionGroupedTests {
+  class Stub {
     let id: String
     let createdAt: Date
-    var date: Date { createdAt }
     
     internal init(id: String = UUID().uuidString, createdAt: Date) {
       self.id = id
@@ -63,8 +62,8 @@ extension CollectionDatedTests {
   }
 }
 
-extension CollectionDatedTests.Stub: Equatable {
-  static func == (lhs: CollectionDatedTests.Stub, rhs: CollectionDatedTests.Stub) -> Bool {
+extension CollectionGroupedTests.Stub: Equatable {
+  static func == (lhs: CollectionGroupedTests.Stub, rhs: CollectionGroupedTests.Stub) -> Bool {
     lhs.id == rhs.id
   }
 }

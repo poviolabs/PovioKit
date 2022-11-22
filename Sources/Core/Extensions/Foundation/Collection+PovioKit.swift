@@ -22,18 +22,20 @@ public extension Collection {
   }
 }
 
-public extension Collection where Element: Dated {
-  /// Groups dated collection elements returning a dictionary
-  func grouped(by dateComponents: Set<Calendar.Component> = [.year, .month, .day],
-               calendar: Calendar = Calendar.current) -> [Date: [Element]] {
-    let initial: [Date: [Element]] = [:]
-    let groupedByDateComponents = reduce(into: initial) { acc, cur in
-      let components = calendar.dateComponents(dateComponents, from: cur.date)
-      let date = calendar.date(from: components) ?? Date()
-      let existing = acc[date] ?? []
-      acc[date] = existing + [cur]
-    }
-    
-    return groupedByDateComponents
+public extension Collection {
+  /// Groups collection elements based on dateComponents returning a dictionary
+  func grouped(
+    extractDate: (Element) -> Date,
+    by dateComponents: Set<Calendar.Component> = [.year, .month, .day],
+    calendar: Calendar = Calendar.current
+  ) -> [Date: [Element]] {
+    .init(
+      grouping: self,
+      by: {
+        let components = calendar.dateComponents(dateComponents, from: extractDate($0))
+        let date = calendar.date(from: components) ?? Date()
+        return date
+      }
+    )
   }
 }
