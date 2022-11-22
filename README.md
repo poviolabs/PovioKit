@@ -67,6 +67,7 @@
 | [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
 | [ProfileImageView](Resources/UI/ProfileImageView) |
 | [TextField](Resources/UI/TextField) |
+
 ### Networking
 
 [AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/)
@@ -74,6 +75,13 @@
 ### PromiseKit
 
 [PromiseKit](Resources/PromiseKit/)
+
+### Social
+
+| Provider |
+| :--- |
+| [AppleAuthProvider](Resources/Auth/Apple/) |
+| [GoogleAuthProvider](Resources/Auth/Google/) |
 
 
 ## Installation
