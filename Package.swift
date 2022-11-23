@@ -48,7 +48,8 @@ let package = Package(
       dependencies: [
         "PovioKit",
         "PovioKitPromise",
-        "PovioKitNetworking"
+        "PovioKitNetworking",
+        "PovioKitUI"
       ]
     ),
   ],
