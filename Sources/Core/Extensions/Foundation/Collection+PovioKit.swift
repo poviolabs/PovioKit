@@ -21,3 +21,21 @@ public extension Collection {
     lazy.filter(clause).count
   }
 }
+
+public extension Collection {
+  /// Groups collection elements based on dateComponents returning a dictionary
+  func grouped(
+    extractDate: (Element) -> Date,
+    by dateComponents: Set<Calendar.Component> = [.year, .month, .day],
+    calendar: Calendar = Calendar.current
+  ) -> [Date: [Element]] {
+    .init(
+      grouping: self,
+      by: {
+        let components = calendar.dateComponents(dateComponents, from: extractDate($0))
+        let date = calendar.date(from: components) ?? Date()
+        return date
+      }
+    )
+  }
+}
