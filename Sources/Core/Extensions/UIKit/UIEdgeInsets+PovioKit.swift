@@ -33,11 +33,23 @@ public extension UIEdgeInsets {
 public extension UIEdgeInsets {
   /// Returns vertical edges dimensions combined
   var vertical: CGFloat {
-    top + bottom
+    get {
+      top + bottom
+    }
+    set {
+      top = newValue
+      bottom = newValue
+    }
   }
   
   /// Returns horizontal edges dimensions combined
   var horizontal: CGFloat {
-    left + right
+    get {
+      left + right
+    }
+    set {
+      left = newValue
+      right = newValue
+    }
   }
 }
