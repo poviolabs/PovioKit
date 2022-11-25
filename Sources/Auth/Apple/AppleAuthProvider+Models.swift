@@ -9,19 +9,6 @@
 import Foundation
 
 public extension AppleAuthProvider {
-  struct Response {
-    let token: String
-    var name: String?
-    var email: String?
-  }
-  
-  enum Error: Swift.Error {
-    case system(_ error: Swift.Error)
-    case invalidNonceLength
-    case invalidIdentityToken
-    case unhandledAuthorization
-  }
-  
   enum Nonce {
     case random(length: UInt)
   }

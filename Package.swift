@@ -45,13 +45,21 @@ let package = Package(
       path: "Sources/UI"
     ),
     .target(
-      name: "PovioKitAuthApple",
+      name: "PovioKitAuthCore",
       dependencies: [],
+      path: "Sources/Auth/Core"
+    ),
+    .target(
+      name: "PovioKitAuthApple",
+      dependencies: [
+        "PovioKitAuthCore"
+      ],
       path: "Sources/Auth/Apple"
     ),
     .target(
       name: "PovioKitAuthGoogle",
       dependencies: [
+        "PovioKitAuthCore",
         .product(name: "GoogleSignInSwift", package: "GoogleSignIn-iOS")
       ],
       path: "Sources/Auth/Google"

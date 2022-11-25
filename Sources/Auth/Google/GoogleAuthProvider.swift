@@ -8,10 +8,15 @@
 
 import Foundation
 import GoogleSignIn
+import PovioKitAuthCore
+
+public protocol GoogleAuthProvidable: AuthProvidable {
+  func shouldHandleURL(_ url: URL) -> Bool
+}
 
 public protocol GoogleAuthProviderDelegate: AnyObject {
-  func googleAuthProviderDidSignIn(with response: GoogleAuthProvider.Response)
-  func googleAuthProviderDidFail(with error: GoogleAuthProvider.Error)
+  func googleAuthProviderDidSignIn(with response: AuthProvider.Response)
+  func googleAuthProviderDidFail(with error: AuthProvider.Error)
 }
 
 public final class GoogleAuthProvider: NSObject {
@@ -31,11 +36,11 @@ public final class GoogleAuthProvider: NSObject {
 }
 
 // MARK: - Public Methods
-public extension GoogleAuthProvider {
+extension GoogleAuthProvider: GoogleAuthProvidable {
   /// SignIn user.
   ///
   /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  func signIn() {
+  public func signIn() {
     guard !authProvider.hasPreviousSignIn() else {
       authProvider.restorePreviousSignIn()
       return
@@ -58,9 +63,9 @@ public extension GoogleAuthProvider {
               let fullName = [userProfile?.givenName, userProfile?.familyName]
                 .compactMap { $0 }
                 .joined(separator: " ")
-              let response = Response(token: auth.accessToken,
-                                      name: fullName,
-                                      email: userProfile?.email)
+              let response = AuthProvider.Response(token: auth.accessToken,
+                                                   name: fullName,
+                                                   email: userProfile?.email)
               self?.delegate?.googleAuthProviderDidSignIn(with: response)
             case (_, .some(let error)):
               self?.delegate?.googleAuthProviderDidFail(with: .system(error))
@@ -73,20 +78,20 @@ public extension GoogleAuthProvider {
           guard errorCode != GIDSignInError.Code.canceled.rawValue else { return }
           self?.delegate?.googleAuthProviderDidFail(with: .system(actualError))
         case (.none, .none):
-          self?.delegate?.googleAuthProviderDidFail(with: .undefined)
+          self?.delegate?.googleAuthProviderDidFail(with: .unhandledAuthorization)
         }
       }
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
-  func signOut() {
+  public func signOut() {
     authProvider.signOut()
   }
   
   /// Boolean if given `url` should be handled.
   ///
   /// Call this from UIApplicationDelegate’s `application:openURL:options:` method.
-  func shouldHandleURL(_ url: URL) -> Bool {
+  public func shouldHandleURL(_ url: URL) -> Bool {
     authProvider.handle(url)
   }
 }

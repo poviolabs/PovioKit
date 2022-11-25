@@ -9,10 +9,16 @@
 import AuthenticationServices
 import CryptoKit
 import Foundation
+import PovioKitAuthCore
+
+public protocol AppleAuthProvidable: AuthProvidable {
+  func signIn(with nonce: AppleAuthProvider.Nonce)
+  func checkAuthorizationState()
+}
 
 public protocol AppleAuthProviderDelegate: AnyObject {
-  func appleAuthProviderDidSignIn(with response: AppleAuthProvider.Response)
-  func appleAuthProviderDidFail(with error: AppleAuthProvider.Error)
+  func appleAuthProviderDidSignIn(with response: AuthProvider.Response)
+  func appleAuthProviderDidFail(with error: AuthProvider.Error)
   func appleAuthProviderIsAuthorized(_ authorized: Bool)
 }
 
@@ -40,38 +46,28 @@ public final class AppleAuthProvider: NSObject {
 }
 
 // MARK: - Public Methods
-public extension AppleAuthProvider {
-  /// SignIn with optional `nonce` value, which is usually needed when doing auth with an external auth provider (e.g. firebase).
+extension AppleAuthProvider: AppleAuthProvidable {
+  /// SignIn user.
   ///
   /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  func signIn(with nonce: Nonce?) {
-    let request = authProvider.createRequest()
-    request.requestedScopes = [.fullName, .email]
-    
-    switch nonce {
-    case .random(let length):
-      guard length > 0 else {
-        delegate?.appleAuthProviderDidFail(with: .invalidNonceLength)
-        return
-      }
-      request.nonce = generateRandomNonceString(length: length).sha256
-    case .none:
-      break
-    }
-    
-    let controller = ASAuthorizationController(authorizationRequests: [request])
-    controller.delegate = self
-    controller.presentationContextProvider = self
-    controller.performRequests()
+  public func signIn() {
+    appleSignIn(with: nil)
+  }
+  
+  /// SignIn user with `nonce` value, which is usually needed when doing auth with an external auth provider (e.g. firebase).
+  ///
+  /// Will notify the delegate with the `Response` object on success or with `Error` on error.
+  public func signIn(with nonce: Nonce) {
+    appleSignIn(with: nonce)
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
-  func signOut() {
+  public func signOut() {
     storage.removeObject(forKey: userIdStorageKey)
   }
   
   /// Checks the current auth state and delegates the response.
-  func checkAuthorizationState() {
+  public func checkAuthorizationState() {
     guard let userId = storage.string(forKey: userIdStorageKey) else {
       delegate?.appleAuthProviderIsAuthorized(false)
       return
@@ -123,6 +119,27 @@ extension AppleAuthProvider: ASAuthorizationControllerPresentationContextProvidi
 
 // MARK: - Private Methods
 private extension AppleAuthProvider {
+  func appleSignIn(with nonce: Nonce?) {
+    let request = authProvider.createRequest()
+    request.requestedScopes = [.fullName, .email]
+    
+    switch nonce {
+    case .random(let length):
+      guard length > 0 else {
+        delegate?.appleAuthProviderDidFail(with: .invalidNonceLength)
+        return
+      }
+      request.nonce = generateRandomNonceString(length: length).sha256
+    case .none:
+      break
+    }
+    
+    let controller = ASAuthorizationController(authorizationRequests: [request])
+    controller.delegate = self
+    controller.presentationContextProvider = self
+    controller.performRequests()
+  }
+  
   func generateRandomNonceString(length: UInt = 32) -> String {
     let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
     let result = (0..<length).compactMap { _ in charset.randomElement() }

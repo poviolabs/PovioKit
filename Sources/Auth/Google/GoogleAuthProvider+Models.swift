@@ -12,16 +12,4 @@ public extension GoogleAuthProvider {
   struct Config {
     let clientId: String
   }
-  
-  struct Response {
-    let token: String
-    var name: String?
-    var email: String?
-  }
-  
-  enum Error: Swift.Error {
-    case system(_ error: Swift.Error)
-    case missingPresentingViewController
-    case undefined
-  }
 }
