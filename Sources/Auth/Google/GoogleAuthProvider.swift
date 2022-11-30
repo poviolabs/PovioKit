@@ -11,7 +11,7 @@ import GoogleSignIn
 import PovioKitAuthCore
 
 public protocol GoogleAuthProvidable: AuthProvidable {
-  func shouldHandleURL(_ url: URL) -> Bool
+  static func shouldHandleURL(_ url: URL) -> Bool
 }
 
 public protocol GoogleAuthProviderDelegate: AnyObject {
@@ -84,14 +84,19 @@ extension GoogleAuthProvider: GoogleAuthProvidable {
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
-  public func signOut() {
-    authProvider.signOut()
+  public static func signOut() {
+    GIDSignIn.sharedInstance.signOut()
+  }
+  
+  /// Checks the current auth state and returns the boolean value.
+  public static func checkAuthState(_ state: @escaping (Bool) -> Swift.Void) {
+    state(GIDSignIn.sharedInstance.currentUser != nil)
   }
   
   /// Boolean if given `url` should be handled.
   ///
   /// Call this from UIApplicationDelegate’s `application:openURL:options:` method.
-  public func shouldHandleURL(_ url: URL) -> Bool {
-    authProvider.handle(url)
+  public static func shouldHandleURL(_ url: URL) -> Bool {
+    GIDSignIn.sharedInstance.handle(url)
   }
 }

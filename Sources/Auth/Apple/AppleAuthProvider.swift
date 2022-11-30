@@ -13,20 +13,19 @@ import PovioKitAuthCore
 
 public protocol AppleAuthProvidable: AuthProvidable {
   func signIn(with nonce: AppleAuthProvider.Nonce)
-  func checkAuthorizationState()
 }
 
 public protocol AppleAuthProviderDelegate: AnyObject {
   func appleAuthProviderDidSignIn(with response: AuthProvider.Response)
   func appleAuthProviderDidFail(with error: AuthProvider.Error)
-  func appleAuthProviderIsAuthorized(_ authorized: Bool)
+  func appleAuthProviderCredentialsRevoked()
 }
 
 public final class AppleAuthProvider: NSObject {
   private weak var delegate: AppleAuthProviderDelegate?
   private let presentationAnchor: ASPresentationAnchor?
-  private let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
-  private let storage: UserDefaults
+  private static let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
+  private static let storage: UserDefaults = .standard
   private let authProvider: ASAuthorizationAppleIDProvider
   
   /// Class initializer with optional `presentationAnchor` param. You should usually pass the main window.
@@ -34,7 +33,6 @@ public final class AppleAuthProvider: NSObject {
   public init(with presentationAnchor: ASPresentationAnchor? = nil, delegate: AppleAuthProviderDelegate?) {
     self.presentationAnchor = presentationAnchor
     self.delegate = delegate
-    self.storage = .standard
     self.authProvider = .init()
     super.init()
     setupCredentialsRevokeListener()
@@ -62,19 +60,19 @@ extension AppleAuthProvider: AppleAuthProvidable {
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
-  public func signOut() {
+  public static func signOut() {
     storage.removeObject(forKey: userIdStorageKey)
   }
   
-  /// Checks the current auth state and delegates the response.
-  public func checkAuthorizationState() {
-    guard let userId = storage.string(forKey: userIdStorageKey) else {
-      delegate?.appleAuthProviderIsAuthorized(false)
+  /// Checks the current auth state and returns the boolean value.
+  public static func checkAuthState(_ state: @escaping (Bool) -> Swift.Void) {
+    guard let userId = Self.storage.string(forKey: Self.userIdStorageKey) else {
+      state(false)
       return
     }
     
-    authProvider.getCredentialState(forUserID: userId) { [weak self] state, _ in
-      self?.delegate?.appleAuthProviderIsAuthorized(state == .authorized)
+    ASAuthorizationAppleIDProvider().getCredentialState(forUserID: userId) { credentialsState, _ in
+      state(credentialsState == .authorized)
     }
   }
 }
@@ -91,7 +89,7 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
       }
       
       // store userId for later
-      storage.set(credential.user, forKey: userIdStorageKey)
+      Self.storage.set(credential.user, forKey: Self.userIdStorageKey)
       
       let displayName = [credential.fullName?.givenName, credential.fullName?.familyName]
         .compactMap { $0 }
@@ -158,7 +156,7 @@ private extension AppleAuthProvider {
 // MARK: - Actions
 private extension AppleAuthProvider {
   @objc func appleCredentialRevoked() {
-    delegate?.appleAuthProviderIsAuthorized(false)
+    delegate?.appleAuthProviderCredentialsRevoked()
   }
 }
 

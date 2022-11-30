@@ -10,7 +10,8 @@ import Foundation
 
 public protocol AuthProvidable {
   func signIn()
-  func signOut()
+  static func signOut()
+  static func checkAuthState(_ state: @escaping (Bool) -> Swift.Void)
 }
 
 public struct AuthProvider {
@@ -28,6 +29,7 @@ public struct AuthProvider {
   
   public enum Error: Swift.Error {
     case system(_ error: Swift.Error)
+    case cancelled
     case invalidNonceLength
     case invalidIdentityToken
     case unhandledAuthorization
