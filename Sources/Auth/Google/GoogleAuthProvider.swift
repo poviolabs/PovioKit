@@ -70,13 +70,16 @@ extension GoogleAuthProvider: GoogleAuthProvidable {
             case (_, .some(let error)):
               self?.delegate?.googleAuthProviderDidFail(with: .system(error))
             default:
-              return
+              self?.delegate?.googleAuthProviderDidFail(with: .unhandledAuthorization)
             }
           }
         case (_, let actualError?):
           let errorCode = (actualError as NSError).code
-          guard errorCode != GIDSignInError.Code.canceled.rawValue else { return }
-          self?.delegate?.googleAuthProviderDidFail(with: .system(actualError))
+          if errorCode == GIDSignInError.Code.canceled.rawValue {
+            self?.delegate?.googleAuthProviderDidFail(with: .cancelled)
+          } else {
+            self?.delegate?.googleAuthProviderDidFail(with: .system(actualError))
+          }
         case (.none, .none):
           self?.delegate?.googleAuthProviderDidFail(with: .unhandledAuthorization)
         }
