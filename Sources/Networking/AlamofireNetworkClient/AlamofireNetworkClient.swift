@@ -193,9 +193,18 @@ public extension AlamofireNetworkClient {
 
 // MARK: - Models
 public extension AlamofireNetworkClient {
-  enum Error: Swift.Error {
+  enum Error: LocalizedError {
     case request(RequestError, ErrorInfo)
     case other(Swift.Error, ErrorInfo)
+    
+    public var errorDescription: String? {
+      switch self {
+      case .request(let err, _):
+        return err.localizedDescription
+      case .other(let err, _):
+        return err.localizedDescription
+      }
+    }
   }
   
   class Request {
