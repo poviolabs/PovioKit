@@ -26,7 +26,7 @@ public final class GoogleAuthProvider: NSObject {
   private let authProvider: GIDSignIn
   
   /// Class initializer with `config`, `presentingViewController` and optional `delegate`.
-  init(with config: Config, on presentingViewController: UIViewController, delegate: GoogleAuthProviderDelegate?) {
+  public init(with config: Config, on presentingViewController: UIViewController, delegate: GoogleAuthProviderDelegate?) {
     self.config = config
     self.presentingViewController = presentingViewController
     self.delegate = delegate

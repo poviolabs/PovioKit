@@ -11,9 +11,14 @@ import FacebookLogin
 
 public extension FacebookAuthProvider {
   struct Config {
+    let permissions: [Permission] = [.email, .publicProfile]
     /// By default, we request `email` and `publicProfile` permission.
     /// If you want to request more permissions, define it here.
     let extraPermissions: [Permission]
+    
+    public init(extraPermissions: [Permission] = []) {
+      self.extraPermissions = extraPermissions
+    }
   }
   
   struct GraphResponse: Decodable {

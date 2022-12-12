@@ -11,5 +11,9 @@ import Foundation
 public extension GoogleAuthProvider {
   struct Config {
     let clientId: String
+    
+    public init(clientId: String) {
+      self.clientId = clientId
+    }
   }
 }

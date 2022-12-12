@@ -26,7 +26,7 @@ public final class FacebookAuthProvider: NSObject {
   private let defaultPermissions: [Permission] = [.email, .publicProfile]
   
   /// Class initializer with `config`, `presentingViewController` and optional `delegate`.
-  init(with config: Config, on presentingViewController: UIViewController, delegate: FacebookAuthProviderDelegate?) {
+  public init(with config: Config, on presentingViewController: UIViewController, delegate: FacebookAuthProviderDelegate?) {
     self.config = config
     self.presentingViewController = presentingViewController
     self.delegate = delegate
