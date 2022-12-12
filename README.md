@@ -43,18 +43,18 @@
 
 ### Core extensions
 
-| UIKit | Foundation | MapKit |
-| :--- | :--- | :--- |
-| [UIView](Sources/Core/Extensions/UIKit/UIView+Povio.swift) | [String](Sources/Core/Extensions/Foundation/String+Povio.swift) | [MKMapView](Sources/Core/Extensions/MapKit/MKMapView+PovioKit.swift) |
-| [UICollectionView](Sources/Core/Extensions/UIKit/UICollectionView+Povio.swift) | [Data](Sources/Core/Extensions/Foundation/Data+Povio.swift) | [MKPolygon](Sources/Core/Extensions/MapKit/MKPolygon+PovioKit.swift) |
-| [UITableView](Sources/Core/Extensions/UIKit/UITableView+Povio.swift) | [Collection](Sources/Core/Extensions/Foundation/Collection+Povio.swift) | [MKAnnotationView](Sources/Core/Extensions/MapKit/MKAnnotationView+PovioKit.swift) |
-| [UIColor](Sources/Core/Extensions/UIKit/UIColor+Povio.swift) | [URL](Sources/Core/Extensions/Foundation/URL+Povio.swift) | [MKCircle](Sources/Core/Extensions/MapKit/MKCircle+PovioKit.swift) |
-| [UIDevice](Sources/Core/Extensions/UIKit/UIDevice+Povio.swift) | [Optional](Sources/Core/Extensions/Foundation/Optional+Povio.swift) | |
-| [UIImage](Sources/Core/Extensions/UIKit/UIImage+Povio.swift) | [Result](Sources/Core/Extensions/Foundation/Result+Povio.swift) | |
-| [UIEdgeInsets](Sources/Core/Extensions/UIKit/UIEdgeInsets+Povio.swift) | [DecodableDictionary](Sources/Core/Extensions/Foundation/DecodableDictionary+Povio.swift) | |
-| [UIApplication](Sources/Core/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Core/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | |
-| [UIProgressView](Sources/Core/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Core/Extensions/Foundation/Encodable+Povio.swift) | |
-| [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | [Double](Sources/Core/Extensions/Foundation/Double+Povio.swift) | |
+| UIKit | Foundation | MapKit | Other |
+| :--- | :--- | :--- | :--- |
+| [UIView](Sources/Core/Extensions/UIKit/UIView+Povio.swift) | [String](Sources/Core/Extensions/Foundation/String+Povio.swift) | [MKMapView](Sources/Core/Extensions/MapKit/MKMapView+PovioKit.swift) | [SKStoreReviewController](Sources/Core/Extensions/Other/SKStoreReviewController+PovioKit.swift) |
+| [UICollectionView](Sources/Core/Extensions/UIKit/UICollectionView+Povio.swift) | [Data](Sources/Core/Extensions/Foundation/Data+Povio.swift) | [MKPolygon](Sources/Core/Extensions/MapKit/MKPolygon+PovioKit.swift) | |
+| [UITableView](Sources/Core/Extensions/UIKit/UITableView+Povio.swift) | [Collection](Sources/Core/Extensions/Foundation/Collection+Povio.swift) | [MKAnnotationView](Sources/Core/Extensions/MapKit/MKAnnotationView+PovioKit.swift) | |
+| [UIColor](Sources/Core/Extensions/UIKit/UIColor+Povio.swift) | [URL](Sources/Core/Extensions/Foundation/URL+Povio.swift) | [MKCircle](Sources/Core/Extensions/MapKit/MKCircle+PovioKit.swift) | |
+| [UIDevice](Sources/Core/Extensions/UIKit/UIDevice+Povio.swift) | [Optional](Sources/Core/Extensions/Foundation/Optional+Povio.swift) | | |
+| [UIImage](Sources/Core/Extensions/UIKit/UIImage+Povio.swift) | [Result](Sources/Core/Extensions/Foundation/Result+Povio.swift) | | |
+| [UIEdgeInsets](Sources/Core/Extensions/UIKit/UIEdgeInsets+Povio.swift) | [DecodableDictionary](Sources/Core/Extensions/Foundation/DecodableDictionary+Povio.swift) | | |
+| [UIApplication](Sources/Core/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Core/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | | |
+| [UIProgressView](Sources/Core/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Core/Extensions/Foundation/Encodable+Povio.swift) | | |
+| [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | [Double](Sources/Core/Extensions/Foundation/Double+Povio.swift) | | |
 
 ### UI
 
@@ -65,7 +65,7 @@
 | [PaddingLabel](Resources/UI/PaddingLabel/) |
 | [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
 | [ProfileImageView](Resources/UI/ProfileImageView) |
-
+| [TextField](Resources/UI/TextField) |
 ### Networking
 
 [AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/)
@@ -80,7 +80,7 @@
 ### Swift Package Manager
 - In Xcode, click `File` -> `Add Packages...`  
 - Insert `https://github.com/poviolabs/PovioKit` in the search field.
-- Select `Dependency Rule` "Up to Next Major Version" with "1.0.0"
+- Select `Dependency Rule` "Up to Next Major Version" with "2.0.0"
 
 Currently, there are three packages to choose from:
 - *PovioKit* (core)

@@ -43,4 +43,20 @@ class StringTests: XCTestCase {
     XCTAssertFalse("@email.com".isEmail)
     XCTAssertFalse("invalid@@email.com".isEmail)
   }
+  
+  func testFirstNCharacters() {
+    XCTAssertEqual("ThisIsATestString".safePrefix(0), "")
+    XCTAssertEqual("ThisIsATestString".safePrefix(1), "T")
+    XCTAssertEqual("ThisIsATestString".safePrefix(2), "Th")
+    XCTAssertEqual("ThisIsATestString".safePrefix(4), "This")
+    XCTAssertEqual("ThisIsATestString".safePrefix(100), "ThisIsATestString")
+  }
+  
+  func testLastNCharacters() {
+    XCTAssertEqual("ThisIsATestString".safeSuffix(0), "")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(1), "g")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(2), "ng")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(6), "String")
+    XCTAssertEqual("ThisIsATestString".safeSuffix(100), "ThisIsATestString")
+  }
 }

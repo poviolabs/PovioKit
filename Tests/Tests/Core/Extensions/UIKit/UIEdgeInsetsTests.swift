@@ -43,4 +43,10 @@ class UIEdgeInsetsTests: XCTestCase {
     let horizontalInsets = UIEdgeInsets(horizontal: 10)
     XCTAssertEqual(horizontalInsets.horizontal, 20)
   }
+  
+  func testVerticalAndHorizontalCombined() {
+    let combinedInsets = UIEdgeInsets(vertical: 10, horizontal: 10)
+    XCTAssertEqual(combinedInsets.vertical, 20)
+    XCTAssertEqual(combinedInsets.horizontal, 20)
+  }
 }

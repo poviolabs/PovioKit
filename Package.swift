@@ -38,7 +38,9 @@ let package = Package(
     ),
     .target(
       name: "PovioKitUI",
-      dependencies: [],
+      dependencies: [
+        "PovioKit"
+      ],
       path: "Sources/UI"
     ),
     .testTarget(
@@ -46,7 +48,8 @@ let package = Package(
       dependencies: [
         "PovioKit",
         "PovioKitPromise",
-        "PovioKitNetworking"
+        "PovioKitNetworking",
+        "PovioKitUI"
       ]
     ),
   ],

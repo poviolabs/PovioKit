@@ -9,33 +9,43 @@
 import XCTest
 
 class OptionalTests: XCTestCase {
-  func testArrayNilOrEmptyTrueWhenNil() {
+  func test_arrayNilOrEmpty_returnsTrueWhenNil() {
     let sut: [String]? = nil
     XCTAssertTrue(sut.isNilOrEmpty, "Should not return false when collection is nil")
   }
   
-  func testArrayNilOrEmptyTrueWhenEmpty() {
+  func test_arrayNilOrEmpty_returnsTrueWhenEmpty() {
     let sut: [String]? = []
     XCTAssertTrue(sut.isNilOrEmpty, "Should not return false when collection is empty")
   }
   
-  func testArrayNilOrEmptyFalseWhenNonEmpty() {
+  func test_arrayNilOrEmpty_returnsFalseWhenNonEmpty() {
     let sut: [String]? = ["A"]
     XCTAssertFalse(sut.isNilOrEmpty, "Should not return true when collection is populated")
   }
   
-  func testStringNilOrEmptyTrueWhenNil() {
+  func test_stringNilOrEmpty_returnsTrueWhenNil() {
     let sut: String? = nil
     XCTAssertTrue(sut.isNilOrEmpty, "Should not return false when string is nil")
   }
   
-  func testStringNilOrEmptyTrueWhenEmpty() {
+  func test_stringNilOrEmpty_returnsTrueWhenEmpty() {
     let sut: String? = ""
     XCTAssertTrue(sut.isNilOrEmpty, "Should not return false when string is empty")
   }
   
-  func testStringNilOrEmptyFalseWhenNonEmpty() {
+  func test_stringNilOrEmpty_returnsFalseWhenNonEmpty() {
     let sut: String? = "A"
     XCTAssertFalse(sut.isNilOrEmpty, "Should not return true when string contains characters")
+  }
+  
+  func test_replacingString_producesExpectedResult() {
+    let sut: String? = "Nice day today!"
+    XCTAssertEqual(sut.replacingString(with: "night", range: NSRange(location: 5, length: 3)), "Nice night today!")
+  }
+  
+  func test_replacingString_producesReplacementStringWhenNil() {
+    let sut: String? = nil
+    XCTAssertEqual(sut.replacingString(with: "night", range: NSRange(location: 0, length: 0)), "night")
   }
 }
