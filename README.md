@@ -76,13 +76,13 @@
 
 [PromiseKit](Resources/PromiseKit/)
 
-### Social
+### Auth
 
 | Provider |
 | :--- |
 | [AppleAuthProvider](Resources/Auth/Apple/) |
 | [GoogleAuthProvider](Resources/Auth/Google/) |
-
+| [FacebookAuthProvider](Resources/Auth/Facebook/) |
 
 ## Installation
 
