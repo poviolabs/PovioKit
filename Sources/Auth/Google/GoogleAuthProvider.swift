@@ -20,16 +20,13 @@ public protocol GoogleAuthProviderDelegate: AnyObject {
 }
 
 public final class GoogleAuthProvider: NSObject {
+  public weak var delegate: GoogleAuthProviderDelegate?
   private let config: Config
-  private weak var delegate: GoogleAuthProviderDelegate?
-  private weak var presentingViewController: UIViewController?
   private let authProvider: GIDSignIn
   
-  /// Class initializer with `config`, `presentingViewController` and optional `delegate`.
-  public init(with config: Config, on presentingViewController: UIViewController, delegate: GoogleAuthProviderDelegate?) {
+  /// Class initializer with `config`
+  public init(with config: Config) {
     self.config = config
-    self.presentingViewController = presentingViewController
-    self.delegate = delegate
     self.authProvider = GIDSignIn.sharedInstance
     super.init()
   }
@@ -40,20 +37,15 @@ extension GoogleAuthProvider: GoogleAuthProvidable {
   /// SignIn user.
   ///
   /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  public func signIn() {
+  public func signIn(on presentingViewController: UIViewController) {
     guard !authProvider.hasPreviousSignIn() else {
       authProvider.restorePreviousSignIn()
       return
     }
     
-    guard let presentingVC = presentingViewController else {
-      delegate?.googleAuthProviderDidFail(with: .missingPresentingViewController)
-      return
-    }
-    
     authProvider
       .signIn(with: .init(clientID: config.clientId),
-              presenting: presentingVC) { [weak self] user, error in
+              presenting: presentingViewController) { [weak self] user, error in
         switch (user, error) {
         case (let signedInUser?, _):
           signedInUser.authentication.do { [weak self] auth, error in
