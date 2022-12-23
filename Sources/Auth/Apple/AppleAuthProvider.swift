@@ -7,12 +7,11 @@
 //
 
 import AuthenticationServices
-import CryptoKit
 import Foundation
 import PovioKitAuthCore
 
 public protocol AppleAuthProvidable: AuthProvidable {
-  func signIn(with nonce: AppleAuthProvider.Nonce)
+  func signIn(on presentingViewController: UIViewController, with nonce: AppleAuthProvider.Nonce)
 }
 
 public protocol AppleAuthProviderDelegate: AnyObject {
@@ -22,17 +21,13 @@ public protocol AppleAuthProviderDelegate: AnyObject {
 }
 
 public final class AppleAuthProvider: NSObject {
-  private weak var delegate: AppleAuthProviderDelegate?
-  private let presentationAnchor: ASPresentationAnchor?
+  public weak var delegate: AppleAuthProviderDelegate?
   private static let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
   private static let storage: UserDefaults = .standard
   private let authProvider: ASAuthorizationAppleIDProvider
   
-  /// Class initializer with optional `presentationAnchor` param. You should usually pass the main window.
-  /// If you don't pass it, `UIWindow()` is created manually for it.
-  public init(with presentationAnchor: ASPresentationAnchor? = nil, delegate: AppleAuthProviderDelegate?) {
-    self.presentationAnchor = presentationAnchor
-    self.delegate = delegate
+  /// Class initializer
+  public override init() {
     self.authProvider = .init()
     super.init()
     setupCredentialsRevokeListener()
@@ -45,18 +40,18 @@ public final class AppleAuthProvider: NSObject {
 
 // MARK: - Public Methods
 extension AppleAuthProvider: AppleAuthProvidable {
-  /// SignIn user.
+  /// SignIn user
   ///
   /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  public func signIn() {
-    appleSignIn(with: nil)
+  public func signIn(on presentingViewController: UIViewController) {
+    appleSignIn(on: presentingViewController, with: nil)
   }
   
   /// SignIn user with `nonce` value, which is usually needed when doing auth with an external auth provider (e.g. firebase).
   ///
   /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  public func signIn(with nonce: Nonce) {
-    appleSignIn(with: nonce)
+  public func signIn(on presentingViewController: UIViewController, with nonce: Nonce) {
+    appleSignIn(on: presentingViewController, with: nonce)
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
@@ -108,16 +103,16 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
   }
 }
 
-// MARK: - ASAuthorizationControllerPresentationContextProviding
-extension AppleAuthProvider: ASAuthorizationControllerPresentationContextProviding {
-  public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-    presentationAnchor ?? UIWindow()
-  }
-}
-
 // MARK: - Private Methods
 private extension AppleAuthProvider {
-  func appleSignIn(with nonce: Nonce?) {
+//  var checkedDelegate: AppleAuthProviderDelegate? {
+//    if delegate == nil {
+//      delegate?.appleAuthProviderDidFail(with: .cancelled)
+//    }
+//    return delegate
+//  }
+  
+  func appleSignIn(on presentingViewController: UIViewController, with nonce: Nonce?) {
     let request = authProvider.createRequest()
     request.requestedScopes = [.fullName, .email]
     
@@ -134,7 +129,7 @@ private extension AppleAuthProvider {
     
     let controller = ASAuthorizationController(authorizationRequests: [request])
     controller.delegate = self
-    controller.presentationContextProvider = self
+    controller.presentationContextProvider = presentingViewController
     controller.performRequests()
   }
   
@@ -157,15 +152,5 @@ private extension AppleAuthProvider {
 private extension AppleAuthProvider {
   @objc func appleCredentialRevoked() {
     delegate?.appleAuthProviderCredentialsRevoked()
-  }
-}
-
-// MARK: - Private String Extension Methods
-private extension String {
-  var sha256: String {
-    SHA256
-      .hash(data: Data(utf8))
-      .compactMap { String(format: "%02x", $0) }
-      .joined()
   }
 }
