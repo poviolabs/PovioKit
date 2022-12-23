@@ -61,6 +61,7 @@
 | Components |
 | :--- |
 | [ActionButton](Resources/UI/ActionButton/) |
+| [Camera](Resources/UI/Camera/) |
 | [GradientView](Resources/UI/GradientView/) |
 | [PaddingLabel](Resources/UI/PaddingLabel/) |
 | [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
