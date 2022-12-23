@@ -193,9 +193,18 @@ public extension AlamofireNetworkClient {
 
 // MARK: - Models
 public extension AlamofireNetworkClient {
-  enum Error: Swift.Error {
+  enum Error: LocalizedError {
     case request(RequestError, ErrorInfo)
     case other(Swift.Error, ErrorInfo)
+    
+    public var errorDescription: String? {
+      switch self {
+      case .request(let err, _):
+        return err.localizedDescription
+      case .other(let err, _):
+        return err.localizedDescription
+      }
+    }
   }
   
   class Request {
@@ -355,7 +364,7 @@ public extension HTTPHeaders {
 // MARK: - Private Error Handling Methods
 private extension AlamofireNetworkClient.Request {
   func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
-    guard let data = dataRequest.data, let handler = errorHandler else {
+    guard let handler = errorHandler else {
       switch error {
       case .responseSerializationFailed as AFError:
         return .other(error, errorInfo)
@@ -366,7 +375,7 @@ private extension AlamofireNetworkClient.Request {
       }
     }
     do {
-      let handledError = try handler(error, data)
+      let handledError = try handler(error, dataRequest.data ?? .init())
       return .other(handledError, errorInfo)
     } catch {
       return .other(error, errorInfo)
