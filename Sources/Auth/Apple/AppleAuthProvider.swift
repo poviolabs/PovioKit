@@ -105,13 +105,6 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
 
 // MARK: - Private Methods
 private extension AppleAuthProvider {
-//  var checkedDelegate: AppleAuthProviderDelegate? {
-//    if delegate == nil {
-//      delegate?.appleAuthProviderDidFail(with: .cancelled)
-//    }
-//    return delegate
-//  }
-  
   func appleSignIn(on presentingViewController: UIViewController, with nonce: Nonce?) {
     let request = authProvider.createRequest()
     request.requestedScopes = [.fullName, .email]
