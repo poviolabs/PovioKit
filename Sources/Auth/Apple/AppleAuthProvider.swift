@@ -9,22 +9,24 @@
 import AuthenticationServices
 import Foundation
 import PovioKitAuthCore
+import PovioKitPromise
 
-public protocol AppleAuthProvidable: AuthProvidable {
-  func signIn(on presentingViewController: UIViewController, with nonce: AppleAuthProvider.Nonce)
-}
-
-public protocol AppleAuthProviderDelegate: AnyObject {
-  func appleAuthProviderDidSignIn(with response: AuthProvider.Response)
-  func appleAuthProviderDidFail(with error: AuthProvider.Error)
-  func appleAuthProviderCredentialsRevoked()
+public protocol AppleAuthProvidable {
+  typealias Authorized = Bool
+  typealias Response = AuthProvider.Response
+  
+  func signIn(from presentingViewController: UIViewController) -> Promise<Response>
+  func signIn(from presentingViewController: UIViewController,
+              with nonce: AppleAuthProvider.Nonce) -> Promise<Response>
+  static func signOut()
+  static func checkAuthState() -> Promise<Authorized>
 }
 
 public final class AppleAuthProvider: NSObject {
-  public weak var delegate: AppleAuthProviderDelegate?
   private static let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
   private static let storage: UserDefaults = .standard
   private let authProvider: ASAuthorizationAppleIDProvider
+  private var processingPromise: Promise<Response>?
   
   /// Class initializer
   public override init() {
@@ -42,16 +44,23 @@ public final class AppleAuthProvider: NSObject {
 extension AppleAuthProvider: AppleAuthProvidable {
   /// SignIn user
   ///
-  /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  public func signIn(on presentingViewController: UIViewController) {
+  /// Will return promise with the `Response` object on success or with `Error` on error.
+  public func signIn(from presentingViewController: UIViewController) -> Promise<Response> {
+    let promise = Promise<Response>()
+    processingPromise = promise
     appleSignIn(on: presentingViewController, with: nil)
+    return promise
   }
   
-  /// SignIn user with `nonce` value, which is usually needed when doing auth with an external auth provider (e.g. firebase).
+  /// SignIn user with `nonce` value
   ///
-  /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  public func signIn(on presentingViewController: UIViewController, with nonce: Nonce) {
+  /// Nonce is usually needed when doing auth with an external auth provider (e.g. firebase).
+  /// Will return promise with the `Response` object on success or with `Error` on error.
+  public func signIn(from presentingViewController: UIViewController, with nonce: Nonce) -> Promise<Response> {
+    let promise = Promise<Response>()
+    processingPromise = promise
     appleSignIn(on: presentingViewController, with: nonce)
+    return promise
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
@@ -59,15 +68,16 @@ extension AppleAuthProvider: AppleAuthProvidable {
     storage.removeObject(forKey: userIdStorageKey)
   }
   
-  /// Checks the current auth state and returns the boolean value.
-  public static func checkAuthState(_ state: @escaping (Bool) -> Swift.Void) {
+  /// Checks the current auth state and returns the boolean value as promise.
+  public static func checkAuthState() -> PovioKitPromise.Promise<Authorized> {
     guard let userId = Self.storage.string(forKey: Self.userIdStorageKey) else {
-      state(false)
-      return
+      return .value(false)
     }
     
-    ASAuthorizationAppleIDProvider().getCredentialState(forUserID: userId) { credentialsState, _ in
-      state(credentialsState == .authorized)
+    return Promise { seal in
+      ASAuthorizationAppleIDProvider().getCredentialState(forUserID: userId) { credentialsState, _ in
+        seal.resolve(with: credentialsState == .authorized)
+      }
     }
   }
 }
@@ -79,27 +89,25 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
     case let credential as ASAuthorizationAppleIDCredential:
       guard let identityToken = credential.identityToken,
             let identityTokenString = String(data: identityToken, encoding: .utf8) else {
-        delegate?.appleAuthProviderDidFail(with: .invalidIdentityToken)
+        processingPromise?.reject(with: AuthProvider.Error.invalidIdentityToken)
         return
       }
       
       // store userId for later
       Self.storage.set(credential.user, forKey: Self.userIdStorageKey)
       
-      let displayName = [credential.fullName?.givenName, credential.fullName?.familyName]
-        .compactMap { $0 }
-        .joined(separator: " ")
-      
-      delegate?.appleAuthProviderDidSignIn(with: .init(token: identityTokenString,
-                                                       name: displayName,
-                                                       email: credential.email))
+      let response = Response(token: identityTokenString,
+                              name: credential.displayName,
+                              email: credential.email)
+      processingPromise?.resolve(with: response)
     case _:
-      delegate?.appleAuthProviderDidFail(with: .unhandledAuthorization)
+      processingPromise?.reject(with: AuthProvider.Error.unhandledAuthorization)
+      break
     }
   }
   
   public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Swift.Error) {
-    delegate?.appleAuthProviderDidFail(with: .system(error))
+    processingPromise?.reject(with: AuthProvider.Error.system(error))
   }
 }
 
@@ -112,7 +120,7 @@ private extension AppleAuthProvider {
     switch nonce {
     case .random(let length):
       guard length > 0 else {
-        delegate?.appleAuthProviderDidFail(with: .invalidNonceLength)
+        processingPromise?.reject(with: AuthProvider.Error.invalidNonceLength)
         return
       }
       request.nonce = generateRandomNonceString(length: length).sha256
@@ -144,6 +152,6 @@ private extension AppleAuthProvider {
 // MARK: - Actions
 private extension AppleAuthProvider {
   @objc func appleCredentialRevoked() {
-    delegate?.appleAuthProviderCredentialsRevoked()
+    processingPromise?.reject(with: AuthProvider.Error.credentialsRevoked)
   }
 }
