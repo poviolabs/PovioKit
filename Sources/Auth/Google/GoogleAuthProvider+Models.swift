@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GoogleSignIn
 
 public extension GoogleAuthProvider {
   struct Config {
@@ -15,5 +16,13 @@ public extension GoogleAuthProvider {
     public init(clientId: String) {
       self.clientId = clientId
     }
+  }
+}
+
+public extension GIDProfileData {
+  var displayName: String {
+    [givenName, familyName]
+      .compactMap { $0 }
+      .joined(separator: " ")
   }
 }
