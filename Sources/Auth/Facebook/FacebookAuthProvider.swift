@@ -10,16 +10,19 @@ import Foundation
 import FacebookLogin
 import PovioKit
 import PovioKitAuthCore
+import PovioKitPromise
 
-public protocol FacebookAuthProvidable: AuthProvidable { /* ... */ }
-
-public protocol FacebookAuthProviderDelegate: AnyObject {
-  func facebookAuthProviderDidSignIn(with response: AuthProvider.Response)
-  func facebookAuthProviderDidFail(with error: AuthProvider.Error)
+public protocol FacebookAuthProvidable {
+  typealias Authorized = Bool
+  typealias Response = AuthProvider.Response
+  
+  func signIn(from presentingViewController: UIViewController) -> Promise<Response>
+  static func signOut()
+  static func isAuthorized() -> Authorized
 }
 
-public final class FacebookAuthProvider: NSObject {
-  public weak var delegate: FacebookAuthProviderDelegate?
+public final class FacebookAuthProvider {
+  public typealias Token = String
   private let config: Config
   private let authProvider: LoginManager
   private let defaultPermissions: [Permission] = [.email, .publicProfile]
@@ -27,8 +30,7 @@ public final class FacebookAuthProvider: NSObject {
   /// Class initializer with optional `config`
   public init(with config: Config? = nil) {
     self.config = config ?? .init()
-    self.authProvider = LoginManager()
-    super.init()
+    self.authProvider = .init()
   }
 }
 
@@ -36,27 +38,13 @@ public final class FacebookAuthProvider: NSObject {
 extension FacebookAuthProvider: FacebookAuthProvidable {
   /// SignIn user.
   ///
-  /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  public func signIn(on presentingViewController: UIViewController) {
+  /// Will return promise with the `Response` object on success or with `Error` on error.
+  public func signIn(from presentingViewController: UIViewController) -> Promise<Response> {
     let permissions: [String] = (defaultPermissions + config.extraPermissions).map { $0.name }
     let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
-    authProvider
-      .logIn(viewController: presentingViewController,
-             configuration: configuration) { [weak self] result in
-        switch result {
-        case let .success(_, _, accessToken):
-          switch accessToken {
-          case .some(let token):
-            self?.fetchUserDetails(withToken: token.tokenString)
-          case .none:
-            self?.delegate?.facebookAuthProviderDidFail(with: .invalidIdentityToken)
-          }
-        case .cancelled:
-          self?.delegate?.facebookAuthProviderDidFail(with: .cancelled)
-        case .failed(let error):
-          self?.delegate?.facebookAuthProviderDidFail(with: .system(error))
-        }
-      }
+    
+    return signIn(with: configuration, on: presentingViewController)
+      .flatMap(with: fetchUserDetails)
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
@@ -65,16 +53,38 @@ extension FacebookAuthProvider: FacebookAuthProvidable {
   }
   
   /// Checks the current auth state and returns the boolean value.
-  public static func checkAuthState(_ state: @escaping (Bool) -> Swift.Void) {
+  public static func isAuthorized() -> Authorized {
     let exists = AccessToken.current?.tokenString != nil
     let isValid = !(AccessToken.current?.isExpired ?? true)
-    state(exists && isValid)
+    return exists && isValid
   }
 }
 
 // MARK: - Private Methods
 private extension FacebookAuthProvider {
-  func fetchUserDetails(withToken token: String) {
+  func signIn(with configuration: LoginConfiguration?, on presentingViewController: UIViewController) -> Promise<Token> {
+    Promise { seal in
+      authProvider
+        .logIn(viewController: presentingViewController,
+               configuration: configuration) {
+          switch $0 {
+          case let .success(_, _, accessToken):
+            switch accessToken {
+            case .some(let token):
+              seal.resolve(with: token.tokenString)
+            case .none:
+              seal.reject(with: AuthProvider.Error.invalidIdentityToken)
+            }
+          case .cancelled:
+            seal.reject(with: AuthProvider.Error.cancelled)
+          case .failed(let error):
+            seal.reject(with: AuthProvider.Error.system(error))
+          }
+        }
+    }
+  }
+  
+  func fetchUserDetails(withToken token: String) -> Promise<Response> {
     let request = GraphRequest(
       graphPath: "me",
       parameters: ["fields": "email, first_name, last_name"],
@@ -83,25 +93,33 @@ private extension FacebookAuthProvider {
       flags: .doNotInvalidateTokenOnError
     )
     
-    request.start { _, result, error in
-      var graphResponse: GraphResponse?
-      switch result {
-      case .some(let response):
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let data = (response as? Data),
-              let object = try? data.decode(GraphResponse.self, with: decoder) else { return }
-        graphResponse = object
-      case .none:
-        break
+    return Promise { seal in
+      request.start { _, result, error in
+        var graphResponse: GraphResponse?
+        
+        switch result {
+        case .some(let response):
+          let decoder = JSONDecoder()
+          decoder.keyDecodingStrategy = .convertFromSnakeCase
+          if let data = (response as? Data),
+             let object = try? data.decode(GraphResponse.self, with: decoder) {
+            graphResponse = object
+          }
+        case .none:
+          break
+        }
+        
+        if graphResponse == nil {
+          Logger.error("Failed to fetch user details!")
+        }
+        
+        let authResponse = Response(
+          token: token,
+          name: graphResponse?.displayName,
+          email: graphResponse?.email
+        )
+        seal.resolve(with: authResponse)
       }
-      
-      let authResponse = AuthProvider.Response(
-        token: token,
-        name: graphResponse?.fullName,
-        email: graphResponse?.email
-      )
-      self.delegate?.facebookAuthProviderDidSignIn(with: authResponse)
     }
   }
 }

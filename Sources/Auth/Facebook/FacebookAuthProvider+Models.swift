@@ -29,7 +29,7 @@ public extension FacebookAuthProvider {
 }
 
 public extension FacebookAuthProvider.GraphResponse {
-  var fullName: String? {
+  var displayName: String {
     [firstName, lastName]
       .compactMap { $0 }
       .joined(separator: " ")
