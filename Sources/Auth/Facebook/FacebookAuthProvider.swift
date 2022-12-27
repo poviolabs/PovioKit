@@ -19,17 +19,14 @@ public protocol FacebookAuthProviderDelegate: AnyObject {
 }
 
 public final class FacebookAuthProvider: NSObject {
+  public weak var delegate: FacebookAuthProviderDelegate?
   private let config: Config
-  private weak var delegate: FacebookAuthProviderDelegate?
-  private weak var presentingViewController: UIViewController?
   private let authProvider: LoginManager
   private let defaultPermissions: [Permission] = [.email, .publicProfile]
   
-  /// Class initializer with `config`, `presentingViewController` and optional `delegate`.
-  public init(with config: Config, on presentingViewController: UIViewController, delegate: FacebookAuthProviderDelegate?) {
-    self.config = config
-    self.presentingViewController = presentingViewController
-    self.delegate = delegate
+  /// Class initializer with optional `config`
+  public init(with config: Config? = nil) {
+    self.config = config ?? .init()
     self.authProvider = LoginManager()
     super.init()
   }
@@ -40,7 +37,7 @@ extension FacebookAuthProvider: FacebookAuthProvidable {
   /// SignIn user.
   ///
   /// Will notify the delegate with the `Response` object on success or with `Error` on error.
-  public func signIn() {
+  public func signIn(on presentingViewController: UIViewController) {
     let permissions: [String] = (defaultPermissions + config.extraPermissions).map { $0.name }
     let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
     authProvider
