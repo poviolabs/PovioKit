@@ -26,6 +26,7 @@ public protocol SignInWithAppleDelegate: AnyObject {
   func signInWithAppleCredentialsRevoked()
 }
 
+@available(*, deprecated, message: "Use AppleAuthProvider from PovioKitAuthApple package instead.")
 public final class SignInWithApple: NSObject {
   weak var delegate: SignInWithAppleDelegate?
   private let presentationAnchor: ASPresentationAnchor?
