@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.7
 import PackageDescription
 
 let package = Package(
@@ -10,12 +10,15 @@ let package = Package(
     .library(name: "PovioKit", targets: ["PovioKit"]),
     .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
-    .library(name: "PovioKitUI", targets: ["PovioKitUI"])
+    .library(name: "PovioKitUI", targets: ["PovioKitUI"]),
+    .library(name: "PovioKitAuthApple", targets: ["PovioKitAuthApple"]),
+    .library(name: "PovioKitAuthGoogle", targets: ["PovioKitAuthGoogle"]),
+    .library(name: "PovioKitAuthFacebook", targets: ["PovioKitAuthFacebook"]),
   ],
   dependencies: [
-    .package(
-      url: "https://github.com/Alamofire/Alamofire",
-      .upToNextMajor(from: "5.6.2"))
+    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.6.2")),
+    .package(url: "https://github.com/google/GoogleSignIn-iOS", .upToNextMajor(from: "6.2.4")),
+    .package(url: "https://github.com/facebook/facebook-ios-sdk", .upToNextMajor(from: "15.1.0")),
   ],
   targets: [
     .target(
@@ -42,6 +45,34 @@ let package = Package(
         "PovioKit"
       ],
       path: "Sources/UI"
+    ),
+    .target(
+      name: "PovioKitAuthCore",
+      dependencies: [],
+      path: "Sources/Auth/Core"
+    ),
+    .target(
+      name: "PovioKitAuthApple",
+      dependencies: [
+        "PovioKitAuthCore"
+      ],
+      path: "Sources/Auth/Apple"
+    ),
+    .target(
+      name: "PovioKitAuthGoogle",
+      dependencies: [
+        "PovioKitAuthCore",
+        .product(name: "GoogleSignInSwift", package: "GoogleSignIn-iOS")
+      ],
+      path: "Sources/Auth/Google"
+    ),
+    .target(
+      name: "PovioKitAuthFacebook",
+      dependencies: [
+        "PovioKitAuthCore",
+        .product(name: "FacebookLogin", package: "facebook-ios-sdk")
+      ],
+      path: "Sources/Auth/Facebook"
     ),
     .testTarget(
       name: "Tests",
