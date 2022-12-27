@@ -16,16 +16,22 @@ Please read [official documentation](https://developer.apple.com/sign-in-with-ap
 ## Usage
 
 ```swift
-let provider = AppleAuthProvider()
-provider.delegate = self
+// initialization
+let provider = AppleAuthProvider() // conforms to `AppleAuthProvidable` protocol
 
 // signIn user
-provider.signIn(on: <view-controller-instance>) // a delegate method `appleAuthProviderDidSignIn(with:` or `appleAuthProviderDidFail(with:` is called
+provider
+  .signIn(from: <view-controller-instance>)
+  .finally {
+    // handle result
+  }
 
 // get auth status
-AppleAuthProvider.checkAuthState() { state in
-  print("Is authorized", state)
-}
+AppleAuthProvider
+  .checkAuthState()
+  .finally {
+    // check result
+  }
 
 // signOut user
 AppleAuthProvider.signOut() // all provider data regarding the use auth is cleared at this point

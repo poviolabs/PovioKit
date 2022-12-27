@@ -8,17 +8,19 @@ Please read [official documentation](https://developers.google.com/identity/sign
 ## Usage
 
 ```swift
+// initialization
 let config = GoogleAuthProvider.Config(clientId: "google-client-id")
 let provider = GoogleAuthProvider(with: config)
-provider.delegate = self
 
 // signIn user
-provider.signIn(on: <view-controller-instance>) // a delegate method `googleAuthProviderDidSignIn(with:` or `googleAuthProviderDidFail(with:` is called
+provider
+  .signIn(from: <view-controller-instance>)
+  .finally {
+    // handle result
+  }
 
 // get auth status
-GoogleAuthProvider.checkAuthState() { state in
-  print("Is authorized", state)
-}
+let state = GoogleAuthProvider.isAuthorized()
 
 // signOut user
 GoogleAuthProvider.signOut() // all provider data regarding the use auth is cleared at this point
