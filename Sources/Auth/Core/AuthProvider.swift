@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import UIKit
-import PovioKitPromise
 
 public struct AuthProvider {
   public struct Response {
