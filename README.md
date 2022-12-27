@@ -23,7 +23,7 @@
 
 ## Packages
 
-| [Core](Resources/Core) | [UI](Resources/UI) | [Networking](Resources/Networking) | [PromiseKit](Resources/PromiseKit) |
+| [Core](Resources/Core) | [UI](Resources/UI) | [Networking](Resources/Networking) | [PromiseKit](Resources/PromiseKit) | [Auth](Resources)
 | :-: | :-: | :-: | :-: |
 
 ## Installation

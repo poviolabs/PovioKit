@@ -16,10 +16,11 @@ Please read [official documentation](https://developer.apple.com/sign-in-with-ap
 ## Usage
 
 ```swift
-let provider = AppleAuthProvider(delegate: self)
+let provider = AppleAuthProvider()
+provider.delegate = self
 
 // signIn user
-provider.signIn() // a delegate method `appleAuthProviderDidSignIn(with:` or `appleAuthProviderDidFail(with:` is called
+provider.signIn(on: <view-controller-instance>) // a delegate method `appleAuthProviderDidSignIn(with:` or `appleAuthProviderDidFail(with:` is called
 
 // get auth status
 AppleAuthProvider.checkAuthState() { state in
