@@ -1,4 +1,4 @@
-# PromiseKit
+# PovioKit: PromiseKit
 
 A lightweight `Promise` implementation.
 
@@ -288,3 +288,6 @@ Promise<[String]>.value(["id1", "id2", "id3"])
 ```
 
 This is a common pattern when developing apps. We first fetch remote API to get a list of items. Then, for every item on the list, we want to fetch another API to get details of an item. With promises, this is a piece of cake.
+
+## Source code
+You can find source code [here](/Sources/PromiseKit).

@@ -1,4 +1,4 @@
-#  Logger
+# Logger
 
 Simple console logger. 
 
@@ -28,3 +28,6 @@ There are four main static methods that you can interact with the logger
 ```swift
 Logger.debug("Something went wrong", params: ["objectId": 1])
 ```
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/Logger/Logger.swift).

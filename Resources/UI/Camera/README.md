@@ -2,6 +2,8 @@
 
 A UI component that simplifies handling with camera. `PhotoCamera` & `QRCodeScanner`.
 
+## Usage
+
 ### PhotoCamera Example:
 ```swift
 let camera = PhotoCamera()
@@ -79,3 +81,6 @@ func prepareQRCodeSCanner() {
 `func codeScanned(code: String, boundingRect: CGRect)`
 
 `func scanFailure()`
+
+## Source code
+You can find source code [here](/Sources/UI/Camera).

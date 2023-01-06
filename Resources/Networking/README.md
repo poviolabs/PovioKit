@@ -1,9 +1,9 @@
-# Alamofire Network Client
+# PovioKit: Alamofire Network Client
 
 High-level network client abstraction based on [Alamofire](https://github.com/Alamofire/Alamofire).
 
 
-## Examples
+## Usage
 
 #### Retreiving JSON object from an endpoint
 
@@ -258,3 +258,6 @@ let client = AlamofireNetworkClient()
 ```
 
 If an error occurs for some other reason after the response is already validated, most probably because of parsing error, an `AlamofireNetworkClient.Error.other(wrappedError)` instance is given to the user.
+
+## Source code
+You can find source code [here](/Sources/Networking/AlamofireNetworkClient).

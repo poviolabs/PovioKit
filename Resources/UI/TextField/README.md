@@ -3,6 +3,8 @@
 A generic, customizable textfield with optional validation.
 Includes `RuleValidatable` protocol to validate input and show an appropriate error message.
 
+## Usage
+
 ### Example
 
 1. Create a textfield without validation
@@ -44,3 +46,6 @@ guard validatableTextField.isValid else { return }
 ```
 
 Validation will be triggered when `validatableTextField.isValid` is called. If validation doesn't pass, the error message will automatically display under the textfield.
+
+## Source code
+You can find source code [here](/Sources/UI/TextField/TextField.swift).

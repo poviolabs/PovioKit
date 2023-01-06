@@ -2,6 +2,8 @@
 
 A `View` subclass intended to replace `UIImageView` and all the configuration that goes with it for user's profile image.
 
+## Usage
+
 ### Example: Implementation in SwiftUI
 ```swift
 struct ContentView: View {
@@ -59,3 +61,6 @@ Accessing methods & properties of `ProfileImageView`
 profileImageView.set(URL(string: "URL String"))
 profileImageView.properties.badging = .some(badge: .init(image: Image(systemName: "plus"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
 ```
+
+## Source code
+You can find source code [here](/Sources/UI/ProfileImageView).
