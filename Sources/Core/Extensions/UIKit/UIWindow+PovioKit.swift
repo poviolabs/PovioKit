@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIWindow {
+public extension UIWindow {
   /// Returns `UIEdgeInsets` for the possible (top/bottom) safe areas
   static var safeAreaInsets: UIEdgeInsets {
     UIApplication.shared.windows
