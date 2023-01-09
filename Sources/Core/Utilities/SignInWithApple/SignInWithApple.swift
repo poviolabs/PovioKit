@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Borut Tomažin on 27/10/2020.
-//  Copyright © 2022 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import AuthenticationServices
