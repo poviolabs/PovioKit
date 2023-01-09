@@ -1,7 +1,8 @@
-#  XCConfigValue
+# XCConfigValue
 
 XCConfigValue is a property wrapper that helps you to access your build configuration values easily.
 
+## Usage
 Usually we have build configuration files like `Production.xcconfig`, `Development.xcconfig`. There you define something like this:
 
 ```xcconfig
@@ -22,3 +23,6 @@ enum Environment {
   static var subscribeLimit: Int
 }
 ```
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/PropertyWrapper/XCConfigValue.swift).

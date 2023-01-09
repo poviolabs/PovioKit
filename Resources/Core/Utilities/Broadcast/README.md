@@ -1,8 +1,8 @@
-#  Broadcast
+# Broadcast
 
 Implement `Observer / Listener` pattern with ease.
 
-## Example
+## Usage
 
 In iOS, we often use the `delegate` pattern to delegate some responsibilites, or to notify objects of some events. But sometimes we don't want to limit ourselves to only one listener. Let's see an example of this in action:
 
@@ -54,3 +54,6 @@ class ViewController: UIViewController, AppEventObserver {
   }
 }
 ```
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/Broadcast/Broadcast.swift).

@@ -1,4 +1,4 @@
-#  Delegated
+# Delegated
 
 ## The Problem
 
@@ -123,5 +123,8 @@ class Controller: UIViewController, UITableViewDataSource {
 }
 ```
 
-### Inspired by
+## Inspired by
 https://medium.com/anysuggestion/preventing-memory-leaks-with-swift-compile-time-safety-49b845df4dc6
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/Delegated/Delegated.swift).

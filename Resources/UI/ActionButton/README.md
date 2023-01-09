@@ -2,6 +2,8 @@
 
 SwiftUI view intended to offer a ready-to-go Button with some generic configuration.
 
+## Usage
+
 ### Example: Implementation in SwiftUI
 ```swift
 struct ContentView: View {
@@ -58,3 +60,5 @@ actionButton.setAction(action: someFunc)
 actionButton.properties.extraImage = .right(Image(systemName: "arrow.right"))
 ```
 
+## Source code
+You can find source code [here](/Sources/UI/ActionButton/ActionButton.swift).

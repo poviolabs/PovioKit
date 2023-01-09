@@ -1,8 +1,8 @@
-#  DispatchTimer
+# DispatchTimer
 
 This is a `NSTimer` replacement using GCD.
 
-## Examples
+## Usage
 
 Repeatedly execute action every n seconds
 
@@ -35,3 +35,6 @@ Cancel or terminate timer
 ```swift
 myTimer.stop() // you could eventually just nillify reference and the timer is terminated
 ```
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/DispatchTimer/DispatchTimer.swift).

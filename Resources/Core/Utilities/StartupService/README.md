@@ -1,4 +1,4 @@
-#  StartupService
+# StartupService
 
 Global configuration without making `AppDelegate` look like a mess.
 
@@ -74,3 +74,6 @@ public final class FacebookSetupProcess: StartupProcess {
   }
 }
 ```
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/StartupService).
