@@ -53,9 +53,10 @@ extension GoogleAuthProvider: GoogleAuthProvidable {
               switch (auth, error) {
               case (.some(let auth), _):
                 let userProfile = signedInUser.profile
+                let email = userProfile.map { AuthProvider.Response.Email($0.email) }
                 let response = Response(token: auth.accessToken,
                                         name: userProfile?.displayName,
-                                        email: userProfile?.email)
+                                        email: email)
                 seal.resolve(with: response)
               case (_, .some(let error)):
                 seal.reject(with: AuthProvider.Error.system(error))

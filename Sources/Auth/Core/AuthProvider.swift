@@ -12,9 +12,9 @@ public struct AuthProvider {
   public struct Response {
     let token: String
     var name: String?
-    var email: String?
+    var email: Email?
     
-    public init(token: String, name: String? = nil, email: String? = nil) {
+    public init(token: String, name: String? = nil, email: Email? = nil) {
       self.token = token
       self.name = name
       self.email = email
@@ -29,5 +29,19 @@ public struct AuthProvider {
     case unhandledAuthorization
     case alreadySignedIn
     case credentialsRevoked
+  }
+}
+
+public extension AuthProvider.Response {
+  struct Email {
+    let address: String
+    let isPrivate: Bool?
+    let isVerified: Bool?
+    
+    public init(_ address: String, isPrivate: Bool? = nil, isVerified: Bool? = nil) {
+      self.address = address
+      self.isPrivate = isPrivate
+      self.isVerified = isVerified
+    }
   }
 }

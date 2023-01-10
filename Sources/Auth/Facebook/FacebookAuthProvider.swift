@@ -116,7 +116,7 @@ private extension FacebookAuthProvider {
         let authResponse = Response(
           token: token,
           name: graphResponse?.displayName,
-          email: graphResponse?.email
+          email: graphResponse?.email.map { AuthProvider.Response.Email($0) }
         )
         seal.resolve(with: authResponse)
       }
