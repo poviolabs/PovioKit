@@ -27,7 +27,6 @@ public final class FacebookAuthProvider {
   private let authProvider: LoginManager
   private let defaultPermissions: [Permission] = [.email, .publicProfile]
   
-  /// Class initializer with optional `config`
   public init(with config: Config? = nil) {
     self.config = config ?? .init()
     self.authProvider = .init()

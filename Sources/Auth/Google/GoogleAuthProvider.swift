@@ -25,7 +25,6 @@ public final class GoogleAuthProvider {
   private let config: Config
   private let authProvider: GIDSignIn
   
-  /// Class initializer with `config`
   public init(with config: Config) {
     self.config = config
     self.authProvider = GIDSignIn.sharedInstance
