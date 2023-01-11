@@ -1,4 +1,4 @@
-# FacebookAuthProvider
+# FacebookAuthenticator
 
 Auth provider for social login with Facebook.
 
@@ -9,8 +9,8 @@ Please read [official documentation](https://developers.facebook.com/docs/facebo
 
 ```swift
 // initialization
-let config = FacebookAuthProvider.Config()
-let provider = FacebookAuthProvider(with: config)
+let config = FacebookAuthenticator.Config()
+let provider = FacebookAuthenticator(with: config)
 
 // signIn user
 provider
@@ -20,8 +20,8 @@ provider
   }
 
 // get auth status
-let state = FacebookAuthProvider.isAuthorized()
+let state = FacebookAuthenticator.isAuthorized()
 
 // signOut user
-FacebookAuthProvider.signOut() // all provider data regarding the use auth is cleared at this point
+FacebookAuthenticator.signOut() // all provider data regarding the use auth is cleared at this point
 ```
