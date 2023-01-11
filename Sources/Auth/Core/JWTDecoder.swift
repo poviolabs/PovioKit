@@ -9,7 +9,7 @@
 import Foundation
 
 /// JWTDecoder for decoding JSON Web Tokens (JWT) tokens
-/// Inspired by https://github.com/auth0/jwt-decode.
+/// Inspired by https://github.com/auth0/jwt-decode
 public struct JWTDecoder {
   private var header: [String: Any] = [:]
   private var payload: [String: Any] = [:]

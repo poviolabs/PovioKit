@@ -11,6 +11,7 @@ let package = Package(
     .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
     .library(name: "PovioKitUI", targets: ["PovioKitUI"]),
+    .library(name: "PovioKitAuthCore", targets: ["PovioKitAuthCore"]),
     .library(name: "PovioKitAuthApple", targets: ["PovioKitAuthApple"]),
     .library(name: "PovioKitAuthGoogle", targets: ["PovioKitAuthGoogle"]),
     .library(name: "PovioKitAuthFacebook", targets: ["PovioKitAuthFacebook"]),
