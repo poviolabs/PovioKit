@@ -1,5 +1,5 @@
 //
-//  GoogleAuthProvider.swift
+//  GoogleAuthenticator.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 25/10/2022.
@@ -21,7 +21,7 @@ public protocol GoogleAuthProvidable {
   static func shouldHandleURL(_ url: URL) -> Bool
 }
 
-public final class GoogleAuthProvider {
+public final class GoogleAuthenticator {
   private let config: Config
   private let authProvider: GIDSignIn
   
@@ -32,7 +32,7 @@ public final class GoogleAuthProvider {
 }
 
 // MARK: - Public Methods
-extension GoogleAuthProvider: GoogleAuthProvidable {
+extension GoogleAuthenticator: GoogleAuthProvidable {
   /// SignIn user.
   ///
   /// Will return promise with the `Response` object on success or with `Error` on error.
