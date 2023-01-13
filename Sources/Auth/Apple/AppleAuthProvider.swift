@@ -96,7 +96,7 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
       // store userId for later
       Self.storage.set(credential.user, forKey: Self.userIdStorageKey)
       
-      // parse email and it's metadata
+      // parse email and related metadata
       let email: AuthProvider.Response.Email? = credential.email.map {
         let identity = try? JWTDecoder(token: identityTokenString)
         let isEmailPrivate = identity?.bool(for: "is_private_email")

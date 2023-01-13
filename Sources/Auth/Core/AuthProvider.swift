@@ -10,9 +10,9 @@ import Foundation
 
 public struct AuthProvider {
   public struct Response {
-    let token: String
-    var name: String?
-    var email: Email?
+    public let token: String
+    public let name: String?
+    public let email: Email?
     
     public init(token: String, name: String? = nil, email: Email? = nil) {
       self.token = token
@@ -34,9 +34,9 @@ public struct AuthProvider {
 
 public extension AuthProvider.Response {
   struct Email {
-    let address: String
-    let isPrivate: Bool?
-    let isVerified: Bool?
+    public let address: String
+    public let isPrivate: Bool?
+    public let isVerified: Bool?
     
     public init(_ address: String, isPrivate: Bool? = nil, isVerified: Bool? = nil) {
       self.address = address
