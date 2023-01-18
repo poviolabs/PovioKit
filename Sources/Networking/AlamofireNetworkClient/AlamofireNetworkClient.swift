@@ -28,7 +28,7 @@ open class AlamofireNetworkClient {
   
   public init(
     session: Alamofire.Session = .default,
-    eventMonitors: [RequestMonitor],
+    eventMonitors: [RequestMonitor] = [],
     defaultErrorHandler errorHandler: ErrorHandler? = nil
   ) {
     self.session = session
@@ -262,6 +262,22 @@ public extension AlamofireNetworkClient.Request {
       .asVoid
   }
   
+  var asString: Promise<String> {
+    .init { promise in
+      dataRequest.responseString {
+        switch $0.result {
+        case .success(let value):
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
+          promise.resolve(with: value)
+        case .failure(let error):
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
+        }
+      }
+    }
+  }
+  
   func decode<D: Decodable>(
     _ decodable: D.Type,
     decoder: JSONDecoder = .init(),
@@ -351,6 +367,66 @@ public extension AlamofireNetworkClient.Request {
   func handleFailure(handler: @escaping (Swift.Error, Data) throws -> Swift.Error) -> Self {
     self.errorHandler = handler
     return self
+  }
+}
+
+// MARK: - Request async/await API
+public extension AlamofireNetworkClient.Request {
+  var asDataAsync: Data {
+    get async throws {
+      do {
+        let data = try await dataRequest.serializingData().value
+        eventMonitors.forEach { $0.requestDidSucceed(self) }
+        return data
+      } catch {
+        let error = self.handleError(error)
+        eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+        throw error
+      }
+    }
+  }
+  
+  var asVoidAsync: () {
+    get async throws {
+      do {
+        _ = try await dataRequest.serializingData().value
+        eventMonitors.forEach { $0.requestDidSucceed(self) }
+      } catch {
+        let error = self.handleError(error)
+        eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+        throw error
+      }
+    } 
+  }
+  
+  var asStringAsync: String {
+    get async throws {
+      do {
+        let value = try await dataRequest.serializingString().value
+        eventMonitors.forEach { $0.requestDidSucceed(self) }
+        return value
+      } catch {
+        let error = self.handleError(error)
+        eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+        throw error
+      }
+    }
+  }
+  
+  func decodeAsync<D: Decodable>(
+    _ decodable: D.Type,
+    decoder: JSONDecoder = .init(),
+    on dispatchQueue: DispatchQueue? = .main
+  ) async throws -> D {
+    do {
+      let value = try await dataRequest.serializingDecodable(D.self, decoder: decoder).value
+      eventMonitors.forEach { $0.requestDidSucceed(self) }
+      return value
+    } catch {
+      let error = handleError(error)
+      eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+      throw error
+    }
   }
 }
 
