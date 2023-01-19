@@ -372,54 +372,96 @@ public extension AlamofireNetworkClient.Request {
 
 // MARK: - Request async/await API
 public extension AlamofireNetworkClient.Request {
+  /// See Alamofire's documentation for details:
+  /// 
+  /// ``Alamofire.Concurrency.serializingData``
+  func dataAsync(
+    automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
+    dataPreprocessor: DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor,
+    emptyResponseCodes: Set<Int> = DataResponseSerializer.defaultEmptyResponseCodes,
+    emptyRequestMethods: Set<HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods
+  ) async throws -> Data {
+    do {
+      let data = try await dataRequest.serializingData(
+        automaticallyCancelling: shouldAutomaticallyCancel, 
+        dataPreprocessor: dataPreprocessor, 
+        emptyResponseCodes: emptyResponseCodes, 
+        emptyRequestMethods: emptyRequestMethods
+      ).value
+      eventMonitors.forEach { $0.requestDidSucceed(self) }
+      return data
+    } catch {
+      let error = self.handleError(error)
+      eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+      throw error
+    }
+  }
+  
   var asDataAsync: Data {
     get async throws {
-      do {
-        let data = try await dataRequest.serializingData().value
-        eventMonitors.forEach { $0.requestDidSucceed(self) }
-        return data
-      } catch {
-        let error = self.handleError(error)
-        eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-        throw error
-      }
+      try await dataAsync()
     }
   }
   
   var asVoidAsync: () {
     get async throws {
-      do {
-        _ = try await dataRequest.serializingData().value
-        eventMonitors.forEach { $0.requestDidSucceed(self) }
-      } catch {
-        let error = self.handleError(error)
-        eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-        throw error
-      }
+      try await _ = asDataAsync
     } 
+  }
+  
+  /// See Alamofire's documentation for details:
+  /// 
+  /// ``Alamofire.Concurrency.serializingString``
+  func stringAsync(
+    automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
+    dataPreprocessor: DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor,
+    encoding: String.Encoding? = nil,
+    emptyResponseCodes: Set<Int> = StringResponseSerializer.defaultEmptyResponseCodes,
+    emptyRequestMethods: Set<HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods
+  ) async throws -> String {
+    do {
+      let value = try await dataRequest.serializingString(
+        automaticallyCancelling: shouldAutomaticallyCancel, 
+        dataPreprocessor: dataPreprocessor, 
+        encoding: encoding, 
+        emptyResponseCodes: emptyResponseCodes, 
+        emptyRequestMethods: emptyRequestMethods
+      ).value
+      eventMonitors.forEach { $0.requestDidSucceed(self) }
+      return value
+    } catch {
+      let error = self.handleError(error)
+      eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+      throw error
+    }
   }
   
   var asStringAsync: String {
     get async throws {
-      do {
-        let value = try await dataRequest.serializingString().value
-        eventMonitors.forEach { $0.requestDidSucceed(self) }
-        return value
-      } catch {
-        let error = self.handleError(error)
-        eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-        throw error
-      }
+      try await stringAsync()
     }
   }
   
+  /// See Alamofire's documentation for details:
+  /// 
+  /// ``Alamofire.Concurrency.serializingDecodable``
   func decodeAsync<D: Decodable>(
     _ decodable: D.Type,
     decoder: JSONDecoder = .init(),
-    on dispatchQueue: DispatchQueue? = .main
+    automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
+    dataPreprocessor: DataPreprocessor = DecodableResponseSerializer<D>.defaultDataPreprocessor,
+    emptyResponseCodes: Set<Int> = DecodableResponseSerializer<D>.defaultEmptyResponseCodes,
+    emptyRequestMethods: Set<HTTPMethod> = DecodableResponseSerializer<D>.defaultEmptyRequestMethods
   ) async throws -> D {
     do {
-      let value = try await dataRequest.serializingDecodable(D.self, decoder: decoder).value
+      let value = try await dataRequest.serializingDecodable(
+        D.self, 
+        automaticallyCancelling: shouldAutomaticallyCancel, 
+        dataPreprocessor: dataPreprocessor, 
+        decoder: decoder, 
+        emptyResponseCodes: emptyResponseCodes, 
+        emptyRequestMethods: emptyRequestMethods
+      ).value
       eventMonitors.forEach { $0.requestDidSucceed(self) }
       return value
     } catch {
