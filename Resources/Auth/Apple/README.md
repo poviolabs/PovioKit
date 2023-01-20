@@ -1,4 +1,4 @@
-# AppleAuthProvider
+# AppleAuthenticator
 
 Auth provider for social login with Apple.
 
@@ -17,7 +17,7 @@ Please read [official documentation](https://developer.apple.com/sign-in-with-ap
 
 ```swift
 // initialization
-let provider = AppleAuthProvider() // conforms to `AppleAuthProvidable` protocol
+let provider = AppleAuthenticator() // conforms to `AppleAuthProvidable` protocol
 
 // signIn user
 provider
@@ -27,12 +27,12 @@ provider
   }
 
 // get auth status
-AppleAuthProvider
+AppleAuthenticator
   .checkAuthState()
   .finally {
     // check result
   }
 
 // signOut user
-AppleAuthProvider.signOut() // all provider data regarding the use auth is cleared at this point
+AppleAuthenticator.signOut() // all provider data regarding the use auth is cleared at this point
 ```

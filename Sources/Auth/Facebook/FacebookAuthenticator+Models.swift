@@ -1,5 +1,5 @@
 //
-//  GoogleAuthProvider.swift
+//  FacebookAuthenticator+Models.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 30/11/2022.
@@ -9,7 +9,7 @@
 import Foundation
 import FacebookLogin
 
-public extension FacebookAuthProvider {
+public extension FacebookAuthenticator {
   struct Config {
     let permissions: [Permission] = [.email, .publicProfile]
     /// By default, we request `email` and `publicProfile` permission.
@@ -28,7 +28,7 @@ public extension FacebookAuthProvider {
   }
 }
 
-public extension FacebookAuthProvider.GraphResponse {
+public extension FacebookAuthenticator.GraphResponse {
   var displayName: String {
     [firstName, lastName]
       .compactMap { $0 }
