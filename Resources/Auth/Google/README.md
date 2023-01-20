@@ -1,4 +1,4 @@
-# GoogleAuthProvider
+# GoogleAuthenticator
 
 Auth provider for social login with Google.
 
@@ -9,8 +9,8 @@ Please read [official documentation](https://developers.google.com/identity/sign
 
 ```swift
 // initialization
-let config = GoogleAuthProvider.Config(clientId: "google-client-id")
-let provider = GoogleAuthProvider(with: config)
+let config = GoogleAuthenticator.Config(clientId: "google-client-id")
+let provider = GoogleAuthenticator(with: config)
 
 // signIn user
 provider
@@ -20,11 +20,11 @@ provider
   }
 
 // get auth status
-let state = GoogleAuthProvider.isAuthorized()
+let state = GoogleAuthenticator.isAuthorized()
 
 // signOut user
-GoogleAuthProvider.signOut() // all provider data regarding the use auth is cleared at this point
+GoogleAuthenticator.signOut() // all provider data regarding the use auth is cleared at this point
 
 // handle url
-GoogleAuthProvider.shouldHandleURL() // call this from `application:openURL:options:` in UIApplicationDelegate
+GoogleAuthenticator.shouldHandleURL() // call this from `application:openURL:options:` in UIApplicationDelegate
 ```

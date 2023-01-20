@@ -1,5 +1,5 @@
 //
-//  AppleAuthProvider.swift
+//  AppleAuthenticator.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 24/10/2022.
@@ -17,18 +17,17 @@ public protocol AppleAuthProvidable {
   
   func signIn(from presentingViewController: UIViewController) -> Promise<Response>
   func signIn(from presentingViewController: UIViewController,
-              with nonce: AppleAuthProvider.Nonce) -> Promise<Response>
+              with nonce: AppleAuthenticator.Nonce) -> Promise<Response>
   static func signOut()
   static func checkAuthState() -> Promise<Authorized>
 }
 
-public final class AppleAuthProvider: NSObject {
+public final class AppleAuthenticator: NSObject {
   private static let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
   private static let storage: UserDefaults = .standard
   private let authProvider: ASAuthorizationAppleIDProvider
   private var processingPromise: Promise<Response>?
   
-  /// Class initializer
   public override init() {
     self.authProvider = .init()
     super.init()
@@ -41,7 +40,7 @@ public final class AppleAuthProvider: NSObject {
 }
 
 // MARK: - Public Methods
-extension AppleAuthProvider: AppleAuthProvidable {
+extension AppleAuthenticator: AppleAuthProvidable {
   /// SignIn user
   ///
   /// Will return promise with the `Response` object on success or with `Error` on error.
@@ -83,7 +82,7 @@ extension AppleAuthProvider: AppleAuthProvidable {
 }
 
 // MARK: - ASAuthorizationControllerDelegate
-extension AppleAuthProvider: ASAuthorizationControllerDelegate {
+extension AppleAuthenticator: ASAuthorizationControllerDelegate {
   public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
     switch authorization.credential {
     case let credential as ASAuthorizationAppleIDCredential:
@@ -124,7 +123,7 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
 }
 
 // MARK: - Private Methods
-private extension AppleAuthProvider {
+private extension AppleAuthenticator {
   func appleSignIn(on presentingViewController: UIViewController, with nonce: Nonce?) {
     let request = authProvider.createRequest()
     request.requestedScopes = [.fullName, .email]
@@ -162,7 +161,7 @@ private extension AppleAuthProvider {
 }
 
 // MARK: - Actions
-private extension AppleAuthProvider {
+private extension AppleAuthenticator {
   @objc func appleCredentialRevoked() {
     processingPromise?.reject(with: AuthProvider.Error.credentialsRevoked)
   }

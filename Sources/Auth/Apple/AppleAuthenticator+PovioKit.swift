@@ -1,8 +1,9 @@
 //
-//  File.swift
-//  
+//  AppleAuthenticator+PovioKit.swift
+//  PovioKit
 //
-//  Created by Borut Tomazin on 23/12/2022.
+//  Created by Borut Tomazin on 28/10/2022.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import AuthenticationServices

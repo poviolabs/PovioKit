@@ -1,5 +1,5 @@
 //
-//  GoogleAuthProvider+Models.swift
+//  GoogleAuthenticator+Models.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 26/10/2022.
@@ -9,7 +9,7 @@
 import Foundation
 import GoogleSignIn
 
-public extension GoogleAuthProvider {
+public extension GoogleAuthenticator {
   struct Config {
     let clientId: String
     

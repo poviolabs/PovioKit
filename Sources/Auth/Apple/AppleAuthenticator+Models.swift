@@ -1,5 +1,5 @@
 //
-//  AppleAuthProvider+Models.swift
+//  AppleAuthenticator+Models.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 28/10/2022.
@@ -9,7 +9,7 @@
 import AuthenticationServices
 import Foundation
 
-public extension AppleAuthProvider {
+public extension AppleAuthenticator {
   enum Nonce {
     case random(length: UInt)
   }

@@ -1,5 +1,5 @@
 //
-//  GoogleAuthProvider.swift
+//  FacebookAuthenticator.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 29/11/2022.
@@ -21,13 +21,12 @@ public protocol FacebookAuthProvidable {
   static func isAuthorized() -> Authorized
 }
 
-public final class FacebookAuthProvider {
+public final class FacebookAuthenticator {
   public typealias Token = String
   private let config: Config
   private let authProvider: LoginManager
   private let defaultPermissions: [Permission] = [.email, .publicProfile]
   
-  /// Class initializer with optional `config`
   public init(with config: Config? = nil) {
     self.config = config ?? .init()
     self.authProvider = .init()
@@ -35,7 +34,7 @@ public final class FacebookAuthProvider {
 }
 
 // MARK: - Public Methods
-extension FacebookAuthProvider: FacebookAuthProvidable {
+extension FacebookAuthenticator: FacebookAuthProvidable {
   /// SignIn user.
   ///
   /// Will return promise with the `Response` object on success or with `Error` on error.
@@ -61,7 +60,7 @@ extension FacebookAuthProvider: FacebookAuthProvidable {
 }
 
 // MARK: - Private Methods
-private extension FacebookAuthProvider {
+private extension FacebookAuthenticator {
   func signIn(with configuration: LoginConfiguration?, on presentingViewController: UIViewController) -> Promise<Token> {
     Promise { seal in
       authProvider
