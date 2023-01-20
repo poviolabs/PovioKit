@@ -81,7 +81,8 @@ let package = Package(
         "PovioKit",
         "PovioKitPromise",
         "PovioKitNetworking",
-        "PovioKitUI"
+        "PovioKitUI",
+        "PovioKitAuthCore"
       ]
     ),
   ],

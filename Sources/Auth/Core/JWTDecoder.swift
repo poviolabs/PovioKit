@@ -27,27 +27,27 @@ public extension JWTDecoder {
   }
   
   var issuer: String? {
-    payload["iss"] as? String
+    string(for: "iss")
   }
   
   var subject: String? {
-    payload["sub"] as? String
+    string(for: "sub")
   }
   
   var identifier: String? {
-    payload["jti"] as? String
+    string(for: "jti")
   }
   
   var issuedAt: Date? {
-    dateFor(key: "iat")
+    date(for: "iat")
   }
   
   var expiresAt: Date? {
-    dateFor(key: "exp")
+    date(for: "exp")
   }
   
   var notBefore: Date? {
-    dateFor(key: "nbf")
+    date(for: "nbf")
   }
   
   var isExpired: Bool {
@@ -60,6 +60,19 @@ public extension JWTDecoder {
       return Bool(stringValue)
     }
     return boolValue
+  }
+  
+  func string(for key: String) -> String? {
+    payload[key] as? String
+  }
+  
+  func date(for key: String) -> Date? {
+    if let stringValue = payload[key] as? String, let doubleValue = TimeInterval(stringValue) {
+      return Date(timeIntervalSince1970: doubleValue)
+    } else if let doubleValue = payload[key] as? Double {
+      return Date(timeIntervalSince1970: doubleValue)
+    }
+    return nil
   }
 }
 
@@ -100,15 +113,6 @@ private extension JWTDecoder {
       throw Error.invalidBase64
     }
     return data
-  }
-  
-  func dateFor(key: String) -> Date? {
-    if let stringValue = payload[key] as? String, let doubleValue = TimeInterval(stringValue) {
-      return Date(timeIntervalSince1970: doubleValue)
-    } else if let doubleValue = payload[key] as? Double {
-      return Date(timeIntervalSince1970: doubleValue)
-    }
-    return nil
   }
   
   enum Error: Swift.Error {
