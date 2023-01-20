@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Borut Tomazin on 24/10/2022.
-//  Copyright © 2022 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import AuthenticationServices
@@ -96,9 +96,21 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
       // store userId for later
       Self.storage.set(credential.user, forKey: Self.userIdStorageKey)
       
+      // parse email and related metadata
+      let email: AuthProvider.Response.Email? = credential.email.map {
+        let identity = try? JWTDecoder(token: identityTokenString)
+        let isEmailPrivate = identity?.bool(for: "is_private_email")
+        let isEmailVerified = identity?.bool(for: "email_verified")
+        
+        return .init($0, isPrivate: isEmailPrivate, isVerified: isEmailVerified)
+      }
+      
+      // make response
       let response = Response(token: identityTokenString,
                               name: credential.displayName,
-                              email: credential.email)
+                              email: email)
+      
+      // resolve promise
       processingPromise?.resolve(with: response)
     case _:
       processingPromise?.reject(with: AuthProvider.Error.unhandledAuthorization)

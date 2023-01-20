@@ -3,18 +3,18 @@
 //  PovioKit
 //
 //  Created by Borut Tomazin on 25/11/2022.
-//  Copyright © 2022 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import Foundation
 
 public struct AuthProvider {
   public struct Response {
-    let token: String
-    var name: String?
-    var email: String?
+    public let token: String
+    public let name: String?
+    public let email: Email?
     
-    public init(token: String, name: String? = nil, email: String? = nil) {
+    public init(token: String, name: String? = nil, email: Email? = nil) {
       self.token = token
       self.name = name
       self.email = email
@@ -29,5 +29,19 @@ public struct AuthProvider {
     case unhandledAuthorization
     case alreadySignedIn
     case credentialsRevoked
+  }
+}
+
+public extension AuthProvider.Response {
+  struct Email {
+    public let address: String
+    public let isPrivate: Bool?
+    public let isVerified: Bool?
+    
+    public init(_ address: String, isPrivate: Bool? = nil, isVerified: Bool? = nil) {
+      self.address = address
+      self.isPrivate = isPrivate
+      self.isVerified = isVerified
+    }
   }
 }
