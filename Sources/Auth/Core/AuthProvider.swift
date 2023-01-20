@@ -7,13 +7,6 @@
 //
 
 import Foundation
-import UIKit
-
-public protocol AuthProvidable {
-  func signIn(on presentingViewController: UIViewController)
-  static func signOut()
-  static func checkAuthState(_ state: @escaping (Bool) -> Swift.Void)
-}
 
 public struct AuthProvider {
   public struct Response {
@@ -34,5 +27,7 @@ public struct AuthProvider {
     case invalidNonceLength
     case invalidIdentityToken
     case unhandledAuthorization
+    case alreadySignedIn
+    case credentialsRevoked
   }
 }
