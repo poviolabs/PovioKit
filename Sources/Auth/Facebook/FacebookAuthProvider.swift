@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Borut Tomazin on 29/11/2022.
-//  Copyright © 2022 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -116,7 +116,7 @@ private extension FacebookAuthProvider {
         let authResponse = Response(
           token: token,
           name: graphResponse?.displayName,
-          email: graphResponse?.email
+          email: graphResponse?.email.map { AuthProvider.Response.Email($0) }
         )
         seal.resolve(with: authResponse)
       }
