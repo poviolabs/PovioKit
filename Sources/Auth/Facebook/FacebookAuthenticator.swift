@@ -12,23 +12,18 @@ import PovioKit
 import PovioKitAuthCore
 import PovioKitPromise
 
-public protocol FacebookAuthProvidable {
-  typealias Authorized = Bool
-  typealias Response = AuthProvider.Response
-  
-  func signIn(from presentingViewController: UIViewController) -> Promise<Response>
-  func signOut()
-  func isAuthorized() -> Authorized
+public protocol FacebookAuthProvidable: AuthProvidable {
+  func signIn(from presentingViewController: UIViewController,
+              with extraPermissions: [Permission]) -> Promise<Response>
+  var isAuthenticated: Authenticated { get }
 }
 
 public final class FacebookAuthenticator {
   public typealias Token = String
-  private let config: Config
   private let provider: LoginManager
   private let defaultPermissions: [Permission] = [.email, .publicProfile]
   
-  public init(with config: Config? = nil) {
-    self.config = config ?? .init()
+  public init() {
     self.provider = .init()
   }
 }
@@ -39,7 +34,15 @@ extension FacebookAuthenticator: FacebookAuthProvidable {
   ///
   /// Will return promise with the `Response` object on success or with `Error` on error.
   public func signIn(from presentingViewController: UIViewController) -> Promise<Response> {
-    let permissions: [String] = (defaultPermissions + config.extraPermissions).map { $0.name }
+    let permissions: [String] = defaultPermissions.map { $0.name }
+    let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
+    
+    return signIn(with: configuration, on: presentingViewController)
+      .flatMap(with: fetchUserDetails)
+  }
+  
+  public func signIn(from presentingViewController: UIViewController, with extraPermissions: [Permission]) -> Promise<Response> {
+    let permissions: [String] = (defaultPermissions + extraPermissions).map { $0.name }
     let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
     
     return signIn(with: configuration, on: presentingViewController)
@@ -51,8 +54,8 @@ extension FacebookAuthenticator: FacebookAuthProvidable {
     provider.logOut()
   }
   
-  /// Checks the current auth state and returns the boolean value.
-  public func isAuthorized() -> Authorized {
+  /// Returns the current authentication state.
+  public var isAuthenticated: Authenticated {
     guard let token = AccessToken.current else { return false }
     return !token.isExpired
   }
@@ -71,12 +74,12 @@ private extension FacebookAuthenticator {
             case .some(let token):
               seal.resolve(with: token.tokenString)
             case .none:
-              seal.reject(with: AuthProvider.Error.invalidIdentityToken)
+              seal.reject(with: Authenticator.Error.invalidIdentityToken)
             }
           case .cancelled:
-            seal.reject(with: AuthProvider.Error.cancelled)
+            seal.reject(with: Authenticator.Error.cancelled)
           case .failed(let error):
-            seal.reject(with: AuthProvider.Error.system(error))
+            seal.reject(with: Authenticator.Error.system(error))
           }
         }
     }
@@ -114,7 +117,7 @@ private extension FacebookAuthenticator {
         let authResponse = Response(
           token: token,
           name: graphResponse?.displayName,
-          email: graphResponse?.email.map { AuthProvider.Response.Email($0) }
+          email: graphResponse?.email.map { Authenticator.Response.Email($0) }
         )
         seal.resolve(with: authResponse)
       }

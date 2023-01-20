@@ -11,15 +11,10 @@ import Foundation
 import PovioKitAuthCore
 import PovioKitPromise
 
-public protocol AppleAuthProvidable {
-  typealias Authorized = Bool
-  typealias Response = AuthProvider.Response
-  
-  func signIn(from presentingViewController: UIViewController) -> Promise<Response>
+public protocol AppleAuthProvidable: AuthProvidable {
   func signIn(from presentingViewController: UIViewController,
               with nonce: AppleAuthenticator.Nonce) -> Promise<Response>
-  func signOut()
-  func checkAuthState() -> Promise<Authorized>
+  func checkAuthState() -> Promise<AuthProvidable.Authenticated>
 }
 
 public final class AppleAuthenticator: NSObject {
@@ -68,7 +63,7 @@ extension AppleAuthenticator: AppleAuthProvidable {
   }
   
   /// Checks the current auth state and returns the boolean value as promise.
-  public func checkAuthState() -> Promise<Authorized> {
+  public func checkAuthState() -> Promise<Authenticated> {
     guard let userId = storage.string(forKey: userIdStorageKey) else {
       return .value(false)
     }
@@ -88,7 +83,7 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
     case let credential as ASAuthorizationAppleIDCredential:
       guard let identityToken = credential.identityToken,
             let identityTokenString = String(data: identityToken, encoding: .utf8) else {
-        processingPromise?.reject(with: AuthProvider.Error.invalidIdentityToken)
+        processingPromise?.reject(with: Authenticator.Error.invalidIdentityToken)
         return
       }
       
@@ -96,7 +91,7 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
       storage.set(credential.user, forKey: userIdStorageKey)
       
       // parse email and related metadata
-      let email: AuthProvider.Response.Email? = credential.email.map {
+      let email: Authenticator.Response.Email? = credential.email.map {
         let identity = try? JWTDecoder(token: identityTokenString)
         let isEmailPrivate = identity?.bool(for: "is_private_email")
         let isEmailVerified = identity?.bool(for: "email_verified")
@@ -112,13 +107,13 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
       // resolve promise
       processingPromise?.resolve(with: response)
     case _:
-      processingPromise?.reject(with: AuthProvider.Error.unhandledAuthorization)
+      processingPromise?.reject(with: Authenticator.Error.unhandledAuthorization)
       break
     }
   }
   
   public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Swift.Error) {
-    processingPromise?.reject(with: AuthProvider.Error.system(error))
+    processingPromise?.reject(with: Authenticator.Error.system(error))
   }
 }
 
@@ -131,7 +126,7 @@ private extension AppleAuthenticator {
     switch nonce {
     case .random(let length):
       guard length > 0 else {
-        processingPromise?.reject(with: AuthProvider.Error.invalidNonceLength)
+        processingPromise?.reject(with: Authenticator.Error.invalidNonceLength)
         return
       }
       request.nonce = generateRandomNonceString(length: length).sha256
@@ -163,6 +158,6 @@ private extension AppleAuthenticator {
 // MARK: - Actions
 private extension AppleAuthenticator {
   @objc func appleCredentialRevoked() {
-    processingPromise?.reject(with: AuthProvider.Error.credentialsRevoked)
+    processingPromise?.reject(with: Authenticator.Error.credentialsRevoked)
   }
 }

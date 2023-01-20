@@ -11,13 +11,10 @@ import GoogleSignIn
 import PovioKitAuthCore
 import PovioKitPromise
 
-public protocol GoogleAuthProvidable {
-  typealias Authorized = Bool
-  typealias Response = AuthProvider.Response
-  
-  func signIn(from presentingViewController: UIViewController) -> Promise<Response>
-  func signOut()
-  func isAuthorized() -> Authorized
+public protocol GoogleAuthProvidable: AuthProvidable {
+//  typealias Authenticated = Bool
+//  typealias Response = AuthProvider.Response
+  var isAuthenticated: Authenticated { get }
   static func shouldHandleURL(_ url: URL) -> Bool
 }
 
@@ -39,7 +36,7 @@ extension GoogleAuthenticator: GoogleAuthProvidable {
   public func signIn(from presentingViewController: UIViewController) -> Promise<Response> {
     guard !provider.hasPreviousSignIn() else {
       provider.restorePreviousSignIn()
-      return .error(AuthProvider.Error.alreadySignedIn)
+      return .error(Authenticator.Error.alreadySignedIn)
     }
     
     return Promise { seal in
@@ -52,26 +49,26 @@ extension GoogleAuthenticator: GoogleAuthProvidable {
               switch (auth, error) {
               case (.some(let auth), _):
                 let userProfile = signedInUser.profile
-                let email = userProfile.map { AuthProvider.Response.Email($0.email) }
+                let email = userProfile.map { Authenticator.Response.Email($0.email) }
                 let response = Response(token: auth.accessToken,
                                         name: userProfile?.displayName,
                                         email: email)
                 seal.resolve(with: response)
               case (_, .some(let error)):
-                seal.reject(with: AuthProvider.Error.system(error))
+                seal.reject(with: Authenticator.Error.system(error))
               default:
-                seal.reject(with: AuthProvider.Error.unhandledAuthorization)
+                seal.reject(with: Authenticator.Error.unhandledAuthorization)
               }
             }
           case (_, let actualError?):
             let errorCode = (actualError as NSError).code
             if errorCode == GIDSignInError.Code.canceled.rawValue {
-              seal.reject(with: AuthProvider.Error.cancelled)
+              seal.reject(with: Authenticator.Error.cancelled)
             } else {
-              seal.reject(with: AuthProvider.Error.system(actualError))
+              seal.reject(with: Authenticator.Error.system(actualError))
             }
           case (.none, .none):
-            seal.reject(with: AuthProvider.Error.unhandledAuthorization)
+            seal.reject(with: Authenticator.Error.unhandledAuthorization)
           }
         }
     }
@@ -82,8 +79,8 @@ extension GoogleAuthenticator: GoogleAuthProvidable {
     provider.signOut()
   }
   
-  /// Checks the current auth state and returns the boolean value.
-  public func isAuthorized() -> Authorized {
+  /// Returns the current authentication state.
+  public var isAuthenticated: Authenticated {
     provider.currentUser != nil
   }
   

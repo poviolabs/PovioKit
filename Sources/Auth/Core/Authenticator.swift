@@ -1,5 +1,5 @@
 //
-//  AuthProvider.swift
+//  Authenticator.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 25/11/2022.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct AuthProvider {
+public struct Authenticator {
   public struct Response {
     public let token: String
     public let name: String?
@@ -32,7 +32,7 @@ public struct AuthProvider {
   }
 }
 
-public extension AuthProvider.Response {
+public extension Authenticator.Response {
   struct Email {
     public let address: String
     public let isPrivate: Bool?
