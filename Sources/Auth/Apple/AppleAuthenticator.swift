@@ -18,18 +18,18 @@ public protocol AppleAuthProvidable {
   func signIn(from presentingViewController: UIViewController) -> Promise<Response>
   func signIn(from presentingViewController: UIViewController,
               with nonce: AppleAuthenticator.Nonce) -> Promise<Response>
-  static func signOut()
-  static func checkAuthState() -> Promise<Authorized>
+  func signOut()
+  func checkAuthState() -> Promise<Authorized>
 }
 
 public final class AppleAuthenticator: NSObject {
-  private static let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
-  private static let storage: UserDefaults = .standard
-  private let authProvider: ASAuthorizationAppleIDProvider
+  private let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
+  private let storage: UserDefaults = .standard
+  private let provider: ASAuthorizationAppleIDProvider
   private var processingPromise: Promise<Response>?
   
   public override init() {
-    self.authProvider = .init()
+    self.provider = .init()
     super.init()
     setupCredentialsRevokeListener()
   }
@@ -63,13 +63,13 @@ extension AppleAuthenticator: AppleAuthProvidable {
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
-  public static func signOut() {
+  public func signOut() {
     storage.removeObject(forKey: userIdStorageKey)
   }
   
   /// Checks the current auth state and returns the boolean value as promise.
-  public static func checkAuthState() -> PovioKitPromise.Promise<Authorized> {
-    guard let userId = Self.storage.string(forKey: Self.userIdStorageKey) else {
+  public func checkAuthState() -> Promise<Authorized> {
+    guard let userId = storage.string(forKey: userIdStorageKey) else {
       return .value(false)
     }
     
@@ -93,7 +93,7 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
       }
       
       // store userId for later
-      Self.storage.set(credential.user, forKey: Self.userIdStorageKey)
+      storage.set(credential.user, forKey: userIdStorageKey)
       
       // parse email and related metadata
       let email: AuthProvider.Response.Email? = credential.email.map {
@@ -125,7 +125,7 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
 // MARK: - Private Methods
 private extension AppleAuthenticator {
   func appleSignIn(on presentingViewController: UIViewController, with nonce: Nonce?) {
-    let request = authProvider.createRequest()
+    let request = provider.createRequest()
     request.requestedScopes = [.fullName, .email]
     
     switch nonce {

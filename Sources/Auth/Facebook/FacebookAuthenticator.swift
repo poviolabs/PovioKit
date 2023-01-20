@@ -17,19 +17,19 @@ public protocol FacebookAuthProvidable {
   typealias Response = AuthProvider.Response
   
   func signIn(from presentingViewController: UIViewController) -> Promise<Response>
-  static func signOut()
-  static func isAuthorized() -> Authorized
+  func signOut()
+  func isAuthorized() -> Authorized
 }
 
 public final class FacebookAuthenticator {
   public typealias Token = String
   private let config: Config
-  private let authProvider: LoginManager
+  private let provider: LoginManager
   private let defaultPermissions: [Permission] = [.email, .publicProfile]
   
   public init(with config: Config? = nil) {
     self.config = config ?? .init()
-    self.authProvider = .init()
+    self.provider = .init()
   }
 }
 
@@ -47,15 +47,14 @@ extension FacebookAuthenticator: FacebookAuthProvidable {
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
-  public static func signOut() {
-    LoginManager().logOut()
+  public func signOut() {
+    provider.logOut()
   }
   
   /// Checks the current auth state and returns the boolean value.
-  public static func isAuthorized() -> Authorized {
-    let exists = AccessToken.current?.tokenString != nil
-    let isValid = !(AccessToken.current?.isExpired ?? true)
-    return exists && isValid
+  public func isAuthorized() -> Authorized {
+    guard let token = AccessToken.current else { return false }
+    return !token.isExpired
   }
 }
 
@@ -63,7 +62,7 @@ extension FacebookAuthenticator: FacebookAuthProvidable {
 private extension FacebookAuthenticator {
   func signIn(with configuration: LoginConfiguration?, on presentingViewController: UIViewController) -> Promise<Token> {
     Promise { seal in
-      authProvider
+      provider
         .logIn(viewController: presentingViewController,
                configuration: configuration) {
           switch $0 {
