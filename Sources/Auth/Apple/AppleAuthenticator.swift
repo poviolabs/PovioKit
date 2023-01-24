@@ -59,6 +59,8 @@ extension AppleAuthenticator: AppleAuthProvidable {
   
   /// Clears the signIn footprint and logs out the user immediatelly.
   public func signOut() {
+    processingPromise?.reject(with: Authenticator.Error.cancelled)
+    processingPromise = nil
     storage.removeObject(forKey: userIdStorageKey)
   }
   
