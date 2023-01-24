@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/poviolabs/PovioKit/master/PovioKit.png" width="400" max-width="90%" alt="PovioKit" />
+    <img src="Resources/PovioKit.png" width="400" max-width="90%" alt="PovioKit" />
 </p>
 
 <p align="center">
@@ -22,58 +22,9 @@
 </p>
 
 ## Packages
-### Core libraries
 
-| Utilities |
-| :--- |
-| [AppVersionValidator](Sources/Core/Utilities/AppVersionValidator/AppVersionValidator.swift) |
-| [AttributedStringBuilder](Resources/Core/Utilities/AttributedStringBuilder/) |
-| [Broadcast](Resources/Core/Utilities/Broadcast/) |
-| [BundleReader](Sources/Core/Utilities/BundleReader/BundleReader.swift) |
-| [ColorInterpolator](Resources/Core/Utilities/ColorInterpolator/) |
-| [Delegated](Resources/Core/Utilities/Delegated/) |
-| [DispatchTimer](Resources/Core/Utilities/DispatchTimer/) |
-| [ImageSource](Sources/Core/Utilities/ImageSource/ImageSource.swift) |
-| [Logger](Resources/Core/Utilities/Logger/) |
-| [SignInWithApple](Resources/Core/Utilities/SignInWithApple/) |
-| [StartupService](Resources/Core/Utilities/StartupService/) |
-| [Throttler](Resources/Core/Utilities/Throttler/) |
-| [UserDefaults](Resources/Core/Utilities/PropertyWrapper/UserDefaults/) |
-| [XCConfigValue](Resources/Core/Utilities/PropertyWrapper/XCConfigValue) |
-
-### Core extensions
-
-| UIKit | Foundation | MapKit | Other |
-| :--- | :--- | :--- | :--- |
-| [UIView](Sources/Core/Extensions/UIKit/UIView+Povio.swift) | [String](Sources/Core/Extensions/Foundation/String+Povio.swift) | [MKMapView](Sources/Core/Extensions/MapKit/MKMapView+PovioKit.swift) | [SKStoreReviewController](Sources/Core/Extensions/Other/SKStoreReviewController+PovioKit.swift) |
-| [UICollectionView](Sources/Core/Extensions/UIKit/UICollectionView+Povio.swift) | [Data](Sources/Core/Extensions/Foundation/Data+Povio.swift) | [MKPolygon](Sources/Core/Extensions/MapKit/MKPolygon+PovioKit.swift) | |
-| [UITableView](Sources/Core/Extensions/UIKit/UITableView+Povio.swift) | [Collection](Sources/Core/Extensions/Foundation/Collection+Povio.swift) | [MKAnnotationView](Sources/Core/Extensions/MapKit/MKAnnotationView+PovioKit.swift) | |
-| [UIColor](Sources/Core/Extensions/UIKit/UIColor+Povio.swift) | [URL](Sources/Core/Extensions/Foundation/URL+Povio.swift) | [MKCircle](Sources/Core/Extensions/MapKit/MKCircle+PovioKit.swift) | |
-| [UIDevice](Sources/Core/Extensions/UIKit/UIDevice+Povio.swift) | [Optional](Sources/Core/Extensions/Foundation/Optional+Povio.swift) | | |
-| [UIImage](Sources/Core/Extensions/UIKit/UIImage+Povio.swift) | [Result](Sources/Core/Extensions/Foundation/Result+Povio.swift) | | |
-| [UIEdgeInsets](Sources/Core/Extensions/UIKit/UIEdgeInsets+Povio.swift) | [DecodableDictionary](Sources/Core/Extensions/Foundation/DecodableDictionary+Povio.swift) | | |
-| [UIApplication](Sources/Core/Extensions/UIKit/UIApplication+Povio.swift) | [DispatchTimeInterval](Sources/Core/Extensions/Foundation/DispatchTimeInterval+Povio.swift) | | |
-| [UIProgressView](Sources/Core/Extensions/UIKit/UIProgressView+Povio.swift) | [Encodable](Sources/Core/Extensions/Foundation/Encodable+Povio.swift) | | |
-| [UIResponder](Sources/Core/Extensions/UIKit/UIResponder+Povio.swift) | [Double](Sources/Core/Extensions/Foundation/Double+Povio.swift) | | |
-
-### UI
-
-| Components |
-| :--- |
-| [ActionButton](Resources/UI/ActionButton/) |
-| [GradientView](Resources/UI/GradientView/) |
-| [PaddingLabel](Resources/UI/PaddingLabel/) |
-| [DynamicCollectionCell](Resources/UI/DynamicCollectionCell/) |
-| [ProfileImageView](Resources/UI/ProfileImageView) |
-| [TextField](Resources/UI/TextField) |
-### Networking
-
-[AlamofireNetworkClient](Resources/Networking/AlamofireNetworkClient/)
-
-### PromiseKit
-
-[PromiseKit](Resources/PromiseKit/)
-
+| [Core](Resources/Core) | [UI](Resources/UI) | [Networking](Resources/Networking) | [PromiseKit](Resources/PromiseKit) |
+| :-: | :-: | :-: | :-: |
 
 ## Installation
 

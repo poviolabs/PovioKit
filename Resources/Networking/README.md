@@ -1,9 +1,9 @@
-# AlamofireRestClient
+# PovioKit: Alamofire Network Client
 
-High-level `Alamofire` REST client abstraction.
+High-level network client abstraction based on [Alamofire](https://github.com/Alamofire/Alamofire).
 
 
-## Examples
+## Usage
 
 #### Retreiving JSON object from an endpoint
 
@@ -16,7 +16,6 @@ let json = client
   .asJson // parse `JSON` from the response
 ```
 
-
 #### Serialize the response into a data model
 
 ```swift
@@ -28,8 +27,7 @@ let model = client
   .decode(MyModelResponse.self) // parse `MyModelResponse` from the response
 ```
 
-
-#### The `request` method returns a `AlamofireRestClient.Request` object, on which we can perform other operations as well
+#### The `request` method returns a `AlamofireNetworkClient.Request` object, on which we can perform other operations as well
 
 - pause / resume / cancel request:
 
@@ -59,8 +57,7 @@ let request = client
 
 - parsing:
 
-
-#### Aside from `JSON` and `Decodable` parsing, `AlamofireRestClient.Request` also enables us to also parse `Data` and `()`
+#### Aside from `JSON` and `Decodable` parsing, `AlamofireNetworkClient.Request` also enables us to also parse `Data` and `()`
 
 ```swift
 let client = AlamofireNetworkClient()
@@ -70,7 +67,6 @@ let request = client
 
 let data = request.asData // parse `Data`
 ```
-
 
 #### Sometimes we want to configure the way objects are decoded. We do that by providing a custom decoder instance `request` method
 
@@ -88,8 +84,7 @@ let model = client
   .decode(MyModel.self, decoder: decoder) // parse `MyModel` from the response, with custom `decoder`
 ```
 
-
-#### Sending data to the server is also a common task, which is very easy to do to using `AlamofireRestClient`. We have two options
+#### Sending data to the server is also a common task, which is very easy to do to using `AlamofireNetworkClient`. We have two options
 
 - Sending a `JSON` object:
  
@@ -120,7 +115,6 @@ client
            encode: object)
 ```
 
-
 #### Similarily as configuring decoder, we can also provide an encoder custom encoding
 
 ```swift
@@ -140,7 +134,6 @@ client
            encode: object,
            encoder: encoder)
 ```
-
 
 #### The client also provides abitility to define interceptors. Either session or request based
 
@@ -175,7 +168,6 @@ client
 
 This is also an example on how to define a request retry policy. In this case, request will be retried 2 times on any error.
 
-
 #### Console logging interceptor
 ```swift
 extension AlamofireNetworkClient {
@@ -191,7 +183,6 @@ extension AlamofireNetworkClient {
 ```
 
 By doing that we'll see logs in the console for each request start, success and failure.
-
 
 ## OAuth
 
@@ -229,10 +220,9 @@ let interceptor = AuthenticationInterceptor(authenticator: OAuthAuthenticator())
 let session = Session(interceptor: interceptor)
 ```
 
-
 ## Error handling
 
-`AlamofireRestClient` is designed so that error handling would be as intuitive as possible. `AlamofireRestClient.Error` type has two cases - it's either a `request` error or some other error (wrapping the underlying error).
+`AlamofireNetworkClient` is designed so that error handling would be as intuitive as possible. `AlamofireNetworkClient.Error` type has two cases - it's either a `request` error or some other error (wrapping the underlying error).
 
 Request error is directly linked to the HTTP status code of the response. It's defined as follows:
  
@@ -267,4 +257,7 @@ let client = AlamofireNetworkClient()
         }
 ```
 
-If an error occurs for some other reason after the response is already validated, most probably because of parsing error, an `AlamofireRestClient.Error.other(wrappedError)` instance is given to the user.
+If an error occurs for some other reason after the response is already validated, most probably because of parsing error, an `AlamofireNetworkClient.Error.other(wrappedError)` instance is given to the user.
+
+## Source code
+You can find source code [here](/Sources/Networking/AlamofireNetworkClient).

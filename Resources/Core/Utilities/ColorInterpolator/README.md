@@ -2,7 +2,7 @@
 
 A simple way of interpolating multiple colors at a time.
 
-## Examples
+## Usage
 
 Creating a range of interpolated colors between `red` and `green` is as easy as:
 
@@ -18,3 +18,6 @@ let colors: [UIColor] = [...]
 let percentage: CGFloat = ...
 try? colorInterpolator.interpolate(colorPoints: colors, percentage: percentage)
 ```
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/ColorInterpolator/ColorInterpolator.swift).

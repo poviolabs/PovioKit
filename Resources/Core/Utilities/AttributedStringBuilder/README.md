@@ -2,7 +2,7 @@
 
 Create `NSAttributedString`s with ease. 
 
-## Example
+## Usage
 
 Let's say we need to style a label with underlined text, custom color and font. A standard strategy would be to create a `NSAttributedString` instance and initialize it with required attributes. For instance:
 
@@ -95,3 +95,6 @@ let attributedText = AttributedStringBuilder().apply(on: "My custom text") {
 
 We've shown how we can configure a couple of attributed parameters, like color, font, paragraph style, ... But what if we want to configure any other attribute? 
 The methods shown through examples above are actually just convenience methods calling generic `addAttribute(key: NSAttributedString.Key, object: Any?)` method. We can use this method instead to configure any other attributes we'd like. 
+
+## Source code
+You can find source code [here](/Sources/Core/Utilities/AttributedStringBuilder).

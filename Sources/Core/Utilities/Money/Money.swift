@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Marko Mijatovic on 04/05/2022.
-//  Copyright © 2022 Povio Labs. All rights reserved.
+//  Copyright © 2023 Povio Labs. All rights reserved.
 //
 
 import Foundation

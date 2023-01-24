@@ -2,6 +2,8 @@
 
 A `UICollectionViewCell` subclass providing functionality to dynamically size cells, either vertically or horizontally.
 
+## Usage
+
 To make dynamic size work, there are two thing you need to do.
 
 1. Create a cell and subclass it from `DynamicCollectionCell`.
@@ -34,3 +36,6 @@ class ViewController: UIViewController {
   }
 }
 ```
+
+## Source code
+You can find source code [here](/Sources/UI/DynamicCollectionCell/DynamicCollectionCell.swift).
