@@ -32,6 +32,7 @@ public final class FacebookAuthenticator {
 extension FacebookAuthenticator: FacebookAuthProvidable {
   /// SignIn user.
   ///
+  /// The default permissions are used (e.g. `email` and `publicProfile`).
   /// Will return promise with the `Response` object on success or with `Error` on error.
   public func signIn(from presentingViewController: UIViewController) -> Promise<Response> {
     let permissions: [String] = defaultPermissions.map { $0.name }
@@ -41,8 +42,12 @@ extension FacebookAuthenticator: FacebookAuthProvidable {
       .flatMap(with: fetchUserDetails)
   }
   
-  public func signIn(from presentingViewController: UIViewController, with extraPermissions: [Permission]) -> Promise<Response> {
-    let permissions: [String] = (defaultPermissions + extraPermissions).map { $0.name }
+  /// SignIn user.
+  ///
+  /// The `permissions` to use when doing a sign in.
+  /// Will return promise with the `Response` object on success or with `Error` on error.
+  public func signIn(from presentingViewController: UIViewController, with permissions: [Permission]) -> Promise<Response> {
+    let permissions: [String] = permissions.map { $0.name }
     let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
     
     return signIn(with: configuration, on: presentingViewController)

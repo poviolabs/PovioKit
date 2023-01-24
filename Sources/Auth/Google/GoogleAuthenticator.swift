@@ -12,8 +12,6 @@ import PovioKitAuthCore
 import PovioKitPromise
 
 public protocol GoogleAuthProvidable: AuthProvidable {
-//  typealias Authenticated = Bool
-//  typealias Response = AuthProvider.Response
   var isAuthenticated: Authenticated { get }
   static func shouldHandleURL(_ url: URL) -> Bool
 }
