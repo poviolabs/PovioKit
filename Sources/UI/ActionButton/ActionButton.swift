@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public class ActionButtonViewModel: ObservableObject {
+private class ActionButtonViewModel: ObservableObject {
   @Published public var title: String = ""
   @Published public var font: Font = .system(size: 18)
   @Published public var textColor: Color = .white
@@ -20,7 +20,7 @@ public class ActionButtonViewModel: ObservableObject {
 }
 
 public struct ActionButton: View {
-  @ObservedObject public var properties = ActionButtonViewModel()
+  @ObservedObject private var properties = ActionButtonViewModel()
   private var actionHandler: (() -> Void)?
   
   public init() {}
@@ -43,6 +43,49 @@ public struct ActionButton: View {
   
   public mutating func setAction(action: @escaping () -> Void) {
     actionHandler = action
+  }
+}
+
+// MARK: - Access to properties from UIKit
+public extension ActionButton {
+  var title: String {
+    get { properties.title }
+    set { properties.title = newValue}
+  }
+  
+  var font: Font {
+    get { properties.font }
+    set { properties.font = newValue}
+  }
+  
+  var textColor: Color {
+    get { properties.textColor }
+    set { properties.textColor = newValue}
+  }
+  
+  var cornerRadius: ActionButton.CornerRadiusType {
+    get { properties.cornerRadius }
+    set { properties.cornerRadius = newValue}
+  }
+  
+  var backgroundType: ActionButton.Background {
+    get { properties.backgroundType }
+    set { properties.backgroundType = newValue}
+  }
+  
+  var borderColor: Color {
+    get { properties.borderColor }
+    set { properties.borderColor = newValue}
+  }
+  
+  var borderWidth: CGFloat {
+    get { properties.borderWidth }
+    set { properties.borderWidth = newValue}
+  }
+  
+  var extraImage: ActionButton.ExtraImage? {
+    get { properties.extraImage }
+    set { properties.extraImage = newValue}
   }
 }
 
