@@ -9,19 +9,25 @@ Please read [official documentation](https://developers.facebook.com/docs/facebo
 
 ```swift
 // initialization
-let config = FacebookAuthenticator.Config()
-let provider = FacebookAuthenticator(with: config)
+let authenticator = FacebookAuthenticator()
 
-// signIn user
-provider
+// signIn user with default permissions
+authenticator
   .signIn(from: <view-controller-instance>)
   .finally {
     // handle result
   }
 
+// signIn user with custom permissions  
+authenticator
+  .signIn(from: <view-controller-instance>, with: [<array-of-custom-permissions>])
+  .finally {
+    // handle result
+  }
+
 // get auth status
-let state = FacebookAuthenticator.isAuthorized()
+let state = authenticator.isAuthenticated
 
 // signOut user
-FacebookAuthenticator.signOut() // all provider data regarding the use auth is cleared at this point
+authenticator.signOut() // all provider data regarding the use auth is cleared at this point
 ```
