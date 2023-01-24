@@ -46,6 +46,49 @@ public struct ActionButton: View {
   }
 }
 
+// MARK:- Builder Pattern Methods
+public extension ActionButton {
+  func title(_ title: String) -> ActionButton {
+    self.properties.title = title
+    return self
+  }
+  
+  func font(_ font: Font) -> ActionButton {
+    self.properties.font = font
+    return self
+  }
+  
+  func textColor(_ textColor: Color) -> ActionButton {
+    self.properties.textColor = textColor
+    return self
+  }
+  
+  func cornerRadius(_ cornerRadius: ActionButton.CornerRadiusType) -> ActionButton {
+    self.properties.cornerRadius = cornerRadius
+    return self
+  }
+  
+  func backgroundType(_ backgroundType: ActionButton.Background) -> ActionButton {
+    self.properties.backgroundType = backgroundType
+    return self
+  }
+  
+  func borderColor(_ borderColor: Color) -> ActionButton {
+    self.properties.borderColor = borderColor
+    return self
+  }
+  
+  func borderWidth(_ borderWidth: CGFloat) -> ActionButton {
+    self.properties.borderWidth = borderWidth
+    return self
+  }
+  
+  func extraImage(_ extraImage: ActionButton.ExtraImage) -> ActionButton {
+    self.properties.extraImage = extraImage
+    return self
+  }
+}
+
 // MARK: - Access to properties from UIKit
 public extension ActionButton {
   var title: String {
