@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 import PovioKitUI
 
 class UIViewControllerTests: XCTestCase {  

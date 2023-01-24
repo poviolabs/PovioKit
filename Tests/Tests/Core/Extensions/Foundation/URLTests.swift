@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class URLTests: XCTestCase {
   func testInitWithString() {

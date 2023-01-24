@@ -8,7 +8,7 @@
 
 import Foundation
 import FacebookLogin
-import PovioKit
+import PovioKitCore
 import PovioKitAuthCore
 import PovioKitPromise
 

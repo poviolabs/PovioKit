@@ -8,7 +8,7 @@
 
 import XCTest
 import UIKit
-@testable import PovioKit
+import PovioKitCore
 
 class UIViewTests: XCTestCase {
   private let shadowPath: UIBezierPath = .init(rect: .init(x: 0, y: 0, width: 100, height: 100))

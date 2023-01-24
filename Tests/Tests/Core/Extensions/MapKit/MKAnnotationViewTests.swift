@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 import MapKit.MKAnnotationView
 
 class MKAnnotationViewTests: XCTestCase {

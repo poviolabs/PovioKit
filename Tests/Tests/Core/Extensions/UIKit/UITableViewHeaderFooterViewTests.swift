@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class UITableViewHeaderFooterViewTests: XCTestCase {
   func test_identifier_returnsCorrectIdentifier() {

@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-import PovioKit
+import PovioKitCore
 import PovioKitPromise
 
 public typealias URLEncoding = Alamofire.URLEncoding

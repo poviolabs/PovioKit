@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import PovioKitPromise
+import PovioKitPromise
 
 class PromiseTests: XCTestCase {
   // Covering some of the A+ spec (https://github.com/promises-aplus/promises-spec)

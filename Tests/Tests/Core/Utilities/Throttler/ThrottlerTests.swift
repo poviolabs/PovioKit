@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import PovioKit
+@testable import PovioKitCore
 
 class ThrottlerTests: XCTestCase {
   func testShouldExecuteWhenDelayed() {

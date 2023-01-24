@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class UIResponderTests: XCTestCase {
   func test_firstResponder_returnsCorrectType() {

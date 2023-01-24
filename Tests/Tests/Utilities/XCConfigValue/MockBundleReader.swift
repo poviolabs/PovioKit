@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import PovioKit
+import PovioKitCore
 
 class MockBundleReader: BundleReadable {
   private let dictionary: [String: Any]

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 final class CollectionGroupedTests: XCTestCase {
   func test_grouped_returnsEmptyDictionaryOnEmptyArray() {

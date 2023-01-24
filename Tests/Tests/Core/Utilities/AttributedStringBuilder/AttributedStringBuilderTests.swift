@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import PovioKit
+import PovioKitCore
 
 class AttributedStringBuilderTests: XCTestCase {
   func test_apply_addsAttributes() throws {
