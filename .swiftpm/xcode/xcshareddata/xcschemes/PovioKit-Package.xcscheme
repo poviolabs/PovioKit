@@ -98,6 +98,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "PovioKitAuthCore"
+               BuildableName = "PovioKitAuthCore"
+               BlueprintName = "PovioKitAuthCore"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "PovioKitAuthFacebook"
                BuildableName = "PovioKitAuthFacebook"
                BlueprintName = "PovioKitAuthFacebook"
@@ -126,9 +140,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PovioKitAuthCore"
-               BuildableName = "PovioKitAuthCore"
-               BlueprintName = "PovioKitAuthCore"
+               BlueprintIdentifier = "PovioKitCore"
+               BuildableName = "PovioKitCore"
+               BlueprintName = "PovioKitCore"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
