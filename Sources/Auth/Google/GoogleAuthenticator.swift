@@ -17,11 +17,9 @@ public protocol GoogleAuthProvidable: AuthProvidable {
 }
 
 public final class GoogleAuthenticator {
-  private let config: Config
   private let provider: GIDSignIn
   
-  public init(with config: Config) {
-    self.config = config
+  public init() {
     self.provider = GIDSignIn.sharedInstance
   }
 }
@@ -39,25 +37,15 @@ extension GoogleAuthenticator: GoogleAuthProvidable {
     
     return Promise { seal in
       provider
-        .signIn(with: .init(clientID: config.clientId),
-                presenting: presentingViewController) { user, error in
-          switch (user, error) {
-          case (let signedInUser?, _):
-            signedInUser.authentication.do { auth, error in
-              switch (auth, error) {
-              case (.some(let auth), _):
-                let userProfile = signedInUser.profile
-                let email = userProfile.map { Authenticator.Response.Email($0.email) }
-                let response = Response(token: auth.accessToken,
-                                        name: userProfile?.displayName,
-                                        email: email)
-                seal.resolve(with: response)
-              case (_, .some(let error)):
-                seal.reject(with: Authenticator.Error.system(error))
-              default:
-                seal.reject(with: Authenticator.Error.unhandledAuthorization)
-              }
-            }
+        .signIn(withPresenting: presentingViewController) { result, error in
+          switch (result, error) {
+          case (let signInResult?, _):
+            let userProfile = signInResult.user.profile
+            let email = userProfile.map { Authenticator.Response.Email($0.email) }
+            let response = Response(token: signInResult.user.accessToken.tokenString,
+                                    name: userProfile?.name,
+                                    email: email)
+            seal.resolve(with: response)
           case (_, let actualError?):
             let errorCode = (actualError as NSError).code
             if errorCode == GIDSignInError.Code.canceled.rawValue {
