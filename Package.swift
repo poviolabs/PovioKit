@@ -17,8 +17,8 @@ let package = Package(
     .library(name: "PovioKitAuthFacebook", targets: ["PovioKitAuthFacebook"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.6.2")),
-    .package(url: "https://github.com/google/GoogleSignIn-iOS", .upToNextMajor(from: "6.2.4")),
+    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.6.4")),
+    .package(url: "https://github.com/google/GoogleSignIn-iOS", .upToNextMajor(from: "7.0.0")),
     .package(url: "https://github.com/facebook/facebook-ios-sdk", .upToNextMajor(from: "15.1.0")),
   ],
   targets: [
