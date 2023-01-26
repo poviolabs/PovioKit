@@ -9,11 +9,10 @@ Please read [official documentation](https://developers.google.com/identity/sign
 
 ```swift
 // initialization
-let config = GoogleAuthenticator.Config(clientId: "google-client-id")
-let authenticator = GoogleAuthenticator(with: config)
+let authenticator = GoogleAuthenticator()
 
 // signIn user
-provider
+authenticator
   .signIn(from: <view-controller-instance>)
   .finally {
     // handle result
