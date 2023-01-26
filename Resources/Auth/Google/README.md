@@ -10,7 +10,7 @@ Please read [official documentation](https://developers.google.com/identity/sign
 ```swift
 // initialization
 let config = GoogleAuthenticator.Config(clientId: "google-client-id")
-let provider = GoogleAuthenticator(with: config)
+let authenticator = GoogleAuthenticator(with: config)
 
 // signIn user
 provider
@@ -20,10 +20,10 @@ provider
   }
 
 // get auth status
-let state = GoogleAuthenticator.isAuthorized()
+let state = authenticator.isAuthenticated
 
 // signOut user
-GoogleAuthenticator.signOut() // all provider data regarding the use auth is cleared at this point
+authenticator.signOut() // all provider data regarding the use auth is cleared at this point
 
 // handle url
 GoogleAuthenticator.shouldHandleURL() // call this from `application:openURL:options:` in UIApplicationDelegate

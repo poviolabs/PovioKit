@@ -17,22 +17,29 @@ Please read [official documentation](https://developer.apple.com/sign-in-with-ap
 
 ```swift
 // initialization
-let provider = AppleAuthenticator() // conforms to `AppleAuthProvidable` protocol
+let authenticator = AppleAuthenticator() // conforms to `AppleAuthProvidable` protocol
 
 // signIn user
-provider
+authenticator
   .signIn(from: <view-controller-instance>)
+  .finally {
+    // handle result
+  }
+  
+// signIn user with nonce
+authenticator
+  .signIn(from: <view-controller-instance>, with: .random(length: 32))
   .finally {
     // handle result
   }
 
 // get auth status
-AppleAuthenticator
+authenticator
   .checkAuthState()
   .finally {
     // check result
   }
 
 // signOut user
-AppleAuthenticator.signOut() // all provider data regarding the use auth is cleared at this point
+authenticator.signOut() // all provider data regarding the use auth is cleared at this point
 ```
