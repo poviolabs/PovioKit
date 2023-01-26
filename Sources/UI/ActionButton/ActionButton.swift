@@ -23,7 +23,7 @@ private class ActionButtonViewModel: ObservableObject {
   @Published public var actionHandler: (() -> Void)?
 }
 
-struct ActionButton: View {
+public struct ActionButton: View {
   @ObservedObject private var properties = ActionButtonViewModel()
   
   public init() {}
@@ -85,7 +85,7 @@ struct ActionButton: View {
 }
 
 // MARK: - Public Properties
-extension ActionButton {
+public extension ActionButton {
   struct ExtraImage {
     let image: Image
     let size: CGSize
@@ -98,7 +98,7 @@ extension ActionButton {
 }
 
 // MARK: - Builder Pattern Methods
-extension ActionButton {
+public extension ActionButton {
   func title(_ title: String) -> ActionButton {
     self.properties.title = title
     return self
@@ -156,7 +156,7 @@ extension ActionButton {
 }
 
 // MARK: - Access to properties from UIKit
-extension ActionButton {
+public extension ActionButton {
   var title: String {
     get { properties.title }
     set { properties.title = newValue}
