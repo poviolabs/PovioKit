@@ -11,23 +11,18 @@ import GoogleSignIn
 import PovioKitAuthCore
 import PovioKitPromise
 
-public protocol GoogleAuthProvidable {
-  typealias Authorized = Bool
-  typealias Response = AuthProvider.Response
-  
-  func signIn(from presentingViewController: UIViewController) -> Promise<Response>
-  static func signOut()
-  static func isAuthorized() -> Authorized
+public protocol GoogleAuthProvidable: AuthProvidable {
+  var isAuthenticated: Authenticated { get }
   static func shouldHandleURL(_ url: URL) -> Bool
 }
 
 public final class GoogleAuthenticator {
   private let config: Config
-  private let authProvider: GIDSignIn
+  private let provider: GIDSignIn
   
   public init(with config: Config) {
     self.config = config
-    self.authProvider = GIDSignIn.sharedInstance
+    self.provider = GIDSignIn.sharedInstance
   }
 }
 
@@ -37,13 +32,13 @@ extension GoogleAuthenticator: GoogleAuthProvidable {
   ///
   /// Will return promise with the `Response` object on success or with `Error` on error.
   public func signIn(from presentingViewController: UIViewController) -> Promise<Response> {
-    guard !authProvider.hasPreviousSignIn() else {
-      authProvider.restorePreviousSignIn()
-      return .error(AuthProvider.Error.alreadySignedIn)
+    guard !provider.hasPreviousSignIn() else {
+      provider.restorePreviousSignIn()
+      return .error(Authenticator.Error.alreadySignedIn)
     }
     
     return Promise { seal in
-      authProvider
+      provider
         .signIn(with: .init(clientID: config.clientId),
                 presenting: presentingViewController) { user, error in
           switch (user, error) {
@@ -52,39 +47,39 @@ extension GoogleAuthenticator: GoogleAuthProvidable {
               switch (auth, error) {
               case (.some(let auth), _):
                 let userProfile = signedInUser.profile
-                let email = userProfile.map { AuthProvider.Response.Email($0.email) }
+                let email = userProfile.map { Authenticator.Response.Email($0.email) }
                 let response = Response(token: auth.accessToken,
                                         name: userProfile?.displayName,
                                         email: email)
                 seal.resolve(with: response)
               case (_, .some(let error)):
-                seal.reject(with: AuthProvider.Error.system(error))
+                seal.reject(with: Authenticator.Error.system(error))
               default:
-                seal.reject(with: AuthProvider.Error.unhandledAuthorization)
+                seal.reject(with: Authenticator.Error.unhandledAuthorization)
               }
             }
           case (_, let actualError?):
             let errorCode = (actualError as NSError).code
             if errorCode == GIDSignInError.Code.canceled.rawValue {
-              seal.reject(with: AuthProvider.Error.cancelled)
+              seal.reject(with: Authenticator.Error.cancelled)
             } else {
-              seal.reject(with: AuthProvider.Error.system(actualError))
+              seal.reject(with: Authenticator.Error.system(actualError))
             }
           case (.none, .none):
-            seal.reject(with: AuthProvider.Error.unhandledAuthorization)
+            seal.reject(with: Authenticator.Error.unhandledAuthorization)
           }
         }
     }
   }
   
   /// Clears the signIn footprint and logs out the user immediatelly.
-  public static func signOut() {
-    GIDSignIn.sharedInstance.signOut()
+  public func signOut() {
+    provider.signOut()
   }
   
-  /// Checks the current auth state and returns the boolean value.
-  public static func isAuthorized() -> Authorized {
-    GIDSignIn.sharedInstance.currentUser != nil
+  /// Returns the current authentication state.
+  public var isAuthenticated: Authenticated {
+    provider.currentUser != nil
   }
   
   /// Boolean if given `url` should be handled.

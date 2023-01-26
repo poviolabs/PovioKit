@@ -49,7 +49,9 @@ let package = Package(
     ),
     .target(
       name: "PovioKitAuthCore",
-      dependencies: [],
+      dependencies: [
+        "PovioKitPromise"
+      ],
       path: "Sources/Auth/Core"
     ),
     .target(
