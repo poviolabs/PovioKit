@@ -13,6 +13,7 @@ struct ContentView: View {
       }
       .title("button title")
       .font(.system(size: 14))
+      .extraImage(titleRightImage: .init(image: .init(systemName: "arrow.right"), size: .init(width: 10, height: 10)))
   }
 }
 ```
