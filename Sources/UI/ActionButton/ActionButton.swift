@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+@available(iOS 13, *)
 private class ActionButtonViewModel: ObservableObject {
   @Published public var title: String = "Button"
   @Published public var font: Font = .system(size: 16)
@@ -23,6 +24,7 @@ private class ActionButtonViewModel: ObservableObject {
   @Published public var actionHandler: (() -> Void)?
 }
 
+@available(iOS 13, *)
 public struct ActionButton: View {
   @ObservedObject private var properties = ActionButtonViewModel()
   
@@ -85,6 +87,7 @@ public struct ActionButton: View {
 }
 
 // MARK: - Public Properties
+@available(iOS 13, *)
 public extension ActionButton {
   struct ExtraImage {
     let image: Image
@@ -98,6 +101,7 @@ public extension ActionButton {
 }
 
 // MARK: - Builder Pattern Methods
+@available(iOS 13, *)
 public extension ActionButton {
   func title(_ title: String) -> ActionButton {
     self.properties.title = title
@@ -156,6 +160,7 @@ public extension ActionButton {
 }
 
 // MARK: - Access to properties from UIKit
+@available(iOS 13, *)
 public extension ActionButton {
   var title: String {
     get { properties.title }
@@ -218,6 +223,7 @@ public extension ActionButton {
 }
 
 // MARK: - Helper Methods
+@available(iOS 13, *)
 private extension ActionButton {
   @ViewBuilder
   private var backgroundView: some View {
@@ -243,6 +249,7 @@ private extension ActionButton {
   }
 }
 
+@available(iOS 13, *)
 struct ActionButton_Previews: PreviewProvider {
   static var previews: some View {
     ActionButton()
