@@ -11,20 +11,15 @@ import Foundation
 import PovioKitAuthCore
 import PovioKitPromise
 
-public protocol AppleAuthProvidable: AuthProvidable {
-  func signIn(from presentingViewController: UIViewController,
-              with nonce: AppleAuthenticator.Nonce) -> Promise<Response>
-  func checkAuthState() -> Promise<AuthProvidable.Authenticated>
-}
-
 public final class AppleAuthenticator: NSObject {
-  private let userIdStorageKey = "povioKit.appleSocialProvider.signIn.userId"
-  private let storage: UserDefaults = .standard
+  private let userIdStorageKey = "signIn.userId"
+  private let storage: UserDefaults
   private let provider: ASAuthorizationAppleIDProvider
   private var processingPromise: Promise<Response>?
   
   public override init() {
     self.provider = .init()
+    self.storage = .init(suiteName: "povioKit.appleAuthenticator") ?? .standard
     super.init()
     setupCredentialsRevokeListener()
   }
@@ -35,7 +30,7 @@ public final class AppleAuthenticator: NSObject {
 }
 
 // MARK: - Public Methods
-extension AppleAuthenticator: AppleAuthProvidable {
+extension AppleAuthenticator: Authenticator {
   /// SignIn user
   ///
   /// Will return promise with the `Response` object on success or with `Error` on error.
@@ -59,13 +54,13 @@ extension AppleAuthenticator: AppleAuthProvidable {
   
   /// Clears the signIn footprint and logs out the user immediatelly.
   public func signOut() {
-    processingPromise?.reject(with: Authenticator.Error.cancelled)
+    processingPromise?.reject(with: Error.cancelled)
     processingPromise = nil
     storage.removeObject(forKey: userIdStorageKey)
   }
   
   /// Checks the current auth state and returns the boolean value as promise.
-  public func checkAuthState() -> Promise<Authenticated> {
+  public var isAuthenticated: Promise<Authenticated> {
     guard let userId = storage.string(forKey: userIdStorageKey) else {
       return .value(false)
     }
@@ -76,6 +71,13 @@ extension AppleAuthenticator: AppleAuthProvidable {
       }
     }
   }
+  
+  /// Boolean if given `url` should be handled.
+  ///
+  /// Call this from UIApplicationDelegate’s `application:openURL:options:` method.
+  public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    false
+  }
 }
 
 // MARK: - ASAuthorizationControllerDelegate
@@ -85,7 +87,7 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
     case let credential as ASAuthorizationAppleIDCredential:
       guard let identityToken = credential.identityToken,
             let identityTokenString = String(data: identityToken, encoding: .utf8) else {
-        processingPromise?.reject(with: Authenticator.Error.invalidIdentityToken)
+        processingPromise?.reject(with: Error.invalidIdentityToken)
         return
       }
       
@@ -93,29 +95,38 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
       storage.set(credential.user, forKey: userIdStorageKey)
       
       // parse email and related metadata
-      let email: Authenticator.Response.Email? = credential.email.map {
+      let email: Response.Email? = credential.email.map {
         let identity = try? JWTDecoder(token: identityTokenString)
-        let isEmailPrivate = identity?.bool(for: "is_private_email")
-        let isEmailVerified = identity?.bool(for: "email_verified")
-        
-        return .init($0, isPrivate: isEmailPrivate, isVerified: isEmailVerified)
+        let isEmailPrivate = identity?.bool(for: "is_private_email") ?? false
+        let isEmailVerified = identity?.bool(for: "email_verified") ?? false
+        return .init(address: $0, isPrivate: isEmailPrivate, isVerified: isEmailVerified)
       }
       
-      // make response
       let response = Response(token: identityTokenString,
                               name: credential.displayName,
                               email: email)
       
-      // resolve promise
       processingPromise?.resolve(with: response)
     case _:
-      processingPromise?.reject(with: Authenticator.Error.unhandledAuthorization)
+      processingPromise?.reject(with: Error.unhandledAuthorization)
       break
     }
   }
   
   public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Swift.Error) {
-    processingPromise?.reject(with: Authenticator.Error.system(error))
+    processingPromise?.reject(with: Error.system(error))
+  }
+}
+
+// MARK: - Error
+public extension AppleAuthenticator {
+  enum Error: Swift.Error {
+    case system(_ error: Swift.Error)
+    case cancelled
+    case invalidNonceLength
+    case invalidIdentityToken
+    case unhandledAuthorization
+    case credentialsRevoked
   }
 }
 
@@ -128,7 +139,7 @@ private extension AppleAuthenticator {
     switch nonce {
     case .random(let length):
       guard length > 0 else {
-        processingPromise?.reject(with: Authenticator.Error.invalidNonceLength)
+        processingPromise?.reject(with: Error.invalidNonceLength)
         return
       }
       request.nonce = generateRandomNonceString(length: length).sha256
@@ -160,6 +171,6 @@ private extension AppleAuthenticator {
 // MARK: - Actions
 private extension AppleAuthenticator {
   @objc func appleCredentialRevoked() {
-    processingPromise?.reject(with: Authenticator.Error.credentialsRevoked)
+    processingPromise?.reject(with: Error.credentialsRevoked)
   }
 }
