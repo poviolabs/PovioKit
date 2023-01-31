@@ -24,8 +24,7 @@ extension SocialAuthenticationManager {
   }
   
   public func signOut() {
-    _ = all(promises: authenticators.map { $0.isAuthenticated.and($0) })
-      .map { $0.forEach { if $0.0 { $0.1.signOut() } }}
+    authenticators.forEach { $0.signOut() }
   }
   
   public var isAuthenticated: PovioKitPromise.Promise<Authenticator.Authenticated> {
