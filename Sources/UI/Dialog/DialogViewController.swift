@@ -26,25 +26,30 @@ import UIKit
 /// let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: .top, animation: .fade)
 /// self.navigationController?.present(dialog, animated: true)
 ///```
-open class DialogViewController<ContentView: DialogContentView>: UIViewController {
+open class DialogViewController<ContentView: DialogContentView>: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate {
   public let contentView: ContentView
   private let position: DialogPosition
   private let contentWidth: DialogContentWidth
+  private let enableSwipeGesture: Bool
   private let transitionDelegate: DialogTransitionDelegate
+  private var verticalTranslation: CGFloat = .zero
   
   /// Init
   /// - Parameters:
   ///   - contentView: ``DialogContentView`` UIView that holds user-defined custom UI
   ///   - position: ``DialogPosition`` - Dialog position on the screen
   ///   - width: ``DialogContentView`` - Create dialog with specific width
+  ///   - enableSwipeToDismiss: ``Bool`` - Flag to enable swipe to dismiss gesture. If true, we will track swipe gestures outside of the dialog content view or scroll to the top if the content view is covering the whole screen.
   ///   - animation: ``DialogAnimationType`` (**optional**) it can be one of the predefined animations, custom or .none
   public init(contentView: ContentView,
               position: DialogPosition = .bottom,
               width: DialogContentWidth = .normal,
+              enableSwipeToDismiss: Bool = true,
               animation: DialogAnimationType? = .none) {
     self.contentView = contentView
     self.position = position
     self.contentWidth = width
+    self.enableSwipeGesture = enableSwipeToDismiss
     self.transitionDelegate = DialogTransitionDelegate(animation: animation)
     super.init(nibName: nil, bundle: nil)
     self.transitioningDelegate = transitionDelegate
@@ -60,16 +65,42 @@ open class DialogViewController<ContentView: DialogContentView>: UIViewControlle
     setupViews()
   }
   
-  @objc func dismissDialog() {
+  open override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+    if position == .top {
+      topPositionDismissAnimation(completion)
+    } else {
+      super.dismiss(animated: flag, completion: completion)
+    }
+  }
+  
+  /// We need to enable the pan gesture and the scrollView gesture to work at the same time.
+  public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true
+  }
+  
+  @objc func tapToDismiss() {
     dismiss(animated: true)
+  }
+  
+  @objc func swipeToDismiss(sender: UIPanGestureRecognizer) {
+    switch sender.state {
+    case .changed:
+      verticalTranslation = sender.translation(in: view).y
+      guard position.shouldAnimateTranslation(verticalTranslation) else { return }
+      translateContentAnimated()
+    case .ended:
+      position.shouldAnimateReturn(verticalTranslation) ? returnContentAnimated() : dismissWithCustomAnimation()
+    default:
+      break
+    }
   }
 }
 
-// MARK: - Private Methods
+// MARK: - Private Methods - Setup
 private extension DialogViewController {
   func setupViews() {
     setupContentView()
-    addGesture()
+    addGestures()
   }
   
   func setupContentView() {
@@ -83,11 +114,50 @@ private extension DialogViewController {
     ])
     contentView.setPosition(position)
     contentView.setContentWidth(contentWidth)
+    if enableSwipeGesture {
+      contentView.addScrollViewDelegate(self)
+    }
   }
   
-  /// Add tap to dismiss gesture
-  func addGesture() {
-    let dismissGesture = UITapGestureRecognizer(target: self, action: #selector(dismissDialog))
+  /// Add tap and pan to dismiss gesture
+  func addGestures() {
+    let dismissGesture = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
     contentView.addDismissGesture(dismissGesture)
+    if enableSwipeGesture {
+      let panGesture = UIPanGestureRecognizer(target: self, action: #selector(swipeToDismiss))
+      panGesture.delegate = self
+      self.view.addGestureRecognizer(panGesture)
+    }
+  }
+}
+
+// MARK: - Private Methods - Animations
+private extension DialogViewController {
+  func translateContentAnimated() {
+    UIView.animate(withDuration: 0.3, delay: 0, animations: {
+      self.view.transform = CGAffineTransform(translationX: 0, y: self.verticalTranslation)
+    })
+  }
+  
+  func returnContentAnimated() {
+    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+      self.view.transform = .identity
+    })
+  }
+  
+  func dismissWithCustomAnimation() {
+    UIView.animate(withDuration: 0.3, delay: 0, animations: {
+      self.view.transform = CGAffineTransform(translationX: 0, y: self.verticalTranslation + self.position.swipeAnimationLimit)
+    }, completion: { _ in
+      self.dismiss(animated: false)
+    })
+  }
+  
+  func topPositionDismissAnimation(_ completion: (() -> Void)?) {
+    UIView.animate(withDuration: 0.3, delay: 0, animations: {
+      self.view.transform = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
+    }, completion: { _ in
+      super.dismiss(animated: false, completion: completion)
+    })
   }
 }

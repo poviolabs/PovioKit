@@ -77,6 +77,10 @@ internal extension DialogContentView {
   func addDismissGesture(_ gesture: UITapGestureRecognizer) {
     backgroundView.addGestureRecognizer(gesture)
   }
+  
+  func addScrollViewDelegate(_ delegate: UIScrollViewDelegate) {
+    scrollView.delegate = delegate
+  }
 }
 
 private extension DialogContentView {
@@ -100,6 +104,7 @@ private extension DialogContentView {
   
   func setupScrollView() {
     addSubview(scrollView)
+    scrollView.bounces = false
     scrollView.translatesAutoresizingMaskIntoConstraints = false
   }
   
