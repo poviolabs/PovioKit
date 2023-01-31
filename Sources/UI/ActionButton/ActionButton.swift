@@ -92,6 +92,11 @@ public extension ActionButton {
   struct ExtraImage {
     let image: Image
     let size: CGSize
+    
+    public init(image: Image, size: CGSize) {
+      self.image = image
+      self.size = size
+    }
   }
   
   enum CornerRadiusType {
