@@ -12,14 +12,14 @@ import PovioKitAuthCore
 import PovioKitPromise
 
 public final class AppleAuthenticator: NSObject {
-  private let userIdStorageKey = "signIn.userId"
   private let storage: UserDefaults
+  private let storageUserIdKey = "signIn.userId"
   private let provider: ASAuthorizationAppleIDProvider
   private var processingPromise: Promise<Response>?
   
-  public override init() {
+  public init(storage: UserDefaults? = nil) {
     self.provider = .init()
-    self.storage = .init(suiteName: "povioKit.appleAuthenticator") ?? .standard
+    self.storage = storage ?? .init(suiteName: "povioKit.appleAuthenticator") ?? .standard
     super.init()
     setupCredentialsRevokeListener()
   }
@@ -56,12 +56,12 @@ extension AppleAuthenticator: Authenticator {
   public func signOut() {
     processingPromise?.reject(with: Error.cancelled)
     processingPromise = nil
-    storage.removeObject(forKey: userIdStorageKey)
+    storage.removeObject(forKey: storageUserIdKey)
   }
   
   /// Checks the current auth state and returns the boolean value as promise.
   public var isAuthenticated: Promise<Authenticated> {
-    guard let userId = storage.string(forKey: userIdStorageKey) else {
+    guard let userId = storage.string(forKey: storageUserIdKey) else {
       return .value(false)
     }
     
@@ -92,7 +92,7 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
       }
       
       // store userId for later
-      storage.set(credential.user, forKey: userIdStorageKey)
+      storage.set(credential.user, forKey: storageUserIdKey)
       
       // parse email and related metadata
       let email: Response.Email? = credential.email.map {
