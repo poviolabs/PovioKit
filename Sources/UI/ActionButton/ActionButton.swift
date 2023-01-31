@@ -8,23 +8,6 @@
 
 import SwiftUI
 
-@available(iOS 13, *)
-private class ActionButtonViewModel: ObservableObject {
-  @Published public var title: String = "Button"
-  @Published public var font: Font = .system(size: 16)
-  @Published public var textColor: Color = .white
-  @Published public var cornerRadius: ActionButton.CornerRadiusType = .rounded
-  @Published public var backgroundType = ActionButton.Background.plain(.blue)
-  @Published public var borderColor: Color = .clear
-  @Published public var borderWidth: CGFloat = 0
-  @Published public var leftImage: ActionButton.ExtraImage?
-  @Published public var rightImage: ActionButton.ExtraImage?
-  @Published public var titleLeftImage: ActionButton.ExtraImage?
-  @Published public var titleRightImage: ActionButton.ExtraImage?
-  @Published public var actionHandler: (() -> Void)?
-}
-
-@available(iOS 13, *)
 public struct ActionButton: View {
   @ObservedObject private var properties = ActionButtonViewModel()
   
@@ -86,8 +69,25 @@ public struct ActionButton: View {
   }
 }
 
+// MARK: - ActionButtonViewModel
+private extension ActionButton {
+  class ActionButtonViewModel: ObservableObject {
+    @Published var title: String = "Button"
+    @Published var font: Font = .system(size: 16)
+    @Published var textColor: Color = .white
+    @Published var cornerRadius: ActionButton.CornerRadiusType = .rounded
+    @Published var backgroundType = ActionButton.Background.plain(.blue)
+    @Published var borderColor: Color = .clear
+    @Published var borderWidth: CGFloat = 0
+    @Published var leftImage: ActionButton.ExtraImage?
+    @Published var rightImage: ActionButton.ExtraImage?
+    @Published var titleLeftImage: ActionButton.ExtraImage?
+    @Published var titleRightImage: ActionButton.ExtraImage?
+    @Published var actionHandler: (() -> Void)?
+  }
+}
+
 // MARK: - Public Properties
-@available(iOS 13, *)
 public extension ActionButton {
   struct ExtraImage {
     let image: Image
@@ -101,66 +101,64 @@ public extension ActionButton {
 }
 
 // MARK: - Builder Pattern Methods
-@available(iOS 13, *)
 public extension ActionButton {
   func title(_ title: String) -> ActionButton {
-    self.properties.title = title
+    properties.title = title
     return self
   }
   
   func font(_ font: Font) -> ActionButton {
-    self.properties.font = font
+    properties.font = font
     return self
   }
   
   func textColor(_ textColor: Color) -> ActionButton {
-    self.properties.textColor = textColor
+    properties.textColor = textColor
     return self
   }
   
   func cornerRadius(_ cornerRadius: ActionButton.CornerRadiusType) -> ActionButton {
-    self.properties.cornerRadius = cornerRadius
+    properties.cornerRadius = cornerRadius
     return self
   }
   
   func backgroundType(_ backgroundType: ActionButton.Background) -> ActionButton {
-    self.properties.backgroundType = backgroundType
+    properties.backgroundType = backgroundType
     return self
   }
   
   func borderColor(_ borderColor: Color) -> ActionButton {
-    self.properties.borderColor = borderColor
+    properties.borderColor = borderColor
     return self
   }
   
   func borderWidth(_ borderWidth: CGFloat) -> ActionButton {
-    self.properties.borderWidth = borderWidth
+    properties.borderWidth = borderWidth
     return self
   }
   
-  func extraImage(leftImage: ActionButton.ExtraImage) -> ActionButton {
-    self.properties.leftImage = leftImage
+  func leftImage(_ leftImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.leftImage = leftImage
     return self
   }
   
-  func extraImage(rightImage: ActionButton.ExtraImage) -> ActionButton {
-    self.properties.rightImage = rightImage
+  func rightImage(_ rightImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.rightImage = rightImage
     return self
   }
   
-  func extraImage(titleLeftImage: ActionButton.ExtraImage) -> ActionButton {
-    self.properties.titleLeftImage = titleLeftImage
+  func titleLeftImage(_ titleLeftImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.titleLeftImage = titleLeftImage
     return self
   }
   
-  func extraImage(titleRightImage: ActionButton.ExtraImage) -> ActionButton {
-    self.properties.titleRightImage = titleRightImage
+  func titleRightImage(_ titleRightImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.titleRightImage = titleRightImage
     return self
   }
 }
 
 // MARK: - Access to properties from UIKit
-@available(iOS 13, *)
 public extension ActionButton {
   var title: String {
     get { properties.title }
@@ -223,7 +221,6 @@ public extension ActionButton {
 }
 
 // MARK: - Helper Methods
-@available(iOS 13, *)
 private extension ActionButton {
   @ViewBuilder
   private var backgroundView: some View {
@@ -249,7 +246,6 @@ private extension ActionButton {
   }
 }
 
-@available(iOS 13, *)
 struct ActionButton_Previews: PreviewProvider {
   static var previews: some View {
     ActionButton()
