@@ -1,5 +1,5 @@
 //
-//  SocialAuthenticator.swift
+//  SocialAuthenticationManager.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 30/01/2023.
@@ -10,7 +10,7 @@ import PovioKitPromise
 import Foundation
 import UIKit
 
-public class SocialAuthenticator {
+public class SocialAuthenticationManager {
   private let authenticators: [Authenticator]
   
   public init(authenticators: [Authenticator]) {
@@ -18,7 +18,7 @@ public class SocialAuthenticator {
   }
 }
 
-extension SocialAuthenticator {
+extension SocialAuthenticationManager {
   public func authenticator<A: Authenticator>(for type: A.Type) -> A? {
     authenticators.first { $0 is A } as? A
   }

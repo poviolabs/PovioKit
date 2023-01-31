@@ -10,11 +10,11 @@ Auth packages with support for social providers as listed below.
 - [Google](Google)
 - [Facebook](Facebook)
 
-## Use of SocialAuthenticator
-You can leverage use of `SocialAuthenticator` as to simplify managing multiple instances at once.
+## Use of SocialAuthenticationManager
+You can leverage use of `SocialAuthenticationManager` as to simplify managing multiple instances at once.
 
 ```swift
-let manager = SocialAuthenticator(authenticators: [AppleAuthenticator(), FacebookAuthenticator()])
+let manager = SocialAuthenticationManager(authenticators: [AppleAuthenticator(), FacebookAuthenticator()])
 
 // signIn user with Apple
 let appleAuthenticator = manager.authenticator(for: AppleAuthenticator.self)
