@@ -25,5 +25,5 @@ let state = authenticator.isAuthenticated
 authenticator.signOut() // all provider data regarding the use auth is cleared at this point
 
 // handle url
-GoogleAuthenticator.shouldHandleURL() // call this from `application:openURL:options:` in UIApplicationDelegate
+authenticator.canOpenUrl(_: application: options:) // call this from `application:openURL:options:` in UIApplicationDelegate
 ```

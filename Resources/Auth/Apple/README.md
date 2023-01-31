@@ -35,7 +35,7 @@ authenticator
 
 // get auth status
 authenticator
-  .checkAuthState()
+  .isAuthenticated
   .finally {
     // check result
   }
