@@ -72,18 +72,18 @@ public struct ActionButton: View {
 // MARK: - ActionButtonViewModel
 private extension ActionButton {
   class ActionButtonViewModel: ObservableObject {
-    @Published var title: String = "Button"
-    @Published var font: Font = .system(size: 16)
-    @Published var textColor: Color = .white
-    @Published var cornerRadius: ActionButton.CornerRadiusType = .rounded
-    @Published var backgroundType = ActionButton.Background.plain(.blue)
-    @Published var borderColor: Color = .clear
-    @Published var borderWidth: CGFloat = 0
-    @Published var leftImage: ActionButton.ExtraImage?
-    @Published var rightImage: ActionButton.ExtraImage?
-    @Published var titleLeftImage: ActionButton.ExtraImage?
-    @Published var titleRightImage: ActionButton.ExtraImage?
-    @Published var actionHandler: (() -> Void)?
+    @Published public var title: String = "Button"
+    @Published public var font: Font = .system(size: 16)
+    @Published public var textColor: Color = .white
+    @Published public var cornerRadius: ActionButton.CornerRadiusType = .rounded
+    @Published public var backgroundType = ActionButton.Background.plain(.blue)
+    @Published public var borderColor: Color = .clear
+    @Published public var borderWidth: CGFloat = 0
+    @Published public var leftImage: ActionButton.ExtraImage?
+    @Published public var rightImage: ActionButton.ExtraImage?
+    @Published public var titleLeftImage: ActionButton.ExtraImage?
+    @Published public var titleRightImage: ActionButton.ExtraImage?
+    @Published public var actionHandler: (() -> Void)?
   }
 }
 
