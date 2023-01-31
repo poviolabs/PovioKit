@@ -12,16 +12,9 @@ import PovioKit
 import PovioKitAuthCore
 import PovioKitPromise
 
-public protocol FacebookAuthProvidable: AuthProvidable {
-  func signIn(from presentingViewController: UIViewController,
-              with extraPermissions: [Permission]) -> Promise<Response>
-  var isAuthenticated: Authenticated { get }
-}
-
 public final class FacebookAuthenticator {
   public typealias Token = String
   private let provider: LoginManager
-  private let defaultPermissions: [Permission] = [.email, .publicProfile]
   
   public init() {
     self.provider = .init()
@@ -29,24 +22,15 @@ public final class FacebookAuthenticator {
 }
 
 // MARK: - Public Methods
-extension FacebookAuthenticator: FacebookAuthProvidable {
-  /// SignIn user.
-  ///
-  /// The default permissions are used (e.g. `email` and `publicProfile`).
-  /// Will return promise with the `Response` object on success or with `Error` on error.
-  public func signIn(from presentingViewController: UIViewController) -> Promise<Response> {
-    let permissions: [String] = defaultPermissions.map { $0.name }
-    let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
-    
-    return signIn(with: configuration, on: presentingViewController)
-      .flatMap(with: fetchUserDetails)
-  }
-  
+extension FacebookAuthenticator: Authenticator {
   /// SignIn user.
   ///
   /// The `permissions` to use when doing a sign in.
   /// Will return promise with the `Response` object on success or with `Error` on error.
-  public func signIn(from presentingViewController: UIViewController, with permissions: [Permission]) -> Promise<Response> {
+  public func signIn(
+    from presentingViewController: UIViewController,
+    with permissions: [Permission] = [.email, .publicProfile]) -> Promise<Response>
+  {
     let permissions: [String] = permissions.map { $0.name }
     let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
     
@@ -60,9 +44,25 @@ extension FacebookAuthenticator: FacebookAuthProvidable {
   }
   
   /// Returns the current authentication state.
-  public var isAuthenticated: Authenticated {
-    guard let token = AccessToken.current else { return false }
-    return !token.isExpired
+  public var isAuthenticated: Promise<Authenticated> {
+    guard let token = AccessToken.current else { return .value(false) }
+    return .value(!token.isExpired)
+  }
+  
+  /// Boolean if given `url` should be handled.
+  ///
+  /// Call this from UIApplicationDelegate’s `application:openURL:options:` method.
+  public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    ApplicationDelegate.shared.application(application, open: url, options: options)
+  }
+}
+
+// MARK: - Error
+public extension FacebookAuthenticator {
+  enum Error: Swift.Error {
+    case system(_ error: Swift.Error)
+    case cancelled
+    case invalidIdentityToken
   }
 }
 
@@ -79,12 +79,12 @@ private extension FacebookAuthenticator {
             case .some(let token):
               seal.resolve(with: token.tokenString)
             case .none:
-              seal.reject(with: Authenticator.Error.invalidIdentityToken)
+              seal.reject(with: Error.invalidIdentityToken)
             }
           case .cancelled:
-            seal.reject(with: Authenticator.Error.cancelled)
+            seal.reject(with: Error.cancelled)
           case .failed(let error):
-            seal.reject(with: Authenticator.Error.system(error))
+            seal.reject(with: Error.system(error))
           }
         }
     }
@@ -122,7 +122,7 @@ private extension FacebookAuthenticator {
         let authResponse = Response(
           token: token,
           name: graphResponse?.displayName,
-          email: graphResponse?.email.map { Authenticator.Response.Email($0) }
+          email: graphResponse?.email
         )
         seal.resolve(with: authResponse)
       }

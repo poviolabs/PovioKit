@@ -13,6 +13,20 @@ public extension AppleAuthenticator {
   enum Nonce {
     case random(length: UInt)
   }
+  
+  struct Response {
+    public let token: String
+    public let name: String?
+    public let email: Email?
+  }
+}
+
+public extension AppleAuthenticator.Response {
+  struct Email {
+    public let address: String
+    public let isPrivate: Bool
+    public let isVerified: Bool
+  }
 }
 
 extension ASAuthorizationAppleIDCredential {
