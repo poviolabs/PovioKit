@@ -14,38 +14,3 @@ public enum DialogPosition {
   case top
   case center
 }
-
-// MARK: - Internal
-internal extension DialogPosition {
-  var swipeAnimationLimit: CGFloat {
-    switch self {
-    case .bottom, .center:
-      return swipeAnimationLimitConstant
-    case .top:
-      return -swipeAnimationLimitConstant
-    }
-  }
-  
-  func shouldAnimateReturn(_ value: CGFloat) -> Bool {
-    switch self {
-    case .bottom, .center:
-      return value < swipeAnimationLimit
-    case .top:
-      return value > swipeAnimationLimit
-    }
-  }
-  
-  func shouldAnimateTranslation(_ translation: Double) -> Bool {
-    switch self {
-    case .bottom, .center:
-      return translation > 0
-    case .top:
-      return translation < 0
-    }
-  }
-}
-
-// MARK: - Private
-private extension DialogPosition {
-  var swipeAnimationLimitConstant: CGFloat { 300 }
-}

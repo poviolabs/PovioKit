@@ -28,8 +28,7 @@ import UIKit
 ///```
 open class DialogViewController<ContentView: DialogContentView>: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate {
   public let contentView: ContentView
-  private let position: DialogPosition
-  private let contentWidth: DialogContentWidth
+  private let viewModel: DialogViewModel
   private let enableSwipeGesture: Bool
   private let transitionDelegate: DialogTransitionDelegate
   private var verticalTranslation: CGFloat = .zero
@@ -42,13 +41,11 @@ open class DialogViewController<ContentView: DialogContentView>: UIViewControlle
   ///   - enableSwipeToDismiss: ``Bool`` - Flag to enable swipe to dismiss gesture. If true, we will track swipe gestures outside of the dialog content view or scroll to the top if the content view is covering the whole screen.
   ///   - animation: ``DialogAnimationType`` (**optional**) it can be one of the predefined animations, custom or .none
   public init(contentView: ContentView,
-              position: DialogPosition = .bottom,
-              width: DialogContentWidth = .normal,
+              viewModel: DialogViewModel,
               enableSwipeToDismiss: Bool = true,
               animation: DialogAnimationType? = .none) {
     self.contentView = contentView
-    self.position = position
-    self.contentWidth = width
+    self.viewModel = viewModel
     self.enableSwipeGesture = enableSwipeToDismiss
     self.transitionDelegate = DialogTransitionDelegate(animation: animation)
     super.init(nibName: nil, bundle: nil)
@@ -66,7 +63,7 @@ open class DialogViewController<ContentView: DialogContentView>: UIViewControlle
   }
   
   open override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-    if position == .top {
+    if viewModel.position == .top {
       topPositionDismissAnimation(completion)
     } else {
       super.dismiss(animated: flag, completion: completion)
@@ -86,10 +83,10 @@ open class DialogViewController<ContentView: DialogContentView>: UIViewControlle
     switch sender.state {
     case .changed:
       verticalTranslation = sender.translation(in: view).y
-      guard position.shouldAnimateTranslation(verticalTranslation) else { return }
+      guard viewModel.shouldAnimateTranslation(verticalTranslation) else { return }
       translateContentAnimated()
     case .ended:
-      position.shouldAnimateReturn(verticalTranslation) ? returnContentAnimated() : dismissWithCustomAnimation()
+      viewModel.shouldAnimateReturn(verticalTranslation) ? returnContentAnimated() : dismissWithCustomAnimation()
     default:
       break
     }
@@ -112,8 +109,7 @@ private extension DialogViewController {
       contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
       contentView.topAnchor.constraint(equalTo: view.topAnchor)
     ])
-    contentView.setPosition(position)
-    contentView.setContentWidth(contentWidth)
+    contentView.setViewModel(viewModel)
     if enableSwipeGesture {
       contentView.addScrollViewDelegate(self)
     }
@@ -147,7 +143,7 @@ private extension DialogViewController {
   
   func dismissWithCustomAnimation() {
     UIView.animate(withDuration: 0.3, delay: 0, animations: {
-      self.view.transform = CGAffineTransform(translationX: 0, y: self.verticalTranslation + self.position.swipeAnimationLimit)
+      self.view.transform = CGAffineTransform(translationX: 0, y: self.verticalTranslation + self.viewModel.swipeAnimationLimit)
     }, completion: { _ in
       self.dismiss(animated: false)
     })
