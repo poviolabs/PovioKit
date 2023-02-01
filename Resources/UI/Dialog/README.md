@@ -5,6 +5,15 @@ A UI component that effectively replaces and extends native UIActionSheet.
 We can use the Dialog component to present a modal screen from the bottom (default behavior) or the top or in the center of the screen. It has a tap-to-dismiss gesture (outside of the content view), an option to be presented with the custom animation and it is dynamically expandable based on the content height.
 
 ## Modifiers:
+
+**DialogViewModel**: Dialog view model
+```swift
+public struct DialogViewModel {
+  let position: DialogPosition
+  let width: DialogContentWidth
+  let height: DialogContentHeight
+}
+```
 **DialogPosition**: Dialog position on the screen
 ```swift
 public enum DialogPosition {
@@ -19,6 +28,13 @@ public enum DialogContentWidth {
   case normal
   case customWidth(CGFloat)
   case customInsets(leading: CGFloat, trailing: CGFloat)
+}
+```
+**DialogContentHeight**: Set custom content height
+```swift
+public enum DialogContentHeight {
+  case normal
+  case customHeight(CGFloat)
 }
 ```
 **DialogAnimationType**: Dialog animation types
@@ -40,10 +56,10 @@ public enum DialogAnimationType {
 ```swift
 class DialogExampleViewController: DialogViewController<DialogContentView> {
   override init(contentView: DialogContentView,
-                position: DialogPosition,
-                width: DialogContentWidth = .normal,
+                viewModel: DialogViewModel = DialogViewModel(),
+                enableSwipeToDismiss: Bool = true,
                 animation: DialogAnimationType? = .none) {
-    super.init(contentView: contentView, position: position, width: width, animation: animation)
+    super.init(contentView: contentView, viewModel: viewModel, enableSwipeToDismiss: enableSwipeToDismiss, animation: animation)
   }
   
   required init?(coder: NSCoder) {
@@ -69,7 +85,11 @@ private extension DialogExampleViewController {
 
 ### Presenting custom DialogViewController:
 ```swift
-let dialog = DialogExampleViewController(contentView: DialogExampleContentView(), position: .center, width: .customWidth(200), animation: .fade)
+let dialog = DialogExampleViewController(contentView: DialogExampleContentView(),
+                                        viewModel: .init(position: .center,
+                                                        width: .customWidth(200),
+                                                        height: .customHeight(300)),
+                                        animation: .fade)
 self.navigationController?.present(dialog, animated: true)
 ```
 
