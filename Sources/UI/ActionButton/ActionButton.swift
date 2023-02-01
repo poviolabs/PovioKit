@@ -27,43 +27,50 @@ public struct ActionButton: View {
     Button(action: {
       properties.actionHandler?()
     }) {
-      HStack {
-        properties.leftImage?.image
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: properties.leftImage?.size.width,
-                 height: properties.leftImage?.size.height)
+      VStack {
         Spacer()
-        HStack {
-          properties.titleLeftImage?.image
+          .frame(minHeight: 1)
+        HStack{
+          properties.leftImage?.image
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: properties.titleLeftImage?.size.width,
-                   height: properties.titleLeftImage?.size.height)
-          Text(properties.title)
-            .font(properties.font)
-          properties.titleRightImage?.image
+            .frame(width: properties.leftImage?.size.width,
+                   height: properties.leftImage?.size.height)
+          Spacer()
+          HStack {
+            properties.titleLeftImage?.image
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: properties.titleLeftImage?.size.width,
+                     height: properties.titleLeftImage?.size.height)
+            Text(title)
+              .font(properties.font)
+            properties.titleRightImage?.image
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: properties.titleRightImage?.size.width,
+                     height: properties.titleRightImage?.size.height)
+          }
+          
+          Spacer()
+          properties.rightImage?.image
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: properties.titleRightImage?.size.width,
-                   height: properties.titleRightImage?.size.height)
+            .frame(width: properties.rightImage?.size.width,
+                   height: properties.rightImage?.size.height)
+            .padding(.trailing, 10)
         }
+        
         Spacer()
-        properties.rightImage?.image
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: properties.rightImage?.size.width,
-                 height: properties.rightImage?.size.height)
+          .frame(minHeight: 1)
       }
-      .padding()
-      .background(backgroundView)
+      .background(.blue)
       .foregroundColor(properties.textColor)
       .cornerRadius(getCornerRadius(for: properties.cornerRadius))
       .overlay(
         RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
           .stroke(properties.borderColor, lineWidth: properties.borderWidth)
       )
-      
     }
     .buttonStyle(.plain)
   }
