@@ -31,14 +31,16 @@ facebookAuthenticator?
   .finally {
     // handle result
   }
+  
+// return currently authenticated authenticator
+let authenticated: Authenticator? = manager.authenticator
 
 // sign out currently signedIn authenticator
 manager.signOut()
 
 // check if any authenticator is authenticated
-manager
-  .isAuthenticated
-  .finally {
-    // check result
-  }
+let boolValue = manager.isAuthenticated
+
+// check if authenticated authenticator can open url
+let canOpen = manager.canOpenUrl(<url>, application: <app>, options: <options>) 
 ```
