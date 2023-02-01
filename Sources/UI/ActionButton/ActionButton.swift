@@ -64,7 +64,7 @@ public struct ActionButton: View {
         Spacer()
           .frame(minHeight: 1)
       }
-      .background(.blue)
+      .background(backgroundView)
       .foregroundColor(properties.textColor)
       .cornerRadius(getCornerRadius(for: properties.cornerRadius))
       .overlay(
