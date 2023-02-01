@@ -60,8 +60,8 @@ extension GoogleAuthenticator: Authenticator {
   }
   
   /// Returns the current authentication state.
-  public var isAuthenticated: Promise<Authenticated> {
-    return .value(provider.currentUser != nil)
+  public var isAuthenticated: Authenticated {
+    return provider.currentUser != nil
   }
   
   /// Boolean if given `url` should be handled.
