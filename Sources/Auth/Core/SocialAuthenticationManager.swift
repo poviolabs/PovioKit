@@ -35,7 +35,7 @@ extension SocialAuthenticationManager: Authenticator {
     authenticators.forEach { $0.signOut() }
   }
   
-  public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+  public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
     currentAuthenticator?.canOpenUrl(url, application: application, options: options) ?? false
   }
 }
