@@ -36,7 +36,6 @@ extension SocialAuthenticationManager: Authenticator {
   }
   
   public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-    guard let activeAuthenticator = authenticators.first(where: { $0.isAuthenticated }) else { return false }
-    return activeAuthenticator.canOpenUrl(url, application: application, options: options)
+    currentAuthenticator?.canOpenUrl(url, application: application, options: options) ?? false
   }
 }
