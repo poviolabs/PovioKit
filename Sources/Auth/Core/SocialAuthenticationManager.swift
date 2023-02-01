@@ -23,7 +23,7 @@ extension SocialAuthenticationManager: Authenticator {
     authenticators.map { $0.isAuthenticated }.contains(true)
   }
   
-  public var authenticator: Authenticator? {
+  public var currentAuthenticator: Authenticator? {
     authenticators.first { $0.isAuthenticated }
   }
   
