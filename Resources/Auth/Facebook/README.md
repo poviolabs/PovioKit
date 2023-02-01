@@ -25,7 +25,7 @@ authenticator
     // handle result
   }
 
-// get auth status
+// get authentication status
 let state = authenticator.isAuthenticated
 
 // signOut user

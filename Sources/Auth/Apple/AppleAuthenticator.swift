@@ -14,12 +14,13 @@ import PovioKitPromise
 public final class AppleAuthenticator: NSObject {
   private let storage: UserDefaults
   private let storageUserIdKey = "signIn.userId"
+  private let storageAuthenticatedKey = "authenticated"
   private let provider: ASAuthorizationAppleIDProvider
   private var processingPromise: Promise<Response>?
   
   public init(storage: UserDefaults? = nil) {
     self.provider = .init()
-    self.storage = storage ?? .init(suiteName: "povioKit.appleAuthenticator") ?? .standard
+    self.storage = storage ?? .init(suiteName: "povioKit.auth.apple") ?? .standard
     super.init()
     setupCredentialsRevokeListener()
   }
@@ -54,13 +55,17 @@ extension AppleAuthenticator: Authenticator {
   
   /// Clears the signIn footprint and logs out the user immediatelly.
   public func signOut() {
-    processingPromise?.reject(with: Error.cancelled)
-    processingPromise = nil
     storage.removeObject(forKey: storageUserIdKey)
+    rejectSignIn(with: .cancelled)
+  }
+  
+  /// Returns the current authentication state.
+  public var isAuthenticated: Authenticated {
+    storage.string(forKey: storageUserIdKey) != nil && storage.bool(forKey: storageAuthenticatedKey)
   }
   
   /// Checks the current auth state and returns the boolean value as promise.
-  public var isAuthenticated: Promise<Authenticated> {
+  public var checkAuthentication: Promise<Authenticated> {
     guard let userId = storage.string(forKey: storageUserIdKey) else {
       return .value(false)
     }
@@ -87,12 +92,13 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
     case let credential as ASAuthorizationAppleIDCredential:
       guard let identityToken = credential.identityToken,
             let identityTokenString = String(data: identityToken, encoding: .utf8) else {
-        processingPromise?.reject(with: Error.invalidIdentityToken)
+        rejectSignIn(with: .invalidIdentityToken)
         return
       }
       
-      // store userId for later
+      // store userId and authentication flag
       storage.set(credential.user, forKey: storageUserIdKey)
+      storage.setValue(true, forKey: storageAuthenticatedKey)
       
       // parse email and related metadata
       let email: Response.Email? = credential.email.map {
@@ -108,13 +114,12 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
       
       processingPromise?.resolve(with: response)
     case _:
-      processingPromise?.reject(with: Error.unhandledAuthorization)
-      break
+      rejectSignIn(with: .unhandledAuthorization)
     }
   }
   
   public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Swift.Error) {
-    processingPromise?.reject(with: Error.system(error))
+    rejectSignIn(with: .system(error))
   }
 }
 
@@ -139,7 +144,7 @@ private extension AppleAuthenticator {
     switch nonce {
     case .random(let length):
       guard length > 0 else {
-        processingPromise?.reject(with: Error.invalidNonceLength)
+        rejectSignIn(with: .invalidNonceLength)
         return
       }
       request.nonce = generateRandomNonceString(length: length).sha256
@@ -166,11 +171,17 @@ private extension AppleAuthenticator {
                                            name: ASAuthorizationAppleIDProvider.credentialRevokedNotification,
                                            object: nil)
   }
+  
+  func rejectSignIn(with error: Error) {
+    storage.setValue(false, forKey: storageAuthenticatedKey)
+    processingPromise?.reject(with: error)
+    processingPromise = nil
+  }
 }
 
 // MARK: - Actions
 private extension AppleAuthenticator {
   @objc func appleCredentialRevoked() {
-    processingPromise?.reject(with: Error.credentialsRevoked)
+    rejectSignIn(with: .credentialsRevoked)
   }
 }

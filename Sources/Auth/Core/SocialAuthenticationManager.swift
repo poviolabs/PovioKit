@@ -18,7 +18,15 @@ public class SocialAuthenticationManager {
   }
 }
 
-extension SocialAuthenticationManager {
+extension SocialAuthenticationManager: Authenticator {
+  public var isAuthenticated: Authenticator.Authenticated {
+    authenticators.map { $0.isAuthenticated }.contains(true)
+  }
+  
+  public var currentAuthenticator: Authenticator? {
+    authenticators.first { $0.isAuthenticated }
+  }
+  
   public func authenticator<A: Authenticator>(for type: A.Type) -> A? {
     authenticators.first { $0 is A } as? A
   }
@@ -27,8 +35,7 @@ extension SocialAuthenticationManager {
     authenticators.forEach { $0.signOut() }
   }
   
-  public var isAuthenticated: PovioKitPromise.Promise<Authenticator.Authenticated> {
-    all(promises: authenticators.map { $0.isAuthenticated })
-      .map { $0.contains(true) }
+  public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    currentAuthenticator?.canOpenUrl(url, application: application, options: options) ?? false
   }
 }

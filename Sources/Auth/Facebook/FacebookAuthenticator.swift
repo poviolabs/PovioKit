@@ -44,9 +44,9 @@ extension FacebookAuthenticator: Authenticator {
   }
   
   /// Returns the current authentication state.
-  public var isAuthenticated: Promise<Authenticated> {
-    guard let token = AccessToken.current else { return .value(false) }
-    return .value(!token.isExpired)
+  public var isAuthenticated: Authenticated {
+    guard let token = AccessToken.current else { return false }
+    return !token.isExpired
   }
   
   /// Boolean if given `url` should be handled.

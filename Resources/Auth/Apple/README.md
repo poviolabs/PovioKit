@@ -33,9 +33,13 @@ authenticator
     // handle result
   }
 
-// get auth status
+// get authentication status
+let status = authenticator.isAuthenticated
+
+// check authentication status
+// we should check this when we need to explicitly query authenticator to check if authenticated
 authenticator
-  .isAuthenticated
+  .checkAuthentication
   .finally {
     // check result
   }

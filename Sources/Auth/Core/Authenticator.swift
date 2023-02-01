@@ -12,8 +12,7 @@ import UIKit
 public protocol Authenticator {
   typealias Authenticated = Bool
   
-  var isAuthenticated: Promise<Authenticated> { get }
-  
+  var isAuthenticated: Authenticated { get }
   func signOut()
   func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool
 }
