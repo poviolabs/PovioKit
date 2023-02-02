@@ -1,5 +1,5 @@
 //
-//  InAppPurchase.swift
+//  InAppPurchaseService.swift
 //  PovioKit
 //
 //  Created by Marko Mijatovic on 20/01/2023.
@@ -11,18 +11,18 @@ import StoreKit
 
 
 @available(iOS 15.0, *)
-public final class InAppPurchase: NSObject {
-  public typealias IAPPlan = String
+public final class InAppPurchaseService: NSObject {
+  public typealias IAPProduct = String
   public typealias IAPReceipt = String
   
-  private let productIdentifiers: [IAPPlan]
+  private let productIdentifiers: [IAPProduct]
   private var updateListenerTask: Task<Void, Error>? = nil
   private var availableProducts: [Product] = []
   private var purchasedProducts: [Product] = []
   
-  /// Initialize new InAppPurchase with all available plans
-  /// - Parameter identifiers: Array of ``IAPPlan`` (eg. ["com.test.plan1", "com.test.plan2"])
-  public init(identifiers: [IAPPlan]) {
+  /// Initialize new InAppPurchase with all available products
+  /// - Parameter identifiers: Array of ``IAPProduct`` (eg. ["com.test.plan1", "com.test.plan2"])
+  public init(identifiers: [IAPProduct]) {
     self.productIdentifiers = identifiers
     super.init()
     updateListenerTask = listenForTransactions()
@@ -40,10 +40,10 @@ public final class InAppPurchase: NSObject {
 
 // MARK: - Public
 @available(iOS 15.0, *)
-extension InAppPurchase {
-  /// Purchase plan with options
+extension InAppPurchaseService {
+  /// Purchase product with options
   /// - Parameters:
-  ///   - plan: InAppPurchase plan identifier (eg. "com.test.plan") to purchase
+  ///   - product: InAppPurchase product identifier (eg. "com.test.plan") to purchase
   ///   - options: Set of ``PurchaseOption``
   /// - Returns: Result type with completed ``Transaction`` object or ``InAppPurchaseError``
   /// - Important: ``InAppPurchaseError`` cases that this function returns:
@@ -51,8 +51,8 @@ extension InAppPurchase {
   /// * ``InAppPurchaseError.paymentCancelled``
   /// * ``InAppPurchaseError.paymentPending``
   /// * ``InAppPurchaseError.requestFailed(error)``
-  public func purchase(plan: IAPPlan, options: Set<Product.PurchaseOption> = []) async -> Result<Transaction, InAppPurchaseError> {
-    guard let product = availableProducts.first(where: { $0.id == plan }) else {
+  public func purchase(product: IAPProduct, options: Set<Product.PurchaseOption> = []) async -> Result<Transaction, InAppPurchaseError> {
+    guard let product = availableProducts.first(where: { $0.id == product }) else {
       Logger.error("Purchase failed!", params: ["reason": "missing product id"])
       return .failure(InAppPurchaseError.missingProductId)
     }
@@ -80,22 +80,22 @@ extension InAppPurchase {
     }
   }
   
-  /// Check if plan is purchased
+  /// Check if product is purchased
   ///
-  /// - Parameter plan: ``IAPPlan`` to check if purchased
-  /// - Returns: Result type with ``Bool`` value if plan is purchased or not and ``InAppPurchaseError`` if request fails.
+  /// - Parameter product: ``IAPProduct`` to check if purchased
+  /// - Returns: Result type with ``Bool`` value if product is purchased or not and ``InAppPurchaseError`` if request fails.
   /// We will return `false` if the transaction is refunded or revoked from family sharing,
   /// and also if the transaction is upgraded to another subscription.
   /// - Important: ``InAppPurchaseError`` cases that this function returns:
   /// * ``InAppPurchaseError.missingProductId``
   /// * ``InAppPurchaseError.notPurchased``
   /// * ``InAppPurchaseError.requestFailed(error)``
-  public func isPlanPurchased(_ plan: IAPPlan) async -> Result<Bool, InAppPurchaseError> {
-    guard availableProducts.first(where: { $0.id == plan }) != nil else {
+  public func isPurchased(_ product: IAPProduct) async -> Result<Bool, InAppPurchaseError> {
+    guard availableProducts.first(where: { $0.id == product }) != nil else {
       Logger.error("Check purchase failed!", params: ["reason": "missing product id"])
       return .failure(InAppPurchaseError.missingProductId)
     }
-    guard let result = await Transaction.latest(for: plan) else {
+    guard let result = await Transaction.latest(for: product) else {
       return .failure(InAppPurchaseError.notPurchased)
     }
     do {
@@ -146,7 +146,7 @@ extension InAppPurchase {
 
 // MARK: - Private
 @available(iOS 15.0, *)
-private extension InAppPurchase {
+private extension InAppPurchaseService {
   func listenForTransactions() -> Task<Void, Error> {
     return Task.detached {
       for await result in Transaction.updates {

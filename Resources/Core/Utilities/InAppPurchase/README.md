@@ -1,33 +1,33 @@
-# InAppPurchase
+# InAppPurchaseService
 
 Helper for implementation of InApp puchase mehanism in the app.
-> Important: InAppPurchase is supported from iOS 15.0
+> Important: InAppPurchaseService is supported from iOS 15.0
 
 ## Overview  
 
-A InAppPurchase is initialized with the array of ``IAPPlan`` (eg. ["com.test.plan1", "com.test.plan2"]). Identifier array values should match ones from the AppStore and/or ``configuration.storekit`` file. 
+A InAppPurchaseService is initialized with the array of ``IAPProduct`` (eg. ["com.test.plan1", "com.test.plan2"]). Identifier array values should match ones from the AppStore and/or ``configuration.storekit`` file. 
 
 See: [AppStore setup](#appstore-setup) and [StoreKit configuration file](#test-locally-with-storekit-configuration-file) for more info.
 
-> Note: Initialize InAppPurchase as close to the app launch as possible, so you don't miss any transactions.
+> Note: Initialize InAppPurchaseService as close to the app launch as possible, so you don't miss any transactions.
 
 ### Typealias:
-- InAppPurchase plan:
+- InAppPurchaseService product:
 ``` swift
-typealias IAPPlan = String
+typealias IAPProduct = String
 ```
-- InAppPurchase receipt:
+- InAppPurchaseService receipt:
 ``` swift
 typealias IAPReceipt = String
 ```
 ### Public methods:
-- Purchase plan with options:
+- Purchase product with options:
 ``` swift
-func purchase(plan: IAPPlan, options: Set<Product.PurchaseOption> = []) async -> Result<Transaction, InAppPurchaseError>
+func purchase(product: IAPProduct, options: Set<Product.PurchaseOption> = []) async -> Result<Transaction, InAppPurchaseError>
 ```
-- Check if plan is purchased:
+- Check if product is purchased:
 ``` swift
-func isPlanPurchased(_ plan: IAPPlan) async -> Result<Bool, InAppPurchaseError>
+func isPurchased(_ product: IAPProduct) async -> Result<Bool, InAppPurchaseError>
 ```
 - Force call to restore purchases (this should be called in last resort since restore is done automatically):
 ``` swift
@@ -95,43 +95,43 @@ Simply creating StoreKit Configuration File isn’t enough to use it. The StoreK
 ``` swift
 @main
 class AppDelegate: UIResponder {
-  private(set) var inAppPurchase: InAppPurchase?
+  private(set) var inAppPurchaseService: InAppPurchaseService?
 }
 
 extension AppDelegate: UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Identifier array values should match ones from the configuration.storekit file
-    inAppPurchase = InAppPurchase(identifiers:  ["com.test.plan1", "com.test.plan2", "com.test.plan3", "com.test.plan4"])
+    inAppPurchaseService = InAppPurchaseService(identifiers:  ["com.test.plan1", "com.test.plan2", "com.test.plan3", "com.test.plan4"])
     return true
   }
 }
 ```
 
-### Purchase plan
+### Purchase product
 ``` swift
 Task {
-  let result = await inAppPurchase.purchase(plan: "com.test.plan1")
+  let result = await inAppPurchaseService.purchase(product: "com.test.plan1")
   switch result {
     case .success(let transaction):
-      print("purchase plan success with transaction: \(transaction.productID)")
+      print("purchase product success with transaction: \(transaction.productID)")
     case .failure(let error):
-      print("purchase plan failure with error: \(error.localizedDescription)")
+      print("purchase product failure with error: \(error.localizedDescription)")
   }
 }
 ```
 
-### Check if plan is purchased
+### Check if product is purchased
 ``` swift
 Task {
-  let planId = "com.test.plan1"
-  let result = await inAppPurchase.isPlanPurchased(planId)
+  let productId = "com.test.plan1"
+  let result = await inAppPurchaseService.isPurchased(productId)
   switch result {
   case .success(let isPurchased):
     if isPurchased {
-      print("plan \(planId) is purchased!")
+      print("product \(productId) is purchased!")
     }
   case .failure(let error):
-    print("error in checking if the plan \(planId) is purchased: \(error.localizedDescription)")
+    print("error in checking if the product \(productId) is purchased: \(error.localizedDescription)")
   }
 }
 ```
@@ -139,7 +139,7 @@ Task {
 ### Restore purchases
 ``` swift
 Task {
-  let result = await inAppPurchase.restorePurchases()
+  let result = await inAppPurchaseService.restorePurchases()
   switch result {
   case .success():
     print("Restore purchases success")
@@ -152,7 +152,7 @@ Task {
 ### Validate receipt
 ``` swift
 Task {
-  let result = await inAppPurchase.validateReceipt()
+  let result = await inAppPurchaseService.validateReceipt()
   switch result {
   case .success(let receipt):
     print("Receipt valid: \(receipt)")
