@@ -42,6 +42,7 @@ open class DialogContentView: UIView {
   }
 }
 
+// MARK: - Public Methods
 public extension DialogContentView {
   /// Sets background color
   /// - Parameters:
@@ -52,6 +53,7 @@ public extension DialogContentView {
   }
 }
 
+// MARK: - Internal
 internal extension DialogContentView {
   func setViewModel(_ viewModel: DialogViewModel) {
     self.viewModel = viewModel
@@ -67,6 +69,7 @@ internal extension DialogContentView {
   }
 }
 
+// MARK: - Private Methods - Layout setup
 private extension DialogContentView {
   func setupSubviews() {
     setupBackgroundView()
@@ -128,7 +131,7 @@ private extension DialogContentView {
     case .customWidth(let width):
       return getCustomWidthConstraints(width)
     case .customInsets(let leading, let trailing):
-      return getCustomInsetsConstraints(leading: leading, trailing: trailing)
+      return getCustomHorizontalInsetsConstraints(leading: leading, trailing: trailing)
     }
   }
   
@@ -140,6 +143,8 @@ private extension DialogContentView {
       return getNormalHeightConstraints()
     case .customHeight(let height):
       return getCustomHeightConstraints(height)
+    case .customInsets(let top, let bottom):
+      return getCustomVerticalInsetsConstraints(top: top, bottom: bottom)
     }
   }
 }
@@ -148,7 +153,7 @@ private extension DialogContentView {
 private extension DialogContentView {
   func getBottomStyleConstraints() -> [NSLayoutConstraint] {
     let bottomAnchor = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-    bottomAnchor.priority = .required
+    bottomAnchor.priority = .defaultHigh
     let topAnchor = scrollView.topAnchor.constraint(equalTo: self.topAnchor)
     topAnchor.priority = .init(rawValue: 1)
     return [scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -160,7 +165,7 @@ private extension DialogContentView {
     let bottomAnchor = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
     bottomAnchor.priority = .init(rawValue: 1)
     let topAnchor = scrollView.topAnchor.constraint(equalTo: self.topAnchor)
-    topAnchor.priority = .required
+    topAnchor.priority = .defaultHigh
     return [scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             topAnchor, bottomAnchor]
@@ -197,7 +202,7 @@ private extension DialogContentView {
             content.widthAnchor.constraint(equalToConstant: width)]
   }
   
-  func getCustomInsetsConstraints(leading: CGFloat, trailing: CGFloat) -> [NSLayoutConstraint] {
+  func getCustomHorizontalInsetsConstraints(leading: CGFloat, trailing: CGFloat) -> [NSLayoutConstraint] {
     let leadingAnchor = content.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: leading)
     leadingAnchor.priority = .required
     let trailingAnchor = content.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: trailing)
@@ -216,5 +221,14 @@ private extension DialogContentView {
   func getCustomHeightConstraints(_ height: CGFloat) -> [NSLayoutConstraint] {
     [scrollView.heightAnchor.constraint(equalToConstant: height),
      content.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)]
+  }
+  
+  func getCustomVerticalInsetsConstraints(top: CGFloat, bottom: CGFloat) -> [NSLayoutConstraint] {
+    let topAnchor = scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: top)
+    topAnchor.priority = .required
+    let bottomAnchor = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: bottom)
+    bottomAnchor.priority = .required
+    return [topAnchor, bottomAnchor,
+            content.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor)]
   }
 }
