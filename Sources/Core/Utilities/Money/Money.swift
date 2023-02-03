@@ -31,7 +31,7 @@ public struct Money: Hashable {
    - Parameter localeIdentifier: Identifier for the Locale object that we use for the output formatting (eg. "en_US")
    - Parameter precision: The number of decimal places to represent value
    */
-  init(
+  public init(
     amount: Cents,
     currency: Currency = defaults.currency,
     localeIdentifier: String = defaults.locale.identifier,
