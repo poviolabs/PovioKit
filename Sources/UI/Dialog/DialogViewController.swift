@@ -83,10 +83,15 @@ open class DialogViewController<ContentView: DialogContentView>: UIViewControlle
     switch sender.state {
     case .changed:
       verticalTranslation = sender.translation(in: view).y
-      guard viewModel.shouldAnimateTranslation(verticalTranslation) else { return }
+      guard viewModel.shouldTranslateContent(translation: verticalTranslation, content: contentView, sender: sender) else {
+        return
+      }
       translateContentAnimated()
     case .ended:
-      viewModel.shouldAnimateReturn(verticalTranslation) ? returnContentAnimated() : dismissWithCustomAnimation()
+      if viewModel.shouldDismissOnSwipe(translation: verticalTranslation, content: contentView, sender: sender) { dismissWithCustomAnimation()
+      } else {
+        returnContentAnimated()
+      }
     default:
       break
     }
@@ -122,7 +127,7 @@ private extension DialogViewController {
     if enableSwipeGesture {
       let panGesture = UIPanGestureRecognizer(target: self, action: #selector(swipeToDismiss))
       panGesture.delegate = self
-      self.view.addGestureRecognizer(panGesture)
+      contentView.addGestureRecognizer(panGesture)
     }
   }
 }
@@ -142,15 +147,16 @@ private extension DialogViewController {
   }
   
   func dismissWithCustomAnimation() {
-    UIView.animate(withDuration: 0.3, delay: 0, animations: {
-      self.view.transform = CGAffineTransform(translationX: 0, y: self.verticalTranslation + self.viewModel.swipeAnimationLimit)
+    UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
+      let verticalLocation = self.viewModel.dismissFinalPosition(self.verticalTranslation)
+      self.view.transform = CGAffineTransform(translationX: 0, y: verticalLocation)
     }, completion: { _ in
       self.dismiss(animated: false)
     })
   }
   
   func topPositionDismissAnimation(_ completion: (() -> Void)?) {
-    UIView.animate(withDuration: 0.3, delay: 0, animations: {
+    UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
       self.view.transform = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
     }, completion: { _ in
       super.dismiss(animated: false, completion: completion)

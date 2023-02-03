@@ -19,15 +19,14 @@ import UIKit
 open class DialogContentView: UIView {
   /// Background view that will hold tap gesture for dismissing Dialog
   private let backgroundView = UIView()
-  
-  /// UIScrollView that will be responsible for scrollable content (if content can not fit the screen)
-  private let scrollView = UIScrollView()
-  
   private var viewModel: DialogViewModel? {
     didSet {
       viewModelUpdated()
     }
   }
+  
+  /// UIScrollView that will be responsible for scrollable content (if content can not fit the screen)
+  internal let scrollView = UIScrollView()
   
   /// Main content view. Use it to add subviews
   public let content = UIView()
