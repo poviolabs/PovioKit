@@ -12,10 +12,10 @@ import UIKit
 
 class DialogExampleViewController: DialogViewController<DialogContentView> {
   override init(contentView: DialogContentView,
-                position: DialogPosition,
-                width: DialogContentWidth = .normal,
+                viewModel: DialogViewModel = DialogViewModel(),
+                enableSwipeToDismiss: Bool = true,
                 animation: DialogAnimationType? = .none) {
-    super.init(contentView: contentView, position: position, width: width, animation: animation)
+    super.init(contentView: contentView, viewModel: viewModel, enableSwipeToDismiss: enableSwipeToDismiss, animation: animation)
   }
   
   required init?(coder: NSCoder) {

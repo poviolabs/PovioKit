@@ -27,22 +27,23 @@ private extension RootViewController {
   func setupViews() {
     contentView.simpleCallback = {
       let dialog = DialogExampleViewController(contentView: DialogExampleContentView(),
-                                               position: self.getPosition(),
-                                               width: .normal,
+                                               viewModel: .init(position: self.getPosition()),
                                                animation: .none)
       self.navigationController?.present(dialog, animated: true)
     }
     contentView.fadeCallback = {
       let dialog = DialogExampleViewController(contentView: DialogExampleContentView(),
-                                               position: self.getPosition(),
-                                               width: .customWidth(200),
+                                               viewModel: .init(position: self.getPosition(),
+                                                                width: .customWidth(200),
+                                                                height: .customHeight(400)),
                                                animation: .fade)
       self.navigationController?.present(dialog, animated: true)
     }
     contentView.customCallback = {
       let dialog = DialogExampleViewController(contentView: DialogExampleContentView(),
-                                               position: self.getPosition(),
-                                               width: .customInsets(leading: 20, trailing: -100),
+                                               viewModel: .init(position: self.getPosition(),
+                                                                width: .customInsets(leading: 100, trailing: -30),
+                                                                height: .customHeight(350)),
                                                animation: .custom(CustomAnimation()))
       self.navigationController?.present(dialog, animated: true)
     }

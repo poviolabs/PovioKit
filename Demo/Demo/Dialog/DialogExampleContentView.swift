@@ -32,7 +32,6 @@ class DialogExampleContentView: DialogContentView {
 private extension DialogExampleContentView {
   func setupViews() {
     content.backgroundColor = .init(red: 247/255, green: 221/255, blue: 114/255, alpha: 1.0)
-    setDialogBackground(color: .black, alpha: 0.1)
     setupLabel()
     setupButton()
     setupBottomLabel()
