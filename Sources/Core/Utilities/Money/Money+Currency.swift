@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Currency: Codable, Equatable, Hashable {
+public enum Currency: Codable, Equatable, Hashable, CaseIterable {
   /// U.S. Dollar (USD)
   case usd
   /// European Euro (EUR)
@@ -25,7 +25,7 @@ public enum Currency: Codable, Equatable, Hashable {
   case chf
 }
 
-extension Currency {
+public extension Currency {
   var code: String {
     switch self {
     case .usd:
