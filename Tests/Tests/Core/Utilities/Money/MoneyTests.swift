@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import PovioKit
+import PovioKit
 
 class MoneyTests: XCTestCase {
   // MARK: - Testing Getters
@@ -51,6 +51,20 @@ class MoneyTests: XCTestCase {
     money.localeIdentifier = "es"
     let formattedES = money.formatted
     XCTAssertEqual(formattedES, "1234,57 US$", "Money should be formatted correctly!")
+  }
+  
+  func test_currencyCode() {
+    Currency.allCases.forEach {
+      let money = Money(amount: 100, currency: $0)
+      XCTAssertEqual(money.currency.code, $0.code)
+    }
+  }
+  
+  func test_currencySymbol() {
+    Currency.allCases.forEach {
+      let money = Money(amount: 100, currency: $0)
+      XCTAssertEqual(money.currency.symbol, $0.symbol)
+    }
   }
   
   // MARK: - Testing Manipulations
