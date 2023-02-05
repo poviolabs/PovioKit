@@ -2,7 +2,7 @@ name: SPM Outdated
 
 on: 
   schedule:
-    - cron: '0 0 * * 7' # run every Sunday midnight
+    - cron: '0 0 * * 6' # run every Sunday midnight
 
 jobs:
   swiftpm:
