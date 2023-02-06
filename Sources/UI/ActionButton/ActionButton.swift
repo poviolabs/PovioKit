@@ -227,7 +227,7 @@ public extension ActionButton {
     set { properties.titleRightImage = newValue}
   }
   
-  mutating func addAction(_ action: @escaping () -> Void) {
+  func addAction(_ action: @escaping () -> Void) {
     properties.actionHandler = action
   }
 }
