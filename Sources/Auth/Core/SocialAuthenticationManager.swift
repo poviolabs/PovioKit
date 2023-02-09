@@ -10,7 +10,7 @@ import PovioKitPromise
 import Foundation
 import UIKit
 
-public class SocialAuthenticationManager {
+public final class SocialAuthenticationManager {
   private let authenticators: [Authenticator]
   
   public init(authenticators: [Authenticator]) {
@@ -36,6 +36,8 @@ extension SocialAuthenticationManager: Authenticator {
   }
   
   public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
-    currentAuthenticator?.canOpenUrl(url, application: application, options: options) ?? false
+    authenticators
+      .map { $0.canOpenUrl(url, application: application, options: options) }
+      .contains(true)
   }
 }
