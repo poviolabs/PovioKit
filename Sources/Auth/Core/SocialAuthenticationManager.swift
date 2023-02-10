@@ -36,8 +36,6 @@ extension SocialAuthenticationManager: Authenticator {
   }
   
   public func canOpenUrl(_ url: URL, application: UIApplication, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
-    authenticators
-      .map { $0.canOpenUrl(url, application: application, options: options) }
-      .contains(true)
+    authenticators.contains { $0.canOpenUrl(url, application: application, options: options) }
   }
 }
