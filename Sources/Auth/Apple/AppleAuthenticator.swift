@@ -101,10 +101,10 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
       storage.setValue(true, forKey: storageAuthenticatedKey)
       
       // parse email and related metadata
-      let email: Response.Email? = credential.email.map {
-        let identity = try? JWTDecoder(token: identityTokenString)
-        let isEmailPrivate = identity?.bool(for: "is_private_email") ?? false
-        let isEmailVerified = identity?.bool(for: "email_verified") ?? false
+      let jwt = try? JWTDecoder(token: identityTokenString)
+      let email: Response.Email? = (credential.email ?? jwt?.string(for: "email")).map {
+        let isEmailPrivate = jwt?.bool(for: "is_private_email") ?? false
+        let isEmailVerified = jwt?.bool(for: "email_verified") ?? false
         return .init(address: $0, isPrivate: isEmailPrivate, isVerified: isEmailVerified)
       }
       
