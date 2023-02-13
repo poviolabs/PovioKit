@@ -253,35 +253,13 @@ public extension AlamofireNetworkClient.Error {
 // MARK: - Request API
 public extension AlamofireNetworkClient.Request {
   var asData: Promise<Data> {
-    .init { promise in
-      dataRequest.responseData { (response: AFDataResponse<Data>) in
-        switch response.result {
-        case .success(let data):
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
-          promise.resolve(with: data)
-        case .failure(let error):
-          let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-          promise.reject(with: error)
-        }
-      }
-    }
+    asDataWithHeaders
+      .map { $0.0 }
   }
   
   var asVoid: Promise<()> {
-    .init { promise in
-      dataRequest.response {
-        switch $0.result {
-        case .success:
-          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
-          promise.resolve(with: ())
-        case .failure(let error):
-          let error = self.handleError(error)
-          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
-          promise.reject(with: error)
-        }
-      }
-    }
+    asVoidWithHeaders
+      .asVoid
   }
   
   func decode<D: Decodable>(
@@ -289,12 +267,53 @@ public extension AlamofireNetworkClient.Request {
     decoder: JSONDecoder = .init(),
     on dispatchQueue: DispatchQueue? = .main
   ) -> Promise<D> {
+    decodeWithHeaders(decodable, decoder: decoder, on: dispatchQueue)
+      .map { $0.0 }
+  }
+  
+  var asDataWithHeaders: Promise<(Data, HTTPHeaders?)> {
+    .init { promise in
+      dataRequest.responseData { (response: AFDataResponse<Data>) in
+        switch response.result {
+        case .success(let data):
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
+          promise.resolve(with: (data, response.response?.headers))
+        case .failure(let error):
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
+        }
+      }
+    }
+  }
+  
+  var asVoidWithHeaders: Promise<HTTPHeaders?> {
+    .init { promise in
+      dataRequest.response {
+        switch $0.result {
+        case .success:
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
+          promise.resolve(with: $0.response?.headers)
+        case .failure(let error):
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
+        }
+      }
+    }
+  }
+  
+  func decodeWithHeaders<D: Decodable>(
+    _ decodable: D.Type,
+    decoder: JSONDecoder = .init(),
+    on dispatchQueue: DispatchQueue? = .main
+  ) -> Promise<(D, HTTPHeaders?)> {
     .init { promise in
       dataRequest.responseDecodable(decoder: decoder) { (response: AFDataResponse<D>) in
         switch response.result {
         case .success(let decodedObject):
           self.eventMonitors.forEach { $0.requestDidSucceed(self) }
-          promise.resolve(with: decodedObject, on: dispatchQueue)
+          promise.resolve(with: (decodedObject, response.response?.headers), on: dispatchQueue)
         case .failure(let error):
           let error = self.handleError(error)
           self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
