@@ -7,21 +7,13 @@ SwiftUI view intended to offer a ready-to-go Button with some generic configurat
 ### Example: Implementation in SwiftUI
 ```swift
 struct ContentView: View {
-  var actionButton = ActionButton()
-  
-  // Optional - For configuration purposes
-  init() {
-    actionButton.properties.backgroundType = .linearGradient(LinearGradient(gradient: Gradient(colors: [.blue, .green]), startPoint: .top, endPoint: .bottom))
-    actionButton.properties.cornerRadius = .rounded
-    actionButton.properties.borderWidth = 3
-    actionButton.properties.borderColor = .red
-    actionButton.properties.extraImage = .right(Image(systemName: "arrow.right"))
-    actionButton.setAction(action: someFunc)
-  }
-  
   var body: some View {
-    actionButton
-      .frame(width: 200, height: 70)
+      ActionButton {
+        // do something when button is tapped
+      }
+      .title("button title")
+      .font(.system(size: 14))
+      .extraImage(titleRightImage: .init(image: .init(systemName: "arrow.right"), size: .init(width: 10, height: 10)))
   }
 }
 ```
@@ -52,12 +44,12 @@ private func addActionButton() {
 
 Accessing some of methods & properties of `ActionButton`
 ```swift
-actionButton.properties.backgroundType = .linearGradient(LinearGradient(gradient: Gradient(colors: [.blue, .green]), startPoint: .top, endPoint: .bottom))
-actionButton.properties.cornerRadius = .custom(10)
-actionButton.properties.borderWidth = 3
-actionButton.properties.borderColor = .red
-actionButton.setAction(action: someFunc)
-actionButton.properties.extraImage = .right(Image(systemName: "arrow.right"))
+actionButton.backgroundType = .linearGradient(LinearGradient(gradient: Gradient(colors: [.blue, .green]), startPoint: .top, endPoint: .bottom))
+actionButton.cornerRadius = .custom(10)
+actionButton.borderWidth = 3
+actionButton.borderColor = .red
+actionButton.addAction(action: someFunc)
+actionButton.titleRightImage = .init(image: Image(systemName: "arrow.right"), size: .init(width: 14, height: 14))
 ```
 
 ## Source code

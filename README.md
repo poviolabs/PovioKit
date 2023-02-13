@@ -23,21 +23,24 @@
 
 ## Packages
 
-| [Core](Resources/Core) | [UI](Resources/UI) | [Networking](Resources/Networking) | [PromiseKit](Resources/PromiseKit) |
-| :-: | :-: | :-: | :-: |
+| [Core](Resources/Core) | [UI](Resources/UI) | [Networking](Resources/Networking) | [PromiseKit](Resources/PromiseKit) | [Auth](Resources/Auth)
+| :-: | :-: | :-: | :-: | :-: |
 
 ## Installation
 
 ### Swift Package Manager
 - In Xcode, click `File` -> `Add Packages...`  
-- Insert `https://github.com/poviolabs/PovioKit` in the search field.
-- Select `Dependency Rule` "Up to Next Major Version" with "2.0.0"
-
-Currently, there are three packages to choose from:
-- *PovioKit* (core)
-- *PovioKitNetworking* (networking library, depends on `core` and `promise` package)
-- *PovioKitPromise* (lightweight promises library)
-- *PovioKitUI* (UI components)
+- Insert `https://github.com/poviolabs/PovioKit` in the Search field.
+- Select a desired `Dependency Rule`. Usually "Up to Next Major Version" with "2.0.0".
+- Select "Add Package" button and check one or all given products from the list:
+  - *PovioKit* (core)
+  - *PovioKitNetworking* (networking library, depends on `core` and `promise` package)
+  - *PovioKitPromise* (lightweight promises library)
+  - *PovioKitUI* (UI components)
+  - *PovioKitAuthApple* (Apple auth components)
+  - *PovioKitGoogleApple* (Google auth components)
+  - *PovioKitFacebookApple* (Facebook auth components)
+- Select "Add Package" again and you are done.
 
 ### Migration
 

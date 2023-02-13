@@ -8,22 +8,13 @@
 
 import SwiftUI
 
-public class ActionButtonViewModel: ObservableObject {
-  @Published public var title: String = ""
-  @Published public var font: Font = .system(size: 18)
-  @Published public var textColor: Color = .white
-  @Published public var cornerRadius: ActionButton.CornerRadiusType = .custom(0)
-  @Published public var backgroundType = ActionButton.Background.plain(.blue)
-  @Published public var borderColor: Color = .clear
-  @Published public var borderWidth: CGFloat = 0
-  @Published public var extraImage: ActionButton.ExtraImage?
-}
-
 public struct ActionButton: View {
-  @ObservedObject public var properties = ActionButtonViewModel()
-  private var actionHandler: (() -> Void)?
+  @ObservedObject private var properties = ActionButtonViewModel()
   
   public init() {}
+  public init(action: @escaping (() -> Void)) {
+    properties.actionHandler = action
+  }
   
   public enum Background {
     case plain(Color)
@@ -33,25 +24,86 @@ public struct ActionButton: View {
   }
   
   public var body: some View {
-    GeometryReader { geo in
-      ZStack(alignment: getAlignment(for: properties.extraImage)) {
-        ButtonView(size: geo.size, action: buttonAction, properties: properties)
-        ExtraImageView(imageAlignment: properties.extraImage, tintColor: properties.textColor, size: geo.size)
+    Button(action: {
+      properties.actionHandler?()
+    }) {
+      VStack {
+        Spacer()
+          .frame(minHeight: 1)
+        HStack{
+          properties.leftImage?.image
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: properties.leftImage?.size.width,
+                   height: properties.leftImage?.size.height)
+          Spacer()
+          HStack {
+            properties.titleLeftImage?.image
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: properties.titleLeftImage?.size.width,
+                     height: properties.titleLeftImage?.size.height)
+            Text(title)
+              .font(properties.font)
+            properties.titleRightImage?.image
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: properties.titleRightImage?.size.width,
+                     height: properties.titleRightImage?.size.height)
+          }
+          
+          Spacer()
+          properties.rightImage?.image
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: properties.rightImage?.size.width,
+                   height: properties.rightImage?.size.height)
+            .padding(.trailing, 10)
+        }
+        
+        Spacer()
+          .frame(minHeight: 1)
       }
+      .background(backgroundView)
+      .foregroundColor(properties.textColor)
+      .cornerRadius(getCornerRadius(for: properties.cornerRadius))
+      .overlay(
+        RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
+          .stroke(properties.borderColor, lineWidth: properties.borderWidth)
+      )
     }
+    .buttonStyle(.plain)
   }
-  
-  public mutating func setAction(action: @escaping () -> Void) {
-    actionHandler = action
+}
+
+// MARK: - ActionButtonViewModel
+private extension ActionButton {
+  class ActionButtonViewModel: ObservableObject {
+    @Published var title: String = "Button"
+    @Published var font: Font = .system(size: 16)
+    @Published var textColor: Color = .white
+    @Published var cornerRadius: ActionButton.CornerRadiusType = .rounded
+    @Published var backgroundType = ActionButton.Background.plain(.blue)
+    @Published var borderColor: Color = .clear
+    @Published var borderWidth: CGFloat = 0
+    @Published var leftImage: ActionButton.ExtraImage?
+    @Published var rightImage: ActionButton.ExtraImage?
+    @Published var titleLeftImage: ActionButton.ExtraImage?
+    @Published var titleRightImage: ActionButton.ExtraImage?
+    @Published var actionHandler: (() -> Void)?
   }
 }
 
 // MARK: - Public Properties
 public extension ActionButton {
-  enum ExtraImage {
-    case left(Image)
-    case center(Image)
-    case right(Image)
+  struct ExtraImage {
+    let image: Image
+    let size: CGSize
+    
+    public init(image: Image, size: CGSize) {
+      self.image = image
+      self.size = size
+    }
   }
   
   enum CornerRadiusType {
@@ -60,111 +112,154 @@ public extension ActionButton {
   }
 }
 
-// MARK: - Private Methods
-private extension ActionButton {
-  func buttonAction() {
-    actionHandler?()
+// MARK: - Builder Pattern Methods
+public extension ActionButton {
+  func title(_ title: String) -> ActionButton {
+    properties.title = title
+    return self
   }
   
-  func getAlignment(for extraImage: ExtraImage?) -> Alignment {
-    switch extraImage {
-    case .some(let alignment):
-      switch alignment {
-      case .right:
-        return .trailing
-      case .left:
-        return .leading
-      case .center:
-        return .center
-      }
-    case .none:
-      return .trailing
+  func font(_ font: Font) -> ActionButton {
+    properties.font = font
+    return self
+  }
+  
+  func textColor(_ textColor: Color) -> ActionButton {
+    properties.textColor = textColor
+    return self
+  }
+  
+  func cornerRadius(_ cornerRadius: ActionButton.CornerRadiusType) -> ActionButton {
+    properties.cornerRadius = cornerRadius
+    return self
+  }
+  
+  func backgroundType(_ backgroundType: ActionButton.Background) -> ActionButton {
+    properties.backgroundType = backgroundType
+    return self
+  }
+  
+  func borderColor(_ borderColor: Color) -> ActionButton {
+    properties.borderColor = borderColor
+    return self
+  }
+  
+  func borderWidth(_ borderWidth: CGFloat) -> ActionButton {
+    properties.borderWidth = borderWidth
+    return self
+  }
+  
+  func leftImage(_ leftImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.leftImage = leftImage
+    return self
+  }
+  
+  func rightImage(_ rightImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.rightImage = rightImage
+    return self
+  }
+  
+  func titleLeftImage(_ titleLeftImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.titleLeftImage = titleLeftImage
+    return self
+  }
+  
+  func titleRightImage(_ titleRightImage: ActionButton.ExtraImage) -> ActionButton {
+    properties.titleRightImage = titleRightImage
+    return self
+  }
+}
+
+// MARK: - Access to properties from UIKit
+public extension ActionButton {
+  var title: String {
+    get { properties.title }
+    set { properties.title = newValue}
+  }
+  
+  var font: Font {
+    get { properties.font }
+    set { properties.font = newValue}
+  }
+  
+  var textColor: Color {
+    get { properties.textColor }
+    set { properties.textColor = newValue}
+  }
+  
+  var cornerRadius: ActionButton.CornerRadiusType {
+    get { properties.cornerRadius }
+    set { properties.cornerRadius = newValue}
+  }
+  
+  var backgroundType: ActionButton.Background {
+    get { properties.backgroundType }
+    set { properties.backgroundType = newValue}
+  }
+  
+  var borderColor: Color {
+    get { properties.borderColor }
+    set { properties.borderColor = newValue}
+  }
+  
+  var borderWidth: CGFloat {
+    get { properties.borderWidth }
+    set { properties.borderWidth = newValue}
+  }
+  
+  var leftImage: ActionButton.ExtraImage? {
+    get { properties.leftImage }
+    set { properties.leftImage = newValue}
+  }
+  
+  var rightImage: ActionButton.ExtraImage? {
+    get { properties.rightImage }
+    set { properties.rightImage = newValue}
+  }
+  
+  var titleLeftImage: ActionButton.ExtraImage? {
+    get { properties.titleLeftImage }
+    set { properties.titleLeftImage = newValue}
+  }
+  
+  var titleRightImage: ActionButton.ExtraImage? {
+    get { properties.titleRightImage }
+    set { properties.titleRightImage = newValue}
+  }
+  
+  func addAction(_ action: @escaping () -> Void) {
+    properties.actionHandler = action
+  }
+}
+
+// MARK: - Helper Methods
+private extension ActionButton {
+  @ViewBuilder
+  private var backgroundView: some View {
+    switch properties.backgroundType {
+    case .plain(let backgroundColor):
+      backgroundColor
+    case let .linearGradient(gradient):
+      gradient
+    case let .angularGradient(gradient):
+      gradient
+    case let .radialGradient(gradient):
+      gradient
+    }
+  }
+  
+  private func getCornerRadius(for cornerType: CornerRadiusType) -> CGFloat {
+    switch cornerType {
+    case .rounded:
+      return .infinity
+    case .custom(let cornerRadius):
+      return cornerRadius
     }
   }
 }
 
-// MARK: Views
-private extension ActionButton {
-  struct ButtonView: View {
-    var size: CGSize
-    var action: () -> Void
-    var properties: ActionButtonViewModel
-    
-    var body: some View {
-      Button(action: {
-        action()
-      }) {
-        Text(properties.title)
-          .font(properties.font)
-          .padding()
-          .frame(width: size.width, height: size.height)
-          .foregroundColor(properties.textColor)
-          .overlay(
-            RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
-              .stroke(properties.borderColor, lineWidth: properties.borderWidth)
-          )
-      }
-      .background(backgroundView)
-      .cornerRadius(getCornerRadius(for: properties.cornerRadius))
-    }
-    
-    @ViewBuilder
-    var backgroundView: some View {
-      switch properties.backgroundType {
-      case .plain(let backgroundColor):
-        backgroundColor
-      case let .linearGradient(gradient):
-        gradient
-      case let .angularGradient(gradient):
-        gradient
-      case let .radialGradient(gradient):
-        gradient
-      }
-    }
-    
-    func getCornerRadius(for cornerType: CornerRadiusType) -> CGFloat {
-      switch cornerType {
-      case .rounded:
-        return .infinity
-      case .custom(let cornerRadius):
-        return cornerRadius
-      }
-    }
-  }
-  
-  struct ExtraImageView: View {
-    var tintColor: Color
-    var image: Image
-    var height: CGFloat
-    var width: CGFloat
-    
-    init?(imageAlignment: ExtraImage?, tintColor: Color, size: CGSize) {
-      switch imageAlignment {
-      case .some(let alignment):
-        switch alignment {
-        case .center(let image), .left(let image), .right(let image):
-          self.image = image
-        }
-        self.tintColor = tintColor
-        height = size.height * 0.4
-        width = height
-      case .none:
-        return nil
-      }
-    }
-    
-    var body: some View {
-      image
-        .frame(width: width, height: height)
-        .padding()
-        .foregroundColor(tintColor)
-    }
-  }
-}
-
-struct PovioButton_Previews: PreviewProvider {
+struct ActionButton_Previews: PreviewProvider {
   static var previews: some View {
     ActionButton()
   }
 }
-
