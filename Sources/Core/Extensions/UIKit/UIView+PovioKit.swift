@@ -51,8 +51,8 @@ public extension UIView {
 // MARK: - Animations
 public extension UIView {
   struct AnimationKey {
-    static let rotation = "rotationAnimationKey"
-    static let shadowOpacity = "shadowOpacityKey"
+    public static let rotation = "rotationAnimationKey"
+    public static let shadowOpacity = "shadowOpacityKey"
   }
   
   func rotate(speed: CFTimeInterval = 1.25, clockwise: Bool = true) {

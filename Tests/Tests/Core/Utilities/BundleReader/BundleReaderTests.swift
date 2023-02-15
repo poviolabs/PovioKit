@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class BundleReaderTests: XCTestCase {
   func test_init_doesNotMessageTheReader() {

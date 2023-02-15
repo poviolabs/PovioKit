@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import PovioKitPromise
+import PovioKitPromise
 
 class EitherTests: XCTestCase {
   func testIsLeftOrRight() {

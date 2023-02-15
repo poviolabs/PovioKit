@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class DecodableDictionaryTests: XCTestCase {
   func testDecode() {

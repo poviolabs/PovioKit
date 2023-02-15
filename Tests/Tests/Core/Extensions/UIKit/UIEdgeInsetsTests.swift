@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class UIEdgeInsetsTests: XCTestCase {
   func testAll() {
