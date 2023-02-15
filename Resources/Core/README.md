@@ -16,7 +16,6 @@ Core package including essentials needed for development and other packages.
 | [ImageSource](/Sources/Core/Utilities/ImageSource/ImageSource.swift) |
 | [Logger](Utilities/Logger) |
 | [Money](Utilities/Money) |
-| [SignInWithApple](Utilities/SignInWithApple) / deprecated |
 | [StartupService](Utilities/StartupService) |
 | [Throttler](Utilities/Throttler) |
 | [UserDefaults](Utilities/PropertyWrapper/UserDefaults) |
