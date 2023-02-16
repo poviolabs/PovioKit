@@ -113,9 +113,9 @@ Task {
   let result = await inAppPurchaseService.purchase(product: "com.test.plan1")
   switch result {
     case .success(let transaction):
-      print("purchase product success with transaction: \(transaction.productID)")
+      Logger.debug("purchase product success", params: ["transaction": transaction.productID])
     case .failure(let error):
-      print("purchase product failure with error: \(error.localizedDescription)")
+      Logger.error("purchase product failure", params: ["error": error.localizedDescription])
   }
 }
 ```
@@ -128,10 +128,10 @@ Task {
   switch result {
   case .success(let isPurchased):
     if isPurchased {
-      print("product \(productId) is purchased!")
+      Logger.debug("product is purchased!", params: ["product": productId])
     }
   case .failure(let error):
-    print("error in checking if the product \(productId) is purchased: \(error.localizedDescription)")
+    Logger.error("error in checking if the product is purchased", params: ["product": productId, "error": error.localizedDescription])
   }
 }
 ```
@@ -142,9 +142,9 @@ Task {
   let result = await inAppPurchaseService.restorePurchases()
   switch result {
   case .success():
-    print("Restore purchases success")
+    Logger.debug("Restore purchases success")
   case .failure(let error):
-    print("Restore purchases failed with error: \(error.localizedDescription)")
+    Logger.error("Restore purchases failed with error", params: ["error": error.localizedDescription])
   }
 }
 ```
@@ -155,9 +155,9 @@ Task {
   let result = await inAppPurchaseService.validateReceipt()
   switch result {
   case .success(let receipt):
-    print("Receipt valid: \(receipt)")
+    Logger.debug("Receipt valid", params: ["receipt": receipt])
   case .failure(let failure):
-    print("Receipt validation failed with error: \(error.localizedDescription)")
+    Logger.error("Receipt validation failed with error", params: ["error": error.localizedDescription])
   }
 }
 ```
