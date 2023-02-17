@@ -467,7 +467,7 @@ public extension RequestMonitor {
 /// promise executes its observers on the background queue as well - doing any UI
 /// related work, without dispatching to main, would crash the app!
 /// 
-/// To solve both problems, we provide a small abstraction to PromiseKit, which
+/// To solve both problems, we provide a small abstraction , which
 /// dispatches the transformation work to a background thread, and returns a promise
 /// which is resolved on the main thread.
 /// 
