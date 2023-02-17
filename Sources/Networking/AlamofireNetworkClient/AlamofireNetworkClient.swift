@@ -500,3 +500,15 @@ public extension Promise where Value: DomainConvertible {
   }
 }
 
+
+public extension Promise where Value: Collection, Value.Element: DomainConvertible {
+  func mapToDomain<T>(
+    transformOn: DispatchQueue = .global(),
+    resolveOn: DispatchQueue = .main
+  ) -> Promise<[T]> where T == Value.Element.DomainModel {
+    compactMap(on: transformOn) {
+      try $0.compactMap { try $0.toDomainModel() }
+    }
+    .map(on: resolveOn) { $0 }
+  }
+}
