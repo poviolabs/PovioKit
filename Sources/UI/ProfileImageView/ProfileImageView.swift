@@ -132,6 +132,7 @@ private extension ProfileImageView {
     
     var body: some View {
       style.image
+        .aspectRatio(contentMode: style.contentMode)
         .foregroundColor(style.tintColor)
         .frame(width: size.width, height: size.height)
         .background(style.backgroundColor)
@@ -149,6 +150,7 @@ private extension ProfileImageView {
 public extension ProfileImageView {
   struct Badge {
     let image: Image
+    let contentMode: ContentMode
     let backgroundColor: Color
     let tintColor: Color
     let alignment: Alignment
@@ -156,12 +158,14 @@ public extension ProfileImageView {
     let borderWidth: CGFloat?
     
     public init(image: Image,
+                contentMode: ContentMode = .fit,
                 tintColor: Color = .white,
                 backgroundColor: Color,
                 alignment: Alignment,
                 borderColor: Color? = nil,
                 borderWidth: CGFloat? = nil) {
       self.image = image
+      self.contentMode = contentMode
       self.tintColor = tintColor
       self.backgroundColor = backgroundColor
       self.alignment = alignment
