@@ -116,7 +116,9 @@ private extension ProfileImageView {
     var badgeTapped: (() -> Void)
 
     
-    init?(style: BadgingMode, size: CGSize, badgeTapped: @escaping () -> ()) {
+    init?(style: BadgingMode,
+          size: CGSize,
+          badgeTapped: @escaping () -> ()) {
       self.badgeTapped = badgeTapped
       
       switch style {
@@ -130,7 +132,7 @@ private extension ProfileImageView {
     
     var body: some View {
       style.image
-        .foregroundColor(.white)
+        .foregroundColor(style.tintColor)
         .frame(width: size.width, height: size.height)
         .background(style.backgroundColor)
         .clipShape(Circle())
@@ -148,16 +150,19 @@ public extension ProfileImageView {
   struct Badge {
     let image: Image
     let backgroundColor: Color
+    let tintColor: Color
     let alignment: Alignment
     let borderColor: Color?
     let borderWidth: CGFloat?
     
     public init(image: Image,
+                tintColor: Color = .white,
                 backgroundColor: Color,
                 alignment: Alignment,
                 borderColor: Color? = nil,
                 borderWidth: CGFloat? = nil) {
       self.image = image
+      self.tintColor = tintColor
       self.backgroundColor = backgroundColor
       self.alignment = alignment
       self.borderColor = borderColor
