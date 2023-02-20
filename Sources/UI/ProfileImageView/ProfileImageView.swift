@@ -8,25 +8,13 @@
 
 import SwiftUI
 
-@available(iOS 14, *)
-public class ProfileImageProperties: ObservableObject {
-  @Published public var placeholder: Image?
-  @Published public var backgroundType = ProfileImageView.Background.plain(.clear)
-  @Published public var cornerRadius: ProfileImageView.CornerRadiusType = .circle
-  @Published public var contentMode: ContentMode = .fit
-  @Published public var borderColor: Color = .clear
-  @Published public var borderWidth: CGFloat = 0
-  @Published public var badging: ProfileImageView.BadgingMode = .none
-  @Published var url: URL?
-}
-
-@available(iOS 14, *)
 public struct ProfileImageView: View {
-  public var imageTapped: (() -> Void)?
-  public var badgeTapped: (() -> Void)?
-  @ObservedObject public var properties = ProfileImageProperties()
+  @ObservedObject private var properties = ProfileImageProperties()
   
   public init() {}
+  public init(placeholder: Image) {
+    properties.placeholder = placeholder
+  }
   
   public var body: some View {
     GeometryReader { geo in
@@ -37,11 +25,27 @@ public struct ProfileImageView: View {
     }
   }
   
-  private func triggerImageTapClosure() { imageTapped?() }
-  private func tiggerBadgeTapClosure() { badgeTapped?() }
+  private func triggerImageTapClosure() { properties.imageTapped?() }
+  private func tiggerBadgeTapClosure() { properties.badgeTapped?() }
 }
 
-@available(iOS 14, *)
+// MARK: - ViewModel
+private extension ProfileImageView {
+  class ProfileImageProperties: ObservableObject {
+    @Published var placeholder: Image?
+    @Published var backgroundType = ProfileImageView.Background.plain(.clear)
+    @Published var cornerRadius: ProfileImageView.CornerRadiusType = .circle
+    @Published var contentMode: ContentMode = .fit
+    @Published var borderColor: Color = .clear
+    @Published var borderWidth: CGFloat = 0
+    @Published var badging: ProfileImageView.BadgingMode = .none
+    @Published var url: URL?
+    @Published var imageTapped: (() -> Void)?
+    @Published var badgeTapped: (() -> Void)?
+  }
+}
+
+// MARK: - Views
 private extension ProfileImageView {
   struct ImageView: View {
     @ObservedObject var properties: ProfileImageProperties
@@ -139,9 +143,7 @@ private extension ProfileImageView {
   }
 }
 
-
 // MARK: - Public Properties
-@available(iOS 14, *)
 public extension ProfileImageView {
   struct Badge {
     let image: Image
@@ -178,15 +180,91 @@ public extension ProfileImageView {
   }
 }
 
-// MARK: - Public Methods
-@available(iOS 14, *)
+// MARK: - Builder Pattern Methods
 public extension ProfileImageView {
+  func placeholder(_ placeholder: Image) -> Self {
+    properties.placeholder = placeholder
+    return self
+  }
+  
+  func backgroundType(_ backgroundType: Background) -> Self {
+    properties.backgroundType = backgroundType
+    return self
+  }
+  
+  func cornerRadius(_ cornerRadius: CornerRadiusType) -> Self {
+    properties.cornerRadius = cornerRadius
+    return self
+  }
+  
+  func contentMode(_ contentMode: ContentMode) -> Self {
+    properties.contentMode = contentMode
+    return self
+  }
+  
+  func borderColor(_ borderColor: Color) -> Self {
+    properties.borderColor = borderColor
+    return self
+  }
+  
+  func borderWidth(_ borderWidth: CGFloat) -> Self {
+    properties.borderWidth = borderWidth
+    return self
+  }
+  
+  func badging(_ badging: BadgingMode) -> Self {
+    properties.badging = badging
+    return self
+  }
+  
+  func url(_ url: URL) -> Self {
+    properties.url = url
+    return self
+  }
+}
+
+// MARK: - Access to properties from UIKit
+public extension ProfileImageView {
+  var placeholder: Image? {
+    get { properties.placeholder }
+    set { properties.placeholder = newValue}
+  }
+  
+  var backgroundType: Background {
+    get { properties.backgroundType }
+    set { properties.backgroundType = newValue }
+  }
+  
+  var cornerRadius: CornerRadiusType {
+    get { properties.cornerRadius }
+    set { properties.cornerRadius = newValue }
+  }
+  
+  var contentMode: ContentMode {
+    get { properties.contentMode }
+    set { properties.contentMode = newValue }
+  }
+  
+  var borderColor: Color {
+    get { properties.borderColor }
+    set { properties.borderColor = newValue }
+  }
+  
+  var borderWidth: CGFloat {
+    get { properties.borderWidth }
+    set { properties.borderWidth = newValue }
+  }
+  
+  var badging: BadgingMode {
+    get { properties.badging }
+    set { properties.badging = newValue }
+  }
+  
   func set(_ url: URL?) {
     properties.url = url
   }
 }
 
-@available(iOS 14, *)
 struct ProfileImageView_Previews: PreviewProvider {
   static var previews: some View {
     ProfileImageView()

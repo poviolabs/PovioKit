@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(iOS 14, *)
 struct URLImageView: View {
   @ObservedObject var urlImageModel: URLImageModel
   var placeholderImage: Image?

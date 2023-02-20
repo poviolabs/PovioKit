@@ -9,7 +9,6 @@
 import UIKit
 import SwiftUI
 
-@available(iOS 14, *)
 class URLImageModel: ObservableObject {
   @Published var image: UIImage?
   var url: URL?

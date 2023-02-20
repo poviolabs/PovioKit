@@ -8,13 +8,11 @@
 
 import SwiftUI
 
-@available(iOS 14, *)
 public extension Image {}
 
 #if canImport(Kingfisher)
 import Kingfisher
 
-@available(iOS 14, *)
 private extension Image {
   func resolveWithKingFisher(from url: URL?, placeholder: Image?) -> some View {
     KFImage(url)
@@ -27,7 +25,6 @@ private extension Image {
 }
 #endif
 
-@available(iOS 14, *)
 extension Image {
   func resolve(from url: URL?, placeholder: Image?) -> some View {
     #if canImport(KingFisher)
