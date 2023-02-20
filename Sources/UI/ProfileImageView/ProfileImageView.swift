@@ -148,20 +148,20 @@ public extension ProfileImageView {
   struct Badge {
     let image: Image
     let backgroundColor: Color
+    let alignment: Alignment
     let borderColor: Color?
     let borderWidth: CGFloat?
-    let alignment: Alignment
     
     public init(image: Image,
                 backgroundColor: Color,
-                borderColor: Color?,
-                borderWidth: CGFloat?,
-                alignment: Alignment) {
+                alignment: Alignment,
+                borderColor: Color? = nil,
+                borderWidth: CGFloat? = nil) {
       self.image = image
       self.backgroundColor = backgroundColor
+      self.alignment = alignment
       self.borderColor = borderColor
       self.borderWidth = borderWidth
-      self.alignment = alignment
     }
   }
   
