@@ -151,6 +151,18 @@ public extension ProfileImageView {
     let borderColor: Color?
     let borderWidth: CGFloat?
     let alignment: Alignment
+    
+    public init(image: Image,
+                backgroundColor: Color,
+                borderColor: Color?,
+                borderWidth: CGFloat?,
+                alignment: Alignment) {
+      self.image = image
+      self.backgroundColor = backgroundColor
+      self.borderColor = borderColor
+      self.borderWidth = borderWidth
+      self.alignment = alignment
+    }
   }
   
   enum BadgingMode {
