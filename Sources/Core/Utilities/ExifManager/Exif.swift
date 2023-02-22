@@ -1,5 +1,5 @@
 //
-//  ExifManager.swift
+//  Exif.swift
 //  PovioKit
 //
 //  Created by Marko Mijatovic on 16/02/2023.
@@ -11,7 +11,7 @@ import ImageIO
 import PovioKitPromise
 
 /// A wrapper around Image I/O framework APIs that can be used to modify EXIF and other image metadata without recompressing the image data.
-public final class ExifManager {
+public final class Exif {
   private let source: ExifImageSource
   
   public init(source: ExifImageSource) {
@@ -20,10 +20,10 @@ public final class ExifManager {
 }
 
 // MARK: - Public Methods
-public extension ExifManager {
+public extension Exif {
   /// Read EXIF metadata from the provided image source
   /// - Returns: Dictionary with EXIF values as a Promise or ``ExifError``
-  func readExif() -> Promise<[String: Any]> {
+  func read() -> Promise<[String: Any]> {
     guard let imageSource = getImageSource() else {
       return .error(ExifError.createImageSource)
     }
@@ -38,7 +38,7 @@ public extension ExifManager {
   /// Keys for the new values must be part of the [EXIF Dictionary Keys](https://developer.apple.com/documentation/imageio/exif_dictionary_keys)
   /// - Parameter newValue: Dictionary with the new EXIF values
   /// - Returns: New image Data as a Promise or ``ExifError``
-  func updateExif(_ newValue: [CFString: String]) -> Promise<Data> {
+  func update(_ newValue: [CFString: String]) -> Promise<Data> {
     guard let imageSource = getImageSource() else {
       return .error(ExifError.createImageSource)
     }
@@ -77,7 +77,7 @@ public extension ExifManager {
 }
 
 // MARK: - Private Methods
-private extension ExifManager {
+private extension Exif {
   func getImageSource() -> CGImageSource? {
     var imageSource: CGImageSource?
     switch source {
@@ -85,6 +85,10 @@ private extension ExifManager {
       imageSource = CGImageSourceCreateWithURL(url as CFURL, nil)
     case .data(let data):
       imageSource = CGImageSourceCreateWithData(data as CFData, nil)
+    case .image(let image):
+      if let data = image.pngData() {
+        imageSource = CGImageSourceCreateWithData(data as CFData, nil)
+      }
     }
     return imageSource
   }
