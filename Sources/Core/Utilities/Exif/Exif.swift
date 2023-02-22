@@ -85,10 +85,6 @@ private extension Exif {
       imageSource = CGImageSourceCreateWithURL(url as CFURL, nil)
     case .data(let data):
       imageSource = CGImageSourceCreateWithData(data as CFData, nil)
-    case .image(let image):
-      if let data = image.pngData() {
-        imageSource = CGImageSourceCreateWithData(data as CFData, nil)
-      }
     }
     return imageSource
   }

@@ -12,5 +12,4 @@ import UIKit
 public enum ExifImageSource {
   case url(URL)
   case data(Data)
-  case image(UIImage)
 }
