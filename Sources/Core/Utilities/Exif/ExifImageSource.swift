@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 public enum ExifImageSource {
   case url(URL)
