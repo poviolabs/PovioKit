@@ -29,7 +29,7 @@ struct ContentView: View {
           .buttonStyle(.bordered)
           .navigationDestination(for: String.self) { string in
             List {
-              ForEach(Component.allCases) { component in
+              ForEach(Component.allCases, id: \.self) { component in
                 NavigationLink(value: component) {
                   Text(component.name)
                 }

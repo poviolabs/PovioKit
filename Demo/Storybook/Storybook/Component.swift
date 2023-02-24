@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum Component: String, Identifiable, Hashable, CaseIterable {
+enum Component: CaseIterable {
   case actionButton
   case paddingLabel
-  
-  var id: RawValue { rawValue }
-  
+}
+
+extension Component {
   var name: String {
     switch self {
     case .actionButton:
