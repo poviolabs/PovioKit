@@ -20,7 +20,9 @@ public struct ProfileImageView: View {
     GeometryReader { geo in
       ZStack(alignment: properties.badging.alignment) {
         ImageView(properties: properties, profileTapped: triggerImageTapClosure)
-        BadgeView(style: properties.badging, size: .init(width: geo.size.width / 3.5, height: geo.size.height / 3.5), badgeTapped: tiggerBadgeTapClosure)
+        BadgeView(style: properties.badging,
+                  size: .init(width: geo.size.width / 5, height: geo.size.height / 5),
+                  badgeTapped: tiggerBadgeTapClosure)
       }
     }
   }
@@ -132,16 +134,17 @@ private extension ProfileImageView {
     
     var body: some View {
       style.image
+        .frame(width: size.width, height: size.height)
         .aspectRatio(contentMode: style.contentMode)
         .foregroundColor(style.tintColor)
-        .frame(width: size.width, height: size.height)
+        .padding(.all, 5)
         .background(style.backgroundColor)
         .clipShape(Circle())
-        .gesture(TapGesture().onEnded({ badgeTapped() }))
         .overlay(Circle().stroke(
           (style.borderColor != nil) ? style.borderColor! : Color.white,
           lineWidth: (style.borderWidth != nil) ? style.borderWidth! : 2)
         )
+        .gesture(TapGesture().onEnded({ badgeTapped() }))
     }
   }
 }
@@ -242,6 +245,16 @@ public extension ProfileImageView {
     properties.url = url
     return self
   }
+  
+  func onBadgeTap(_ badgeTapped: @escaping (() -> Void)) -> Self {
+    self.properties.badgeTapped = badgeTapped
+    return self
+  }
+  
+  func onProfileTap(_ imageTapped: @escaping (() -> Void)) -> Self {
+    self.properties.imageTapped = imageTapped
+    return self
+  }
 }
 
 // MARK: - Access to properties from UIKit
@@ -283,6 +296,14 @@ public extension ProfileImageView {
   
   func set(_ url: URL?) {
     properties.url = url
+  }
+  
+  func addActionOnProfileTap(_ action: @escaping () -> Void) {
+    properties.imageTapped = action
+  }
+  
+  func addActionOnBadgeTap(_ action: @escaping () -> Void) {
+    properties.badgeTapped = action
   }
 }
 
