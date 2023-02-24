@@ -7,17 +7,23 @@ A `View` subclass intended to replace `UIImageView` and all the configuration th
 ### Example: Implementation in SwiftUI
 ```swift
 struct ContentView: View {
-  var profileImageView = ProfileImageView()
-  
-  // Optional - For configuration purposes
-  init() {
-    profileImageView.properties.placeHolder = Image(systemName: "person.circle.fill")
-    profileImageView.imageTapped = { print("Image tapped") }
-  }
-  
-    var body: some View {
-      profileImageView
-        .frame(width: 100, height: 100)
+  var body: some View {
+      ProfileImageView(placeholder: .init(<Placeholder name>))
+        .borderWidth(3)
+        .borderColor(.red)
+        .badging(.some(badge: .init(image: .init(systemName: "plus"),
+                                    contentMode: .fit,
+                                    tintColor: .black,
+                                    backgroundColor: .green,
+                                    alignment: .bottomTrailing)))
+        .onBadgeTap {
+          print("badge tapped")
+        }
+        .onProfileTap {
+          print("profile tapped")
+        }
+        .url(<Picture URL>)
+        .frame(width: 60, height: 60)
     }
 }
 ```
@@ -44,22 +50,26 @@ private func addProfileImageView() {
   NSLayoutConstraint.activate(constraints)
   hostingController.didMove(toParent: self)
   
-  profileImageView.imageTapped = { [weak self] in
-    self?.someFunc()
+  profileImageView.placeholder = .init(<Placeholder name>)
+  profileImageView.borderWidth = 2
+  profileImageView.borderColor = .green
+  profileImageView.contentMode = .fit
+  profileImageView.badging = .some(badge: .init(image: .init(systemName: "plus"), backgroundColor: .green, alignment: .bottomTrailing))
+  profileImageView.addActionOnBadgeTap {
+    print("badge tapped")
   }
   
-  profileImageView.badgeTapped = {
-    print("Badge tapped")
+  profileImageView.addActionOnProfileTap {
+    print("profile tapped")
   }
   
   hostingController.rootView = profileImageView
 }
 ```
 
-Accessing methods & properties of `ProfileImageView`
+Download picture url
 ```swift
-profileImageView.set(URL(string: "URL String"))
-profileImageView.properties.badging = .some(badge: .init(image: Image(systemName: "plus"), backgroundColor: .green, borderColor: nil, borderWidth: nil))
+profileImageView.set(<Picture URL>)
 ```
 
 ## Source code
