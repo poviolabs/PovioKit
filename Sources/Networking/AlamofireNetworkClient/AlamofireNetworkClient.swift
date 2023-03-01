@@ -375,7 +375,7 @@ public extension AlamofireNetworkClient.Request {
   /// See Alamofire's documentation for details:
   /// 
   /// ``Alamofire.Concurrency.serializingData``
-  func dataAsync(
+  func data(
     automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
     dataPreprocessor: DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor,
     emptyResponseCodes: Set<Int> = DataResponseSerializer.defaultEmptyResponseCodes,
@@ -399,7 +399,7 @@ public extension AlamofireNetworkClient.Request {
   
   var asDataAsync: Data {
     get async throws {
-      try await dataAsync()
+      try await data()
     }
   }
   
@@ -412,7 +412,7 @@ public extension AlamofireNetworkClient.Request {
   /// See Alamofire's documentation for details:
   /// 
   /// ``Alamofire.Concurrency.serializingString``
-  func stringAsync(
+  func string(
     automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
     dataPreprocessor: DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor,
     encoding: String.Encoding? = nil,
@@ -438,14 +438,14 @@ public extension AlamofireNetworkClient.Request {
   
   var asStringAsync: String {
     get async throws {
-      try await stringAsync()
+      try await string()
     }
   }
   
   /// See Alamofire's documentation for details:
   /// 
   /// ``Alamofire.Concurrency.serializingDecodable``
-  func decodeAsync<D: Decodable>(
+  func decod<D: Decodable>(
     _ decodable: D.Type,
     decoder: JSONDecoder = .init(),
     automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
