@@ -9,7 +9,7 @@
 import SwiftUI
 
 public struct ProfileImageView: View {
-  @ObservedObject private var properties = ProfileImageProperties()
+  @ObservedObject private var properties = Properties()
   
   public init() {}
   public init(placeholder: Image) {
@@ -33,7 +33,7 @@ public struct ProfileImageView: View {
 
 // MARK: - ViewModel
 private extension ProfileImageView {
-  class ProfileImageProperties: ObservableObject {
+  class Properties: ObservableObject {
     @Published var placeholder: Image?
     @Published var backgroundType = ProfileImageView.Background.plain(.clear)
     @Published var cornerRadius: ProfileImageView.CornerRadiusType = .circle
@@ -50,7 +50,7 @@ private extension ProfileImageView {
 // MARK: - Views
 private extension ProfileImageView {
   struct ImageView: View {
-    @ObservedObject var properties: ProfileImageProperties
+    @ObservedObject var properties: Properties
     var profileTapped: (() -> Void)
     
     var body: some View {
