@@ -445,7 +445,7 @@ public extension AlamofireNetworkClient.Request {
   /// See Alamofire's documentation for details:
   /// 
   /// ``Alamofire.Concurrency.serializingDecodable``
-  func decod<D: Decodable>(
+  func decode<D: Decodable>(
     _ decodable: D.Type,
     decoder: JSONDecoder = .init(),
     automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
