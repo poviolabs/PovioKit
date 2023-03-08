@@ -31,10 +31,7 @@ extension GoogleAuthenticator: Authenticator {
         provider.restorePreviousSignIn { result, error in
           switch (result, error) {
           case (let user?, _):
-            let response = Response(token: user.accessToken.tokenString,
-                                    name: user.profile?.name,
-                                    email: user.profile?.email)
-            seal.resolve(with: response)
+            seal.resolve(with: user.authResponse)
           case (_, let actualError?):
             seal.reject(with: Error.system(actualError))
           case (.none, .none):
@@ -50,10 +47,7 @@ extension GoogleAuthenticator: Authenticator {
         .signIn(withPresenting: presentingViewController) { result, error in
           switch (result, error) {
           case (let signInResult?, _):
-            let response = Response(token: signInResult.user.accessToken.tokenString,
-                                    name: signInResult.user.profile?.name,
-                                    email: signInResult.user.profile?.email)
-            seal.resolve(with: response)
+            seal.resolve(with: signInResult.user.authResponse)
           case (_, let actualError?):
             let errorCode = (actualError as NSError).code
             if errorCode == GIDSignInError.Code.canceled.rawValue {
@@ -93,5 +87,14 @@ public extension GoogleAuthenticator {
     case cancelled
     case unhandledAuthorization
     case alreadySignedIn
+  }
+}
+
+// MARK: - Private Extension
+private extension GIDGoogleUser {
+  var authResponse: GoogleAuthenticator.Response {
+    .init(token: accessToken.tokenString,
+          name: profile?.name,
+          email: profile?.email)
   }
 }
