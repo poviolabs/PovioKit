@@ -12,8 +12,8 @@ public struct ProfileImageView: View {
   @ObservedObject private var properties = Properties()
   
   public init() {}
-  public init(placeholder: Image) {
-    properties.placeholder = placeholder
+  public init(image: Image) {
+    properties.image = image
   }
   
   public var body: some View {
@@ -34,6 +34,7 @@ public struct ProfileImageView: View {
 // MARK: - ViewModel
 private extension ProfileImageView {
   class Properties: ObservableObject {
+    @Published var image: Image?
     @Published var placeholder: Image?
     @Published var initials: String?
     @Published var backgroundType = ProfileImageView.Background.plain(.clear)
@@ -66,7 +67,7 @@ private extension ProfileImageView {
     var body: some View {
       GeometryReader { geo in
         if constructProfileImage {
-          constructProfileImage(placeholder: properties.placeholder)
+          constructProfileImage(placeholder: properties.image)
             .resolve(from: properties.url, placeholder: properties.placeholder)
             .aspectRatio(contentMode: properties.contentMode)
             .frame(width: geo.size.width, height: geo.size.height)
@@ -229,8 +230,8 @@ public extension ProfileImageView {
 
 // MARK: - Builder Pattern Methods
 public extension ProfileImageView {
-  func placeholder(_ placeholder: Image) -> Self {
-    properties.placeholder = placeholder
+  func image(_ image: Image) -> Self {
+    properties.image = image
     return self
   }
   
@@ -269,8 +270,9 @@ public extension ProfileImageView {
     return self
   }
   
-  func url(_ url: URL) -> Self {
+  func url(_ url: URL, with placeholder: Image? = nil) -> Self {
     properties.url = url
+    properties.placeholder = placeholder
     return self
   }
   
@@ -287,9 +289,9 @@ public extension ProfileImageView {
 
 // MARK: - Access to properties from UIKit
 public extension ProfileImageView {
-  var placeholder: Image? {
-    get { properties.placeholder }
-    set { properties.placeholder = newValue}
+  var image: Image? {
+    get { properties.image }
+    set { properties.image = newValue}
   }
   
   var backgroundType: Background {
@@ -322,8 +324,9 @@ public extension ProfileImageView {
     set { properties.badging = newValue }
   }
   
-  func set(_ url: URL?) {
+  func set(_ url: URL?, with placeholder: Image? = nil) {
     properties.url = url
+    properties.placeholder = placeholder
   }
   
   func set(_ initials: String) {
