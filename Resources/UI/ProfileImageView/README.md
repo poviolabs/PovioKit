@@ -8,7 +8,7 @@ A `View` subclass intended to replace `UIImageView` and all the configuration th
 ```swift
 struct ContentView: View {
   var body: some View {
-      ProfileImageView(placeholder: .init(<Placeholder name>))
+      ProfileImageView(image: .init(<Image name>))
         .borderWidth(3)
         .borderColor(.red)
         .badging(.some(badge: .init(image: .init(systemName: "plus"),
@@ -22,7 +22,7 @@ struct ContentView: View {
         .onProfileTap {
           print("profile tapped")
         }
-        .url(<Picture URL>)
+        .url(<Picture URL>, placeholder: <Optional Placeholder>)
         .frame(width: 60, height: 60)
     }
 }
@@ -50,7 +50,7 @@ private func addProfileImageView() {
   NSLayoutConstraint.activate(constraints)
   hostingController.didMove(toParent: self)
   
-  profileImageView.placeholder = .init(<Placeholder name>)
+  profileImageView.image = .init(<Image name>)
   profileImageView.borderWidth = 2
   profileImageView.borderColor = .green
   profileImageView.contentMode = .fit
@@ -69,7 +69,7 @@ private func addProfileImageView() {
 
 Download picture url
 ```swift
-profileImageView.set(<Picture URL>)
+profileImageView.set(<Picture URL>, placeholder: <Optional Placeholder>)
 ```
 
 ## Source code
