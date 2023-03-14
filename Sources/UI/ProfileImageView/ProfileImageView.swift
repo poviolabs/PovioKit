@@ -270,7 +270,7 @@ public extension ProfileImageView {
     return self
   }
   
-  func url(_ url: URL, with placeholder: Image? = nil) -> Self {
+  func url(_ url: URL, placeholder: Image? = nil) -> Self {
     properties.url = url
     properties.placeholder = placeholder
     return self
@@ -324,7 +324,7 @@ public extension ProfileImageView {
     set { properties.badging = newValue }
   }
   
-  func set(_ url: URL?, with placeholder: Image? = nil) {
+  func set(_ url: URL?, placeholder: Image? = nil) {
     properties.url = url
     properties.placeholder = placeholder
   }
