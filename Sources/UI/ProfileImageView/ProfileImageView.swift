@@ -35,6 +35,7 @@ public struct ProfileImageView: View {
 private extension ProfileImageView {
   class Properties: ObservableObject {
     @Published var placeholder: Image?
+    @Published var initials: String?
     @Published var backgroundType = ProfileImageView.Background.plain(.clear)
     @Published var cornerRadius: ProfileImageView.CornerRadiusType = .circle
     @Published var contentMode: ContentMode = .fit
@@ -53,16 +54,38 @@ private extension ProfileImageView {
     @ObservedObject var properties: Properties
     var profileTapped: (() -> Void)
     
+    private var constructProfileImage: Bool {
+      switch (properties.placeholder, properties.url, properties.initials) {
+      case ( .some, _, _ ), (_, .some, _), (.none, .none, .none):
+        return true
+      case (_, _, .some):
+        return false
+      }
+    }
+    
     var body: some View {
       GeometryReader { geo in
-        constructProfileImage(placeholder: properties.placeholder)
-          .resolve(from: properties.url, placeholder: properties.placeholder)
-          .aspectRatio(contentMode: properties.contentMode)
-          .frame(width: geo.size.width, height: geo.size.height)
-          .gesture(TapGesture().onEnded({ profileTapped() }))
-          .background(backgroundView)
-          .overlay(shapeView)
-          .cornerRadius(getCornerRadius(for: properties.cornerRadius))
+        if constructProfileImage {
+          constructProfileImage(placeholder: properties.placeholder)
+            .resolve(from: properties.url, placeholder: properties.placeholder)
+            .aspectRatio(contentMode: properties.contentMode)
+            .frame(width: geo.size.width, height: geo.size.height)
+            .gesture(TapGesture().onEnded({ profileTapped() }))
+            .background(backgroundView)
+            .overlay(shapeView)
+            .cornerRadius(getCornerRadius(for: properties.cornerRadius))
+        } else {
+          Text(properties.initials ?? "")
+            .padding()
+            .font(.system(size: geo.size.height > geo.size.width
+                          ? geo.size.width * 0.4
+                          : geo.size.height * 0.4))
+            .frame(width: geo.size.width, height: geo.size.height)
+            .gesture(TapGesture().onEnded({ profileTapped() }))
+            .background(backgroundView)
+            .cornerRadius(getCornerRadius(for: properties.cornerRadius))
+          
+        }
       }
     }
     
@@ -211,6 +234,11 @@ public extension ProfileImageView {
     return self
   }
   
+  func set(_ initials: String) -> Self {
+    properties.initials = String(initials.safePrefix(2)).uppercased()
+    return self
+  }
+  
   func backgroundType(_ backgroundType: Background) -> Self {
     properties.backgroundType = backgroundType
     return self
@@ -296,6 +324,10 @@ public extension ProfileImageView {
   
   func set(_ url: URL?) {
     properties.url = url
+  }
+  
+  func set(_ initials: String) {
+    properties.initials = String(initials.safePrefix(2)).uppercased()
   }
   
   func addActionOnProfileTap(_ action: @escaping () -> Void) {
