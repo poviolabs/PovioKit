@@ -27,7 +27,6 @@ private extension Image {
 }
 #endif
 
-@available(iOS 14, *)
 extension Image {
   func resolve(from url: URL?, placeholder: Image?) -> some View {
     #if canImport(KingFisher)
