@@ -108,9 +108,11 @@ extension AppleAuthenticator: ASAuthorizationControllerDelegate {
         return .init(address: $0, isPrivate: isEmailPrivate, isVerified: isEmailVerified)
       }
       
-      let response = Response(token: identityTokenString,
+      let response = Response(userId: credential.user,
+                              token: identityTokenString,
                               name: credential.displayName,
-                              email: email)
+                              email: email,
+                              expiresAt: jwt?.expiresAt)
       
       processingPromise?.resolve(with: response)
     case _:

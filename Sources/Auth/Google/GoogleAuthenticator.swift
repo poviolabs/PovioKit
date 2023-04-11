@@ -93,8 +93,10 @@ public extension GoogleAuthenticator {
 // MARK: - Private Extension
 private extension GIDGoogleUser {
   var authResponse: GoogleAuthenticator.Response {
-    .init(token: accessToken.tokenString,
+    .init(userId: userID,
+          token: accessToken.tokenString,
           name: profile?.name,
-          email: profile?.email)
+          email: profile?.email,
+          expiresAt: accessToken.expirationDate)
   }
 }
