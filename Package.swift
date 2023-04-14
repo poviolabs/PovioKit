@@ -77,6 +77,7 @@ let package = Package(
       ],
       path: "Sources/Auth/Facebook"
     ),
+
     .testTarget(
       name: "Tests",
       dependencies: [
