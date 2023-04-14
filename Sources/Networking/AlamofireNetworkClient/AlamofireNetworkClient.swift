@@ -199,10 +199,10 @@ public extension AlamofireNetworkClient {
     
     public var errorDescription: String? {
       switch self {
-      case .request(let err, _):
-        return err.localizedDescription
-      case .other(let err, _):
-        return err.localizedDescription
+      case let .request(err, info):
+        return err.localizedDescription + "; " + info.description
+      case let .other(err, info):
+        return err.localizedDescription + "; " + info.description
       }
     }
   }
@@ -232,13 +232,24 @@ public extension AlamofireNetworkClient.Error {
     case other(Int)
   }
   
-  struct ErrorInfo {
+  struct ErrorInfo: CustomStringConvertible {
     public var method: HTTPMethod?
     public var endpoint: URLConvertible?
     public var headers: HTTPHeaders?
     public var body: Data?
     public var response: Data?
     public var responseHTTPCode: Int?
+    
+    public var description: String {
+      [
+        method?.rawValue,
+        try? endpoint?.asURL().absoluteString,
+        headers?.description,
+        response.flatMap { String(data: $0, encoding: .utf8) }
+      ]
+        .compactMap { $0 }
+        .joined(separator: "\n")
+    }
   }
   
   var info: ErrorInfo {
