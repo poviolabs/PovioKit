@@ -1,9 +1,12 @@
 ## Migration Guides
 
-### Migration from versions < x.x.x
+### Migration from versions < 2.3.0
 * [Core] The main package was renamed from `PovioKit` to `PovioKitCore`. You'll need to make a few changes in order to make this work:
   * Remove library `PovioKit` under "Frameworks, Libraries, and Embedded Content" in Xcode and add a `PovioKitCore`.
   * Replace all `import PovioKit` with `import PovioKitCore` in code.
+* [Core] Deprecated DataSource protocols and SignInWithApple utility have been removed.
+
+### Migration from versions < 2.2.0
 * [Core] Deprecated DataSource protocols and SignInWithApple utility have been removed.
 
 ### Migration from versions < 2.0.0
