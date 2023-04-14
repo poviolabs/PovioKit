@@ -31,34 +31,16 @@ public struct ActionButton: View {
         Spacer()
           .frame(minHeight: 1)
         HStack{
-          properties.leftImage?.image
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: properties.leftImage?.size.width,
-                   height: properties.leftImage?.size.height)
+          leftView
           Spacer()
           HStack {
-            properties.titleLeftImage?.image
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .frame(width: properties.titleLeftImage?.size.width,
-                     height: properties.titleLeftImage?.size.height)
+            leftTitleView
             Text(title)
               .font(properties.font)
-            properties.titleRightImage?.image
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .frame(width: properties.titleRightImage?.size.width,
-                     height: properties.titleRightImage?.size.height)
+            rightTitleView
           }
-          
           Spacer()
-          properties.rightImage?.image
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: properties.rightImage?.size.width,
-                   height: properties.rightImage?.size.height)
-            .padding(.trailing, 10)
+          rightView
         }
         
         Spacer()
@@ -234,6 +216,103 @@ public extension ActionButton {
 
 // MARK: - Helper Methods
 private extension ActionButton {
+  @ViewBuilder
+  private var leftTitleView: some View {
+    let titleLeftImage = properties.titleLeftImage
+    let titleRightImage = properties.titleRightImage
+    
+    switch (titleLeftImage, titleRightImage) {
+    case (.some(let leftImage), _):
+      leftImage
+        .image
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: leftImage.size.width,
+               height: leftImage.size.height)
+    case (.none, .some(let rightImage)):
+      Rectangle()
+        .fill(Color.clear)
+        .frame(width: rightImage.size.width,
+               height: rightImage.size.height)
+    case (.none, .none):
+      EmptyView()
+    }
+  }
+  
+  
+  @ViewBuilder
+  private var rightTitleView: some View {
+    let titleLeftImage = properties.titleLeftImage
+    let titleRightImage = properties.titleRightImage
+
+    switch (titleLeftImage, titleRightImage) {
+    case (_, .some(let rightImage)):
+      rightImage
+        .image
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: rightImage.size.width,
+               height: rightImage.size.height)
+    case (.some(let leftImage) ,.none):
+      Rectangle()
+        .fill(Color.clear)
+        .frame(width: leftImage.size.width,
+               height: leftImage.size.height)
+    case (.none, .none):
+      EmptyView()
+    }
+  }
+  
+  @ViewBuilder
+  private var leftView: some View {
+    let leftImage = properties.leftImage
+    let rightImage = properties.rightImage
+    
+    switch (leftImage, rightImage) {
+    case (.some(let leftImage), _):
+      leftImage
+        .image
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: leftImage.size.width,
+               height: leftImage.size.height)
+        .padding(.leading, 10)
+    case (.none, .some(let rightImage)):
+      Rectangle()
+        .fill(Color.clear)
+        .frame(width: rightImage.size.width,
+               height: rightImage.size.height)
+        .padding(.leading, 10)
+    case (.none, .none):
+      EmptyView()
+    }
+  }
+  
+  @ViewBuilder
+  private var rightView: some View {
+    let leftImage = properties.leftImage
+    let rightImage = properties.rightImage
+
+    switch (leftImage, rightImage) {
+    case (_, .some(let image)):
+      image
+        .image
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: image.size.width,
+               height: image.size.height)
+        .padding(.trailing, 10)
+    case (.some(let leftImage) ,.none):
+      Rectangle()
+        .fill(Color.clear)
+        .frame(width: leftImage.size.width,
+               height: leftImage.size.height)
+        .padding(.trailing, 10)
+    case (.none, .none):
+      EmptyView()
+    }
+  }
+  
   @ViewBuilder
   private var backgroundView: some View {
     switch properties.backgroundType {

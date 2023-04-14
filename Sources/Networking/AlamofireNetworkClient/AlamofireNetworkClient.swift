@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-import PovioKit
+import PovioKitCore
 import PovioKitPromise
 
 public typealias URLEncoding = Alamofire.URLEncoding
@@ -28,7 +28,7 @@ open class AlamofireNetworkClient {
   
   public init(
     session: Alamofire.Session = .default,
-    eventMonitors: [RequestMonitor],
+    eventMonitors: [RequestMonitor] = [],
     defaultErrorHandler errorHandler: ErrorHandler? = nil
   ) {
     self.session = session
@@ -199,10 +199,10 @@ public extension AlamofireNetworkClient {
     
     public var errorDescription: String? {
       switch self {
-      case .request(let err, _):
-        return err.localizedDescription
-      case .other(let err, _):
-        return err.localizedDescription
+      case let .request(err, info):
+        return err.localizedDescription + "; " + info.description
+      case let .other(err, info):
+        return err.localizedDescription + "; " + info.description
       }
     }
   }
@@ -232,13 +232,24 @@ public extension AlamofireNetworkClient.Error {
     case other(Int)
   }
   
-  struct ErrorInfo {
+  struct ErrorInfo: CustomStringConvertible {
     public var method: HTTPMethod?
     public var endpoint: URLConvertible?
     public var headers: HTTPHeaders?
     public var body: Data?
     public var response: Data?
     public var responseHTTPCode: Int?
+    
+    public var description: String {
+      [
+        method?.rawValue,
+        try? endpoint?.asURL().absoluteString,
+        headers?.description,
+        response.flatMap { String(data: $0, encoding: .utf8) }
+      ]
+        .compactMap { $0 }
+        .joined(separator: "\n")
+    }
   }
   
   var info: ErrorInfo {
@@ -260,6 +271,22 @@ public extension AlamofireNetworkClient.Request {
   var asVoid: Promise<()> {
     asVoidWithHeaders
       .asVoid
+  }
+  
+  var asString: Promise<String> {
+    .init { promise in
+      dataRequest.responseString {
+        switch $0.result {
+        case .success(let value):
+          self.eventMonitors.forEach { $0.requestDidSucceed(self) }
+          promise.resolve(with: value)
+        case .failure(let error):
+          let error = self.handleError(error)
+          self.eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+          promise.reject(with: error)
+        }
+      }
+    }
   }
   
   func decode<D: Decodable>(
@@ -351,6 +378,108 @@ public extension AlamofireNetworkClient.Request {
   func handleFailure(handler: @escaping (Swift.Error, Data) throws -> Swift.Error) -> Self {
     self.errorHandler = handler
     return self
+  }
+}
+
+// MARK: - Request async/await API
+public extension AlamofireNetworkClient.Request {
+  /// See Alamofire's documentation for details:
+  /// 
+  /// ``Alamofire.Concurrency.serializingData``
+  func data(
+    automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
+    dataPreprocessor: DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor,
+    emptyResponseCodes: Set<Int> = DataResponseSerializer.defaultEmptyResponseCodes,
+    emptyRequestMethods: Set<HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods
+  ) async throws -> Data {
+    do {
+      let data = try await dataRequest.serializingData(
+        automaticallyCancelling: shouldAutomaticallyCancel, 
+        dataPreprocessor: dataPreprocessor, 
+        emptyResponseCodes: emptyResponseCodes, 
+        emptyRequestMethods: emptyRequestMethods
+      ).value
+      eventMonitors.forEach { $0.requestDidSucceed(self) }
+      return data
+    } catch {
+      let error = self.handleError(error)
+      eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+      throw error
+    }
+  }
+  
+  var asDataAsync: Data {
+    get async throws {
+      try await data()
+    }
+  }
+  
+  var asVoidAsync: () {
+    get async throws {
+      try await _ = asDataAsync
+    } 
+  }
+  
+  /// See Alamofire's documentation for details:
+  /// 
+  /// ``Alamofire.Concurrency.serializingString``
+  func string(
+    automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
+    dataPreprocessor: DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor,
+    encoding: String.Encoding? = nil,
+    emptyResponseCodes: Set<Int> = StringResponseSerializer.defaultEmptyResponseCodes,
+    emptyRequestMethods: Set<HTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods
+  ) async throws -> String {
+    do {
+      let value = try await dataRequest.serializingString(
+        automaticallyCancelling: shouldAutomaticallyCancel, 
+        dataPreprocessor: dataPreprocessor, 
+        encoding: encoding, 
+        emptyResponseCodes: emptyResponseCodes, 
+        emptyRequestMethods: emptyRequestMethods
+      ).value
+      eventMonitors.forEach { $0.requestDidSucceed(self) }
+      return value
+    } catch {
+      let error = self.handleError(error)
+      eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+      throw error
+    }
+  }
+  
+  var asStringAsync: String {
+    get async throws {
+      try await string()
+    }
+  }
+  
+  /// See Alamofire's documentation for details:
+  /// 
+  /// ``Alamofire.Concurrency.serializingDecodable``
+  func decode<D: Decodable>(
+    _ decodable: D.Type,
+    decoder: JSONDecoder = .init(),
+    automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
+    dataPreprocessor: DataPreprocessor = DecodableResponseSerializer<D>.defaultDataPreprocessor,
+    emptyResponseCodes: Set<Int> = DecodableResponseSerializer<D>.defaultEmptyResponseCodes,
+    emptyRequestMethods: Set<HTTPMethod> = DecodableResponseSerializer<D>.defaultEmptyRequestMethods
+  ) async throws -> D {
+    do {
+      let value = try await dataRequest.serializingDecodable(
+        D.self, 
+        automaticallyCancelling: shouldAutomaticallyCancel, 
+        dataPreprocessor: dataPreprocessor, 
+        decoder: decoder, 
+        emptyResponseCodes: emptyResponseCodes, 
+        emptyRequestMethods: emptyRequestMethods
+      ).value
+      eventMonitors.forEach { $0.requestDidSucceed(self) }
+      return value
+    } catch {
+      let error = handleError(error)
+      eventMonitors.forEach { $0.requestDidFail(self, with: error) }
+      throw error
+    }
   }
 }
 

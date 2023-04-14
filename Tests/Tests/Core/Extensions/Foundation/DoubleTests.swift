@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class DoubleTests: XCTestCase {
   func test_convert_angles() {

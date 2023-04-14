@@ -33,7 +33,7 @@
 - Insert `https://github.com/poviolabs/PovioKit` in the Search field.
 - Select a desired `Dependency Rule`. Usually "Up to Next Major Version" with "2.0.0".
 - Select "Add Package" button and check one or all given products from the list:
-  - *PovioKit* (core)
+  - *PovioKitCore* (core library)
   - *PovioKitNetworking* (networking library, depends on `core` and `promise` package)
   - *PovioKitPromise* (lightweight promises library)
   - *PovioKitUI* (UI components)

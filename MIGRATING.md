@@ -1,9 +1,18 @@
 ## Migration Guides
 
+### Migration from versions < 2.3.0
+* [Core] The main package was renamed from `PovioKit` to `PovioKitCore`. You'll need to make a few changes in order to make this work:
+  * Remove library `PovioKit` under "Frameworks, Libraries, and Embedded Content" in Xcode and add a `PovioKitCore`.
+  * Replace all `import PovioKit` with `import PovioKitCore` in code.
+* [Core] Deprecated DataSource protocols and SignInWithApple utility have been removed.
+
+### Migration from versions < 2.2.0
+* [Core] Deprecated DataSource protocols and SignInWithApple utility have been removed.
+
 ### Migration from versions < 2.0.0
 * [Networking] File `OAuthRequestInterceptor` has been completely removed due to some critical issues. We encourage you to migrate to Alamofire's `Authenticator` protocol. Instructions can be found [here](Resources/Networking/AlamofireNetworkClient#oauth). Deprecated methods have also been removed.
 * [Package] The minimum supported version of iOS is 13. If you still support iOS 12, please evaluate this update.
-* [DataSource] Protocols have been deprecated in favor or diffable data source.
+* [Core] DataSource protocols have been deprecated in favor or diffable data source.
 * [UI] Removed deprecated methods.
 
 ### Migration from versions < 1.4.1

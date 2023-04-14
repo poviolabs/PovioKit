@@ -8,7 +8,7 @@
 
 import XCTest
 import UIKit
-@testable import PovioKit
+import PovioKitCore
 
 class UIWindowTests: XCTestCase {
   func test_safeAreaInsets() {

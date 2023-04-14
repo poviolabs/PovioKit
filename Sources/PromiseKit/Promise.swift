@@ -865,6 +865,24 @@ public extension Promise where Value: OptionalType {
   }
 }
 
+public extension Promise {
+  /// Convert promise to async/await
+  var asAsync: Value {
+    get async throws {
+      try await withCheckedThrowingContinuation { cont in  
+        finally { 
+          switch $0 {
+          case .success(let value):
+            cont.resume(returning: value)
+          case .failure(let error):
+            cont.resume(throwing: error)
+          }
+        }
+      }
+    }
+  }
+}
+
 public extension Promise where Value == Void {
   static func value() -> Promise<Value> { value(()) }
   func resolve(on dispatchQueue: DispatchQueue? = .main) { resolve(with: (), on: dispatchQueue) }

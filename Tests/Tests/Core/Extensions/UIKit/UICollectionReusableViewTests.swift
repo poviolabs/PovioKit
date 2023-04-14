@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class UICollectionReusableViewTests: XCTestCase {
   func test_identifier_returnsCorrectIdentifier() {

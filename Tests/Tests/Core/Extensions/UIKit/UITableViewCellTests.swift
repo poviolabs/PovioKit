@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PovioKit
+import PovioKitCore
 
 class TableViewCellIdentifierTests: XCTestCase {
   func test_identifier_returnsCorrectIdentifier() {    

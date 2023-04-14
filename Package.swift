@@ -7,7 +7,7 @@ let package = Package(
     .iOS(.v13)
   ],
   products: [
-    .library(name: "PovioKit", targets: ["PovioKit"]),
+    .library(name: "PovioKitCore", targets: ["PovioKitCore"]),
     .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
     .library(name: "PovioKitUI", targets: ["PovioKitUI"]),
@@ -23,13 +23,13 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "PovioKit",
+      name: "PovioKitCore",
       path: "Sources/Core"
     ),
     .target(
       name: "PovioKitNetworking",
       dependencies: [
-        "PovioKit",
+        "PovioKitCore",
         "Alamofire",
         "PovioKitPromise",
       ],
@@ -43,7 +43,7 @@ let package = Package(
     .target(
       name: "PovioKitUI",
       dependencies: [
-        "PovioKit"
+        "PovioKitCore"
       ],
       path: "Sources/UI"
     ),
@@ -77,10 +77,11 @@ let package = Package(
       ],
       path: "Sources/Auth/Facebook"
     ),
+
     .testTarget(
       name: "Tests",
       dependencies: [
-        "PovioKit",
+        "PovioKitCore",
         "PovioKitPromise",
         "PovioKitNetworking",
         "PovioKitUI",

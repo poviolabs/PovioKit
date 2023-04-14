@@ -39,6 +39,7 @@ public extension PhotoCamera {
   
   func takePhoto(
     isHighResolutionPhotoEnabled: Bool = true,
+    qualityPrioritization: AVCapturePhotoOutput.QualityPrioritization = .balanced,
     flashMode: AVCaptureDevice.FlashMode = .auto,
     videoOrientation: AVCaptureVideoOrientation? = nil
   ) {
@@ -51,6 +52,7 @@ public extension PhotoCamera {
       
       let photoSettings = AVCapturePhotoSettings()
       photoSettings.isHighResolutionPhotoEnabled = isHighResolutionPhotoEnabled
+      photoSettings.photoQualityPrioritization = qualityPrioritization
       if self.photoOutput.supportedFlashModes.contains(flashMode) {
         photoSettings.flashMode = flashMode
       }
