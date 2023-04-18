@@ -28,6 +28,11 @@ public extension CameraService {
     
     return authStatus == .authorized
   }
+  
+  /// Returns current authorization status
+  var authStatus: Camera.CameraAuthorizationStatus {
+    authorizationStatus(forType: .video)
+  }
 }
 
 // MARK: - Private methods
