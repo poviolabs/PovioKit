@@ -20,7 +20,7 @@ public final class SocialAuthenticationManager {
 
 extension SocialAuthenticationManager: Authenticator {
   public var isAuthenticated: Authenticator.Authenticated {
-    authenticators.map { $0.isAuthenticated }.contains(true)
+    authenticators.contains { $0.isAuthenticated }
   }
   
   public var currentAuthenticator: Authenticator? {
