@@ -7,16 +7,18 @@
 //
 
 import Foundation
-import FacebookLogin
 
 public extension FacebookAuthenticator {
   struct Response {
+    public let userId: String
     public let token: String
     public let name: String?
     public let email: String?
+    public let expiresAt: Date
   }
   
   struct GraphResponse: Decodable {
+    let id: String
     let email: String?
     let firstName: String?
     let lastName: String?

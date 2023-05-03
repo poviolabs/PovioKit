@@ -13,7 +13,6 @@ import PovioKitAuthCore
 import PovioKitPromise
 
 public final class FacebookAuthenticator {
-  public typealias Token = String
   private let provider: LoginManager
   
   public init() {
@@ -32,9 +31,8 @@ extension FacebookAuthenticator: Authenticator {
     with permissions: [Permission] = [.email, .publicProfile]) -> Promise<Response>
   {
     let permissions: [String] = permissions.map { $0.name }
-    let configuration = LoginConfiguration(permissions: permissions, tracking: .limited)
     
-    return signIn(with: configuration, on: presentingViewController)
+    return signIn(with: permissions, on: presentingViewController)
       .flatMap(with: fetchUserDetails)
   }
   
@@ -63,68 +61,81 @@ public extension FacebookAuthenticator {
     case system(_ error: Swift.Error)
     case cancelled
     case invalidIdentityToken
+    case invalidUserData
+    case missingUserData
+    case userDataDecode
   }
 }
 
 // MARK: - Private Methods
 private extension FacebookAuthenticator {
-  func signIn(with configuration: LoginConfiguration?, on presentingViewController: UIViewController) -> Promise<Token> {
+  func signIn(with permissions: [String], on presentingViewController: UIViewController) -> Promise<AccessToken> {
     Promise { seal in
       provider
-        .logIn(viewController: presentingViewController,
-               configuration: configuration) {
-          switch $0 {
-          case let .success(_, _, accessToken):
-            switch accessToken {
-            case .some(let token):
-              seal.resolve(with: token.tokenString)
-            case .none:
+        .logIn(permissions: permissions, from: presentingViewController) { result, error in
+          switch (result, error) {
+          case (let result?, nil):
+            if result.isCancelled {
+              seal.reject(with: Error.cancelled)
+            } else if let token = result.token {
+              seal.resolve(with: token)
+            } else {
               seal.reject(with: Error.invalidIdentityToken)
             }
-          case .cancelled:
-            seal.reject(with: Error.cancelled)
-          case .failed(let error):
+          case (nil, let error?):
             seal.reject(with: Error.system(error))
+          case _:
+            seal.reject(with: Error.system(NSError(domain: "com.povio.facebook.error", code: -1, userInfo: nil)))
           }
         }
     }
   }
   
-  func fetchUserDetails(withToken token: String) -> Promise<Response> {
+  func fetchUserDetails(with token: AccessToken) -> Promise<Response> {
     let request = GraphRequest(
       graphPath: "me",
-      parameters: ["fields": "email, first_name, last_name"],
-      tokenString: token,
+      parameters: ["fields": "id, email, first_name, last_name"],
+      tokenString: token.tokenString,
       httpMethod: nil,
       flags: .doNotInvalidateTokenOnError
     )
     
     return Promise { seal in
       request.start { _, result, error in
-        var graphResponse: GraphResponse?
-        
         switch result {
         case .some(let response):
+          guard let dict = response as? [String: String] else {
+            Logger.error("Response is invalid!")
+            seal.reject(with: Error.invalidUserData)
+            return
+          }
+          
           let decoder = JSONDecoder()
           decoder.keyDecodingStrategy = .convertFromSnakeCase
-          if let data = (response as? Data),
-             let object = try? data.decode(GraphResponse.self, with: decoder) {
-            graphResponse = object
+          
+          let encoder = JSONEncoder()
+          encoder.keyEncodingStrategy = .convertToSnakeCase
+          
+          do {
+            let data = try encoder.encode(dict)
+            let object = try data.decode(GraphResponse.self, with: decoder)
+            
+            let authResponse = Response(
+              userId: object.id,
+              token: token.tokenString,
+              name: object.displayName,
+              email: object.email,
+              expiresAt: token.expirationDate
+            )
+            seal.resolve(with: authResponse)
+          } catch {
+            Logger.error("Failed to decode user details!")
+            seal.reject(with: Error.userDataDecode)
           }
         case .none:
-          break
-        }
-        
-        if graphResponse == nil {
           Logger.error("Failed to fetch user details!")
+          seal.reject(with: Error.missingUserData)
         }
-        
-        let authResponse = Response(
-          token: token,
-          name: graphResponse?.displayName,
-          email: graphResponse?.email
-        )
-        seal.resolve(with: authResponse)
       }
     }
   }

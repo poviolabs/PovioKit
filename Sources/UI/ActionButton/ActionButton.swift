@@ -218,49 +218,25 @@ public extension ActionButton {
 private extension ActionButton {
   @ViewBuilder
   private var leftTitleView: some View {
-    let titleLeftImage = properties.titleLeftImage
-    let titleRightImage = properties.titleRightImage
-    
-    switch (titleLeftImage, titleRightImage) {
-    case (.some(let leftImage), _):
-      leftImage
-        .image
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: leftImage.size.width,
-               height: leftImage.size.height)
-    case (.none, .some(let rightImage)):
-      Rectangle()
-        .fill(Color.clear)
-        .frame(width: rightImage.size.width,
-               height: rightImage.size.height)
-    case (.none, .none):
-      EmptyView()
-    }
+    properties
+      .titleLeftImage?
+      .image
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .frame(width: properties.titleLeftImage?.size.width,
+             height: properties.titleLeftImage?.size.height)
   }
   
   
   @ViewBuilder
   private var rightTitleView: some View {
-    let titleLeftImage = properties.titleLeftImage
-    let titleRightImage = properties.titleRightImage
-
-    switch (titleLeftImage, titleRightImage) {
-    case (_, .some(let rightImage)):
-      rightImage
-        .image
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: rightImage.size.width,
-               height: rightImage.size.height)
-    case (.some(let leftImage) ,.none):
-      Rectangle()
-        .fill(Color.clear)
-        .frame(width: leftImage.size.width,
-               height: leftImage.size.height)
-    case (.none, .none):
-      EmptyView()
-    }
+    properties
+      .titleRightImage?
+      .image
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .frame(width: properties.titleRightImage?.size.width,
+             height: properties.titleRightImage?.size.height)
   }
   
   @ViewBuilder
