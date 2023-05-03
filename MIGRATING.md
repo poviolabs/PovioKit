@@ -1,5 +1,8 @@
 ## Migration Guides
 
+### Migration from versions < 3.0.0
+* [Auth] All Auth products are removed from the PovioKit package and effectivelly moved to a standalone repo https://github.com/poviolabs/PovioKitAuth. In order to continue using Auth products, install the new package `PovioKitAuth` package from the given repo url. 
+
 ### Migration from versions < 2.3.0
 * [Core] The main package was renamed from `PovioKit` to `PovioKitCore`. You'll need to make a few changes in order to make this work:
   * Remove library `PovioKit` under "Frameworks, Libraries, and Embedded Content" in Xcode and add a `PovioKitCore`.
