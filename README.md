@@ -23,8 +23,8 @@
 
 ## Packages
 
-| [Core](Resources/Core) | [UI](Resources/UI) | [Networking](Resources/Networking) | [PromiseKit](Resources/PromiseKit) | [Auth](Resources/Auth)
-| :-: | :-: | :-: | :-: | :-: |
+| [Core](Resources/Core) | [UI](Resources/UI) | [Networking](Resources/Networking) | [PromiseKit](Resources/PromiseKit) |
+| :-: | :-: | :-: | :-: |
 
 ## Installation
 
@@ -37,9 +37,6 @@
   - *PovioKitNetworking* (networking library, depends on `core` and `promise` package)
   - *PovioKitPromise* (lightweight promises library)
   - *PovioKitUI* (UI components)
-  - *PovioKitAuthApple* (Apple auth components)
-  - *PovioKitGoogleApple* (Google auth components)
-  - *PovioKitFacebookApple* (Facebook auth components)
 - Select "Add Package" again and you are done.
 
 ### Migration
