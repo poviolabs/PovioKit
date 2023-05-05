@@ -229,7 +229,7 @@ public extension Promise {
                 }
               }
             } catch {
-              seal.reject(with: error)
+              seal.reject(with: error, on: dispatchQueue)
             }
           }
         case .failure(let error):
@@ -251,7 +251,7 @@ public extension Promise {
   ///   of the recovering promise.
   func flatMapError(
     on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Error) -> Promise<Value>
+    with transform: @escaping (Error) throws -> Promise<Value>
   ) -> Promise<Value> {
     Promise { seal in
       self.finally {
@@ -259,7 +259,11 @@ public extension Promise {
         case .success(let value):
           seal.resolve(with: value, on: dispatchQueue)
         case .failure(let error):
-          seal.observe(promise: transform(error))
+          do {
+            seal.observe(promise: try transform(error))
+          } catch {
+            seal.reject(with: error, on: dispatchQueue)
+          }
         }
       }
     }
@@ -275,10 +279,10 @@ public extension Promise {
   /// - Returns: A `Promise` containing either the transformed value or an error.
   func flatMapResult<U, E: Error>(
     on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Value) -> Result<U, E>
+    with transform: @escaping (Value) throws -> Result<U, E>
   ) -> Promise<U> {
     map(on: dispatchQueue) {
-      switch transform($0) {
+      switch try transform($0) {
       case .success(let res):
         return res
       case .failure(let error):
@@ -322,10 +326,10 @@ public extension Promise {
   ///   as the new error value if this instance represents a failure.
   func mapError(
     on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Error) -> Error
+    with transform: @escaping (Error) throws -> Error
   ) -> Promise<Value> {
     flatMapError(on: dispatchQueue) {
-      Promise<Value>.error(transform($0))
+      Promise<Value>.error(try transform($0))
     }
   }
   
