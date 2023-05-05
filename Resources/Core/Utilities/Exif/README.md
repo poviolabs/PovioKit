@@ -9,12 +9,12 @@ When initialize, EXIF is provided with the image in the ``ExifImageSource`` as D
 ### Public methods:
 - Read EXIF from the image
 ```swift
-func read() -> Promise<[String: Any]>
+func read() throws -> [String: Any]
 ```
 - Write EXIF metadata to the image
 > Note: Keys for the new values must be part of the [EXIF Dictionary Keys](https://developer.apple.com/documentation/imageio/exif_dictionary_keys)
 ```swift
-func update(_ newValue: [CFString: String]) -> Promise<Data>
+func update(_ newValue: [CFString: String]) throws -> Data
 ```
 
 ## Examples
@@ -30,20 +30,22 @@ do {
 
 ### Read EXIF:
 ```swift
-manager.read().finally { exif, error in
-    if let exif {
-        Logger.debug("Image metadata:", params: ["metadata": exif.description])
-    }
+do {
+  let data = try manager.read()
+  Logger.debug("Image metadata:", params: ["metadata": exif.description])
+} catch {
+  // error
 }
 ```
 
 ### Write EXIF:
 ```swift
-let metadata = [kCGImagePropertyExifUserComment: "This is a really nice picture."]
-manager.update(metadata).finally { data, error in
-    if let data {
-        Logger.debug("Image metadata saved!")
-    }
+do {
+  let metadata = [kCGImagePropertyExifUserComment: "This is a really nice picture."]
+  let data = try manager.update(metadata)
+  Logger.debug("Image metadata saved!")
+} catch {
+  // error
 }
 ```
 

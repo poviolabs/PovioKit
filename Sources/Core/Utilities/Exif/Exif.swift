@@ -8,7 +8,6 @@
 
 import Foundation
 import ImageIO
-import PovioKitPromise
 
 /// A wrapper around Image I/O framework APIs that can be used to modify EXIF and other image metadata without recompressing the image data.
 public final class Exif {
@@ -22,34 +21,35 @@ public final class Exif {
 // MARK: - Public Methods
 public extension Exif {
   /// Read EXIF metadata from the provided image source
-  /// - Returns: Dictionary with EXIF values as a Promise or ``ExifError``
-  func read() -> Promise<[String: Any]> {
+  /// - Returns: Dictionary with EXIF values as a Result
+  func read() throws -> [String: Any] {
     guard let imageSource = getImageSource() else {
-      return .error(ExifError.createImageSource)
+      throw ExifError.createImageSource
     }
     guard let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as? [String: Any] else {
-      return .error(ExifError.getImageProperties)
+      throw ExifError.getImageProperties
     }
-    return .init(fulfill: imageProperties)
+    
+    return imageProperties
   }
     
   /// Update EXIF metadata with the new values
   ///
   /// Keys for the new values must be part of the [EXIF Dictionary Keys](https://developer.apple.com/documentation/imageio/exif_dictionary_keys)
   /// - Parameter newValue: Dictionary with the new EXIF values
-  /// - Returns: New image Data as a Promise or ``ExifError``
-  func update(_ newValue: [CFString: String]) -> Promise<Data> {
+  /// - Returns: New image Data as a Result
+  func update(_ newValue: [CFString: String]) throws -> Data {
     guard let imageSource = getImageSource() else {
-      return .error(ExifError.createImageSource)
+      throw ExifError.createImageSource
     }
     
     guard let UTI: CFString = CGImageSourceGetType(imageSource) else {
-      return .error(ExifError.getImageType)
+      throw ExifError.getImageType
     }
     
     let imageData: CFMutableData = CFDataCreateMutable(nil, 0)
     guard let destination = CGImageDestinationCreateWithData(imageData as CFMutableData, UTI, 1, nil) else {
-      return .error(ExifError.createImageDestination)
+      throw ExifError.createImageDestination
     }
     
     var mutableMetadata: CGMutableImageMetadata
@@ -69,10 +69,10 @@ public extension Exif {
     let options: [String : Any] = [kCGImageDestinationMetadata as String : mutableMetadata,
                                   kCGImageDestinationMergeMetadata as String : true]
     guard CGImageDestinationCopyImageSource(destination, imageSource, options as CFDictionary, nil) else {
-      return .error(ExifError.copyImageSource)
+      throw ExifError.copyImageSource
     }
     
-    return .init(fulfill: imageData as Data)
+    return imageData as Data
   }
 }
 
