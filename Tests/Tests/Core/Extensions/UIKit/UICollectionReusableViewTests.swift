@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
 
@@ -21,3 +22,4 @@ class UICollectionReusableViewTests: XCTestCase {
 
 private class IdentifierTest: UICollectionReusableView { }
 private class SomeCustomCell: UICollectionReusableView { }
+#endif

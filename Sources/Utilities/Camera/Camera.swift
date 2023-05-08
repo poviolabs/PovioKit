@@ -7,7 +7,6 @@
 //
 
 import AVFoundation
-import PovioKitCore
 
 public class Camera: NSObject {
   var device: AVCaptureDevice? {

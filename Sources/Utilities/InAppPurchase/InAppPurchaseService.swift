@@ -9,7 +9,6 @@
 import Foundation
 import StoreKit
 
-
 @available(iOS 15.0, *)
 public final class InAppPurchaseService: NSObject {
   public typealias IAPProduct = String
@@ -117,7 +116,7 @@ extension InAppPurchaseService {
   public func restorePurchases() async -> Result<Void, InAppPurchaseError> {
     do {
       try await AppStore.sync()
-      return .success()
+      return .success(())
     } catch {
       return .failure(InAppPurchaseError.restoreFailed(error))
     }

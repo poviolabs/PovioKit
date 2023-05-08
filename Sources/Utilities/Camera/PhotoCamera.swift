@@ -6,8 +6,8 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
-import AVFoundation
 #if os(iOS)
+import AVFoundation
 import UIKit
 
 public protocol PhotoCameraDelegate: AnyObject {

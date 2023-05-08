@@ -8,6 +8,7 @@
 
 import XCTest
 import PovioKitCore
+@testable import PovioKitUtilities
 
 class BroadcastTests: XCTestCase {
 

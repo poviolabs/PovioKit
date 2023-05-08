@@ -8,6 +8,7 @@
 
 import XCTest
 import PovioKitCore
+@testable import PovioKitUtilities
 
 final class DispatchTimerTests: XCTestCase {
   func test_dispatchTimer_instance_noRepeating() {

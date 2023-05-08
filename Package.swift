@@ -4,27 +4,59 @@ import PackageDescription
 let package = Package(
   name: "PovioKit",
   platforms: [
-    .iOS(.v13)
+    .iOS(.v13), .macOS(.v13)
   ],
   products: [
-    .library(name: "PovioKitCore", targets: ["PovioKitCore"]),
-    .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
-    .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
-    .library(name: "PovioKitUI", targets: ["PovioKitUI"]),
-    .library(name: "PovioKitAsync", targets: ["PovioKitAsync"]),
+    .library(
+      name: "PovioKitCore",
+      targets: ["PovioKitCore"]
+    ),
+    .library(
+      name: "PovioKitUtilities", 
+      targets: ["PovioKitUtilities"]
+    ),
+    .library(
+      name: "PovioKitNetworking", 
+      targets: ["PovioKitNetworking"]
+    ),
+    .library(
+      name: "PovioKitPromise", 
+      targets: ["PovioKitPromise"]
+    ),
+    .library(
+      name: "PovioKitUIKit", 
+      targets: ["PovioKitUIKit"]
+    ),
+    .library(
+      name: "PovioKitSwiftUI", 
+      targets: ["PovioKitSwiftUI"]
+    ),
+    .library(
+      name: "PovioKitAsync", 
+      targets: ["PovioKitAsync"]
+    ),
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.0"))
+    .package(
+      url: "https://github.com/Alamofire/Alamofire", 
+      .upToNextMajor(from: "5.6.4")
+    )
   ],
   targets: [
     .target(
       name: "PovioKitCore",
-      path: "Sources/Core"
+      path: "Sources/Core",
+      exclude: [
+        "../Networking",
+        "../PromiseKit",
+        "../Utilities",
+        "../UIKit",
+        "../SwiftUI",
+      ]
     ),
     .target(
       name: "PovioKitNetworking",
       dependencies: [
-        "PovioKitCore",
         "Alamofire",
         "PovioKitPromise",
       ],
@@ -36,17 +68,31 @@ let package = Package(
       path: "Sources/PromiseKit"
     ),
     .target(
-      name: "PovioKitUI",
+      name: "PovioKitUIKit",
       dependencies: [
-        "PovioKitCore"
+        "PovioKitCore",
+        "PovioKitUtilities",
       ],
-      path: "Sources/UI"
+      path: "Sources/UIKit"
     ),
     .target(
-        name: "PovioKitAsync",
-        dependencies: [
-        ],
-        path: "Sources/Async"
+      name: "PovioKitSwiftUI",
+      dependencies: [
+        "PovioKitCore",
+      ],
+      path: "Sources/SwiftUI"
+    ),
+    .target(
+      name: "PovioKitUtilities",
+      dependencies: [
+      ],
+      path: "Sources/Utilities"
+    ),
+    .target(
+      name: "PovioKitAsync",
+      dependencies: [
+      ],
+      path: "Sources/Async"
     ),
     .testTarget(
       name: "Tests",
@@ -54,7 +100,9 @@ let package = Package(
         "PovioKitCore",
         "PovioKitPromise",
         "PovioKitNetworking",
-        "PovioKitUI",
+        "PovioKitUIKit",
+        "PovioKitSwiftUI",
+        "PovioKitUtilities",
         "PovioKitAsync",
       ]
     ),

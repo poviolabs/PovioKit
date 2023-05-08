@@ -9,6 +9,7 @@
 #if os(iOS)
 import UIKit
 import PovioKitCore
+import PovioKitUtilities
 
 public protocol RuleValidatable {
   var error: String { get }

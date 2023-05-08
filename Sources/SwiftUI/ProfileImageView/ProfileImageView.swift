@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PovioKitCore
 
 public struct ProfileImageView: View {
   @ObservedObject private var properties = Properties()
@@ -20,9 +21,11 @@ public struct ProfileImageView: View {
     GeometryReader { geo in
       ZStack(alignment: properties.badging.alignment) {
         ImageView(properties: properties, profileTapped: triggerImageTapClosure)
-        BadgeView(style: properties.badging,
-                  size: .init(width: geo.size.width / 5, height: geo.size.height / 5),
-                  badgeTapped: tiggerBadgeTapClosure)
+        BadgeView(
+          style: properties.badging,
+          size: .init(width: geo.size.width / 5, height: geo.size.height / 5),
+          badgeTapped: tiggerBadgeTapClosure
+        )
       }
     }
   }
@@ -109,11 +112,17 @@ private extension ProfileImageView {
       GeometryReader { geo in
         switch (geo.size.height == geo.size.width) {
         case true:
-          Circle().stroke(properties.borderColor,
-                          lineWidth: properties.borderWidth)
+          Circle()
+            .stroke(
+              properties.borderColor,
+              lineWidth: properties.borderWidth
+            )
         case false:
           RoundedRectangle(cornerRadius: getCornerRadius(for: properties.cornerRadius))
-            .stroke(properties.borderColor, lineWidth: properties.borderWidth)
+            .stroke(
+              properties.borderColor, 
+              lineWidth: properties.borderWidth
+            )
         }
       }
     }
@@ -123,7 +132,11 @@ private extension ProfileImageView {
         return unwrappedPlaceholder
       }
       
-      return Image(uiImage: UIImage())
+#if os(iOS)
+    return Image(uiImage: UIImage())
+#elseif os(macOS)
+    return Image(nsImage: NSImage())
+#endif
     }
     
     func getCornerRadius(for cornerType: ProfileImageView.CornerRadiusType) -> CGFloat {
@@ -142,9 +155,11 @@ private extension ProfileImageView {
     var badgeTapped: (() -> Void)
 
     
-    init?(style: BadgingMode,
-          size: CGSize,
-          badgeTapped: @escaping () -> ()) {
+    init?(
+      style: BadgingMode,
+      size: CGSize,
+      badgeTapped: @escaping () -> ()
+    ) {
       self.badgeTapped = badgeTapped
       
       switch style {
@@ -184,13 +199,15 @@ public extension ProfileImageView {
     let borderColor: Color?
     let borderWidth: CGFloat?
     
-    public init(image: Image,
-                contentMode: ContentMode = .fit,
-                tintColor: Color = .white,
-                backgroundColor: Color,
-                alignment: Alignment,
-                borderColor: Color? = nil,
-                borderWidth: CGFloat? = nil) {
+    public init(
+      image: Image,
+      contentMode: ContentMode = .fit,
+      tintColor: Color = .white,
+      backgroundColor: Color,
+      alignment: Alignment,
+      borderColor: Color? = nil,
+      borderWidth: CGFloat? = nil
+    ) {
       self.image = image
       self.contentMode = contentMode
       self.tintColor = tintColor

@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
 
@@ -17,3 +18,4 @@ class UIDeviceTests: XCTestCase {
     XCTAssertFalse(sut.deviceCodeName.isEmpty, "Device code name should not be empty")
   }
 }
+#endif
