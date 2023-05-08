@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIDevice {
@@ -30,3 +31,5 @@ public extension UIDevice {
     }
   }
 }
+
+#endif

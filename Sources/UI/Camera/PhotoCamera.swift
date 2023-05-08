@@ -7,6 +7,7 @@
 //
 
 import AVFoundation
+#if os(iOS)
 import UIKit
 
 public protocol PhotoCameraDelegate: AnyObject {
@@ -128,3 +129,5 @@ private extension PhotoCamera {
     session.commitConfiguration()
   }
 }
+
+#endif

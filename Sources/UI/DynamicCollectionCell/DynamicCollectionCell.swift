@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 open class DynamicCollectionCell: UICollectionViewCell {
@@ -33,3 +34,5 @@ public extension DynamicCollectionCell {
     case horizontal
   }
 }
+
+#endif

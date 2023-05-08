@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public enum ImageSource {
@@ -72,4 +73,6 @@ public extension UIButton {
     }
   }
 }
+#endif
+
 #endif

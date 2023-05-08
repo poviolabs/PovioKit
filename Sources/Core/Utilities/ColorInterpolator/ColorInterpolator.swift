@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public protocol ColorInterpolator {
@@ -60,3 +61,5 @@ public extension LinearColorInterpolator {
     case indexOutOfBounds
   }
 }
+
+#endif

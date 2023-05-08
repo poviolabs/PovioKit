@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 // MARK: - Shadow and border
@@ -71,3 +72,5 @@ public extension UIView {
     }
   }
 }
+
+#endif

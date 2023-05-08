@@ -6,6 +6,8 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
+
 import XCTest
 import UIKit
 import PovioKitCore
@@ -135,3 +137,5 @@ class UIViewTests: XCTestCase {
     XCTAssertNil(view.layer.animationKeys())
   }
 }
+
+#endif

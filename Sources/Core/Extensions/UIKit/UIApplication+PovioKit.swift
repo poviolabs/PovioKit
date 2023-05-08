@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIApplication {
@@ -48,3 +49,4 @@ public extension UIApplication {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "/"
   }
 }
+#endif
