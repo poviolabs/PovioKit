@@ -69,6 +69,14 @@ public extension Camera {
   func toggleTorch() throws {
     try setTorch(on: !(device?.isTorchActive ?? true))
   }
+  
+  func setZoom(_ zoomFactor: CGFloat) throws {
+    guard let device else { return }
+    let clampedZoomFactor = max(device.minAvailableVideoZoomFactor, min(zoomFactor, device.maxAvailableVideoZoomFactor))
+    try device.lockForConfiguration()
+    device.videoZoomFactor = clampedZoomFactor
+    device.unlockForConfiguration()
+  }
 }
 
 // MARK: - Private Methods
