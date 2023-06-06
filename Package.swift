@@ -13,7 +13,7 @@ let package = Package(
     .library(name: "PovioKitUI", targets: ["PovioKitUI"])
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.6.4"))
+    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.0"))
   ],
   targets: [
     .target(
