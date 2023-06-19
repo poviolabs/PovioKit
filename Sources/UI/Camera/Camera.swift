@@ -47,6 +47,12 @@ public extension Camera {
     device.map { $0.hasTorch && $0.isTorchAvailable } ?? false
   }
   
+  var virtualDeviceSwitchOverVideoZoomFactors: [Int] {
+    device?
+      .virtualDeviceSwitchOverVideoZoomFactors
+      .compactMap { $0.intValue } ?? []
+  }
+  
   func requestAuthorizationStatus() async -> Bool {
     await cameraService.requestCameraAuthorization()
   }
