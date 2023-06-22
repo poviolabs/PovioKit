@@ -13,9 +13,9 @@ public class Camera: NSObject {
   var device: AVCaptureDevice? {
     switch cameraPosition {
     case .back:
-      return isCameraAvailable(position: .back) ? AVCaptureDevice.default(for: .video) : nil
+      return isCameraAvailable(for: deviceType, position: .back) ? AVCaptureDevice.default(deviceType, for: .video, position: .back) : nil
     case .front:
-      return isCameraAvailable(position: .front) ? AVCaptureDevice.default(deviceType, for: .video, position: .front) : nil
+      return isCameraAvailable(for: deviceType, position: .front) ? AVCaptureDevice.default(deviceType, for: .video, position: .front) : nil
     }
   }
   let session = AVCaptureSession()
@@ -45,6 +45,12 @@ public class Camera: NSObject {
 public extension Camera {
   var isTorchAvailable: Bool {
     device.map { $0.hasTorch && $0.isTorchAvailable } ?? false
+  }
+  
+  var virtualDeviceSwitchOverVideoZoomFactors: [Int] {
+    device?
+      .virtualDeviceSwitchOverVideoZoomFactors
+      .compactMap { $0.intValue } ?? []
   }
   
   func requestAuthorizationStatus() async -> Bool {
@@ -83,12 +89,10 @@ public extension Camera {
     }
     device.unlockForConfiguration()
   }
-}
-
-// MARK: - Private Methods
-private extension Camera {
+  
   /// Check if camera is available on device
-  func isCameraAvailable(position: Camera.CameraPosition) -> Bool {
+  func isCameraAvailable(for deviceType: AVCaptureDevice.DeviceType,
+                         position: Camera.CameraPosition) -> Bool {
     !AVCaptureDevice
       .DiscoverySession(
         deviceTypes: [deviceType],
@@ -97,7 +101,10 @@ private extension Camera {
       .devices
       .isEmpty
   }
-  
+}
+
+// MARK: - Private Methods
+private extension Camera {
   func setTorch(on: Bool) throws {
     guard let device = device, device.hasTorch, device.isTorchAvailable else { return }
     try device.lockForConfiguration()
