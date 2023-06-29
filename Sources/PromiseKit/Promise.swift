@@ -869,6 +869,7 @@ public extension Promise where Value: OptionalType {
   }
 }
 
+@available(macOS 10.15, *)
 public extension Promise {
   /// Convert promise to async/await
   var asAsync: Value {
