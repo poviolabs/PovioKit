@@ -3,23 +3,26 @@
 //  PovioKit
 //
 //  Created by Borut Tomažin on 04/11/2020.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import Alamofire
 import Foundation
-import PovioKit
+import PovioKitCore
 
 public extension URLEncodedFormParameterEncoder {
-  convenience init(encoder: JSONEncoder) {
-    let formEncoder = URLEncodedFormEncoder(alphabetizeKeyValuePairs: true,
-                                            arrayEncoding: .brackets,
-                                            boolEncoding: .numeric,
-                                            dataEncoding: Self.dataEncoding(from: encoder.dataEncodingStrategy),
-                                            dateEncoding: Self.dateEncoding(from: encoder.dateEncodingStrategy),
-                                            keyEncoding: Self.keyEncoding(from: encoder.keyEncodingStrategy),
-                                            spaceEncoding: .percentEscaped,
-                                            allowedCharacters: .afURLQueryAllowed)
+  convenience init(encoder: JSONEncoder,
+                   arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
+                   boolEncoding: URLEncodedFormEncoder.BoolEncoding = .numeric) {
+    let formEncoder = URLEncodedFormEncoder(
+      alphabetizeKeyValuePairs: true,
+      arrayEncoding: arrayEncoding,
+      boolEncoding: boolEncoding,
+      dataEncoding: Self.dataEncoding(from: encoder.dataEncodingStrategy),
+      dateEncoding: Self.dateEncoding(from: encoder.dateEncodingStrategy),
+      keyEncoding: Self.keyEncoding(from: encoder.keyEncodingStrategy),
+      spaceEncoding: .percentEscaped,
+      allowedCharacters: .afURLQueryAllowed)
     self.init(encoder: formEncoder, destination: .methodDependent)
   }
 }

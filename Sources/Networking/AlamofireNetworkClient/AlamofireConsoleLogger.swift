@@ -3,12 +3,12 @@
 //  PovioKit
 //
 //  Created by Borut Tomažin on 05/11/2020.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import Alamofire
 import Foundation
-import PovioKit
+import PovioKitCore
 
 public final class AlamofireConsoleLogger: EventMonitor {
   public let queue = DispatchQueue(label: "com.alamofire.console.networklogger")

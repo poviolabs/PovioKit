@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 28/02/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -56,12 +56,10 @@ public class Promise<Value>: Future<Value, Error> {
   }
   
   public func resolve(with value: Value, on dispatchQueue: DispatchQueue? = .main) {
-    guard isAwaiting else { return }
     setResult(.success(value), on: dispatchQueue)
   }
   
   public func reject(with error: Error, on dispatchQueue: DispatchQueue? = .main) {
-    guard isAwaiting else { return }
     setResult(.failure(error), on: dispatchQueue)
   }
   
@@ -90,12 +88,6 @@ public class Promise<Value>: Future<Value, Error> {
     }
   }
   
-  @available(*, deprecated, renamed: "finally")
-  @inline(__always)
-  public func observe(_ completion: @escaping (Value?, Error?) -> Void) {
-    finally(completion)
-  }
-  
   func finally(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
     finally {
       switch $0 {
@@ -107,18 +99,13 @@ public class Promise<Value>: Future<Value, Error> {
     }
   }
   
-  @available(*, deprecated, renamed: "finally")
-  @inline(__always)
-  func observe(_ success: @escaping (Value) -> Void, _ failure: @escaping (Error) -> Void) {
-    finally(success, failure)
-  }
-  
   public func cascade(to promise: Promise, on dispatchQueue: DispatchQueue? = .main) {
     self.then { promise.resolve(with: $0, on: dispatchQueue) }
     self.catch { promise.reject(with: $0, on: dispatchQueue) }
   }
 }
 
+// MARK: - States
 public extension Promise {
   var isResolved: Bool {
     result != nil
@@ -165,6 +152,7 @@ public extension Promise {
   }
 }
 
+// MARK: - Utils
 public extension Promise {
   /// Convert this Promise to a new Promise where `Value` == ()
   var asVoid: Promise<()> {
@@ -188,8 +176,30 @@ public extension Promise {
     `catch`(work)
     return self
   }
+  
+  /// Sleep promise execution for given `duration` interval and return new promise with existing value.
+  func sleep(
+    duration: DispatchTimeInterval,
+    on dispatchQueue: DispatchQueue = .main
+  ) -> Promise<Value> {
+    Promise { seal in
+      self.finally {
+        switch $0 {
+        case .success(let value):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.resolve(with: value, on: dispatchQueue)
+          }
+        case .failure(let error):
+          dispatchQueue.asyncAfter(deadline: .now() + duration) {
+            seal.reject(with: error, on: dispatchQueue)
+          }
+        }
+      }
+    }
+  }
 }
 
+// MARK: - Core
 public extension Promise {
   /// Returns a composition of this Promise with the result of calling `transform`.
   ///
@@ -200,7 +210,7 @@ public extension Promise {
   /// - Returns: A `Promise` which is a composition of two Promises:
   ///   If both promises succeed then their composition succeeds as well.
   ///   If any of the two promises at any point fail, their composition fails as well.
-  func chain<U>(
+  func flatMap<U>(
     on dispatchQueue: DispatchQueue? = .main,
     with transform: @escaping (Value) throws -> Promise<U>
   ) -> Promise<U> {
@@ -210,8 +220,7 @@ public extension Promise {
         case .success(let value):
           dispatchQueue.async {
             do {
-              let promise = try transform(value)
-              promise.finally {
+              try transform(value).finally {
                 switch $0 {
                 case .success(let value):
                   seal.resolve(with: value, on: dispatchQueue)
@@ -220,7 +229,7 @@ public extension Promise {
                 }
               }
             } catch {
-              seal.reject(with: error)
+              seal.reject(with: error, on: dispatchQueue)
             }
           }
         case .failure(let error):
@@ -240,9 +249,9 @@ public extension Promise {
   ///   returns a new Promise potentially recovering from the error state.
   /// - Returns: A `Promise` that will contain either the value of this promise or the result
   ///   of the recovering promise.
-  func chainError(
+  func flatMapError(
     on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Error) -> Promise<Value>
+    with transform: @escaping (Error) throws -> Promise<Value>
   ) -> Promise<Value> {
     Promise { seal in
       self.finally {
@@ -250,7 +259,11 @@ public extension Promise {
         case .success(let value):
           seal.resolve(with: value, on: dispatchQueue)
         case .failure(let error):
-          seal.observe(promise: transform(error))
+          do {
+            seal.observe(promise: try transform(error))
+          } catch {
+            seal.reject(with: error, on: dispatchQueue)
+          }
         }
       }
     }
@@ -264,12 +277,12 @@ public extension Promise {
   /// - Parameter transform: A closure that takes the value of this Promise and
   ///   returns a Result transforming the value in some way.
   /// - Returns: A `Promise` containing either the transformed value or an error.
-  func chainResult<U, E: Error>(
+  func flatMapResult<U, E: Error>(
     on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Value) -> Result<U, E>
+    with transform: @escaping (Value) throws -> Result<U, E>
   ) -> Promise<U> {
     map(on: dispatchQueue) {
-      switch transform($0) {
+      switch try transform($0) {
       case .success(let res):
         return res
       case .failure(let error):
@@ -292,7 +305,7 @@ public extension Promise {
     on dispatchQueue: DispatchQueue? = .main,
     with transform: @escaping (Value) throws -> U
   ) -> Promise<U> {
-    chain(on: dispatchQueue) {
+    flatMap(on: dispatchQueue) {
       do {
         return .value(try transform($0))
       } catch {
@@ -313,10 +326,10 @@ public extension Promise {
   ///   as the new error value if this instance represents a failure.
   func mapError(
     on dispatchQueue: DispatchQueue? = .main,
-    with transform: @escaping (Error) -> Error
+    with transform: @escaping (Error) throws -> Error
   ) -> Promise<Value> {
-    chainError(on: dispatchQueue) {
-      Promise<Value>.error(transform($0))
+    flatMapError(on: dispatchQueue) {
+      Promise<Value>.error(try transform($0))
     }
   }
   
@@ -359,7 +372,7 @@ public extension Promise {
     with combiningFunction: @escaping (Value, U) -> Promise<Value>
   ) -> Promise<Value> {
     promises.reduce(self) { p1, p2 in
-      p1.and(p2).chain(on: dispatchQueue, with: combiningFunction)
+      p1.and(p2).flatMap(on: dispatchQueue, with: combiningFunction)
     }
   }
   
@@ -439,7 +452,7 @@ public extension Promise {
     on dispatchQueue: DispatchQueue? = .main
   ) -> Promise<Either<Value, U>> {
     map(on: dispatchQueue, with: Either.left)
-      .chainError(on: dispatchQueue) { _ in .value(.right(value)) }
+      .flatMapError(on: dispatchQueue) { _ in .value(.right(value)) }
   }
   
   /// Check whether the value passes a given predicate. If it does not,
@@ -471,17 +484,17 @@ public extension Promise where Value == Bool {
   /// Use this method when you want to realize non-determinism.
   ///
   /// Promise.value(true)
-  ///   .chainIf(true: .value(1), false: .value(0))
+  ///   .flatMapIf(true: .value(1), false: .value(0))
   ///
   /// - Parameter dispatchQueue: The dispatch queue on which to notify the result.
   /// - Parameter true: The true branch of non-determinism.
   /// - Parameter false: The false branch of non-determinism.
-  func chainIf<U>(
+  func flatMapIf<U>(
     on dispatchQueue: DispatchQueue? = .main,
     `true`: @escaping @autoclosure () -> Promise<U>,
     `false`: @escaping @autoclosure () -> Promise<U>
   ) -> Promise<U> {
-    chain(on: dispatchQueue) {
+    flatMap(on: dispatchQueue) {
       switch $0 {
       case true:
         return `true`()
@@ -504,7 +517,7 @@ public extension Promise where Value == Bool {
     `true`: @escaping @autoclosure () -> U,
     `false`: @escaping @autoclosure () -> U
   ) -> Promise<U> {
-    chainIf(
+    flatMapIf(
       on: dispatchQueue,
       true: .value(`true`()),
       false: .value(`false`())
@@ -513,14 +526,14 @@ public extension Promise where Value == Bool {
 }
 
 public extension Promise {
-  func chainIf<U>(
+  func flatMapIf<U>(
     on dispatchQueue: DispatchQueue? = .main,
     transform: @escaping (Value) -> Bool,
     `true`: @escaping @autoclosure () -> Promise<U>,
     `false`: @escaping @autoclosure () -> Promise<U>
   ) -> Promise<U> {
     map(on: dispatchQueue, with: transform)
-      .chainIf(true: `true`(), false: `false`())
+      .flatMapIf(true: `true`(), false: `false`())
   }
   
   func mapIf<U>(
@@ -605,7 +618,7 @@ public extension Promise where Value: Sequence {
     on dispatchQueue: DispatchQueue? = .main,
     _ transform: @escaping (Value.Element) throws -> Promise<U>
   ) -> Promise<[U]> {
-    chain(on: dispatchQueue) { values in
+    flatMap(on: dispatchQueue) { values in
       all(promises: try values.map(transform))
     }
   }
@@ -856,12 +869,32 @@ public extension Promise where Value: OptionalType {
   }
 }
 
+@available(macOS 10.15, *)
+public extension Promise {
+  /// Convert promise to async/await
+  var asAsync: Value {
+    get async throws {
+      try await withCheckedThrowingContinuation { cont in  
+        finally { 
+          switch $0 {
+          case .success(let value):
+            cont.resume(returning: value)
+          case .failure(let error):
+            cont.resume(throwing: error)
+          }
+        }
+      }
+    }
+  }
+}
+
 public extension Promise where Value == Void {
   static func value() -> Promise<Value> { value(()) }
   func resolve(on dispatchQueue: DispatchQueue? = .main) { resolve(with: (), on: dispatchQueue) }
 }
 
 extension Optional where Wrapped == DispatchQueue {
+  @inline(__always)
   func async(execute work: @escaping () -> Void) {
     switch self {
     case let queue?:
@@ -929,7 +962,7 @@ extension AnyOptionalType where Self: OptionalType {
 
 // Operator definitions.
 
-/// Precedence of infix operator for `Promise.chain()`. It has a higher
+/// Precedence of infix operator for `Promise.flatMap()`. It has a higher
 /// precedence than the `AssignmentPrecedence` group but a lower precedence than
 /// the `LogicalDisjunctionPrecedence` group.
 precedencegroup FlatMapPrecedence {
@@ -938,7 +971,7 @@ precedencegroup FlatMapPrecedence {
   lowerThan: LogicalDisjunctionPrecedence
 }
 
-/// Infix operator for `Promise.chain()`.
+/// Infix operator for `Promise.flatMap()`.
 infix operator >>- : FlatMapPrecedence
 
 /// Precedence of infix operator for `Promise.alternative()`. It has a higher
@@ -971,16 +1004,16 @@ infix operator <*> : SequencePrecedence
 infix operator <^> : SequencePrecedence
 
 
-/// Infix operator for `Promise.chain`.
+/// Infix operator for `Promise.flatMap`.
 ///
 /// Often useful when you want to propagate value(s) down the chain.
 ///
 /// For example:
 ///
 /// f1()
-///  .chain { f2().and($0) }
-///  .chain { f3().and($0) }
-///  .chain { f4($0.1.0) }
+///  .flatMap { f2().and($0) }
+///  .flatMap { f3().and($0) }
+///  .flatMap { f4($0.1.0) }
 ///
 /// can be written as:
 ///
@@ -995,7 +1028,7 @@ public func >>-<T, U>(
   promise: Promise<T>,
   transform: @escaping (T) throws -> Promise<U>
 ) -> Promise<U> {
-  promise.chain(on: .main, with: transform)
+  promise.flatMap(on: .main, with: transform)
 }
 
 /// This infix operator implements "choice". If `left` fails in tries
@@ -1012,7 +1045,7 @@ public func <|><T>(
   left: Promise<T>,
   right: @escaping @autoclosure () -> Promise<T>
 ) -> Promise<T> {
-  left.chainError(on: .main) { _ in right() }
+  left.flatMapError(on: .main) { _ in right() }
 }
 
 /// This infix operator chains two promises, discarding the value of the first.
@@ -1022,7 +1055,7 @@ public func *><T, U>(
   left: Promise<T>,
   right: Promise<U>
 ) -> Promise<U> {
-  left.asVoid.chain(on: .main) { right }
+  left.asVoid.flatMap(on: .main) { right }
 }
 
 /// This infix operator chains two promises, discarding the value of the second.
@@ -1031,7 +1064,7 @@ public func <*<T, U>(
   right: Promise<U>
 ) -> Promise<T> {
   left
-    .chain(on: .main) { right.and($0) }
+    .flatMap(on: .main) { right.and($0) }
     .map(on: .main) { $0.1 }
 }
 

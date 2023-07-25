@@ -3,11 +3,11 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 31/01/2020.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import XCTest
-@testable import PovioKitPromise
+import PovioKitPromise
 
 class PromiseTests: XCTestCase {
   // Covering some of the A+ spec (https://github.com/promises-aplus/promises-spec)
@@ -103,13 +103,13 @@ class PromiseTests: XCTestCase {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(0)
-      .chain(on: .main) { async($0, on: .main) }
+      .flatMap(on: .main) { async($0, on: .main) }
       .then { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex1.fulfill()
       }
     async(NSError.err, Int.self)
-      .chain(on: .main) { async($0, on: .main) }
+      .flatMap(on: .main) { async($0, on: .main) }
       .catch { _ in
         XCTAssertTrue(Thread.isMainThread)
         ex2.fulfill()
@@ -135,11 +135,11 @@ class PromiseTests: XCTestCase {
 }
 
 extension PromiseTests {
-  func testChain() {
+  func testFlatMap() {
     let ex = expectation(description: "")
     async(10)
       .map { $0 + 20 }
-      .chain(with: async)
+      .flatMap(with: async)
       .then {
         XCTAssertEqual(30, $0)
         ex.fulfill()
@@ -147,7 +147,7 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainInfix() {
+  func testFlatMapInfix() {
     let ex = expectation(description: "")
     (async(10) >>- { val in
       async(val + 20)
@@ -158,17 +158,17 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainError() {
+  func testFailingFlatMap() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(10)
-      .chain { _ in async(DummyError(), Int.self) }
+      .flatMap { _ in async(DummyError(), Int.self) }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex1.fulfill()
       }
     async(DummyError(), Int.self)
-      .chain(with: async)
+      .flatMap(with: async)
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex2.fulfill()
@@ -176,17 +176,17 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainResult() {
+  func testFlatMapResult() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(10)
-      .chainResult { Result<Int, Error>.success($0 * 2) }
+      .flatMapResult { Result<Int, Error>.success($0 * 2) }
       .then {
         XCTAssertEqual(20, $0)
         ex1.fulfill()
       }
     async(10)
-      .chainResult { _ in Result<Int, Error>.failure(DummyError()) }
+      .flatMapResult { _ in Result<Int, Error>.failure(DummyError()) }
       .catch {
         XCTAssertTrue($0 is DummyError)
         ex2.fulfill()
@@ -716,11 +716,11 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainIf() {
+  func testFlatMapIf() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(true)
-      .chainIf(
+      .flatMapIf(
         true: .value(1),
         false: .value(0))
       .then {
@@ -728,7 +728,7 @@ extension PromiseTests {
         ex1.fulfill()
       }
     async(false)
-      .chainIf(
+      .flatMapIf(
         true: .value(1),
         false: .value(0))
       .then {
@@ -760,11 +760,11 @@ extension PromiseTests {
     waitForExpectations(timeout: 2)
   }
   
-  func testChainIf2() {
+  func testFlatMapIf2() {
     let ex1 = expectation(description: "")
     let ex2 = expectation(description: "")
     async(1)
-      .chainIf(
+      .flatMapIf(
         transform: { _ in true },
         true: .value(1),
         false: .value(0))
@@ -773,7 +773,7 @@ extension PromiseTests {
         ex1.fulfill()
       }
     async(1)
-      .chainIf(
+      .flatMapIf(
         transform: { _ in false },
         true: .value(1),
         false: .value(0))
@@ -825,8 +825,8 @@ extension PromiseTests {
 extension PromiseTests {
   func testConcurrentDispatch1() {
     func next(_ idx: Int) -> Promise<()>? {
-      guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...0.5))
+      guard idx < 20 else { return nil }
+      return async((), delay: .random(in: 0.001...0.005))
     }
     
     let ex = expectation(description: "")
@@ -837,8 +837,8 @@ extension PromiseTests {
   
   func testConcurrentDispatch2() {
     func next(_ idx: Int) -> Promise<()>? {
-      guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...0.5))
+      guard idx < 20 else { return nil }
+      return async((), delay: .random(in: 0.001...0.005))
     }
     
     let ex = expectation(description: "")
@@ -849,8 +849,8 @@ extension PromiseTests {
   
   func testConcurrentDispatch3() {
     func next(_ idx: Int) -> Promise<()>? {
-      guard idx < 10 else { return nil }
-      return async((), delay: .random(in: 0.01...0.5))
+      guard idx < 20 else { return nil }
+      return async((), delay: .random(in: 0.001...0.005))
     }
     
     let ex = expectation(description: "")
@@ -861,8 +861,8 @@ extension PromiseTests {
   
   func testConcurrentDispatch4() {
     func next(_ idx: Int) -> Promise<()>? {
-      guard idx < 10 else { return nil }
-      return async(NSError.err, Void.self, delay: .random(in: 0.01...0.5))
+      guard idx < 20 else { return nil }
+      return async(NSError.err, Void.self, delay: .random(in: 0.001...0.005))
     }
     
     let ex = expectation(description: "")
@@ -874,12 +874,12 @@ extension PromiseTests {
   func testConcurrentDispatch5() {
     var shouldFail = Set<Int>()
     func next(_ idx: Int) -> Promise<()>? {
-      guard idx < 10 else { return nil }
+      guard idx < 20 else { return nil }
       if !shouldFail.contains(idx) {
         shouldFail.insert(idx)
-        return async(NSError.err, Void.self, delay: .random(in: 0.01...0.5))
+        return async(NSError.err, Void.self, delay: .random(in: 0.001...0.005))
       }
-      return async((), delay: .random(in: 0.01...1))
+      return async((), delay: .random(in: 0.001...0.005))
     }
     
     let ex = expectation(description: "")
@@ -891,14 +891,14 @@ extension PromiseTests {
   func testConcurrentDispatch6() {
     var shouldFail = [Int: Int]()
     func next(_ idx: Int) -> Promise<()>? {
-      guard idx < 10 else { return nil }
+      guard idx < 20 else { return nil }
       if shouldFail[idx] == nil { shouldFail[idx] = 3 }
       
       if shouldFail[idx]! > 0 {
         shouldFail[idx]! -= 1
-        return async(NSError.err, Void.self, delay: .random(in: 0.01...1))
+        return async(NSError.err, Void.self, delay: .random(in: 0.001...0.005))
       }
-      return async((), delay: .random(in: 0.01...1))
+      return async((), delay: .random(in: 0.001...0.005))
     }
     
     let ex = expectation(description: "")
@@ -910,14 +910,14 @@ extension PromiseTests {
   func testConcurrentDispatch7() {
     var shouldFail = [Int: Int]()
     func next(_ idx: Int) -> Promise<()>? {
-      guard idx < 10 else { return nil }
+      guard idx < 20 else { return nil }
       if shouldFail[idx] == nil { shouldFail[idx] = 3 }
       
       if shouldFail[idx]! > 0 {
         shouldFail[idx]! -= 1
-        return async(NSError.err, Void.self, delay: .random(in: 0.01...1))
+        return async(NSError.err, Void.self, delay: .random(in: 0.001...0.005))
       }
-      return async((), delay: .random(in: 0.01...1))
+      return async((), delay: .random(in: 0.001...0.005))
     }
     
     let ex = expectation(description: "")
@@ -941,7 +941,7 @@ extension PromiseTests {
     let ex = expectation(description: "")
     poll(
       repeat: check,
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .then { _ in ex.fulfill() }
@@ -960,7 +960,7 @@ extension PromiseTests {
     let ex = expectation(description: "")
     poll(
       repeat: check,
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 },
       maxRetry: 1
     )
@@ -973,13 +973,13 @@ extension PromiseTests {
     let ex2 = expectation(description: "")
     poll(
       repeat: { async(NSError.err, Bool.self) },
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .catch { _ in ex1.fulfill() }
     poll(
       repeat: { sync(NSError.err, Bool.self) },
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .catch { _ in ex2.fulfill() }
@@ -998,10 +998,98 @@ extension PromiseTests {
     let ex = expectation(description: "")
     poll(
       repeat: check,
-      checkAfter: .milliseconds(100),
+      checkAfter: .milliseconds(1),
       while: { !$0 }
     )
     .catch { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+}
+
+// MARK: - Sequence tests
+
+extension PromiseTests {
+  func testSequenceSucceeds() {
+    func next(_ idx: Int) -> Promise<Int>? {
+      guard idx < 20 else { return nil }
+      return async(idx, delay: .random(in: 0.001...0.005))
+    }
+    
+    let ex = expectation(description: "")
+    sequence(spawnTask: next)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequenceTasksSpawnedInCorrectOrder() {
+    var nextInvokedCount = 0
+    
+    func next(_ idx: Int) -> Promise<Int>? {
+      XCTAssertEqual(idx, nextInvokedCount)
+      nextInvokedCount += 1
+      guard idx < 20 else { return nil }
+      return async(idx, delay: .random(in: 0.001...0.005))
+    }
+    
+    let ex = expectation(description: "")
+    sequence(spawnTask: next)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequenceSucceedsAfterRetrying() {
+    var shouldFail = true
+    func next(_ idx: Int) -> Promise<Int>? {
+      guard idx < 1 else { return nil }
+      if shouldFail {
+        shouldFail = false
+        return async(NSError.err, Int.self, delay: .random(in: 0.001...0.005))
+      }
+      return async(idx, delay: .random(in: 0.001...0.005))
+    }
+    
+    let ex = expectation(description: "")
+    sequence(spawnTask: next, retryCount: 1)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequenceFails() {
+    func next(_ idx: Int) -> Promise<Int>? {
+      async(NSError.err, Int.self, delay: .random(in: 0.001...0.005))
+    }
+    
+    let ex = expectation(description: "")
+    sequence(spawnTask: next, retryCount: 1)
+      .catch { _ in ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequenceCollectionSucceeds() {
+    let promises = [
+      { async(0, delay: .random(in: 0.001...0.005)) },
+      { async(1, delay: .random(in: 0.001...0.005)) },
+      { async(2, delay: .random(in: 0.001...0.005)) },
+      { async(3, delay: .random(in: 0.001...0.005)) },
+      { async(4, delay: .random(in: 0.001...0.005)) },
+    ]
+    let ex = expectation(description: "")
+    sequence(promises: promises)
+      .then { ex.fulfill() }
+    waitForExpectations(timeout: 10)
+  }
+  
+  func testSequenceCollectionFails() {
+    let promises = [
+      { async(0, delay: .random(in: 0.001...0.005)) },
+      { async(1, delay: .random(in: 0.001...0.005)) },
+      { async(2, delay: .random(in: 0.001...0.005)) },
+      { async(NSError.err, Int.self, delay: .random(in: 0.001...0.005)) },
+      { async(4, delay: .random(in: 0.001...0.005)) },
+    ]
+    let ex = expectation(description: "")
+    sequence(promises: promises)
+      .catch { _ in ex.fulfill() }
     waitForExpectations(timeout: 10)
   }
 }
@@ -1011,7 +1099,7 @@ extension PromiseTests {
 func async<E: Error, T>(
   _ error: E,
   _ type: T.Type,
-  delay: TimeInterval = 0.05,
+  delay: TimeInterval = 0,
   on: DispatchQueue = .global()
 ) -> Promise<T> {
   after(.now() + delay, on: on)
@@ -1022,7 +1110,7 @@ func async<E: Error, T>(
 
 func async<T>(
   _ val: T,
-  delay: TimeInterval = 0.05,
+  delay: TimeInterval = 0,
   on: DispatchQueue = .global()
 ) -> Promise<T> {
   after(.now() + delay, on: on, val)
@@ -1031,7 +1119,7 @@ func async<T>(
 func async<T>(
   _ val: T
 ) -> Promise<T> {
-  async(val, delay: 0.05, on: .global())
+  async(val, delay: 0, on: .global())
 }
 
 

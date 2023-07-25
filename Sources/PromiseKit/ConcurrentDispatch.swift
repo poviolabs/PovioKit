@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 23/09/2021.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -32,6 +32,9 @@ import Foundation
 /// )
 /// .finally { print("Upload result: \($0)") }
 ///
+/// In scenarios where only one concurrent task can be executed at once,
+/// using `sequence` is preferable as it is much faster.
+///
 /// - Parameter next: Spawn a task with the given index. Return `nil` if all tasks have been spawn.
 /// - Parameter concurrent: The number of concurrent tasks executing at a given time.
 /// - Parameter retryCount: The number of times a task should be retried in case it fails.
@@ -43,7 +46,7 @@ public func concurrentlyDispatch<T>(
   retryCount: Int = 2,
   on dispatchQueue: DispatchQueue? = .main
 ) -> Promise<()> {
-  return .init { seal in
+  .init { seal in
     let barrier = DispatchQueue(label: "com.poviokit.promisekit.barrier", attributes: .concurrent)
     
     var segmentIndex = concurrent

@@ -3,29 +3,32 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 04/03/2019.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import Foundation
 
 public class Future<Value, Error: Swift.Error> {
-  private let barrier = DispatchQueue(label: "com.poviokit.future", attributes: .concurrent)
+  private let lock = NSLock()
   private var observers = [Observer]()
   public var isEnabled = true
   private var internalResult: FutureResult?
 }
 
-public extension Future {
+internal extension Future {
   var result: FutureResult? {
-    barrier.sync { internalResult }
+    read {
+      internalResult
+    }
   }
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
-    barrier.sync(flags: .barrier) {
-      internalResult = result
-      guard isEnabled else { return }
-      dispatchQueue.async {
-        result.map { value in self.observers.forEach { $0.notifity(value) } }
+    write {
+      guard self.internalResult == nil else { return }
+      self.internalResult = result
+      guard self.isEnabled, let result = result else { return }
+      for observer in self.observers {
+        dispatchQueue.async { observer.notifity(result) }
       }
     }
   }
@@ -35,42 +38,34 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func finally(with callback: @escaping (FutureResult) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.both(callback))
-      internalResult.map(callback)
+    write {
+      self.observers.append(.both(callback))
+      self.internalResult.map(callback)
     }
   }
   
   func then(_ callback: @escaping (Value) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.success(callback))
-      internalResult.map { observers.last?.notifity($0) }
+    write {
+      self.observers.append(.success(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
   
   func `catch`(_ callback: @escaping (Error) -> Void) {
-    barrier.sync(flags: .barrier) {
-      observers.append(.failure(callback))
-      internalResult.map { observers.last?.notifity($0) }
+    write {
+      self.observers.append(.failure(callback))
+      self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
   
-  @available(*, deprecated, renamed: "finally")
   @inline(__always)
-  func observe(with callback: @escaping (FutureResult) -> Void) {
-    self.finally(with: callback)
+  func write(_ work: @escaping () -> Void) {
+    lock.write(work)
   }
   
-  @available(*, deprecated, renamed: "then")
   @inline(__always)
-  func onSuccess(_ callback: @escaping (Value) -> Void) {
-    self.then(callback)
-  }
-  
-  @available(*, deprecated, renamed: "catch")
-  @inline(__always)
-  func onFailure(_ callback: @escaping (Error) -> Void) {
-    self.catch(callback)
+  func read<T>(_ work: () -> T) -> T {
+    lock.read(work)
   }
 }
 
@@ -92,5 +87,21 @@ private extension Future {
         break
       }
     }
+  }
+}
+
+fileprivate extension NSLock {
+  @inline(__always)
+  func read<T>(_ work: () -> T) -> T {
+    lock()
+    defer { unlock() }
+    return work()
+  }
+  
+  @inline(__always)
+  func write(_ work: () -> Void) {
+    lock()
+    defer { unlock() }
+    return work()
   }
 }

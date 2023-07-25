@@ -3,11 +3,11 @@
 //  PovioKit_Tests
 //
 //  Created by Toni Kocjan on 31/01/2020.
-//  Copyright © 2021 Povio Inc. All rights reserved.
+//  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
 import XCTest
-@testable import PovioKitPromise
+import PovioKitPromise
 
 class EitherTests: XCTestCase {
   func testIsLeftOrRight() {

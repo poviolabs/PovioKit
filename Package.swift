@@ -1,33 +1,29 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.8
 import PackageDescription
 
 let package = Package(
   name: "PovioKit",
   platforms: [
-    .iOS(.v12),
-    .macOS(.v10_12)
+    .iOS(.v13)
   ],
   products: [
-    .library(name: "PovioKit", targets: ["PovioKit"]),
+    .library(name: "PovioKitCore", targets: ["PovioKitCore"]),
     .library(name: "PovioKitNetworking", targets: ["PovioKitNetworking"]),
     .library(name: "PovioKitPromise", targets: ["PovioKitPromise"]),
+    .library(name: "PovioKitUI", targets: ["PovioKitUI"])
   ],
   dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.4.4"))
+    .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.0"))
   ],
   targets: [
     .target(
-      name: "PovioKit",
-      path: "Sources",
-      exclude: [
-        "Networking",
-        "PromiseKit",
-      ]
+      name: "PovioKitCore",
+      path: "Sources/Core"
     ),
     .target(
       name: "PovioKitNetworking",
       dependencies: [
-        "PovioKit",
+        "PovioKitCore",
         "Alamofire",
         "PovioKitPromise",
       ],
@@ -38,12 +34,20 @@ let package = Package(
       dependencies: [],
       path: "Sources/PromiseKit"
     ),
+    .target(
+      name: "PovioKitUI",
+      dependencies: [
+        "PovioKitCore"
+      ],
+      path: "Sources/UI"
+    ),
     .testTarget(
       name: "Tests",
       dependencies: [
-        "PovioKit",
+        "PovioKitCore",
         "PovioKitPromise",
-        "PovioKitNetworking"
+        "PovioKitNetworking",
+        "PovioKitUI"
       ]
     ),
   ],
