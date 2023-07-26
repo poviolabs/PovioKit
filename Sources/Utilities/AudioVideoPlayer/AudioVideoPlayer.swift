@@ -8,38 +8,38 @@
 
 import AVKit
 
-public protocol AudioVideoPlayerDelegate: AnyObject {
-  func audioVideoPlayer(didBeginPlayback player: AudioVideoPlayer)
-  func audioVideoPlayer(didEndPlayback player: AudioVideoPlayer)
-  func audioVideoPlayer(didPausePlayback player: AudioVideoPlayer)
-  func audioVideoPlayer(didBeginReplay player: AudioVideoPlayer)
-  func audioVideoPlayer(didBeginBuffering player: AudioVideoPlayer)
-  func audioVideoPlayer(didEndBuffering player: AudioVideoPlayer)
-  func audioVideoPlayer(_ player: AudioVideoPlayer, didProgressToTime seconds: Double)
+public protocol MediaPlayerDelegate: AnyObject {
+  func mediaPlayer(didBeginPlayback player: MediaPlayer)
+  func mediaPlayer(didEndPlayback player: MediaPlayer)
+  func mediaPlayer(didPausePlayback player: MediaPlayer)
+  func mediaPlayer(didBeginReplay player: MediaPlayer)
+  func mediaPlayer(didBeginBuffering player: MediaPlayer)
+  func mediaPlayer(didEndBuffering player: MediaPlayer)
+  func mediaPlayer(_ player: MediaPlayer, didProgressToTime seconds: Double)
 }
 
-public extension AudioVideoPlayerDelegate {
-  func audioVideoPlayer(didBeginPlayback player: AudioVideoPlayer) {}
-  func audioVideoPlayer(didEndPlayback player: AudioVideoPlayer) {}
-  func audioVideoPlayer(didPausePlayback player: AudioVideoPlayer) {}
-  func audioVideoPlayer(didBeginReplay player: AudioVideoPlayer) {}
-  func audioVideoPlayer(didBeginBuffering player: AudioVideoPlayer) {}
-  func audioVideoPlayer(didEndBuffering player: AudioVideoPlayer) {}
-  func audioVideoPlayer(_ player: AudioVideoPlayer, didProgressToTime seconds: Double) {}
+public extension MediaPlayerDelegate {
+  func mediaPlayer(didBeginPlayback player: MediaPlayer) {}
+  func mediaPlayer(didEndPlayback player: MediaPlayer) {}
+  func mediaPlayer(didPausePlayback player: MediaPlayer) {}
+  func mediaPlayer(didBeginReplay player: MediaPlayer) {}
+  func mediaPlayer(didBeginBuffering player: MediaPlayer) {}
+  func mediaPlayer(didEndBuffering player: MediaPlayer) {}
+  func mediaPlayer(_ player: MediaPlayer, didProgressToTime seconds: Double) {}
 }
 
-public class AudioVideoPlayer: AVPlayer {
+public class MediaPlayer: AVPlayer {
   public static let defaultTimescale = CMTimeScale(10)
 
   public private(set) lazy var playbackInterval: (startAt: Double, endAt: Double) = (0, duration)
   public var allowLooping = true
-  public var periodicTimeObserverTimeInterval: CMTime = .init(value: 1, timescale: AudioVideoPlayer.defaultTimescale) {
+  public var periodicTimeObserverTimeInterval: CMTime = .init(value: 1, timescale: MediaPlayer.defaultTimescale) {
     didSet {
       removeTimeObserver()
       setupTimeObserver()
     }
   }
-  public weak var delegate: AudioVideoPlayerDelegate?
+  public weak var delegate: MediaPlayerDelegate?
   
   private var timeObserver: Any?
   
@@ -50,7 +50,7 @@ public class AudioVideoPlayer: AVPlayer {
 
   public init(
     url: URL,
-    periodicTimeObserverTimeInterval timeInterval: CMTime = CMTimeMake(value: 1, timescale: AudioVideoPlayer.defaultTimescale)
+    periodicTimeObserverTimeInterval timeInterval: CMTime = CMTimeMake(value: 1, timescale: MediaPlayer.defaultTimescale)
   ) {
     super.init(url: url)
     setupTimeObserver()
@@ -58,7 +58,7 @@ public class AudioVideoPlayer: AVPlayer {
 
   public init(
     playerItem item: AVPlayerItem?,
-    periodicTimeObserverTimeInterval timeInterval: CMTime = CMTimeMake(value: 1, timescale: AudioVideoPlayer.defaultTimescale)
+    periodicTimeObserverTimeInterval timeInterval: CMTime = CMTimeMake(value: 1, timescale: MediaPlayer.defaultTimescale)
   ) {
     super.init(playerItem: item)
     setupTimeObserver()
@@ -71,17 +71,17 @@ public class AudioVideoPlayer: AVPlayer {
 }
 
 // MARK: - API
-public extension AudioVideoPlayer {
+public extension MediaPlayer {
   override func play() {
     super.play()
-    delegate?.audioVideoPlayer(didBeginPlayback: self)
+    delegate?.MediaPlayer(didBeginPlayback: self)
   }
   
   
   /// Start playing at `startAt` timestamp.
   func play(
     startAt: Double,
-    timescale: CMTimeScale = AudioVideoPlayer.defaultTimescale
+    timescale: CMTimeScale = MediaPlayer.defaultTimescale
   ) {
     removeTimeObserver()
     seek(to: CMTime(seconds: startAt, preferredTimescale: timescale)) { _ in
@@ -93,7 +93,7 @@ public extension AudioVideoPlayer {
   func play(
     startAt: Double,
     endAt: Double,
-    timescale: CMTimeScale = AudioVideoPlayer.defaultTimescale
+    timescale: CMTimeScale = MediaPlayer.defaultTimescale
   ) {
     guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
     setPlaybackPosition(startAt: startAt)
@@ -102,7 +102,7 @@ public extension AudioVideoPlayer {
   
   override func pause() {
     super.pause()
-    delegate?.audioVideoPlayer(didPausePlayback: self)
+    delegate?.mediaPlayer(didPausePlayback: self)
   }
 
   override func replaceCurrentItem(with item: AVPlayerItem?) {
@@ -130,7 +130,7 @@ public extension AudioVideoPlayer {
 }
 
 // MARK: - Private Methods
-private extension AudioVideoPlayer {
+private extension MediaPlayer {
   func setupTimeObserver() {
     guard timeObserver == nil else { return }
 
@@ -140,13 +140,13 @@ private extension AudioVideoPlayer {
     ) { [weak self] time in
       guard let self = self else { return }
 
-      self.delegate?.audioVideoPlayer(self, didProgressToTime: time.seconds)
+      self.delegate?.mediaPlayer(self, didProgressToTime: time.seconds)
       self.timeObserverCallback(time: time)
 
       guard let currentItem = self.currentItem, currentItem.status == .readyToPlay else { return }
       currentItem.isPlaybackLikelyToKeepUp
-        ? self.delegate?.audioVideoPlayer(didEndBuffering: self)
-        : self.delegate?.audioVideoPlayer(didBeginBuffering: self)
+        ? self.delegate?.mediaPlayer(didEndBuffering: self)
+        : self.delegate?.mediaPlayer(didBeginBuffering: self)
     }
   }
 
@@ -157,10 +157,10 @@ private extension AudioVideoPlayer {
     if allowLooping {
       setPlaybackPosition(startAt: startAt)
       play()
-      delegate?.audioVideoPlayer(didBeginReplay: self)
+      delegate?.mediaPlayer(didBeginReplay: self)
     } else {
       removeTimeObserver()
-      delegate?.audioVideoPlayer(didEndPlayback: self)
+      delegate?.mediaPlayer(didEndPlayback: self)
     }
   }
 
