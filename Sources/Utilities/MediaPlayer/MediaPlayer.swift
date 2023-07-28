@@ -8,12 +8,19 @@
 
 import AVKit
 
+/// Enum representing the different states of media playback.
 public enum MediaPlayerPlaybackState {
+  /// State when the media player is not defined or initialized.
   case undefined
+  /// State when the media player is actively playing media.
   case playing
+  /// State when the media player is preparing to play media.
   case preparing
+  /// State when the media player has paused media playback.
   case paused
+  /// State when the media player has stopped media playback.
   case stopped
+  /// State when the media player has ended media playback.
   case ended
 }
 
@@ -53,27 +60,47 @@ public class MediaPlayer: AVPlayer {
 
   // MARK: - Public properties
 
+  /// A Boolean value that determines whether the media player should loop playback when it reaches the end of the media.
+  ///
+  /// If this property is set to `true`, the media player will automatically start playing the media from the beginning once it reaches the end. If set to `false`, the media player will stop playing when it reaches the end of the media.
+  /// If the custom time interval is set, it will automatically loop in the selected time interval.
+  ///
+  /// The default value is `false`.
   public var allowsLooping = false
 
+  /// The time interval in milliseconds at which the player observes the playback time.
+  /// This property determines how often the player updates the playback progress.
+  /// When this property is set, the player removes the current time observer and sets up a new one.
+  /// The default value is `500` milliseconds, which means that the progress delegate methods will get
+  /// called every 500 miliseconds
   public var timeObservingMiliseconds: Int = 500 {
     didSet {
+      // Remove the current time observer when the observing interval changes
       removeTimeObserver()
+      // Set up a new time observer with the updated interval
       setupTimeObserver()
     }
   }
 
+  /// The total duration of the current media item in seconds including selectged playback interval.
   public var duration: Double {
-    currentItem?.asset.duration.seconds ?? 0
+    playbackInterval.endAt - playbackInterval.startAt
   }
 
+  /// A Boolean value indicating whether the media player is currently playing.
   public var isPlaying: Bool {
     rate != 0.0 && status == .readyToPlay
   }
 
-  public var currentTime: Double {
+  /// The current playback time of the media player in seconds.
+  /// This property returns the current time of the player converted to seconds.
+  public var currentTimeSeconds: Double {
     Double(CMTimeGetSeconds(currentTime()))
   }
 
+  /// The current state of the media player.
+  /// This property is of type `MediaPlayerPlaybackState` and its default value is `.undefined`.
+  /// When the state changes, the media player informs its delegate by calling the `mediaPlayer(_:didUpdatePlaybackState:)` method.
   public var state: MediaPlayerPlaybackState = .undefined {
     didSet {
       delegate?.mediaPlayer(self, didUpdatePlaybackState: state)
@@ -106,12 +133,20 @@ public class MediaPlayer: AVPlayer {
 
   // MARK: - Public methods
 
+  /// Starts playing the media from the current position.
+  /// This function also updates the state of the media player to `.playing` and informs the delegate that the playback has started.
   public override func play() {
     super.play()
     state = .playing
     delegate?.mediaPlayer(didBeginPlayback: self)
   }
 
+  /// Starts playing the media from a specified time.
+  ///
+  /// - Parameters:
+  ///   - fromTime: The time from which to start playing the media. This should be less than the total duration of the media.
+  ///
+  /// If `fromTime` is greater than or equal to the total duration, this function will cause a fatal error.
   public func play(from fromTime: Double) {
     guard fromTime < duration else { fatalError("`fromTime` should be less than total duration") }
     playbackInterval = (fromTime, duration)
@@ -119,6 +154,13 @@ public class MediaPlayer: AVPlayer {
     play()
   }
 
+  /// Starts playing the media from a specified start time to a specified end time.
+  ///
+  /// - Parameters:
+  ///   - fromTime: The time from which to start playing the media. This should be less than `toTime`.
+  ///   - toTime: The time at which to stop playing the media. This should be greater than `fromTime`.
+  ///
+  /// If `fromTime` is greater than or equal to `toTime`, this function will cause a fatal error.
   public func play(from fromTime: Double, to toTime: Double) {
     guard fromTime < toTime else { fatalError("`fromTime` should be less than `toTime`") }
     playbackInterval = (fromTime, toTime)
@@ -126,45 +168,73 @@ public class MediaPlayer: AVPlayer {
     play()
   }
 
+  /// Jumps to a specified time in the media.
+  ///
+  /// - Parameters:
+  ///   - time: The time to which to jump. This does not start playing the media if not yet playing.
   public func jump(to time: Double) {
     setPlaybackPosition(to: time)
   }
 
+  /// Stops the media playback and resets the playback position to the start of the playback interval.
+  /// Also, updates the state of the media player to `.stopped`.
   public func stop() {
     pause()
     setPlaybackPosition(to: playbackInterval.startAt)
     state = .stopped
   }
 
+  /// Seeks forward in the media by a specified number of seconds.
+  ///
+  /// - Parameters:
+  ///   - seconds: The number of seconds to seek forward. If the resulting time exceeds the end of the playback interval,
+  ///   the function will set the playback position to the end of the interval.
   public func seekForward(seconds: Double) {
-    setPlaybackPosition(to: min(currentTime + seconds, playbackInterval.endAt))
+    setPlaybackPosition(to: min(currentTimeSeconds + seconds, playbackInterval.endAt))
   }
 
+  /// Seeks backward in the media by a specified number of seconds.
+  ///
+  /// - Parameters:
+  ///   - seconds: The number of seconds to seek backward. If the resulting time is less than the start of the playback interval,
+  ///   the function will set the playback position to the start of the interval.
   public func seekBackward(seconds: Double) {
-    setPlaybackPosition(to: (max(currentTime - seconds, playbackInterval.startAt)))
+    setPlaybackPosition(to: (max(currentTimeSeconds - seconds, playbackInterval.startAt)))
   }
 
+  /// Pauses the media playback, updates the state of the media player to `.paused`, and informs the delegate that the playback has paused.
   public override func pause() {
     super.pause()
     state = .paused
     delegate?.mediaPlayer(didPausePlayback: self)
   }
 
+  /// Replaces the current playing item with the new given item.
+  ///
+  /// - Parameters:
+  ///   - item: The new `AVPlayerItem` to be replaced with. Resets the playback interval to default.
+  ///
+  /// Note: This does not automatically play the item. To play the replaced item, call the method`play()`-
   public override func replaceCurrentItem(with item: AVPlayerItem?) {
     super.replaceCurrentItem(with: item)
     playbackInterval = (0, duration)
     setupTimeObserver()
-    play()
   }
 
-  /// Update the current playback interval, but keep playing at the current position.
+  /// Updates the playback interval with the new range.
+  ///
+  /// - Parameters:
+  ///   - startAt: The new start of the playback range.
+  ///   - endAt: The new end of the playback range.
+  ///
+  /// If the current time is out of new range, the playback position gets set either to the beginnig of the end respectively.
   func updatePlaybackInterval(startAt: Double, endAt: Double) {
     guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
     playbackInterval = (startAt, endAt)
     setupTimeObserver()
 
-    if currentTime < startAt || currentTime > endAt {
-      setPlaybackPosition(to: max(startAt, min(endAt, currentTime)))
+    if currentTimeSeconds < startAt || currentTimeSeconds > endAt {
+      setPlaybackPosition(to: max(startAt, min(endAt, currentTimeSeconds)))
     }
   }
 }
@@ -216,7 +286,7 @@ private extension MediaPlayer {
     timeObserver.map(removeTimeObserver)
     timeObserver = nil
   }
-  
+
   func setPlaybackPosition(to value: Double) {
     seek(to: CMTimeMakeWithSeconds(value, preferredTimescale: 6_000))
   }
