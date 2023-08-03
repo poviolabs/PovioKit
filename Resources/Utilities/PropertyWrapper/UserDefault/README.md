@@ -11,6 +11,16 @@ struct Flags {
 }
 ```
 
+#### Resetting Values
+
+If you need to reset a value to its default state, the `UserDefault` property wrapper provides a `resetValue` method. This method sets the value for the specified key back to its initial default value, allowing you to easily revert any changes made to the property.
+
+Here's how you can use it:
+
+```swift
+Flags.$screenFlag.resetValue()
+```
+
 ## Tips
 
 Since you can share data between apps, we recommend to created a shared instance of `UserDefaults` on your app:

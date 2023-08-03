@@ -25,7 +25,7 @@ class UserDefaultTests: XCTestCase {
     // When
     Defaults.screenName = givenValue
     // Then
-    XCTAssertEqual(userDefaults.string(forKey: Defaults.testStringKey), Defaults.screenName)
+    XCTAssertEqual(givenValue, Defaults.screenName)
   }
   
   func testSaveBoolValue() {
@@ -34,7 +34,21 @@ class UserDefaultTests: XCTestCase {
     // When
     Defaults.isAuthenticated = givenValue
     // Then
-    XCTAssertEqual(userDefaults.bool(forKey: Defaults.testBoolKey), Defaults.isAuthenticated)
+    XCTAssertEqual(givenValue, Defaults.isAuthenticated)
+  }
+
+  func testResetValue() {
+    // Given
+    let givenValue = Defaults.testStringKey
+    
+    // Set an initial value
+    Defaults.screenName = givenValue
+    
+    // When
+    Defaults.$screenName.resetValue()
+    
+    // Then
+    XCTAssertEqual(Defaults.screenName, "default")
   }
   
   func testSaveDataValue() {
