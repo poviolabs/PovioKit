@@ -82,9 +82,9 @@ public class MediaPlayer: AVPlayer {
     }
   }
 
-  /// The total duration of the current media item in seconds including selectged playback interval.
+  /// The total duration of the current media item in seconds. This duration does not take into account any custom playback interval set.
   public var duration: Double {
-    playbackInterval.endAt - playbackInterval.startAt
+    currentItem?.asset.duration.seconds ?? 0
   }
 
   /// A Boolean value indicating whether the media player is currently playing.
