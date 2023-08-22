@@ -14,23 +14,23 @@ import Foundation
 /// You can use this method, for example, for implementing chunked
 /// file uploading:
 ///
-/// let file: Data = ...
-/// let chunkSize = 1_000_000 // 1MB
+///     let file: Data = ...
+///     let chunkSize = 1_000_000 // 1MB
 ///
-/// func uploadChunk(_ index: Int) -> Promise<()>? {
-///   let offset = index * chunkSize
-///   guard offset < data.count else { return nil }
-///   let chunk = data[offset..<min(offset + chunkSize, data.count)]
-///   let base64 = chunk.base64EncodedString()
-///   return upload(base64EncodedData: base64)
-/// }
+///     func uploadChunk(_ index: Int) -> Promise<()>? {
+///       let offset = index * chunkSize
+///       guard offset < data.count else { return nil }
+///       let chunk = data[offset..<min(offset + chunkSize, data.count)]
+///       let base64 = chunk.base64EncodedString()
+///       return upload(base64EncodedData: base64)
+///     }
 ///
-/// concurrentlyDispatch(
-///   next: uploadChunk,
-///   concurrent: 5, // concurrently upload up to 5 chunks at a time
-///   retryCount: 5  // retry them for a maximum of 5 times in case they fail
-/// )
-/// .finally { print("Upload result: \($0)") }
+///     concurrentlyDispatch(
+///       next: uploadChunk,
+///       concurrent: 5, // concurrently upload up to 5 chunks at a time
+///       retryCount: 5  // retry them for a maximum of 5 times in case they fail
+///     )
+///     .finally { print("Upload result: \($0)") }
 ///
 /// In scenarios where only one concurrent task can be executed at once,
 /// using `sequence` is preferable as it is much faster.
