@@ -21,8 +21,8 @@ import Foundation
 ///       struct SearchAsyncSequence: AsyncSequence {
 ///         typealias Element = PostsAsyncIterator.Element
 ///
-///         func makeAsyncIterator() -> PostsAsyncIterator {
-///           SearchAsyncIterator()
+///         func makeAsyncIterator() -> SearchAsyncSequence {
+///           .init()
 ///         }
 ///       }
 ///       
@@ -30,7 +30,7 @@ import Foundation
 ///         typealias Element = [Item]
 ///         
 ///         func next() async throws -> Element? {
-///            callSearchAPI(...)
+///            try await callSearchAPI(...)
 ///         // ^~~~~~~~~~~~~^ operation, which will be throttled
 ///         }
 ///       }
