@@ -53,6 +53,24 @@ extension MediaPlayer.PlaybackState {
   }
 }
 
+extension MediaPlayer.PlaybackState: Equatable {
+  public static func == (lhs: MediaPlayer.PlaybackState, rhs: MediaPlayer.PlaybackState) -> Bool {
+    switch (lhs, rhs) {
+    case (.preparing, .preparing),
+      (.readyToPlay, .readyToPlay),
+      (.playing, .playing),
+      (.paused, .paused),
+      (.stopped, .stopped),
+      (.ended, .ended):
+      return true
+    case (.failed(let lError), .failed(let rError)):
+      return lError.localizedDescription == rError.localizedDescription
+    default:
+      return false
+    }
+  }
+}
+
 extension MediaPlayer.Error: LocalizedError {
   public var errorDescription: String? {
     switch self {
