@@ -61,7 +61,8 @@ public class MediaPlayer: AVPlayer {
   
   /// The total duration of the current media item in seconds. This duration does not take into account any custom playback interval set.
   public var duration: Double {
-    currentItem?.asset.duration.seconds ?? 0
+    guard let duration = currentItem?.asset.duration, duration.isValid, !duration.seconds.isNaN else { return 0 }
+    return duration.seconds
   }
   
   /// A Boolean value indicating whether the media player is currently playing.
@@ -276,7 +277,7 @@ private extension MediaPlayer {
       forInterval: CMTimeMake(value: Int64(timeObservingMiliseconds), timescale: 1000),
       queue: .main
     ) { [weak self] time in
-      guard let self else { return }
+      guard let self, time.isValid else { return }
       
       if currentItem?.status == .failed, let error = currentItem?.error {
         state = .failed(error: error)
