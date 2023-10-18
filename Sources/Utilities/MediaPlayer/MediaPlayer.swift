@@ -7,22 +7,7 @@
 //
 
 import AVKit
-
-/// Enum representing the different states of media playback.
-public enum MediaPlayerPlaybackState {
-  /// State when the media player is not defined or initialized.
-  case undefined
-  /// State when the media player is actively playing media.
-  case playing
-  /// State when the media player is preparing to play media.
-  case preparing
-  /// State when the media player has paused media playback.
-  case paused
-  /// State when the media player has stopped media playback.
-  case stopped
-  /// State when the media player has ended media playback.
-  case ended
-}
+import PovioKitCore
 
 public protocol MediaPlayerDelegate: AnyObject {
   func mediaPlayer(didBeginPlayback player: MediaPlayer)
@@ -33,9 +18,9 @@ public protocol MediaPlayerDelegate: AnyObject {
   func mediaPlayer(didEndBuffering player: MediaPlayer)
   func mediaPlayer(_ player: MediaPlayer, didProgressToTime seconds: Double)
   func mediaPlayer(_ player: MediaPlayer, onProgressUpdate progress: Float)
-
-  func mediaPlayer(_ player: MediaPlayer, didFailWithError: Error)
-  func mediaPlayer(_ player: MediaPlayer, didUpdatePlaybackState: MediaPlayerPlaybackState)
+  
+  func mediaPlayer(_ player: MediaPlayer, didFailWithError error: Error)
+  func mediaPlayer(_ player: MediaPlayer, didUpdatePlaybackState playbackState: MediaPlayer.PlaybackState)
 }
 
 public extension MediaPlayerDelegate {
@@ -46,20 +31,14 @@ public extension MediaPlayerDelegate {
   func mediaPlayer(didBeginBuffering player: MediaPlayer) {}
   func mediaPlayer(didEndBuffering player: MediaPlayer) {}
   func mediaPlayer(_ player: MediaPlayer, didProgressToTime seconds: Double) {}
-  func mediaPlayer(_ player: MediaPlayer, didFailWithError: Error) {}
-  func mediaPlayer(_ player: MediaPlayer, didUpdatePlaybackState: MediaPlayerPlaybackState) {}
+  func mediaPlayer(_ player: MediaPlayer, didFailWithError error: Error) {}
+  func mediaPlayer(_ player: MediaPlayer, didUpdatePlaybackState playbackState: MediaPlayer.PlaybackState) {}
   func mediaPlayer(_ player: MediaPlayer, onProgressUpdate progress: Float) {}
 }
 
 public class MediaPlayer: AVPlayer {
   public private(set) lazy var playbackInterval: (startAt: Double, endAt: Double) = (0, duration)
-
-  // MARK: - Private properties
-
-  private var timeObserver: Any?
-
-  // MARK: - Public properties
-
+  
   /// A Boolean value that determines whether the media player should loop playback when it reaches the end of the media.
   ///
   /// If this property is set to `true`, the media player will automatically start playing the media from the beginning once it reaches the end. If set to `false`, the media player will stop playing when it reaches the end of the media.
@@ -67,7 +46,7 @@ public class MediaPlayer: AVPlayer {
   ///
   /// The default value is `false`.
   public var allowsLooping = false
-
+  
   /// The time interval in milliseconds at which the player observes the playback time.
   /// This property determines how often the player updates the playback progress.
   /// When this property is set, the player removes the current time observer and sets up a new one.
@@ -75,99 +54,116 @@ public class MediaPlayer: AVPlayer {
   /// called every 500 miliseconds
   public var timeObservingMiliseconds: Int = 500 {
     didSet {
-      // Remove the current time observer when the observing interval changes
-      removeTimeObserver()
       // Set up a new time observer with the updated interval
-      setupTimeObserver()
+      setupPeriodicTimeObserver()
     }
   }
-
+  
   /// The total duration of the current media item in seconds. This duration does not take into account any custom playback interval set.
   public var duration: Double {
-    currentItem?.asset.duration.seconds ?? 0
+    guard let duration = currentItem?.asset.duration, duration.isValid, !duration.seconds.isNaN else { return 0 }
+    return duration.seconds
   }
-
+  
   /// A Boolean value indicating whether the media player is currently playing.
   public var isPlaying: Bool {
-    rate != 0.0 && status == .readyToPlay
+    rate > 0.0
   }
-
+  
   /// The current playback time of the media player in seconds.
   /// This property returns the current time of the player converted to seconds.
   public var currentTimeSeconds: Double {
     Double(CMTimeGetSeconds(currentTime()))
   }
-
+  
   /// The current state of the media player.
   /// This property is of type `MediaPlayerPlaybackState` and its default value is `.undefined`.
   /// When the state changes, the media player informs its delegate by calling the `mediaPlayer(_:didUpdatePlaybackState:)` method.
-  public var state: MediaPlayerPlaybackState = .undefined {
-    didSet {
-      delegate?.mediaPlayer(self, didUpdatePlaybackState: state)
-    }
+  public var state: PlaybackState = .preparing {
+    didSet { onStateUpdate() }
   }
-
+  
   public weak var delegate: MediaPlayerDelegate?
-
-  // MARK: - Init
+  
+  /// Boolean flag `true` when item is prepared and can be played
+  private var canPlayVideo: Bool = false
+  /// Flipped to `true` when trying to start playing but `canPlayVideo` is false
+  private var playWhenReady: Bool = false
+  private var playerItemObserver: NSKeyValueObservation?
+  private var periodicTimeObserver: Any?
   
   override public init() {
     super.init()
-    setupTimeObserver()
-  }
-
-  public override init(url: URL) {
-    super.init(url: url)
-    setupTimeObserver()
-  }
-
-  public override init(playerItem item: AVPlayerItem?) {
-    super.init(playerItem: item)
-    setupTimeObserver()
+    setupPlayerItemObserver()
   }
   
-  convenience public init?(urlString: String) {
-    guard let url = URL(string: urlString) else { return nil }
-    self.init(url: url)
+  public override init(url: URL) {
+    super.init(url: url)
+    setupPlayerItemObserver()
   }
-
+  
+  public override init(playerItem item: AVPlayerItem?) {
+    super.init(playerItem: item)
+    setupPlayerItemObserver()
+  }
+  
+  convenience public init(asset: AVURLAsset) {
+    let item = AVPlayerItem(asset: asset)
+    self.init(playerItem: item)
+  }
+  
   // MARK: - Public methods
-
+  
   /// Starts playing the media from the current position.
   /// This function also updates the state of the media player to `.playing` and informs the delegate that the playback has started.
   public override func play() {
+    guard canPlayVideo else {
+      setupPlayerItemObserver()
+      playWhenReady = true
+      return
+    }
+    
+    playWhenReady = false
+    setupPlayerItemObserver()
     super.play()
     state = .playing
-    delegate?.mediaPlayer(didBeginPlayback: self)
   }
-
+  
   /// Starts playing the media from a specified time.
   ///
   /// - Parameters:
   ///   - fromTime: The time from which to start playing the media. This should be less than the total duration of the media.
   ///
-  /// If `fromTime` is greater than or equal to the total duration, this function will cause a fatal error.
+  /// If `fromTime` is greater than or equal to the total duration, this function will do nothing.
   public func play(from fromTime: Double) {
-    guard fromTime < duration else { fatalError("`fromTime` should be less than total duration") }
+    guard fromTime < duration else {
+      Logger.error("`fromTime` should be less than total duration")
+      return
+    }
+    
     playbackInterval = (fromTime, duration)
     jump(to: fromTime)
     play()
   }
-
+  
   /// Starts playing the media from a specified start time to a specified end time.
   ///
   /// - Parameters:
   ///   - fromTime: The time from which to start playing the media. This should be less than `toTime`.
   ///   - toTime: The time at which to stop playing the media. This should be greater than `fromTime`.
   ///
-  /// If `fromTime` is greater than or equal to `toTime`, this function will cause a fatal error.
+  /// If `fromTime` is greater than or equal to `toTime`, this function will do nothing.
   public func play(from fromTime: Double, to toTime: Double) {
-    guard fromTime < toTime else { fatalError("`fromTime` should be less than `toTime`") }
+    guard fromTime < toTime else {
+      Logger.error("`fromTime` should be less than `toTime`")
+      return
+    }
+    
     playbackInterval = (fromTime, toTime)
     setPlaybackPosition(to: fromTime)
     play()
   }
-
+  
   /// Jumps to a specified time in the media.
   ///
   /// - Parameters:
@@ -175,15 +171,18 @@ public class MediaPlayer: AVPlayer {
   public func jump(to time: Double) {
     setPlaybackPosition(to: time)
   }
-
+  
   /// Stops the media playback and resets the playback position to the start of the playback interval.
   /// Also, updates the state of the media player to `.stopped`.
   public func stop() {
     pause()
     setPlaybackPosition(to: playbackInterval.startAt)
+    removePeriodicTimeObserver()
+    removePlayerItemObserver()
+    canPlayVideo = false
     state = .stopped
   }
-
+  
   /// Seeks forward in the media by a specified number of seconds.
   ///
   /// - Parameters:
@@ -192,7 +191,7 @@ public class MediaPlayer: AVPlayer {
   public func seekForward(seconds: Double) {
     setPlaybackPosition(to: min(currentTimeSeconds + seconds, playbackInterval.endAt))
   }
-
+  
   /// Seeks backward in the media by a specified number of seconds.
   ///
   /// - Parameters:
@@ -201,93 +200,145 @@ public class MediaPlayer: AVPlayer {
   public func seekBackward(seconds: Double) {
     setPlaybackPosition(to: (max(currentTimeSeconds - seconds, playbackInterval.startAt)))
   }
-
+  
   /// Pauses the media playback, updates the state of the media player to `.paused`, and informs the delegate that the playback has paused.
   public override func pause() {
     super.pause()
     state = .paused
-    delegate?.mediaPlayer(didPausePlayback: self)
   }
-
+  
   /// Replaces the current playing item with the new given item.
   ///
   /// - Parameters:
   ///   - item: The new `AVPlayerItem` to be replaced with. Resets the playback interval to default.
   ///
-  /// Note: This does not automatically play the item. To play the replaced item, call the method`play()`-
+  /// This does not automatically play the item. To play the replaced item, call the method`play()`-
   public override func replaceCurrentItem(with item: AVPlayerItem?) {
     super.replaceCurrentItem(with: item)
     playbackInterval = (0, duration)
-    setupTimeObserver()
+    setupPlayerItemObserver()
   }
-
+  
   /// Updates the playback interval with the new range.
   ///
   /// - Parameters:
   ///   - startAt: The new start of the playback range.
   ///   - endAt: The new end of the playback range.
   ///
-  /// If the current time is out of new range, the playback position gets set either to the beginnig of the end respectively.
+  /// If the current time is out of new range, this function does nothing.
   func updatePlaybackInterval(startAt: Double, endAt: Double) {
-    guard startAt < endAt else { fatalError("`startAt` should be less than `endAt`") }
+    guard startAt < endAt else {
+      Logger.error("`startAt` should be less than `endAt`")
+      return
+    }
     playbackInterval = (startAt, endAt)
-    setupTimeObserver()
-
+    setupPeriodicTimeObserver()
+    
     if currentTimeSeconds < startAt || currentTimeSeconds > endAt {
       setPlaybackPosition(to: max(startAt, min(endAt, currentTimeSeconds)))
     }
   }
 }
 
-// MARK: - Extensions
-
 // MARK: - Private Methods
-
 private extension MediaPlayer {
-  func setupTimeObserver() {
-    removeTimeObserver()
-
-    timeObserver = addPeriodicTimeObserver(
+  func setupPlayerItemObserver() {
+    guard playerItemObserver == nil else {
+      setupPeriodicTimeObserver()
+      return
+    }
+    removePeriodicTimeObserver()
+    playerItemObserver = currentItem?.observe(\.status, options: [.new, .old]) { [weak self] playerItem, _ in
+      guard let self else { return }
+      switch playerItem.status {
+      case .readyToPlay:
+        canPlayVideo = true
+        state = .readyToPlay
+        setupPeriodicTimeObserver()
+        if playWhenReady {
+          play()
+        }
+      case .unknown:
+        canPlayVideo = false
+        state = .failed(error: Error.undefinedState)
+      case .failed:
+        canPlayVideo = false
+        state = .failed(error: playerItem.error ?? Error.undefinedError)
+      @unknown default:
+        canPlayVideo = false
+        state = .failed(error: Error.undefinedState)
+      }
+    }
+  }
+  
+  func setupPeriodicTimeObserver() {
+    guard periodicTimeObserver == nil else { return }
+    periodicTimeObserver = addPeriodicTimeObserver(
       forInterval: CMTimeMake(value: Int64(timeObservingMiliseconds), timescale: 1000),
       queue: .main
     ) { [weak self] time in
-      guard let self = self else { return }
-
+      guard let self, time.isValid else { return }
+      
       if currentItem?.status == .failed, let error = currentItem?.error {
-        self.delegate?.mediaPlayer(self, didFailWithError: error)
+        state = .failed(error: error)
+        removePeriodicTimeObserver()
+        return
       }
-
-      self.delegate?.mediaPlayer(self, didProgressToTime: time.seconds)
-      self.delegate?.mediaPlayer(self, onProgressUpdate: Float(time.seconds / self.duration))
-      self.timeObserverCallback(time: time)
-
+      
+      delegate?.mediaPlayer(self, didProgressToTime: time.seconds)
+      delegate?.mediaPlayer(self, onProgressUpdate: Float(time.seconds / duration))
+      timeObserverCallback(time: time)
+      
       guard let currentItem = self.currentItem, currentItem.status == .readyToPlay else { return }
       currentItem.isPlaybackLikelyToKeepUp
-      ? self.delegate?.mediaPlayer(didEndBuffering: self)
-      : self.delegate?.mediaPlayer(didBeginBuffering: self)
+      ? delegate?.mediaPlayer(didEndBuffering: self)
+      : delegate?.mediaPlayer(didBeginBuffering: self)
     }
   }
-
+  
   func timeObserverCallback(time: CMTime) {
     guard time.seconds >= playbackInterval.endAt else { return }
-
+    
+    // at this point, item has ended
     if allowsLooping {
       setPlaybackPosition(to: playbackInterval.startAt)
       play()
       delegate?.mediaPlayer(didBeginReplay: self)
     } else {
-      removeTimeObserver()
+      removePeriodicTimeObserver()
       state = .ended
-      delegate?.mediaPlayer(didEndPlayback: self)
     }
   }
-
-  func removeTimeObserver() {
-    timeObserver.map(removeTimeObserver)
-    timeObserver = nil
+  
+  func removePlayerItemObserver() {
+    playerItemObserver?.invalidate()
+    playerItemObserver = nil
   }
-
+  
+  func removePeriodicTimeObserver() {
+    periodicTimeObserver.map(removeTimeObserver)
+    periodicTimeObserver = nil
+  }
+  
   func setPlaybackPosition(to value: Double) {
     seek(to: CMTimeMakeWithSeconds(value, preferredTimescale: 6_000))
+  }
+  
+  func onStateUpdate() {
+    delegate?.mediaPlayer(self, didUpdatePlaybackState: state)
+    Logger.info("Player status: \(state.value)")
+    
+    switch state {
+    case .playing:
+      delegate?.mediaPlayer(didBeginPlayback: self)
+    case .paused:
+      delegate?.mediaPlayer(didPausePlayback: self)
+    case .ended:
+      delegate?.mediaPlayer(didEndPlayback: self)
+    case .failed(error: let error):
+      delegate?.mediaPlayer(self, didFailWithError: error)
+    case .preparing, .readyToPlay, .stopped:
+      break
+    }
   }
 }
