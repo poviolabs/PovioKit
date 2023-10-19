@@ -22,7 +22,7 @@ public typealias ProgressHandler = Alamofire.Request.ProgressHandler
 public typealias ErrorHandler = (Swift.Error, Data) throws -> Swift.Error
 
 open class AlamofireNetworkClient {
-  private let session: Alamofire.Session
+  public let session: Alamofire.Session
   private let eventMonitors: [RequestMonitor]
   private let defaultErrorHandler: ErrorHandler?
   
