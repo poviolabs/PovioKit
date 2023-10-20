@@ -39,20 +39,13 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/Alamofire/Alamofire", 
-      .upToNextMajor(from: "5.6.4")
+      .upToNextMajor(from: "5.0.0")
     )
   ],
   targets: [
     .target(
       name: "PovioKitCore",
-      path: "Sources/Core",
-      exclude: [
-        "../Networking",
-        "../PromiseKit",
-        "../Utilities",
-        "../UIKit",
-        "../SwiftUI",
-      ]
+      path: "Sources/Core"
     ),
     .target(
       name: "PovioKitNetworking",
@@ -73,14 +66,14 @@ let package = Package(
         "PovioKitCore",
         "PovioKitUtilities",
       ],
-      path: "Sources/UIKit"
+      path: "Sources/UI/UIKit"
     ),
     .target(
       name: "PovioKitSwiftUI",
       dependencies: [
         "PovioKitCore",
       ],
-      path: "Sources/SwiftUI"
+      path: "Sources/UI/SwiftUI"
     ),
     .target(
       name: "PovioKitUtilities",

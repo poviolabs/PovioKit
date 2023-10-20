@@ -155,11 +155,9 @@ private extension ProfileImageView {
     var badgeTapped: (() -> Void)
 
     
-    init?(
-      style: BadgingMode,
-      size: CGSize,
-      badgeTapped: @escaping () -> ()
-    ) {
+    init?(style: BadgingMode, 
+          size: CGSize, 
+          badgeTapped: @escaping () -> ()) {
       self.badgeTapped = badgeTapped
       
       switch style {
