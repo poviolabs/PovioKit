@@ -297,7 +297,7 @@ private extension MediaPlayer {
   }
   
   func timeObserverCallback(time: CMTime) {
-    guard time.seconds >= playbackInterval.endAt else { return }
+    guard (time.seconds + Double(timeObservingMiliseconds) / 1_000) >= playbackInterval.endAt else { return }
     
     // at this point, item has ended
     if allowsLooping {
