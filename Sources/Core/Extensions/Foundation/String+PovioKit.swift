@@ -51,4 +51,16 @@ public extension String {
   func safeSuffix(_ maxLength: UInt) -> Substring {
     suffix(Int(maxLength))
   }
+
+  /// Converts the string into a markdown formatted AttributedString.
+  ///
+  /// If the conversion fails (e.g., due to invalid markdown syntax), it returns the original string as an AttributedString. Requires iOS 15 and above.
+  @available(iOS 15, *)
+  func toMarkdown() -> AttributedString {
+    do {
+      return try AttributedString(markdown: self)
+    } catch {
+      return AttributedString(self)
+    }
+  }
 }
