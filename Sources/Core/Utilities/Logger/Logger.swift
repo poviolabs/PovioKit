@@ -64,11 +64,6 @@ public extension Logger {
   static func error(_ message: String, params: Parameters? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     flush(.error, message: message, params: params, file: file, function: function, line: line)
   }
-  
-  /// Log crash
-  static func crash(params: Parameters, file: String = #file, function: String = #function, line: Int = #line) {
-    flush(.error, message: "app_crash", params: params, file: file, function: function, line: line)
-  }
 }
 
 // MARK: - Private Methods
