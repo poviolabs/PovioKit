@@ -71,16 +71,23 @@ private extension Logger {
   static func flush(_ level: LogLevel, message: String, params: Parameters? = nil, file: String, function: String, line: Int) {
     guard shared.logLevel.rawValue >= level.rawValue else { return }
     
-    let fileName = URL(fileURLWithPath: file).lastPathComponent.components(separatedBy: ".").first ?? ""
-    let shortFileName = URL(string: file)?.lastPathComponent ?? ""
+    let fileName = URL(string: file)?.lastPathComponent ?? ""
+    let nl = "\n ⮑ "
     var messagePrint = "\(level.label): \(message)"
-    if let params = params, !params.isEmpty {
-      messagePrint += ", params: \(params)"
+    if line >= 0 {
+      messagePrint += "\(nl)source: \(fileName).\(function)[\(line)]"
+    }
+    if let params, !params.isEmpty {
+      let groupedParams = params
+        .map { "\($0.key): \($0.value)" }
+        .sorted()
+        .joined(separator: nl)
+      messagePrint += "\(nl)\(groupedParams)"
     }
     
     if #available(iOS 14.0, *) {
-      let category = "\(shortFileName) - \(function) - line \(line)"
-      let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "--", category: category)
+      let category = "\(fileName) - \(function) - line \(line)"
+      let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "povioKit.logger", category: category)
       switch level {
       case .none:
         break
