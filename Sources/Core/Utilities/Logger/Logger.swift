@@ -6,7 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
-import Foundation
+import OSLog
 
 public final class Logger {
   public typealias Parameters = [String: Any]
@@ -26,7 +26,7 @@ public extension Logger {
     case debug
     case all
     
-    var string: String {
+    var label: String {
       switch self {
       case .info:
         return "INFO"
@@ -77,12 +77,32 @@ private extension Logger {
     guard shared.logLevel.rawValue >= level.rawValue else { return }
     
     let fileName = URL(fileURLWithPath: file).lastPathComponent.components(separatedBy: ".").first ?? ""
-    var messagePrint = "\(level.string): \(fileName).\(function)[\(line)]: \(message)"
+    let shortFileName = URL(string: file)?.lastPathComponent ?? ""
+    var messagePrint = "\(level.label): \(message)"
     if let params = params, !params.isEmpty {
       messagePrint += ", params: \(params)"
     }
     
-    debugPrint(messagePrint)
-    debugPrint()
+    if #available(iOS 14.0, *) {
+      let category = "\(shortFileName) - \(function) - line \(line)"
+      let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "--", category: category)
+      switch level {
+      case .none:
+        break
+      case .error:
+        logger.error("\(messagePrint)")
+      case .warn:
+        logger.warning("\(messagePrint)")
+      case .info:
+        logger.info("\(messagePrint)")
+      case .debug:
+        logger.debug("\(messagePrint)")
+      case .all:
+        logger.log("\(messagePrint)")
+      }
+    } else {
+      debugPrint(messagePrint)
+      debugPrint()
+    }
   }
 }
