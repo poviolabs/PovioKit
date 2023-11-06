@@ -71,7 +71,7 @@ private extension Logger {
   static func flush(_ level: LogLevel, message: String, params: Parameters? = nil, file: String, function: String, line: Int) {
     guard shared.logLevel.rawValue >= level.rawValue else { return }
     
-    let fileName = URL(string: file)?.lastPathComponent ?? ""
+    let fileName = URL(fileURLWithPath: file).lastPathComponent.components(separatedBy: ".").first ?? ""
     let nl = "\n ⮑ "
     var messagePrint = "\(level.label): \(message)"
     if line >= 0 {
