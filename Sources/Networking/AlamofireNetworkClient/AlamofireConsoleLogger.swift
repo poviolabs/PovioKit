@@ -14,7 +14,7 @@ public final class AlamofireConsoleLogger: EventMonitor {
   public let queue = DispatchQueue(label: "com.alamofire.console.networklogger")
   private let logger: (String) -> Void
   
-  public init(logger: @escaping (String) -> Void = { Logger.debug($0) }) {
+  public init(logger: @escaping (String) -> Void = { Logger.debug($0, line: -1) }) {
     self.logger = logger
   }
   
