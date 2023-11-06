@@ -75,7 +75,7 @@ private extension Logger {
     let nl = "\n ⮑ "
     var messagePrint = "\(level.label): \(message)"
     if line >= 0 {
-      messagePrint += "\(nl)source: \(fileName).\(function)[\(line)]"
+      messagePrint += "\(nl)source: \(fileName).\(function):\(line)"
     }
     if let params, !params.isEmpty {
       let groupedParams = params
