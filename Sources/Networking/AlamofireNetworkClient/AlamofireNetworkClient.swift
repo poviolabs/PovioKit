@@ -248,7 +248,7 @@ public extension AlamofireNetworkClient {
   }
   
   class DownloadRequest {
-    private let downloadRequest: Alamofire.DownloadRequest
+    public let downloadRequest: Alamofire.DownloadRequest
     private var errorHandler: ErrorHandler?
     private let eventMonitors: [RequestMonitor]
     
