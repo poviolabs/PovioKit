@@ -453,6 +453,31 @@ public extension AlamofireNetworkClient.DownloadRequest {
       }
     }
   }
+  
+  func resume() -> Self {
+    downloadRequest.resume()
+    return self
+  }
+  
+  func suspend() -> Self {
+    downloadRequest.suspend()
+    return self
+  }
+  
+  func cancel() -> Self {
+    downloadRequest.cancel()
+    return self
+  }
+  
+  func validate() -> Self {
+    downloadRequest.validate()
+    return self
+  }
+  
+  func validate<S: Sequence>(statusCode: S) -> Self where S.Iterator.Element == Int {
+    downloadRequest.validate(statusCode: statusCode)
+    return self
+  }
 }
 
 // MARK: - DataRequest async/await API
