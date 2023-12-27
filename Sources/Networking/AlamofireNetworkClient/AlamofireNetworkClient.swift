@@ -607,8 +607,8 @@ public extension AlamofireNetworkClient.Error {
     .request(.client(400), .init())
   }
   
-  static var internalServerError: AlamofireNetworkClient.Error {
-    .request(.server(500), .init())
+  static var timeoutRequest: AlamofireNetworkClient.Error {
+    .request(.client(408), .init())
   }
 }
 
@@ -626,20 +626,30 @@ public extension HTTPHeaders {
 // MARK: - Private Error Handling Methods
 private extension AlamofireNetworkClient.DataRequest {
   func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
-    guard let handler = errorHandler else {
-      switch error {
-      case .responseSerializationFailed as AFError:
+    if let afError = error as? AFError {
+      switch afError {
+      case .responseSerializationFailed:
         return .other(error, errorInfo)
-      case _ as AFError:
-        return .request(.init(code: dataRequest.response?.statusCode ?? 0), errorInfo)
-      case _:
+        
+      case .sessionTaskFailed(let underlyingError):
+        if let nsError = underlyingError as NSError?, nsError.domain == NSURLErrorDomain {
+          switch nsError.code {
+          case NSURLErrorTimedOut:
+            // Handle timeout error
+            return .request(.client(408), errorInfo)
+          case NSURLErrorNotConnectedToInternet:
+            // Handle no internet connection error
+            return .request(.client(418), errorInfo)
+          default:
+            break
+          }
+        }
+        return .request(.other(dataRequest.response?.statusCode ?? 0), errorInfo)
+        
+      default:
         return .other(error, errorInfo)
       }
-    }
-    do {
-      let handledError = try handler(error, dataRequest.data ?? .init())
-      return .other(handledError, errorInfo)
-    } catch {
+    } else {
       return .other(error, errorInfo)
     }
   }
