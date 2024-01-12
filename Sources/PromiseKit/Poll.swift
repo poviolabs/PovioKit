@@ -15,16 +15,16 @@ import Foundation
 ///
 /// Example:
 ///
-/// func checkStatus() -> Promise<Bool> {
-///   // query the server regarding the status ...
-/// }
+///     func checkStatus() -> Promise<Bool> {
+///       // query the server regarding the status ...
+///     }
 ///
-/// poll(
-///   repeat: checkStatus,     // repeate checking the status
-///   checkAfter: .seconds(5), // ... every 5 seconds
-///   while: { !$0 }           // ... while it remains `false`
-/// )
-/// .finally { print("Polling result: \($0)") }
+///     poll(
+///       repeat: checkStatus,     // repeate checking the status
+///       checkAfter: .seconds(5), // ... every 5 seconds
+///       while: { !$0 }           // ... while it remains `false`
+///     )
+///     .finally { print("Polling result: \($0)") }
 ///
 /// - Parameter request: Provide a new request.
 /// - Parameter interval: Delay between requests.
@@ -68,20 +68,20 @@ public protocol PollingDelay {
 ///
 /// Example:
 ///
-/// struct ServerResponse: PollingDelay {
-///   let status: Bool
-///   let checkAfter: DispatchTimeInterval
-/// }
+///     struct ServerResponse: PollingDelay {
+///       let status: Bool
+///       let checkAfter: DispatchTimeInterval
+///     }
 ///
-/// func checkStatus() -> Promise<ServerResponse> {
-///   // query the server regarding the status ...
-/// }
+///     func checkStatus() -> Promise<ServerResponse> {
+///       // query the server regarding the status ...
+///     }
 ///
-/// poll(
-///   repeat: checkStatus,     // repeating checking the status
-///   while: { !$0.status }    // ... while it remains `false`
-/// )
-/// .finally { print("Polling result: \($0)") }
+///     poll(
+///       repeat: checkStatus,     // repeating checking the status
+///       while: { !$0.status }    // ... while it remains `false`
+///     )
+///     .finally { print("Polling result: \($0)") }
 ///
 /// - Parameter request: Provide a new request.
 /// - Parameter predicate: Repeat requests while the predicate returns `true`.
