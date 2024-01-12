@@ -197,14 +197,13 @@ public extension ProfileImageView {
     let borderColor: Color?
     let borderWidth: CGFloat?
     
-    public init(
-      image: Image,
-      contentMode: ContentMode = .fit,
-      tintColor: Color = .white,
-      backgroundColor: Color,
-      alignment: Alignment,
-      borderColor: Color? = nil,
-      borderWidth: CGFloat? = nil
+    public init(image: Image,
+                contentMode: ContentMode = .fit,
+                tintColor: Color = .white,
+                backgroundColor: Color,
+                alignment: Alignment,
+                borderColor: Color? = nil,
+                borderWidth: CGFloat? = nil
     ) {
       self.image = image
       self.contentMode = contentMode

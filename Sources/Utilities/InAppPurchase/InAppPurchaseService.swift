@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PovioKitCore
 import StoreKit
 
 @available(iOS 15.0, *)

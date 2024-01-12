@@ -7,6 +7,7 @@
 //
 
 import AVFoundation.AVMediaFormat
+import PovioKitCore
 
 public struct CameraService {
   /* see extension bellow for implementation */

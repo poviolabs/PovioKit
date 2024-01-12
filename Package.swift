@@ -78,6 +78,7 @@ let package = Package(
     .target(
       name: "PovioKitUtilities",
       dependencies: [
+        "PovioKitCore",
       ],
       path: "Sources/Utilities"
     ),
