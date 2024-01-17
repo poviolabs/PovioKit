@@ -7,7 +7,6 @@
 //
 
 import AVKit
-import PovioKitCore
 
 public protocol MediaPlayerDelegate: AnyObject {
   func mediaPlayer(didBeginPlayback player: MediaPlayer)
