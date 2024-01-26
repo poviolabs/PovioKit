@@ -7,7 +7,6 @@
 //
 
 import AVKit
-import PovioKitCore
 
 public protocol MediaPlayerDelegate: AnyObject {
   func mediaPlayer(didBeginPlayback player: MediaPlayer)
@@ -98,7 +97,7 @@ public class MediaPlayer: AVPlayer {
   }
   
   public override init(url: URL) {
-    super.init(url: url)
+    super.init(playerItem: AVPlayerItem(url: url))
     setupPlayerItemObserver()
   }
   
@@ -243,6 +242,14 @@ public class MediaPlayer: AVPlayer {
 // MARK: - Private Methods
 private extension MediaPlayer {
   func setupPlayerItemObserver() {
+    // notification when playback ends
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(playerDidFinishPlaying),
+      name: AVPlayerItem.didPlayToEndTimeNotification,
+      object: currentItem
+    )
+    
     guard playerItemObserver == nil else {
       setupPeriodicTimeObserver()
       return
@@ -304,9 +311,6 @@ private extension MediaPlayer {
       setPlaybackPosition(to: playbackInterval.startAt)
       play()
       delegate?.mediaPlayer(didBeginReplay: self)
-    } else {
-      removePeriodicTimeObserver()
-      state = .ended
     }
   }
   
@@ -340,5 +344,14 @@ private extension MediaPlayer {
     case .preparing, .readyToPlay, .stopped:
       break
     }
+  }
+}
+
+// MARK: - Actions
+private extension MediaPlayer {
+  @objc func playerDidFinishPlaying() {
+    removePeriodicTimeObserver()
+    NotificationCenter.default.removeObserver(self)
+    state = .ended
   }
 }

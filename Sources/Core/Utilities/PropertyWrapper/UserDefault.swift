@@ -8,18 +8,35 @@
 
 import Foundation
 
+private protocol OptionalProtocol {
+  func isNil() -> Bool
+}
+
+extension Optional : OptionalProtocol {
+  func isNil() -> Bool {
+    return self == nil
+  }
+}
+
 @propertyWrapper public struct UserDefault<Value> {
   private let key: String
   private let defaultValue: Value
   private let storage: UserDefaults
-  
+
   public var wrappedValue: Value {
     get {
-      let value = storage.value(forKey: key) as? Value
-      return value ?? defaultValue
+      guard let value = storage.object(forKey: key) else {
+        return defaultValue
+      }
+      
+      return value as? Value ?? defaultValue
     }
     set {
-      storage.setValue(newValue, forKey: key)
+      if let value = newValue as? OptionalProtocol, value.isNil() {
+        storage.removeObject(forKey: key)
+      } else {
+        storage.set(newValue, forKey: key)
+      }
     }
   }
   
