@@ -46,7 +46,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .request(
         endpoint,
@@ -67,7 +67,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .request(
         endpoint,
@@ -90,7 +90,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .request(
         endpoint,
@@ -116,7 +116,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .upload(multipartFormData: { builder in
         builder.append(
@@ -145,7 +145,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .upload(
         multipartFormData: multipartFormBuilder,
@@ -166,7 +166,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .upload(
         fileURL,
@@ -231,7 +231,7 @@ public extension AlamofireNetworkClient {
     }
   }
   
-  class Request {
+  class DataRequest {
     private let dataRequest: Alamofire.DataRequest
     private var errorHandler: ErrorHandler?
     private let eventMonitors: [RequestMonitor]
@@ -302,7 +302,7 @@ public extension AlamofireNetworkClient.Error {
 }
 
 // MARK: - Data Request API
-public extension AlamofireNetworkClient.Request {
+public extension AlamofireNetworkClient.DataRequest {
   var asData: Promise<Data> {
     asDataWithHeaders
       .map { $0.0 }
@@ -481,7 +481,7 @@ public extension AlamofireNetworkClient.DownloadRequest {
 }
 
 // MARK: - DataRequest async/await API
-public extension AlamofireNetworkClient.Request {
+public extension AlamofireNetworkClient.DataRequest {
   /// See Alamofire's documentation for details:
   ///
   /// ``Alamofire.Concurrency.serializingData``
@@ -624,7 +624,7 @@ public extension HTTPHeaders {
 }
 
 // MARK: - Private Error Handling Methods
-private extension AlamofireNetworkClient.Request {
+private extension AlamofireNetworkClient.DataRequest {
   func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
     guard let handler = errorHandler else {
       switch error {
@@ -673,11 +673,11 @@ private extension AlamofireNetworkClient.Error.RequestError {
 }
 
 public protocol RequestMonitor: AnyObject {
-  func requestDidSucceed(_ request: AlamofireNetworkClient.Request)
-  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error)
+  func requestDidSucceed(_ request: AlamofireNetworkClient.DataRequest)
+  func requestDidFail(_ request: AlamofireNetworkClient.DataRequest, with error: AlamofireNetworkClient.Error)
 }
 
 public extension RequestMonitor {
-  func requestDidSucceed(_ request: AlamofireNetworkClient.Request) {}
-  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error) {}
+  func requestDidSucceed(_ request: AlamofireNetworkClient.DataRequest) {}
+  func requestDidFail(_ request: AlamofireNetworkClient.DataRequest, with error: AlamofireNetworkClient.Error) {}
 }
