@@ -22,8 +22,8 @@ jobs:
         xcode-version: latest-stable
 
     - name: Build project
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild build-for-testing -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild build-for-testing -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcbeautify --renderer github-actions
 
     - name: Run tests
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild test-without-building -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild test-without-building -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcbeautify --renderer github-actions
       
