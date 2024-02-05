@@ -17,13 +17,13 @@ public class Future<Value, Error: Swift.Error> {
 
 internal extension Future {
   var result: FutureResult? {
-    read {
+    lock.withLock {
       internalResult
     }
   }
   
   func setResult(_ result: FutureResult?, on dispatchQueue: DispatchQueue? = nil) {
-    write {
+    lock.withLock {
       guard self.internalResult == nil else { return }
       self.internalResult = result
       guard self.isEnabled, let result = result else { return }
@@ -38,34 +38,24 @@ public extension Future {
   typealias FutureResult = Result<Value, Error>
   
   func finally(with callback: @escaping (FutureResult) -> Void) {
-    write {
+    lock.withLock {
       self.observers.append(.both(callback))
       self.internalResult.map(callback)
     }
   }
   
   func then(_ callback: @escaping (Value) -> Void) {
-    write {
+    lock.withLock {
       self.observers.append(.success(callback))
       self.internalResult.map { self.observers.last?.notifity($0) }
     }
   }
   
   func `catch`(_ callback: @escaping (Error) -> Void) {
-    write {
+    lock.withLock {
       self.observers.append(.failure(callback))
       self.internalResult.map { self.observers.last?.notifity($0) }
     }
-  }
-  
-  @inline(__always)
-  func write(_ work: @escaping () -> Void) {
-    lock.write(work)
-  }
-  
-  @inline(__always)
-  func read<T>(_ work: () -> T) -> T {
-    lock.read(work)
   }
 }
 
@@ -87,21 +77,5 @@ private extension Future {
         break
       }
     }
-  }
-}
-
-fileprivate extension NSLock {
-  @inline(__always)
-  func read<T>(_ work: () -> T) -> T {
-    lock()
-    defer { unlock() }
-    return work()
-  }
-  
-  @inline(__always)
-  func write(_ work: () -> Void) {
-    lock()
-    defer { unlock() }
-    return work()
   }
 }
