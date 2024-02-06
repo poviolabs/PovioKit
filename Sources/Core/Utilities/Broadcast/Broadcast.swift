@@ -9,13 +9,13 @@
 import Foundation
 
 public final class Broadcast<T> {
-  private(set) var observers = [Weak<AnyObject>]()
+  private(set) var observers = [Weak]()
 
   public init() {}
   
   public func add(observer: T) {
     prune()
-    observers.append(Weak<AnyObject>(observer as AnyObject))
+    observers.append(Weak(observer as AnyObject))
   }
   
   public func remove(observer: T) {
@@ -54,10 +54,10 @@ public final class Broadcast<T> {
 }
 
 extension Broadcast {
-  class Weak<U: AnyObject> {
-    weak var reference: U?
+  class Weak {
+    weak var reference: AnyObject?
     
-    init(_ object: U) { 
+    init(_ object: AnyObject) { 
       self.reference = object 
     }
   }
