@@ -14,7 +14,7 @@ class BroadcastTests: XCTestCase {
   func testWillNotifyListenerWhenBroadcastInvoked() {
     let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
-    sut.add(delegate: listener)
+    sut.add(observer: listener)
     sut.invoke { $0.run() }
     XCTAssertEqual(listener.executingCount, 1, "Listener should be notified only once")
   }
@@ -24,7 +24,7 @@ class BroadcastTests: XCTestCase {
     let listener = MockedListener()
     let expectation = self.expectation(description: "delay")
     
-    sut.add(delegate: listener)
+    sut.add(observer: listener)
     sut.invoke(on: .main) {
       $0.run()
       expectation.fulfill()
@@ -38,7 +38,7 @@ class BroadcastTests: XCTestCase {
     let listener = MockedListener()
     let expectation = self.expectation(description: "delay")
     var invokedOnMainThread = false
-    sut.add(delegate: listener)
+    sut.add(observer: listener)
     sut.invoke(on: .main) {
       $0.run()
       expectation.fulfill()
@@ -51,7 +51,7 @@ class BroadcastTests: XCTestCase {
   func testWillNotifyListenerTwiceWhenBroadcastInvokedTwice() {
     let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
-    sut.add(delegate: listener)
+    sut.add(observer: listener)
     sut.invoke { $0.run() }
     sut.invoke { $0.run() }
     XCTAssertEqual(listener.executingCount, 2, "Listener should be notified exactly two times")
@@ -60,7 +60,7 @@ class BroadcastTests: XCTestCase {
   func testWontNotifyListenerWhenBroadcastClearedAndInvoked() {
     let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
-    sut.add(delegate: listener)
+    sut.add(observer: listener)
     sut.clear()
     sut.invoke { $0.run() }
     XCTAssertEqual(listener.executingCount, 0, "Listener should not be notified when broadcast is cleared before invokation")
@@ -70,8 +70,8 @@ class BroadcastTests: XCTestCase {
     let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     let anotherlistener = MockedListener()
-    sut.add(delegate: listener)
-    sut.add(delegate: anotherlistener)
+    sut.add(observer: listener)
+    sut.add(observer: anotherlistener)
     sut.invoke { $0.run() }
     XCTAssertEqual(listener.executingCount, 1, "First listener should be notified only once")
     XCTAssertEqual(anotherlistener.executingCount, 1, "Second listener should be notified only once")
@@ -80,12 +80,28 @@ class BroadcastTests: XCTestCase {
   func testWontNotifyListenerWhenUnsubscribed() {
     let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
-    sut.add(delegate: listener)
-    sut.remove(delegate: listener)
+    sut.add(observer: listener)
+    sut.remove(observer: listener)
     sut.invoke { $0.run() }
     XCTAssertEqual(listener.executingCount, 0, "Listener should not be notified when not subscrubed to broadcast")
   }
   
+  func testRemoveObserver() {
+    let sut = Broadcast<MockedProtocol>()
+    let count = 100
+    let removeCount = 40
+    var listeners = (0..<count).map { _ in MockedListener() }
+    for i in 0..<count {
+      sut.add(observer: listeners[i])
+    }
+    for _ in 0..<removeCount {
+      let randomRemoveIndex = Int.random(in: 0..<listeners.count)
+      sut.remove(observer: listeners[randomRemoveIndex])
+      listeners.remove(at: randomRemoveIndex) 
+    }
+    sut.invoke { $0.run() }
+    XCTAssertEqual(count - removeCount, listeners.map { $0.executingCount }.reduce(0, +))
+  }
 }
 
 private protocol MockedProtocol {

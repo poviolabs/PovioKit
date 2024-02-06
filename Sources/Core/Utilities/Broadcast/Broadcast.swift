@@ -13,18 +13,22 @@ public final class Broadcast<T> {
 
   public init() {}
   
-  public func add(delegate: T) {
+  public func add(observer: T) {
     prune()
-    observers.append(Weak<AnyObject>(delegate as AnyObject))
+    observers.append(Weak<AnyObject>(observer as AnyObject))
   }
   
-  public func remove(delegate: T) {
+  public func remove(observer: T) {
     prune()
     let index = observers.firstIndex {
-      $0.reference === delegate as AnyObject
+      $0.reference === observer as AnyObject
     }
-    if let index {
-      observers.remove(at: index)
+    guard let index else { return }
+    if observers.count == 1 || index == observers.count - 1 {
+      observers.removeLast()
+    } else {
+      observers.swapAt(observers.count - 1, index)
+      observers.removeLast()
     }
   }
   
