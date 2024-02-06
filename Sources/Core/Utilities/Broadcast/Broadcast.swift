@@ -8,20 +8,20 @@
 
 import Foundation
 
-public final class Broadcast<T: AnyObject> {
-  private(set) var observers = [Weak<T>]()
+public final class Broadcast<T> {
+  private(set) var observers = [Weak<AnyObject>]()
 
   public init() {}
   
   public func add(delegate: T) {
     prune()
-    observers.append(.init(delegate))
+    observers.append(Weak<AnyObject>(delegate as AnyObject))
   }
   
   public func remove(delegate: T) {
     prune()
     let index = observers.firstIndex {
-      $0.reference === delegate
+      $0.reference === delegate as AnyObject
     }
     if let index {
       observers.remove(at: index)
@@ -30,7 +30,7 @@ public final class Broadcast<T: AnyObject> {
   
   public func invoke(invocation: (T) -> Void) {
     observers.reversed().forEach {
-      guard let delegate = $0.reference else { return }
+      guard let delegate = $0.reference as? T else { return }
       invocation(delegate)
     }
   }

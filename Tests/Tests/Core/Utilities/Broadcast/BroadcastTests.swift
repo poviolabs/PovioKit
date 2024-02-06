@@ -10,8 +10,9 @@ import XCTest
 import PovioKitCore
 
 class BroadcastTests: XCTestCase {
+
   func testWillNotifyListenerWhenBroadcastInvoked() {
-    let sut = Broadcast<MockedListener>()
+    let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     sut.add(delegate: listener)
     sut.invoke { $0.run() }
@@ -19,7 +20,7 @@ class BroadcastTests: XCTestCase {
   }
   
   func testWillNotifyListenerWhenBroadcastInvokedOnMainQueue() {
-    let sut = Broadcast<MockedListener>()
+    let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     let expectation = self.expectation(description: "delay")
     
@@ -33,7 +34,7 @@ class BroadcastTests: XCTestCase {
   }
   
   func testListenerNotifiedOnMainThreadWhenBroadcastInvokedOnMainThread() {
-    let sut = Broadcast<MockedListener>()
+    let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     let expectation = self.expectation(description: "delay")
     var invokedOnMainThread = false
@@ -48,7 +49,7 @@ class BroadcastTests: XCTestCase {
   }
   
   func testWillNotifyListenerTwiceWhenBroadcastInvokedTwice() {
-    let sut = Broadcast<MockedListener>()
+    let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     sut.add(delegate: listener)
     sut.invoke { $0.run() }
@@ -57,7 +58,7 @@ class BroadcastTests: XCTestCase {
   }
   
   func testWontNotifyListenerWhenBroadcastClearedAndInvoked() {
-    let sut = Broadcast<MockedListener>()
+    let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     sut.add(delegate: listener)
     sut.clear()
@@ -66,7 +67,7 @@ class BroadcastTests: XCTestCase {
   }
   
   func testWillNotifyTwoListenersWhenBroadcastInvoked() {
-    let sut = Broadcast<MockedListener>()
+    let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     let anotherlistener = MockedListener()
     sut.add(delegate: listener)
@@ -77,7 +78,7 @@ class BroadcastTests: XCTestCase {
   }
   
   func testWontNotifyListenerWhenUnsubscribed() {
-    let sut = Broadcast<MockedListener>()
+    let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     sut.add(delegate: listener)
     sut.remove(delegate: listener)
@@ -87,7 +88,11 @@ class BroadcastTests: XCTestCase {
   
 }
 
-private class MockedListener {
+private protocol MockedProtocol {
+  func run()
+}
+
+private class MockedListener: MockedProtocol {
   var executingCount = 0
   
   func run() {
