@@ -22,13 +22,7 @@ public extension Encodable {
   /// ```
   func toJSON(with encoder: JSONEncoder) throws -> [String: Any] {
     let data = try encoder.encode(self)
-    guard let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-      throw JSONError.serialization
-    }
-    return jsonObject
+    let json = try JSONSerialization.jsonObject(with: data, options: [])
+    return (json as? [String: Any]) ?? [:]
   }
-}
-
-private enum JSONError: Error {
-  case serialization
 }
