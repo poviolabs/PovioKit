@@ -553,9 +553,9 @@ public extension Promise where Value: Sequence {
   ///
   /// In this example, `mapValues` is used to square every number in the array:
   ///
-  /// Promise<[Int]>.value([1, 2, 3])
-  ///   .mapValues { $0 * 2 }
-  ///   .onSuccess { /* $0 => [2, 4, 6] */ }
+  ///     Promise<[Int]>.value([1, 2, 3])
+  ///       .mapValues { $0 * 2 }
+  ///       .onSuccess { /* $0 => [2, 4, 6] */ }
   ///
   /// - Parameter transform: A mapping closure. `transform` accepts an
   ///   element of the sequence as its parameter and returns a transformed
@@ -578,10 +578,10 @@ public extension Promise where Value: Sequence {
   /// In this example, first `compactMapValues` is used to convert String to Int
   /// and then `mapValues` is used to square every number:
   ///
-  /// Promise<[String]>.value(["1", "2", "not a number", "3"])
-  ///   .compactMapValues { Int($0) }
-  ///   .mapValues { $0 * 2 }
-  ///   .onSuccess { /* $0 => [2, 4, 6] */ }
+  ///     Promise<[String]>.value(["1", "2", "not a number", "3"])
+  ///       .compactMapValues { Int($0) }
+  ///       .mapValues { $0 * 2 }
+  ///       .onSuccess { /* $0 => [2, 4, 6] */ }
   ///
   /// - Parameter transform: A closure that accepts an element of the
   ///   sequence as its argument and returns an optional value.
@@ -602,13 +602,13 @@ public extension Promise where Value: Sequence {
   /// In this example, `flatMapValues` is used to combin three Promises obtained by calling the `fetch`
   /// method:
   ///
-  /// func fetch(by id: String) -> Promise<Model> {
-  ///   /* ... */
-  /// }
+  ///     func fetch(by id: String) -> Promise<Model> {
+  ///       /* ... */
+  ///     }
   ///
-  /// Promise<[String]>.value(["id1", "id2", "id3"])
-  ///   .flatMapValues(with: fetch)
-  ///   .onSuccess { /* $0 contains results of all three `Promise`s */ }
+  ///     Promise<[String]>.value(["id1", "id2", "id3"])
+  ///       .flatMapValues(with: fetch)
+  ///       .onSuccess { /* $0 contains results of all three `Promise`s */ }
   ///
   /// - Parameter transform: A mapping closure. `transform` accepts an
   ///   element of the sequence as its parameter and returns a Promise (having the same or different `Value` type)
@@ -628,9 +628,9 @@ public extension Promise where Value: Sequence {
   ///
   /// In this example, `filterValues` is used to include only even numbers:
   ///
-  /// Promise<[Int]>.value([1, 2, 3, 4, 5, 6])
-  ///   .filter { $0 % 2 == 0 }
-  ///   .onSuccess { /* $0 => [2, 3, 6] */ }
+  ///     Promise<[Int]>.value([1, 2, 3, 4, 5, 6])
+  ///       .filter { $0 % 2 == 0 }
+  ///       .onSuccess { /* $0 => [2, 3, 6] */ }
   ///
   /// - Parameter isIncluded: A closure that takes an element of the
   ///   sequence as its argument and returns a Boolean value indicating
@@ -652,9 +652,9 @@ public extension Promise where Value: Sequence {
   /// of the entire sequence. For example, you can use this method to find the sum
   /// or product of the seqeuence:
   ///
-  /// Promise<[Int]>.value([1, 2, 3, 4, 5, 6])
-  ///   .reduceValues(0, +)
-  ///   .onSuccess { /* $0 => 22 */ }
+  ///     Promise<[Int]>.value([1, 2, 3, 4, 5, 6])
+  ///       .reduceValues(0, +)
+  ///       .onSuccess { /* $0 => 22 */ }
   ///
   /// - Parameters:
   ///   - initialResult: The value to use as the initial accumulating value.
@@ -703,10 +703,10 @@ public extension Promise where Value: Sequence, Value.Element: Sequence {
   /// In this example, first `flatMapValues` is used to convert flatten the array
   /// and then `mapValues` is used to square every number:
   ///
-  /// Promise<[[Int]]>.value([[1, 2], [3], [4, 5]])
-  ///   .flatMapValues { $0 }
-  ///   .mapValues { $0 * 2 }
-  ///   .onSuccess { /* $0 => [2, 4, 6, 8, 10] */ }
+  ///     Promise<[[Int]]>.value([[1, 2], [3], [4, 5]])
+  ///       .flatMapValues { $0 }
+  ///       .mapValues { $0 * 2 }
+  ///       .onSuccess { /* $0 => [2, 4, 6, 8, 10] */ }
   ///
   /// - Parameter transform: A closure that accepts an element of the
   ///   sequence as its argument and returns a sequence or collection.

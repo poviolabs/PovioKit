@@ -46,7 +46,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .request(
         endpoint,
@@ -67,7 +67,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .request(
         endpoint,
@@ -90,7 +90,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .request(
         endpoint,
@@ -116,7 +116,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .upload(multipartFormData: { builder in
         builder.append(
@@ -128,10 +128,10 @@ public extension AlamofireNetworkClient {
           .compactMap { key, value in (value as? String).map { (key, $0) } }
           .forEach { builder.append($0.0.data(using: .utf8)!, withName: $0.1) }
       },
-      to: endpoint,
-      method: method,
-      headers: headers,
-      interceptor: interceptor)
+              to: endpoint,
+              method: method,
+              headers: headers,
+              interceptor: interceptor)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
@@ -145,7 +145,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request {
+  ) -> DataRequest {
     let request = session
       .upload(
         multipartFormData: multipartFormBuilder,
@@ -166,7 +166,7 @@ public extension AlamofireNetworkClient {
     interceptor: RequestInterceptor? = nil,
     uploadProgress: ProgressHandler? = nil,
     downloadProgress: ProgressHandler? = nil
-  ) -> Request{
+  ) -> DataRequest {
     let request = session
       .upload(
         fileURL,
@@ -176,6 +176,30 @@ public extension AlamofireNetworkClient {
         interceptor: interceptor,
         fileManager: .default)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
+  }
+  
+  func download<E: Encodable>(
+    method: HTTPMethod,
+    endpoint: URLConvertible,
+    to destination: @escaping Alamofire.DownloadRequest.Destination,
+    headers: HTTPHeaders? = nil,
+    encode: E,
+    parameterEncoder: ParameterEncoder,
+    interceptor: RequestInterceptor? = nil,
+    downloadProgress: ProgressHandler? = nil
+  ) -> DownloadRequest {
+    let request = session
+      .download(
+        endpoint,
+        method: method,
+        parameters: encode,
+        encoder: parameterEncoder,
+        headers: headers,
+        interceptor: interceptor,
+        to: destination
+      )
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
   }
@@ -207,17 +231,33 @@ public extension AlamofireNetworkClient {
     }
   }
   
-  class Request {
-    private let dataRequest: DataRequest
+  class DataRequest {
+    private let dataRequest: Alamofire.DataRequest
     private var errorHandler: ErrorHandler?
     private let eventMonitors: [RequestMonitor]
     
     init(
-      with dataRequest: DataRequest,
+      with dataRequest: Alamofire.DataRequest,
       eventMonitors: [RequestMonitor],
       defaultErrorHandler: ErrorHandler?
     ) {
       self.dataRequest = dataRequest
+      self.eventMonitors = eventMonitors
+      self.errorHandler = defaultErrorHandler
+    }
+  }
+  
+  class DownloadRequest {
+    public let downloadRequest: Alamofire.DownloadRequest
+    private var errorHandler: ErrorHandler?
+    private let eventMonitors: [RequestMonitor]
+    
+    init(
+      with downloadRequest: Alamofire.DownloadRequest,
+      eventMonitors: [RequestMonitor],
+      defaultErrorHandler: ErrorHandler?
+    ) {
+      self.downloadRequest = downloadRequest
       self.eventMonitors = eventMonitors
       self.errorHandler = defaultErrorHandler
     }
@@ -255,14 +295,14 @@ public extension AlamofireNetworkClient.Error {
   var info: ErrorInfo {
     switch self {
     case .request(_, let info),
-         .other(_, let info):
+        .other(_, let info):
       return info
     }
   }
 }
 
-// MARK: - Request API
-public extension AlamofireNetworkClient.Request {
+// MARK: - Data Request API
+public extension AlamofireNetworkClient.DataRequest {
   var asData: Promise<Data> {
     asDataWithHeaders
       .map { $0.0 }
@@ -381,10 +421,69 @@ public extension AlamofireNetworkClient.Request {
   }
 }
 
-// MARK: - Request async/await API
-public extension AlamofireNetworkClient.Request {
+// MARK: - Download Request API
+public extension AlamofireNetworkClient.DownloadRequest {
+  var asURL: Promise<URL> {
+    .init { promise in
+      downloadRequest.response { response in
+        switch response.result {
+        case .success(let url):
+          guard let url else {
+            let error = AlamofireNetworkClient.Error.RequestError.other(0)
+            promise.reject(with: error)
+            return
+          }
+          promise.resolve(with: url)
+        case .failure(let error):
+          promise.reject(with: error)
+        }
+      }
+    }
+  }
+  
+  var asOptionalURL: Promise<URL?> {
+    .init { promise in
+      downloadRequest.response { response in
+        switch response.result {
+        case .success(let url):
+          promise.resolve(with: url)
+        case .failure(let error):
+          promise.reject(with: error)
+        }
+      }
+    }
+  }
+  
+  func resume() -> Self {
+    downloadRequest.resume()
+    return self
+  }
+  
+  func suspend() -> Self {
+    downloadRequest.suspend()
+    return self
+  }
+  
+  func cancel() -> Self {
+    downloadRequest.cancel()
+    return self
+  }
+  
+  func validate() -> Self {
+    downloadRequest.validate()
+    return self
+  }
+  
+  func validate<S: Sequence>(statusCode: S) -> Self where S.Iterator.Element == Int {
+    downloadRequest.validate(statusCode: statusCode)
+    return self
+  }
+}
+
+// MARK: - DataRequest async/await API
+public extension AlamofireNetworkClient.DataRequest {
   /// See Alamofire's documentation for details:
-  /// 
+  ///
   /// ``Alamofire.Concurrency.serializingData``
   func data(
     automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
@@ -394,9 +493,9 @@ public extension AlamofireNetworkClient.Request {
   ) async throws -> Data {
     do {
       let data = try await dataRequest.serializingData(
-        automaticallyCancelling: shouldAutomaticallyCancel, 
-        dataPreprocessor: dataPreprocessor, 
-        emptyResponseCodes: emptyResponseCodes, 
+        automaticallyCancelling: shouldAutomaticallyCancel,
+        dataPreprocessor: dataPreprocessor,
+        emptyResponseCodes: emptyResponseCodes,
         emptyRequestMethods: emptyRequestMethods
       ).value
       eventMonitors.forEach { $0.requestDidSucceed(self) }
@@ -417,11 +516,11 @@ public extension AlamofireNetworkClient.Request {
   var asVoidAsync: () {
     get async throws {
       try await _ = asDataAsync
-    } 
+    }
   }
   
   /// See Alamofire's documentation for details:
-  /// 
+  ///
   /// ``Alamofire.Concurrency.serializingString``
   func string(
     automaticallyCancelling shouldAutomaticallyCancel: Bool = false,
@@ -432,10 +531,10 @@ public extension AlamofireNetworkClient.Request {
   ) async throws -> String {
     do {
       let value = try await dataRequest.serializingString(
-        automaticallyCancelling: shouldAutomaticallyCancel, 
-        dataPreprocessor: dataPreprocessor, 
-        encoding: encoding, 
-        emptyResponseCodes: emptyResponseCodes, 
+        automaticallyCancelling: shouldAutomaticallyCancel,
+        dataPreprocessor: dataPreprocessor,
+        encoding: encoding,
+        emptyResponseCodes: emptyResponseCodes,
         emptyRequestMethods: emptyRequestMethods
       ).value
       eventMonitors.forEach { $0.requestDidSucceed(self) }
@@ -454,7 +553,7 @@ public extension AlamofireNetworkClient.Request {
   }
   
   /// See Alamofire's documentation for details:
-  /// 
+  ///
   /// ``Alamofire.Concurrency.serializingDecodable``
   func decode<D: Decodable>(
     _ decodable: D.Type,
@@ -466,11 +565,11 @@ public extension AlamofireNetworkClient.Request {
   ) async throws -> D {
     do {
       let value = try await dataRequest.serializingDecodable(
-        D.self, 
-        automaticallyCancelling: shouldAutomaticallyCancel, 
-        dataPreprocessor: dataPreprocessor, 
-        decoder: decoder, 
-        emptyResponseCodes: emptyResponseCodes, 
+        D.self,
+        automaticallyCancelling: shouldAutomaticallyCancel,
+        dataPreprocessor: dataPreprocessor,
+        decoder: decoder,
+        emptyResponseCodes: emptyResponseCodes,
         emptyRequestMethods: emptyRequestMethods
       ).value
       eventMonitors.forEach { $0.requestDidSucceed(self) }
@@ -479,6 +578,21 @@ public extension AlamofireNetworkClient.Request {
       let error = handleError(error)
       eventMonitors.forEach { $0.requestDidFail(self, with: error) }
       throw error
+    }
+  }
+}
+
+// MARK: - DataRequest async/await API
+public extension AlamofireNetworkClient.DownloadRequest {
+  var asURLAsync: URL {
+    get async throws {
+      try await asURL.asAsync
+    }
+  }
+  
+  var asOptionalURLAsync: URL? {
+    get async throws {
+      try await asOptionalURL.asAsync
     }
   }
 }
@@ -510,7 +624,7 @@ public extension HTTPHeaders {
 }
 
 // MARK: - Private Error Handling Methods
-private extension AlamofireNetworkClient.Request {
+private extension AlamofireNetworkClient.DataRequest {
   func handleError(_ error: Error) -> AlamofireNetworkClient.Error {
     guard let handler = errorHandler else {
       switch error {
@@ -559,11 +673,11 @@ private extension AlamofireNetworkClient.Error.RequestError {
 }
 
 public protocol RequestMonitor: AnyObject {
-  func requestDidSucceed(_ request: AlamofireNetworkClient.Request)
-  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error)
+  func requestDidSucceed(_ request: AlamofireNetworkClient.DataRequest)
+  func requestDidFail(_ request: AlamofireNetworkClient.DataRequest, with error: AlamofireNetworkClient.Error)
 }
 
 public extension RequestMonitor {
-  func requestDidSucceed(_ request: AlamofireNetworkClient.Request) {}
-  func requestDidFail(_ request: AlamofireNetworkClient.Request, with error: AlamofireNetworkClient.Error) {}
+  func requestDidSucceed(_ request: AlamofireNetworkClient.DataRequest) {}
+  func requestDidFail(_ request: AlamofireNetworkClient.DataRequest, with error: AlamofireNetworkClient.Error) {}
 }

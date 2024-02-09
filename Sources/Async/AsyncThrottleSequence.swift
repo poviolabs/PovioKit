@@ -130,7 +130,10 @@ extension AsyncThrottleSequence: AsyncSequence where C.Duration == Duration {
             try Task.checkCancellation()
             return result
           } catch {
-            return nil
+            if error is CancellationError {
+              return nil
+            }
+            throw error
           }
         }
         task = taskA

@@ -3,55 +3,68 @@
 //  PovioKit
 //
 //  Created by Domagoj Kulundzic on 26/04/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 import Foundation
 
 public final class Broadcast<T> {
-  class Weak<T: AnyObject> {
-    weak var reference: T?
-    init(_ object: T) { self.reference = object }
-  }
-  
-  private(set) var delegates = [Weak<AnyObject>]()
+  private(set) var observers = [Weak]()
 
   public init() {}
   
-  public func add(delegate: T) {
+  public func add(observer: T) {
     prune()
-    delegates.append(Weak<AnyObject>(delegate as AnyObject))
+    observers.append(Weak(observer as AnyObject))
   }
   
-  public func remove(delegate: T) {
+  public func remove(observer: T) {
     prune()
-    guard let index = delegates.firstIndex(where: {
-      guard let reference = $0.reference else { return false }
-      return reference === delegate as AnyObject
-    }) else { return }
-    delegates.remove(at: index)
+    let index = observers.firstIndex {
+      $0.reference === observer as AnyObject
+    }
+    guard let index else { return }
+    if observers.count == 1 || index == observers.count - 1 {
+      observers.removeLast()
+    } else {
+      observers.swapAt(observers.count - 1, index)
+      observers.removeLast()
+    }
   }
   
   public func invoke(invocation: (T) -> Void) {
-    delegates.reversed().forEach {
+    observers.reversed().forEach {
       guard let delegate = $0.reference as? T else { return }
       invocation(delegate)
     }
   }
   
-  public func invoke(on queue: DispatchQueue = .main, invocation: @escaping (T) -> Void) {
+  public func invoke(
+    on queue: DispatchQueue = .main,
+    invocation: @escaping (T) -> Void
+  ) {
     queue.async {
       self.invoke(invocation: invocation)
     }
   }
   
   public func clear() {
-    delegates.removeAll()
+    observers.removeAll()
+  }
+}
+
+extension Broadcast {
+  class Weak {
+    weak var reference: AnyObject?
+    
+    init(_ object: AnyObject) { 
+      self.reference = object 
+    }
   }
 }
 
 private extension Broadcast {
   func prune() {
-    delegates.removeAll(where: { $0.reference == nil })
+    observers.removeAll { $0.reference == nil }
   }
 }
