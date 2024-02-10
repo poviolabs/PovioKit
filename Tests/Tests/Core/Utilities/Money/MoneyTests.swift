@@ -8,6 +8,7 @@
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 class MoneyTests: XCTestCase {
   // MARK: - Testing Getters

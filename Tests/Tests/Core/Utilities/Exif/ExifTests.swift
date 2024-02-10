@@ -6,8 +6,10 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 final class ExifTests: XCTestCase {
   let image = UIImage.with(color: .blue, size: .init(width: 100, height: 100))
@@ -58,3 +60,4 @@ final class ExifTests: XCTestCase {
     }
   }
 }
+#endif

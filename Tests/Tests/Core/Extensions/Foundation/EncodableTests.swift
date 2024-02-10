@@ -12,7 +12,7 @@ class EncodableTests: XCTestCase {
   func testEncode() {
     let request = TestRequest(id: 1, name: "PovioKit")
     do {
-      let json = try request.encode(with: JSONEncoder())
+      let json = try request.toJSON(with: JSONEncoder())
       XCTAssertEqual(json["id"] as? Int, 1)
       XCTAssertEqual(json["name"] as? String, "PovioKit")
     } catch {

@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIImage {
@@ -42,3 +43,5 @@ public extension UIImage {
     return image ?? UIImage()
   }
 }
+
+#endif

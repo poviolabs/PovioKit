@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UICollectionView {
@@ -68,3 +69,5 @@ public extension UICollectionView {
           height: bounds.height - (contentInset.top + contentInset.bottom))
   }
 }
+
+#endif

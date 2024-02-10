@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIWindow {
@@ -16,3 +17,5 @@ public extension UIWindow {
       .map { $0.rootViewController?.view?.safeAreaInsets ?? .zero } ?? .zero
   }
 }
+
+#endif

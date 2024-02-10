@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import AVFoundation
 import UIKit
 
@@ -128,3 +129,5 @@ private extension PhotoCamera {
     session.commitConfiguration()
   }
 }
+
+#endif

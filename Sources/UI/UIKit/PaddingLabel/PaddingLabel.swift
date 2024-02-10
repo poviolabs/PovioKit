@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 /// A UILabel subclass with configurable `contentInset`.
@@ -29,3 +30,5 @@ open class PaddingLabel: UILabel {
     return contentSize
   }
 }
+
+#endif

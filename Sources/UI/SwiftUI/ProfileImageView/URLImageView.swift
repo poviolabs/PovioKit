@@ -22,15 +22,23 @@ struct URLImageView: View {
       .resizable()
   }
   
-  func createImage(_ image: UIImage?, placeholder: Image?) -> Image {
+  func createImage(_ image: ImageContainer?, placeholder: Image?) -> Image {
     if let fetchedImage = image {
+#if os(iOS)
       return Image(uiImage: fetchedImage)
+#elseif os(macOS)
+      return Image(nsImage: fetchedImage)
+#endif
     }
     
     if let placeholder = placeholder {
       return placeholder
     }
     
-    return Image(uiImage: UIImage())
+#if os(iOS)
+    return Image(uiImage: ImageContainer())
+#elseif os(macOS)
+    return Image(nsImage: ImageContainer())
+#endif
   }
 }

@@ -7,8 +7,8 @@
 //
 
 import Foundation
+import PovioKitCore
 import StoreKit
-
 
 @available(iOS 15.0, *)
 public final class InAppPurchaseService: NSObject {
@@ -117,7 +117,7 @@ extension InAppPurchaseService {
   public func restorePurchases() async -> Result<Void, InAppPurchaseError> {
     do {
       try await AppStore.sync()
-      return .success()
+      return .success(())
     } catch {
       return .failure(InAppPurchaseError.restoreFailed(error))
     }
