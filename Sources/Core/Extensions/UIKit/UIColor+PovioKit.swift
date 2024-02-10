@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIColor {
@@ -13,3 +14,5 @@ public extension UIColor {
     self.init(red: CGFloat(red) / 255, green: CGFloat(green) / 255, blue: CGFloat(blue) / 255, alpha: alpha)
   }
 }
+
+#endif

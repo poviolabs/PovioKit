@@ -6,8 +6,10 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 import PovioKitCore
+import PovioKitUtilities
 
 public protocol RuleValidatable {
   var error: String { get }
@@ -275,3 +277,5 @@ private extension TextField {
       .create()
   }
 }
+
+#endif

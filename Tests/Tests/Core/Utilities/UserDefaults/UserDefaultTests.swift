@@ -8,6 +8,7 @@
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 class UserDefaultTests: XCTestCase {
   let userDefaults: UserDefaults = .standard

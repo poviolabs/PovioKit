@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import StoreKit
 
 public extension SKStoreReviewController {
@@ -24,3 +25,4 @@ public extension SKStoreReviewController {
     }
   }
 }
+#endif

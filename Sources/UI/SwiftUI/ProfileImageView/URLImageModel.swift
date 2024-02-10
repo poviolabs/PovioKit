@@ -6,11 +6,16 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
+public typealias ImageContainer = UIImage 
+#elseif os(macOS)
+public typealias ImageContainer = NSImage
+#endif
 import SwiftUI
 
 class URLImageModel: ObservableObject {
-  @Published var image: UIImage?
+  @Published var image: ImageContainer?
   var url: URL?
   
   init(url: URL?) {
@@ -33,11 +38,10 @@ class URLImageModel: ObservableObject {
     guard let data = data, error == nil else { return }
     
     DispatchQueue.main.async {
-      guard let loadedImage = UIImage(data: data) else {
+      guard let loadedImage = ImageContainer(data: data) else {
         return
       }
       self.image = loadedImage
     }
   }
 }
-

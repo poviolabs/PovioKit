@@ -8,6 +8,7 @@
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 class AppVersionValidatorTests: XCTestCase {
   func testValidator() {

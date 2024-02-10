@@ -11,9 +11,11 @@ import Foundation
 import PovioKitCore
 
 public extension URLEncodedFormParameterEncoder {
-  convenience init(encoder: JSONEncoder,
-                   arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
-                   boolEncoding: URLEncodedFormEncoder.BoolEncoding = .numeric) {
+  convenience init(
+    encoder: JSONEncoder,
+    arrayEncoding: URLEncodedFormEncoder.ArrayEncoding = .brackets,
+    boolEncoding: URLEncodedFormEncoder.BoolEncoding = .numeric
+  ) {
     let formEncoder = URLEncodedFormEncoder(
       alphabetizeKeyValuePairs: true,
       arrayEncoding: arrayEncoding,
@@ -22,7 +24,8 @@ public extension URLEncodedFormParameterEncoder {
       dateEncoding: Self.dateEncoding(from: encoder.dateEncodingStrategy),
       keyEncoding: Self.keyEncoding(from: encoder.keyEncodingStrategy),
       spaceEncoding: .percentEscaped,
-      allowedCharacters: .afURLQueryAllowed)
+      allowedCharacters: .afURLQueryAllowed
+    )
     self.init(encoder: formEncoder, destination: .methodDependent)
   }
 }
@@ -41,7 +44,6 @@ private extension URLEncodedFormParameterEncoder {
     case .formatted(let formatter):
       return .formatted(formatter)
     case .custom:
-      Logger.warning("Custom date encoding is not handled.")
       return .deferredToDate
     @unknown default:
       return .deferredToDate
@@ -55,7 +57,6 @@ private extension URLEncodedFormParameterEncoder {
     case .convertToSnakeCase:
       return .convertToSnakeCase
     case .custom:
-      Logger.warning("Custom key encoding is not handled.")
       return .useDefaultKeys
     @unknown default:
       return .useDefaultKeys
@@ -69,7 +70,6 @@ private extension URLEncodedFormParameterEncoder {
     case .base64:
       return .base64
     case .custom:
-      Logger.warning("Custom data encoding is not handled.")
       return .base64
     @unknown default:
       return .base64

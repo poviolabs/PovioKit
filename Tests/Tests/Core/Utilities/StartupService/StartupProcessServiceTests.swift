@@ -8,6 +8,7 @@
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 class StartupProcessServiceTests: XCTestCase {
   func testShouldCompleteProccesWhenCallExecution() {

@@ -15,27 +15,21 @@ public extension Data {
     map { String(format: "%02x", $0) }.joined()
   }
   
+  /// Returns a UTF-8 encoded string.
+  var utf8: String? {
+    String(data: self, encoding: .utf8)
+  }
+  
+  /// Returns a UTF-16 encoded string.
+  var utf16: String? {
+    String(data: self, encoding: .utf16)
+  }
+  
   /// Decodes data to given `type` using given `decoder`.
   /// ```
   /// let decodedUser = responseData.decode(UserResponse.self, with: JSONDecoder())
   /// ```
   func decode<D: Decodable>(_ type: D.Type, with decoder: JSONDecoder) throws -> D {
-    do {
-      return try decoder.decode(type, from: self)
-    } catch let decodingError as DecodingError {
-      switch decodingError {
-      case .typeMismatch(_, let context),
-           .valueNotFound(_, let context),
-           .keyNotFound(_, let context),
-           .dataCorrupted(let context):
-        Logger.debug("Decoding (failure): \(type.self)", params: ["error": context.debugDescription])
-      @unknown default:
-        Logger.debug("Decoding (failure): \(type.self)", params: ["error": "Unknown decoding error."])
-      }
-      throw decodingError
-    } catch {
-      Logger.debug("Decoding (failure): \(type.self)", params: ["error": error.localizedDescription])
-      throw error
-    }
+    try decoder.decode(type, from: self)
   }
 }

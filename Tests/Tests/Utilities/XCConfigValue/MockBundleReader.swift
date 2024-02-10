@@ -8,6 +8,7 @@
 
 import Foundation
 import PovioKitCore
+import PovioKitUtilities
 
 class MockBundleReader: BundleReadable {
   private let dictionary: [String: Any]

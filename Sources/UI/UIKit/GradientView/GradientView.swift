@@ -6,6 +6,7 @@
 //  Copyright © 2023 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public class GradientView: UIView {
@@ -92,3 +93,5 @@ private extension GradientView {
     layer.insertSublayer(gradientLayer, at: 0)
   }
 }
+
+#endif
