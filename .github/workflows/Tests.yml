@@ -3,17 +3,18 @@ name: Tests
 on: 
   push:
   pull_request:
-    types: [opened]
+    types: [ opened, synchronize, reopened ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   Tests:
     runs-on: macos-13
     steps:
-    - name: Cancel previous jobs
-      uses: styfle/cancel-workflow-action@0.11.0
-
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Load Latest Xcode
       uses: maxim-lobanov/setup-xcode@v1
@@ -21,8 +22,8 @@ jobs:
         xcode-version: latest-stable
 
     - name: Build project
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild build-for-testing -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild build-for-testing -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcbeautify --renderer github-actions
 
     - name: Run tests
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild test-without-building -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild test-without-building -destination 'name=iPhone 14 Pro' -scheme 'PovioKit-Package' | xcbeautify --renderer github-actions
       
