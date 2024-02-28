@@ -8,16 +8,12 @@
 
 import SwiftUI
 
-struct OnFirstAppearModifier: ViewModifier {
-  typealias VoidHandler = () -> Swift.Void
+public struct OnFirstAppearModifier: ViewModifier {
+  public typealias VoidHandler = () -> Swift.Void
   @State private var didLoad = false
-  private let action: VoidHandler?
+  let action: VoidHandler?
   
-  init(perform action: VoidHandler? = nil) {
-    self.action = action
-  }
-  
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     content.onAppear {
       guard !didLoad else { return }
       didLoad = true
@@ -26,10 +22,10 @@ struct OnFirstAppearModifier: ViewModifier {
   }
 }
 
-extension View {
+public extension View {
   /// Modifier action is executed only once per view lifecycle.
   /// It differs from `onAppear` modifier which is executed everytime wiew appears on the screen.
   func onFirstAppear(perform action: OnFirstAppearModifier.VoidHandler? = nil) -> some View {
-    modifier(OnFirstAppearModifier(perform: action))
+    modifier(OnFirstAppearModifier(action: action))
   }
 }

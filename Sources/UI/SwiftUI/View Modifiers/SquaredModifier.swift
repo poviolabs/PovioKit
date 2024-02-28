@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct SquaredModifier: ViewModifier {
+public struct SquaredModifier: ViewModifier {
   var cornerRadius: CGFloat = 0
   var aspectRatio: CGFloat = 1
   
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     content
       .frame(
         minWidth: 0,
@@ -25,7 +25,7 @@ struct SquaredModifier: ViewModifier {
   }
 }
 
-extension View {
+public extension View {
   /// Makes view squared
   func squared(cornerRadius: CGFloat = 0, aspectRatio: CGFloat = 1) -> some View {
     modifier(SquaredModifier(cornerRadius: cornerRadius, aspectRatio: aspectRatio))

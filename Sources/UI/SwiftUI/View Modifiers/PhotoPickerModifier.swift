@@ -9,9 +9,9 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct PhotoPickerModifier: ViewModifier {
-  typealias VoidHandler = () -> Swift.Void
-  typealias ImageHandler = (UIImage) -> Swift.Void
+public struct PhotoPickerModifier: ViewModifier {
+  public typealias VoidHandler = () -> Swift.Void
+  public typealias ImageHandler = (UIImage) -> Swift.Void
   
   @Binding var present: Bool
   var canRemove: Bool = true
@@ -22,7 +22,7 @@ struct PhotoPickerModifier: ViewModifier {
   @State private var showImageCapture: Bool = false
   @State private var showPhotoLibrary: Bool = false
   
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     content
       .confirmationDialog("", isPresented: $present) {
         Button(configuration.takePhoto) {
@@ -59,7 +59,7 @@ struct PhotoPickerModifier: ViewModifier {
 }
 
 @available(iOS 15.0, *)
-extension View {
+public extension View {
   func photoPicker(
     present: Binding<Bool>,
     canRemove: Bool = true,

@@ -9,11 +9,11 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct TextFieldLimitModifer: ViewModifier {
+public struct TextFieldLimitModifer: ViewModifier {
   @Binding var text: String
   let limit: Int
   
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     content
       .onChange(of: text) { newValue in
         guard newValue.count > limit else { return }
@@ -23,9 +23,9 @@ struct TextFieldLimitModifer: ViewModifier {
 }
 
 @available(iOS 15.0, *)
-extension View {
+public extension View {
   /// Limit input length
   func limitInput(text: Binding<String>, limit: Int) -> some View {
-    self.modifier(TextFieldLimitModifer(text: text, limit: limit))
+    modifier(TextFieldLimitModifer(text: text, limit: limit))
   }
 }

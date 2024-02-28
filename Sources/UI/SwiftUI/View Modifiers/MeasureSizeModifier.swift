@@ -9,12 +9,12 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct MeasureSizeModifier: ViewModifier {
-  typealias SizeHandler = (CGSize) -> Void
+public struct MeasureSizeModifier: ViewModifier {
+  public typealias SizeHandler = (CGSize) -> Void
   let onSize: SizeHandler
   let isInitialOnly: Bool
   
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     content
       .background(GeometryReader { geo in
         if isInitialOnly {
@@ -36,7 +36,7 @@ struct MeasureSizeModifier: ViewModifier {
 }
 
 @available(iOS 15, *)
-extension View {
+public extension View {
   /// Measure view size everytime it changes
   func measureSize(_ handler: @escaping MeasureSizeModifier.SizeHandler) -> some View {
     modifier(MeasureSizeModifier(onSize: handler, isInitialOnly: false))
