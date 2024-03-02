@@ -26,7 +26,10 @@ struct PhotoPickerView: UIViewControllerRepresentable {
   func makeCoordinator() -> Coordinator {
     Coordinator(onComplete: onComplete)
   }
-  
+}
+
+// MARK: - Coordinator
+extension PhotoPickerView {
   final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let onComplete: (UIImage) -> Void
     
