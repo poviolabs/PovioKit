@@ -38,6 +38,18 @@ public extension String {
     return emailTest.evaluate(with: self)
   }
   
+  /// Returns initials from string
+  /// `John Doe` -> `JD`
+  /// `Elena Wayne Gomez` -> `EWG`
+  var initials: String {
+    let formatter = PersonNameComponentsFormatter()
+    if let components = formatter.personNameComponents(from: self) {
+      formatter.style = .abbreviated
+      return formatter.string(from: components)
+    }
+    return self
+  }
+  
   /// Returns substring containing up to `maxLength` characters from the beginning of the string.
   ///
   /// This method is just a wrapper around swift's standard library `prefix` method, but it ensures only positive values are accepted.
