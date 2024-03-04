@@ -16,6 +16,23 @@ public extension UIWindow {
       .first { $0.isKeyWindow }
       .map { $0.rootViewController?.view?.safeAreaInsets ?? .zero } ?? .zero
   }
+  
+  /// Returns `viewController` that currently sits on top
+  var topViewController: UIViewController? {
+    func topViewController(with rootViewController: UIViewController?) -> UIViewController? {
+      guard rootViewController != nil else { return nil }
+      
+      if let tabBarController = rootViewController as? UITabBarController {
+        return topViewController(with: tabBarController.selectedViewController)
+      } else if let navigationController = rootViewController as? UINavigationController {
+        return topViewController(with: navigationController.visibleViewController)
+      } else if rootViewController?.presentedViewController != nil {
+        return topViewController(with: rootViewController?.presentedViewController)
+      }
+      return rootViewController
+    }
+    return topViewController(with: rootViewController)
+  }
 }
 
 #endif
