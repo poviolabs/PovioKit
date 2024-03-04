@@ -30,6 +30,11 @@ public extension UIDevice {
       return identifier + String(UnicodeScalar(UInt8(value)))
     }
   }
+  
+  /// Bool flag `true`
+  var hasNotch: Bool {
+    UIWindow.safeAreaInsets.bottom > 0
+  }
 }
 
 #endif
