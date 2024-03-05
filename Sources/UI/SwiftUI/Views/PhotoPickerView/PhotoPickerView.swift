@@ -10,34 +10,34 @@ import SwiftUI
 import UIKit
 
 /// This view should be used in conjuction with `PhotoPicker` view modifier.
-struct PhotoPickerView: UIViewControllerRepresentable {
+public struct PhotoPickerView: UIViewControllerRepresentable {
   let sourceType: UIImagePickerController.SourceType
   let onComplete: (UIImage) -> Void
   
-  func makeUIViewController(context: Context) -> UIImagePickerController {
+  public func makeUIViewController(context: Context) -> UIImagePickerController {
     let imagePicker = UIImagePickerController()
     imagePicker.sourceType = sourceType
     imagePicker.delegate = context.coordinator
     return imagePicker
   }
   
-  func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) { /* --- */ }
+  public func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) { /* --- */ }
   
-  func makeCoordinator() -> Coordinator {
+  public func makeCoordinator() -> Coordinator {
     Coordinator(onComplete: onComplete)
   }
 }
 
 // MARK: - Coordinator
-extension PhotoPickerView {
+public extension PhotoPickerView {
   final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let onComplete: (UIImage) -> Void
     
-    init(onComplete: @escaping (UIImage) -> Void) {
+    public init(onComplete: @escaping (UIImage) -> Void) {
       self.onComplete = onComplete
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
       guard let image = info[.originalImage] as? UIImage else {
         picker.dismiss(animated: true)
         return
@@ -47,7 +47,7 @@ extension PhotoPickerView {
       }
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
       picker.dismiss(animated: true)
     }
   }
