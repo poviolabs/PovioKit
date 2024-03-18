@@ -17,8 +17,14 @@ public extension Collection where Indices.Iterator.Element == Index {
 
 public extension Collection {
   /// Conditional element count - https://github.com/apple/swift-evolution/blob/master/proposals/0220-count-where.md
-  func count(where clause: (Element) -> Bool) -> Int {
-    lazy.filter(clause).count
+  func count(where predicate: (Element) throws -> Bool) rethrows -> Int {
+    var count = 0
+    for el in self {
+      if try predicate(el) {
+        count += 1
+      }
+    }
+    return count
   }
 }
 
