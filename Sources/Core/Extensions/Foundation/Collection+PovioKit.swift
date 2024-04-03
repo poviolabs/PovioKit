@@ -8,10 +8,10 @@
 
 import Foundation
 
-public extension Collection where Indices.Iterator.Element == Index {
+public extension Collection {
   /// Returns the element at the specified `index` if it is within bounds, otherwise `nil`.
-  subscript (safe index: Index) -> Iterator.Element? {
-    (startIndex <= index && index < endIndex) ? self[index] : nil
+  subscript (safe index: Index) -> Element? {
+    if startIndex <= index && index < endIndex { self[index] } else { nil }
   }
 }
 
