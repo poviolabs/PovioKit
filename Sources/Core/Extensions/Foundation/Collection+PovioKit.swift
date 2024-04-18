@@ -48,11 +48,11 @@ public extension Collection {
 }
 
 public extension MutableCollection {
-  mutating func mutateEach(_ f: (inout Element) throws -> Void) rethrows {
-    var i = startIndex
-    while i != endIndex {
-      try f(&self[i])
-      formIndex(after: &i)
+  mutating func mutateEach(_ mutator: (inout Element) throws -> Void) rethrows {
+    var idx = startIndex
+    while idx != endIndex {
+      try mutator(&self[idx])
+      formIndex(after: &idx)
     }
   }
 }
