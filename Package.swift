@@ -19,7 +19,8 @@ let package = Package(
   targets: [
     .target(
       name: "PovioKitCore",
-      path: "Sources/Core"
+      path: "Sources/Core",
+      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitNetworking",
@@ -28,25 +29,29 @@ let package = Package(
         "Alamofire",
         "PovioKitPromise",
       ],
-      path: "Sources/Networking"
+      path: "Sources/Networking",
+      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitPromise",
       dependencies: [],
-      path: "Sources/PromiseKit"
+      path: "Sources/PromiseKit",
+      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitUI",
       dependencies: [
         "PovioKitCore"
       ],
-      path: "Sources/UI"
+      path: "Sources/UI",
+      resources: [.copy("../../../Resources/PrivacyInfo.xcprivacy")]
     ),
     .target(
         name: "PovioKitAsync",
         dependencies: [
         ],
-        path: "Sources/Async"
+        path: "Sources/Async",
+        resources: [.copy("../../../Resources/PrivacyInfo.xcprivacy")]
     ),
     .testTarget(
       name: "Tests",
