@@ -29,9 +29,7 @@ public extension Collection {
       }
     }
   }
-}
-
-public extension Collection {
+  
   /// Groups collection elements based on dateComponents returning a dictionary
   func grouped(
     extractDate: (Element) -> Date,
@@ -46,5 +44,15 @@ public extension Collection {
         return date
       }
     )
+  }
+}
+
+public extension MutableCollection {
+  mutating func mutateEach(_ mutator: (inout Element) throws -> Void) rethrows {
+    var idx = startIndex
+    while idx != endIndex {
+      try mutator(&self[idx])
+      formIndex(after: &idx)
+    }
   }
 }

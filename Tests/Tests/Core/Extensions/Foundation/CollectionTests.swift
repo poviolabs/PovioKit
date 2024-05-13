@@ -22,4 +22,23 @@ class CollectionTests: XCTestCase {
     XCTAssertEqual(array.count(where: { $0 is String}), 2)
     XCTAssertEqual(array.count(where: { $0 is Int}), 2)
   }
+  
+  func testMutateEach1() {
+    var array = [1, 2, 3, 4, 5]
+    array.mutateEach { $0 *= 2 }
+    XCTAssertEqual(array, [2, 4, 6, 8, 10])
+  }
+  
+  func testMutateEach2() {
+    struct A: Equatable {
+      var x = true
+      
+      mutating func mutate() {
+        x.toggle()
+      }
+    }
+    var array = [A](repeating: .init(), count: 5)
+    array.mutateEach { $0.mutate() }
+    XCTAssertEqual(array, .init(repeating: .init(x: false), count: 5))
+  }
 }
