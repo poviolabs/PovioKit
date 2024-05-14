@@ -10,13 +10,6 @@
 import UIKit
 
 public extension UIWindow {
-  /// Returns `UIEdgeInsets` for the possible (top/bottom) safe areas
-  static var safeAreaInsets: UIEdgeInsets {
-    UIApplication.shared.windows
-      .first { $0.isKeyWindow }
-      .map { $0.rootViewController?.view?.safeAreaInsets ?? .zero } ?? .zero
-  }
-  
   /// Returns `viewController` that currently sits on top
   var topViewController: UIViewController? {
     func topViewController(with rootViewController: UIViewController?) -> UIViewController? {

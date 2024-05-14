@@ -2,8 +2,8 @@
 //  AnyTransition+PovioKit.swift
 //  PovioKit
 //
-//  Created by Arlind Dushi on 3/22/22.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Created by Borut Tomazin on 14/05/2024.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 import SwiftUI
