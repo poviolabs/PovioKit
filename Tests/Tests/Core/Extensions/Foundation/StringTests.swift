@@ -59,4 +59,14 @@ class StringTests: XCTestCase {
     XCTAssertEqual("ThisIsATestString".safeSuffix(6), "String")
     XCTAssertEqual("ThisIsATestString".safeSuffix(100), "ThisIsATestString")
   }
+
+  @available(iOS 15, *)
+  func testValidMarkdownConversion() {
+    let markdownString = "**[BoldURL](https://povio.com)**"
+    let expectedAttributedString = try! AttributedString(markdown: markdownString)
+
+    let result = markdownString.toMarkdown()
+
+    XCTAssertEqual(result, expectedAttributedString)
+  }
 }
