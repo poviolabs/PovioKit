@@ -9,8 +9,8 @@
 #if os(iOS)
 import UIKit
 
-// MARK: - Shadow and border
 public extension UIView {
+  // Add shadow and border
   func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat, opacity: Float, offset: CGSize) {
     layer.shadowPath = path?.cgPath
     layer.shadowColor = shadowColor.cgColor
