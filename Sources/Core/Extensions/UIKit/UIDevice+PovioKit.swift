@@ -30,6 +30,18 @@ public extension UIDevice {
       return identifier + String(UnicodeScalar(UInt8(value)))
     }
   }
+  
+  /// Returns `UIEdgeInsets` for the possible (top/bottom) safe areas
+  var safeAreaInsets: UIEdgeInsets {
+    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    let window = windowScene?.windows.first
+    return window?.safeAreaInsets ?? .init()
+  }
+  
+  /// Returns `true` on devices with notch
+  var hasNotch: Bool {
+    safeAreaInsets.bottom > 0
+  }
 }
 
 #endif
