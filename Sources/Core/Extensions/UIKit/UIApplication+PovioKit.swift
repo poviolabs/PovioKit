@@ -34,6 +34,11 @@ public extension UIApplication {
 }
 
 public extension UIApplication {
+  /// Returns bundle id
+  var bundleId: String {
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String ?? "/"
+  }
+  
   /// Returns app name
   var name: String {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
