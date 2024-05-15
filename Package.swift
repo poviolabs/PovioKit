@@ -90,8 +90,7 @@ let package = Package(
     ),
     .target(
       name: "PovioKitAsync",
-      dependencies: [
-      ],
+      dependencies: [],
       path: "Sources/Async",
       resources: [.copy("../../../Resources/PrivacyInfo.xcprivacy")]
     ),
