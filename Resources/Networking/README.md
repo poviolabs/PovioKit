@@ -2,7 +2,6 @@
 
 High-level network client abstraction based on [Alamofire](https://github.com/Alamofire/Alamofire).
 
-
 ## Usage
 
 #### Retreiving JSON object from an endpoint

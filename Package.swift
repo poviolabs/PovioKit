@@ -86,13 +86,13 @@ let package = Package(
         "PovioKitCore",
       ],
       path: "Sources/Utilities",
-      resources: [.copy("../../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitAsync",
       dependencies: [],
       path: "Sources/Async",
-      resources: [.copy("../../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
     ),
     .testTarget(
       name: "Tests",

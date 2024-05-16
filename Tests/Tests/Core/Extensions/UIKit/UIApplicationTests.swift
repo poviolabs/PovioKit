@@ -3,7 +3,7 @@
 //  PovioKit_Tests
 //
 //  Created by Toni Kocjan on 19/02/2021.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 #if os(iOS)
