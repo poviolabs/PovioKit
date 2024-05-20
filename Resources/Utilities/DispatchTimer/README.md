@@ -37,4 +37,4 @@ myTimer.stop() // you could eventually just nillify reference and the timer is t
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/DispatchTimer/DispatchTimer.swift).
+You can find source code [here](/Sources/Utilities/DispatchTimer/DispatchTimer.swift).

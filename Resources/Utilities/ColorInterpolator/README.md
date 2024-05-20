@@ -20,4 +20,4 @@ try? colorInterpolator.interpolate(colorPoints: colors, percentage: percentage)
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/ColorInterpolator/ColorInterpolator.swift).
+You can find source code [here](/Sources/Utilities/ColorInterpolator/ColorInterpolator.swift).

@@ -163,4 +163,4 @@ Task {
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/InAppPurchase).
+You can find source code [here](/Sources/Utilities/InAppPurchase).

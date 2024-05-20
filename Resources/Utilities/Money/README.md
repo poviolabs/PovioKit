@@ -150,4 +150,4 @@ print(money2 < money3) // true
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/Money).
+You can find source code [here](/Sources/Utilities/Money).

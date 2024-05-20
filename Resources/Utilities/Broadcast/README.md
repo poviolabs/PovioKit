@@ -56,4 +56,4 @@ class ViewController: UIViewController, AppEventObserver {
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/Broadcast/Broadcast.swift).
+You can find source code [here](/Sources/Utilities/Broadcast/Broadcast.swift).

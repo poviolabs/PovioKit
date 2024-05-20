@@ -127,4 +127,4 @@ class Controller: UIViewController, UITableViewDataSource {
 https://medium.com/anysuggestion/preventing-memory-leaks-with-swift-compile-time-safety-49b845df4dc6
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/Delegated/Delegated.swift).
+You can find source code [here](/Sources/Utilities/Delegated/Delegated.swift).
