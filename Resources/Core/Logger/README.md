@@ -1,10 +1,10 @@
 # Logger
 
-Simple console logger. 
+Simple, yet performant console logger built on top of [OSLog](https://developer.apple.com/documentation/os/logging) framework. 
 
 ## Log Levels
 
-There is 6 levels defined to choose from
+There are 6 levels defined to choose from
 * info
 * warn
 * debug
@@ -30,4 +30,4 @@ Logger.debug("Something went wrong", params: ["objectId": 1])
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/Logger/Logger.swift).
+You can find source code [here](/Sources/Core/Logger/Logger.swift).
