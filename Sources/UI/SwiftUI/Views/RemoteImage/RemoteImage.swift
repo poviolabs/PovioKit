@@ -26,12 +26,16 @@ public struct RemoteImage<Placeholder: View>: View {
   }
   
   public var body: some View {
-    KFImage(url)
-      .placeholder {
-        placeholder
-      }
-      .resizable()
-      .scaledToFill()
+    if let url {
+      KFImage(url)
+        .placeholder {
+          placeholder
+        }
+        .resizable()
+        .scaledToFill()
+    } else {
+      placeholder
+    }
   }
 }
 #endif
