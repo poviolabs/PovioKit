@@ -3,9 +3,10 @@
 //  PovioKit_Tests
 //
 //  Created by Klemen Zagar on 05/12/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
 
@@ -21,3 +22,4 @@ class UIColorTests: XCTestCase {
     XCTAssert(color.isEqual(UIColor.red.withAlphaComponent(alpha)), "Created color should be red with alpha: \(alpha)")
   }
 }
+#endif

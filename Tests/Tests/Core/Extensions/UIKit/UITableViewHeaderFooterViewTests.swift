@@ -3,9 +3,10 @@
 //  PovioKit_Tests
 //
 //  Created by Gentian Barileva on 02/06/2022.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
 
@@ -22,3 +23,4 @@ class UITableViewHeaderFooterViewTests: XCTestCase {
 // MARK: - Helpers
 private class CustomUITableViewHeaderFooterView: UITableViewHeaderFooterView { }
 private class OtherUITableViewHeaderFooterView: UITableViewHeaderFooterView { }
+#endif

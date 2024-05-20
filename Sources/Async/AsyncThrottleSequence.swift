@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Toni K. Turk on 22/08/2023.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -116,35 +116,30 @@ extension AsyncThrottleSequence: AsyncSequence where C.Duration == Duration {
     /// - Throws: An error if the underlying `AsyncSequence` throws an error.
     /// - Returns: The next element in the sequence, or `nil` if there are no more elements.
     public func next() async throws -> Element? {
-      var task: Task<Element?, Error>?
-      
-      lock.withLock {
+      let task = lock.withLock {
         taskInExecution?.cancel()
         taskInExecution = nil
-        let taskA = Task {
-          try await Task.sleep(until: clock.now.advanced(by: delayBetweenTasks), clock: clock)
+        let task = Task {
+          try await Task.sleep(
+            until: clock.now.advanced(by: delayBetweenTasks),
+            clock: clock
+          )
           let result = try await baseIterator.next()
-          do {
-            // If task was cancelled while a request was being awaited,
-            // return `nil`!
-            try Task.checkCancellation()
-            return result
-          } catch {
-            if error is CancellationError {
-              return nil
-            }
-            throw error
-          }
+          try Task.checkCancellation()
+          return result
         }
-        task = taskA
-        taskInExecution = taskA
+        taskInExecution = task
+        return task
       }
       do {
-        return try await task?.value
+        return try await task.value
       } catch {
-        return nil
+        if error is CancellationError {
+          return nil
+        }
+        throw error
       }
-    }
+    } 
   }
   
   /// Creates a new iterator for the `AsyncThrottleSequence`.

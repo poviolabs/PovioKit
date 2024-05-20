@@ -3,11 +3,12 @@
 //  PovioKit_Tests
 //
 //  Created by Marko Mijatovic on 04/07/2022.
-//  Copyright © 2023 Povio Labs. All rights reserved.
+//  Copyright © 2024 Povio Labs. All rights reserved.
 //
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 class MoneyTests: XCTestCase {
   // MARK: - Testing Getters

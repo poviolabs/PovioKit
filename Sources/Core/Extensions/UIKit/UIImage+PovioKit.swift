@@ -3,9 +3,10 @@
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIImage {
@@ -41,4 +42,23 @@ public extension UIImage {
     UIGraphicsEndImageContext()
     return image ?? UIImage()
   }
+  
+  /// Returns existing image clipped to a circle
+  var clipToCircle: UIImage {
+    let layer = CALayer()
+    layer.frame = .init(origin: .zero, size: size)
+    layer.contents = cgImage
+    layer.masksToBounds = true
+    
+    layer.cornerRadius = size.width / 2
+    
+    UIGraphicsBeginImageContext(size)
+    guard let context = UIGraphicsGetCurrentContext() else { return self }
+    layer.render(in: context)
+    let roundedImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return roundedImage ?? self
+  }
 }
+
+#endif

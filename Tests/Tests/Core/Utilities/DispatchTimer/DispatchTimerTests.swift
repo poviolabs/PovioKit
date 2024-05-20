@@ -3,11 +3,12 @@
 //  PovioKit_Tests
 //
 //  Created by Borut Tomazin on 19/09/2022.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 final class DispatchTimerTests: XCTestCase {
   func test_dispatchTimer_instance_noRepeating() {

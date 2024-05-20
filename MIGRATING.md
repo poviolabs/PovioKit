@@ -1,5 +1,9 @@
 ## Migration Guides
 
+### Migration from versions < 4.0.0
+* [Core] If you have used any utilities referencing to PovioKitCore package, you'll need to replace it. They've been moved to PovioKitUtilities.
+* [UI] PovioKitUI package has been replaced by PovioKitUIKit and/or PovioKitSwiftUI. Replace depending on the type of UI code you were depending on.
+
 ### Migration from versions < 3.0.0
 * [Auth] All Auth products are removed from the PovioKit package and effectivelly moved to a standalone repo https://github.com/poviolabs/PovioKitAuth. In order to continue using Auth products, install the new package `PovioKitAuth` package from the given repo url. 
 

@@ -3,9 +3,10 @@
 //  PovioKit_Tests
 //
 //  Created by Borut Tomažin on 23/12/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
 
@@ -50,3 +51,4 @@ class UIEdgeInsetsTests: XCTestCase {
     XCTAssertEqual(combinedInsets.horizontal, 20)
   }
 }
+#endif

@@ -3,9 +3,10 @@
 //  PovioKit_Tests
 //
 //  Created by Ndriqim Nagavci on 27/10/2022.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
 
@@ -87,3 +88,4 @@ private extension AttributedStringBuilderTests {
     static let paragraphLineHeight: CGFloat = 30
   }
 }
+#endif

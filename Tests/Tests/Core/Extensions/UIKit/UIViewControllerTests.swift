@@ -3,12 +3,13 @@
 //  PovioKit_Tests
 //
 //  Created by Ndriqim Nagavci on 27/10/2022.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 import PovioKitCore
-import PovioKitUI
+import PovioKitUIKit
 
 class UIViewControllerTests: XCTestCase {  
   func test_setLeftBarButton_addsLeftBarButton() {
@@ -53,4 +54,4 @@ class UIViewControllerTests: XCTestCase {
   
   @objc private func testTarget() { }
 }
-
+#endif

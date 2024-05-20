@@ -3,9 +3,10 @@
 //  PovioKit
 //
 //  Created by Borut Tomažin on 23/06/2022.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import StoreKit
 
 public extension SKStoreReviewController {
@@ -24,3 +25,4 @@ public extension SKStoreReviewController {
     }
   }
 }
+#endif

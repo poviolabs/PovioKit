@@ -3,9 +3,10 @@
 //  PovioKit
 //
 //  Created by Borut Tomažin on 13/11/2020.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIApplication {
@@ -33,6 +34,11 @@ public extension UIApplication {
 }
 
 public extension UIApplication {
+  /// Returns bundle id
+  var bundleId: String {
+    Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String ?? "/"
+  }
+  
   /// Returns app name
   var name: String {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
@@ -48,3 +54,4 @@ public extension UIApplication {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "/"
   }
 }
+#endif

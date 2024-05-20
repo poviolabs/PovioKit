@@ -3,9 +3,10 @@
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIEdgeInsets {
@@ -53,3 +54,5 @@ public extension UIEdgeInsets {
     }
   }
 }
+
+#endif

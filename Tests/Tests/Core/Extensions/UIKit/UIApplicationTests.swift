@@ -3,9 +3,10 @@
 //  PovioKit_Tests
 //
 //  Created by Toni Kocjan on 19/02/2021.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import XCTest
 
 class UIApplicationTests: XCTestCase {
@@ -16,3 +17,4 @@ class UIApplicationTests: XCTestCase {
     XCTAssertFalse(app.build.isEmpty, "App build number should not be empty")
   }
 }
+#endif

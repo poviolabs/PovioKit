@@ -3,9 +3,10 @@
 //  PovioKit
 //
 //  Created by Toni Kocjan on 26/07/2020.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIViewController {
@@ -100,3 +101,5 @@ private extension UIViewController {
     }
   }
 }
+
+#endif

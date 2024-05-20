@@ -3,9 +3,10 @@
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public extension UIDevice {
@@ -29,4 +30,18 @@ public extension UIDevice {
       return identifier + String(UnicodeScalar(UInt8(value)))
     }
   }
+  
+  /// Returns `UIEdgeInsets` for the possible (top/bottom) safe areas
+  var safeAreaInsets: UIEdgeInsets {
+    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    let window = windowScene?.windows.first
+    return window?.safeAreaInsets ?? .init()
+  }
+  
+  /// Returns `true` on devices with notch
+  var hasNotch: Bool {
+    safeAreaInsets.bottom > 0
+  }
 }
+
+#endif

@@ -1,25 +1,12 @@
 # PovioKit: Core
 
-Core package including essentials needed for development and other packages.
+Core package includes essentials needed for the development and for other packages.
 
-### Utilities
-
-| Utilities |
+### Essentials
+| Components |
 | :--- |
-| [AppVersionValidator](/Sources/Core/Utilities/AppVersionValidator/AppVersionValidator.swift) |
-| [AttributedStringBuilder](Utilities/AttributedStringBuilder) |
-| [Broadcast](Utilities/Broadcast) |
-| [BundleReader](/Sources/Core/Utilities/BundleReader/BundleReader.swift) |
-| [ColorInterpolator](Utilities/ColorInterpolator) |
-| [Delegated](Utilities/Delegated) |
-| [DispatchTimer](Utilities/DispatchTimer) |
-| [ImageSource](/Sources/Core/Utilities/ImageSource/ImageSource.swift) |
-| [Logger](Utilities/Logger) |
-| [Money](Utilities/Money) |
-| [StartupService](Utilities/StartupService) |
-| [Throttler](Utilities/Throttler) |
-| [UserDefaults](Utilities/PropertyWrapper/UserDefaults) |
-| [XCConfigValue](Utilities/PropertyWrapper/XCConfigValue) |
+| [Logger](Logger) |
+
 
 ### Extensions
 
@@ -39,7 +26,3 @@ Core package including essentials needed for development and other packages.
 | [UITableViewHeaderFooterView](/Sources/Core/Extensions/UIKit/UITableViewHeaderFooterView+PovioKit.swift) | | |
 | [UIView](/Sources/Core/Extensions/UIKit/UIView+PovioKit.swift) | | |
 | [UIViewController](/Sources/Core/Extensions/UIKit/UIViewController+PovioKit.swift) | | |
-
-
-
-

@@ -3,11 +3,12 @@
 //  PovioKit_Tests
 //
 //  Created by Klemen Zagar on 05/12/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 class BroadcastTests: XCTestCase {
 

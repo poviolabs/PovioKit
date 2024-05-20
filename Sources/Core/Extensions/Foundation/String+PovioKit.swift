@@ -3,7 +3,7 @@
 //  PovioKit
 //
 //  Created by Povio Team on 26/04/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 import Foundation
@@ -38,6 +38,18 @@ public extension String {
     return emailTest.evaluate(with: self)
   }
   
+  /// Returns initials from string
+  /// `John Doe` -> `JD`
+  /// `Elena Wayne Gomez` -> `EWG`
+  var initials: String {
+    let formatter = PersonNameComponentsFormatter()
+    if let components = formatter.personNameComponents(from: self) {
+      formatter.style = .abbreviated
+      return formatter.string(from: components)
+    }
+    return self
+  }
+  
   /// Returns substring containing up to `maxLength` characters from the beginning of the string.
   ///
   /// This method is just a wrapper around swift's standard library `prefix` method, but it ensures only positive values are accepted.
@@ -50,5 +62,17 @@ public extension String {
   /// This method is just a wrapper around swift's standard library `suffix` method, but it ensures only positive values are accepted.
   func safeSuffix(_ maxLength: UInt) -> Substring {
     suffix(Int(maxLength))
+  }
+
+  /// Converts the string into a markdown formatted AttributedString.
+  ///
+  /// If the conversion fails (e.g., due to invalid markdown syntax), it returns the original string as an AttributedString. Requires iOS 15 and above.
+  @available(iOS 15, *)
+  func toMarkdown() -> AttributedString {
+    do {
+      return try AttributedString(markdown: self)
+    } catch {
+      return AttributedString(self)
+    }
   }
 }

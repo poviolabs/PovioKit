@@ -3,13 +3,14 @@
 //  PovioKit
 //
 //  Created by Povio Team on 26/4/2019.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
-// MARK: - Shadow and border
 public extension UIView {
+  // Add shadow and border
   func dropShadow(path: UIBezierPath?, shadowColor: UIColor, radius: CGFloat, opacity: Float, offset: CGSize) {
     layer.shadowPath = path?.cgPath
     layer.shadowColor = shadowColor.cgColor
@@ -71,3 +72,5 @@ public extension UIView {
     }
   }
 }
+
+#endif

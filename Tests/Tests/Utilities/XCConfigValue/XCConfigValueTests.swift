@@ -3,11 +3,12 @@
 //  PovioKit
 //
 //  Created by Egzon Arifi on 31/03/2022.
-//  Copyright © 2023 Povio Inc. All rights reserved.
+//  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
 import XCTest
 import PovioKitCore
+import PovioKitUtilities
 
 class XCConfigValueTests: XCTestCase {
   enum TestConfig {
