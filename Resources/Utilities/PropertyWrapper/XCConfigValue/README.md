@@ -25,4 +25,4 @@ enum Environment {
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/PropertyWrapper/XCConfigValue.swift).
+You can find source code [here](/Sources/Utilities/PropertyWrapper/XCConfigValue.swift).

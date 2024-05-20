@@ -10,7 +10,7 @@ Core package including utility tools.
 | [AttributedStringBuilder](AttributedStringBuilder) |
 | [Broadcast](Broadcast) |
 | [BundleReader](/Sources/Utilities/BundleReader/BundleReader.swift) |
-| [Camera](/Sources/Utilities/Camera) |
+| [Camera](Camera) |
 | [ColorInterpolator](ColorInterpolator) |
 | [Delegated](Delegated) |
 | [DispatchTimer](DispatchTimer) |

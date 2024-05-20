@@ -38,4 +38,4 @@ extension UserDefault {
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/PropertyWrapper/UserDefault.swift).
+You can find source code [here](/Sources/Utilities/PropertyWrapper/UserDefault.swift).

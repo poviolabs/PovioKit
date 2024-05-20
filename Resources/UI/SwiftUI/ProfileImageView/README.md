@@ -73,4 +73,4 @@ profileImageView.set(<Picture URL>, placeholder: <Optional Placeholder>)
 ```
 
 ## Source code
-You can find source code [here](/Sources/UI/ProfileImageView).
+You can find source code [here](/Sources/UI/SwiftUI/Views/ProfileImageView).

@@ -53,4 +53,4 @@ actionButton.titleRightImage = .init(image: Image(systemName: "arrow.right"), si
 ```
 
 ## Source code
-You can find source code [here](/Sources/UI/ActionButton/ActionButton.swift).
+You can find source code [here](/Sources/UI/SwiftUI/Views/ActionButton/ActionButton.swift).

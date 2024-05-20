@@ -83,4 +83,4 @@ func prepareQRCodeSCanner() {
 `func scanFailure()`
 
 ## Source code
-You can find source code [here](/Sources/UI/Camera).
+You can find source code [here](/Sources/Utilities/Camera).

@@ -21,4 +21,4 @@ class SearchWorker {
 ```
 
 ## Source code
-You can find source code [here](/Sources/Core/Utilities/Throttler/Throttler.swift).
+You can find source code [here](/Sources/Utilities/Throttler/Throttler.swift).
