@@ -25,7 +25,7 @@ public struct RemoteImage<Placeholder: View>: View {
     self.placeholder = nil
   }
   
-  var body: some View {
+  public var body: some View {
     KFImage(url)
       .placeholder {
         placeholder
