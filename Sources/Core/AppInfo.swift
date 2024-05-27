@@ -1,57 +1,64 @@
 //
-//  UIApplication+PovioKit.swift
+//  AppInfo.swift
 //  PovioKit
 //
-//  Created by Borut Tomažin on 13/11/2020.
+//  Created by Borut Tomazin on 22/05/2024.
 //  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
-#if os(iOS)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 
-public extension UIApplication {
+public enum AppInfo {
   /// Opens `Settings` app for current app.
-  func openAppSettings() {
+#if os(iOS)
+  public static func openSettings() {
     URL(string: UIApplication.openSettingsURLString).map(openUrl)
   }
+#endif
   
   /// Opens `App Store` and deep linking to the app with provided id.
-  func openAppStore(appName: String, appleAppId: String) {
+  public static func openAppStore(appName: String, appleAppId: String) {
     guard let url = URL(string: "itms-apps://apps.apple.com/us/app/\(appName)/id\(appleAppId)") else { return }
-    open(url, options: [:], completionHandler: nil)
+    openUrl(url)
   }
   
   /// Passing the `number` will trigger the system call with "tel://" prefix.
-  func call(_ number: String) {
+  public static func call(_ number: String) {
     URL(string: "tel://" + number).map { openUrl($0) }
   }
   
   /// Opens given `url` if `canOpenURL` method returns true.
-  func openUrl(_ url: URL) {
-    guard canOpenURL(url) else { return }
-    open(url, options: [:])
+  public static func openUrl(_ url: URL) {
+#if os(iOS)
+    guard UIApplication.shared.canOpenURL(url) else { return }
+    UIApplication.shared.open(url, options: [:])
+#elseif os(macOS)
+    guard NSWorkspace.shared.urlForApplication(toOpen: url) != nil else { return }
+    NSWorkspace.shared.open(url)
+#endif
   }
-}
-
-public extension UIApplication {
+  
   /// Returns bundle id
-  var bundleId: String {
+  public static var bundleId: String {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String ?? "/"
   }
   
   /// Returns app name
-  var name: String {
+  public static var name: String {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "/"
   }
   
   /// Returns App Store build, e.g. `84`
-  var build: String {
+  public static var build: String {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "/"
   }
   
   /// Returns App Store app version, e.g. `1.9.3`
-  var version: String {
+  public static var version: String {
     Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "/"
   }
 }
-#endif
