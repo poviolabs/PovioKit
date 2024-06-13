@@ -6,6 +6,7 @@
 //  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import SwiftUI
 
 /// https://stackoverflow.com/a/59878898
@@ -107,3 +108,5 @@ private struct PinchZoom: UIViewRepresentable {
     // state is automatically updated via ViewModel binding
   }
 }
+
+#endif

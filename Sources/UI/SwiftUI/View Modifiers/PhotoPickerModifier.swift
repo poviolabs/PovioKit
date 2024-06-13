@@ -6,6 +6,7 @@
 //  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import SwiftUI
 
 @available(iOS 15.0, *)
@@ -74,3 +75,5 @@ public extension View {
     ))
   }
 }
+
+#endif

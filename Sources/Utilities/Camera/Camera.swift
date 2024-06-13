@@ -46,11 +46,13 @@ public extension Camera {
     device.map { $0.hasTorch && $0.isTorchAvailable } ?? false
   }
   
+#if os(iOS)
   var virtualDeviceSwitchOverVideoZoomFactors: [Int] {
     device?
       .virtualDeviceSwitchOverVideoZoomFactors
       .compactMap { $0.intValue } ?? []
   }
+#endif
   
   func requestAuthorizationStatus() async -> Bool {
     await cameraService.requestCameraAuthorization()
@@ -75,6 +77,7 @@ public extension Camera {
     try setTorch(on: !(device?.isTorchActive ?? true))
   }
   
+#if os(iOS)
   func setZoom(_ zoomFactor: CGFloat,
                animated: Bool = true,
                rate: Float = 5) throws {
@@ -88,6 +91,7 @@ public extension Camera {
     }
     device.unlockForConfiguration()
   }
+#endif
   
   /// Check if camera is available on device
   func isCameraAvailable(for deviceType: AVCaptureDevice.DeviceType,

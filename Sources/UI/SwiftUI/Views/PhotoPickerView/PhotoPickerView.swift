@@ -6,6 +6,7 @@
 //  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import SwiftUI
 import UIKit
 
@@ -52,3 +53,5 @@ public extension PhotoPickerView {
     }
   }
 }
+
+#endif

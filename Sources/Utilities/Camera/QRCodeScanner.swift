@@ -13,6 +13,7 @@ public protocol QRCodeScannerDelegate: AnyObject {
   func scanFailure()
 }
 
+@available(macOS 13.0, *)
 public class QRCodeScanner: Camera {
   public weak var delegate: QRCodeScannerDelegate?
   private let metadataOutput = AVCaptureMetadataOutput()
@@ -24,6 +25,7 @@ public class QRCodeScanner: Camera {
 }
 
 // MARK: - Public Methods
+@available(macOS 13.0, *)
 public extension QRCodeScanner {
   func prepare() async throws {
     try self.configure()
@@ -31,6 +33,7 @@ public extension QRCodeScanner {
 }
 
 // MARK: - AVCapture Metadata Output Delegate
+@available(macOS 13.0, *)
 extension QRCodeScanner: AVCaptureMetadataOutputObjectsDelegate {
   public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
     guard session.isRunning,
@@ -46,6 +49,7 @@ extension QRCodeScanner: AVCaptureMetadataOutputObjectsDelegate {
 }
 
 // MARK: - Private Methods
+@available(macOS 13.0, *)
 private extension QRCodeScanner {
   func configure() throws {
     guard let device = device else { throw Camera.Error.unavailable }
