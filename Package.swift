@@ -105,6 +105,9 @@ let package = Package(
         "PovioKitSwiftUI",
         "PovioKitUtilities",
         "PovioKitAsync",
+      ],
+      resources: [
+        .process("Resources/")
       ]
     ),
   ],

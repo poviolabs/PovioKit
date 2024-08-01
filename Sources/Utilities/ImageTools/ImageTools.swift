@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PovioKitCore
 
 /// A utility class for performing various image-related operations.
 public final class ImageTools: NSObject {
@@ -62,7 +63,7 @@ public extension ImageTools {
     }
   }
   
-  /// Downsizes the given image to the specified target size asynchronously.
+  /// Downsizes the given image to the specified target size, asynchronously, respecting aspect ratio.
   /// - Parameters:
   ///   - image: The original UIImage to be downsized.
   ///   - targetSize: The desired size to which the image should be downsized.
@@ -90,8 +91,8 @@ public extension ImageTools {
       let heightRatio = targetSize.height / originalSize.height
       let scaleFactor = min(widthRatio, heightRatio)
       let newSize = CGSize(
-        width: originalSize.width * scaleFactor,
-        height: originalSize.height * scaleFactor
+        width: floor(originalSize.width * scaleFactor),
+        height: floor(originalSize.height * scaleFactor)
       )
       
       let renderer = UIGraphicsImageRenderer(size: newSize)
@@ -175,7 +176,7 @@ public extension ImageTools {
       
       guard let compressedImage else { throw ImageError.compression }
       
-      print("Image compressed to:", Double(compressedImage.count) / 1024.0 / 1024.0, "MB")
+      Logger.debug("Image compressed to \(Double(compressedImage.count) / 1024.0) KB.")
       return compressedImage
     }.value
   }
@@ -205,6 +206,7 @@ public extension ImageTools {
     
     return try await Task.detached(priority: .high) {
       let maxBytes = Int(maxKbSize * 1024)
+      let compressionStep: CGFloat = 0.05
       var compression: CGFloat = 1.0
       var compressedData: Data?
       
@@ -215,7 +217,7 @@ public extension ImageTools {
           compressedData = data
           break
         } else {
-          compression -= 0.1
+          compression -= compressionStep
         }
       }
       
