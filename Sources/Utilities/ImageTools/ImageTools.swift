@@ -85,7 +85,7 @@ public extension ImageTools {
       throw ImageError.invalidSize
     }
     
-    return await Task.detached(priority: .high) {
+    return await Task(priority: .high) {
       let originalSize = image.size
       let widthRatio = targetSize.width / originalSize.width
       let heightRatio = targetSize.height / originalSize.height
@@ -128,7 +128,7 @@ public extension ImageTools {
       throw ImageError.invalidPercentage
     }
     
-    return await Task.detached(priority: .high) {
+    return await Task(priority: .high) {
       let scaleFactor = percentage / 100.0
       let newSize = CGSize(
         width: image.size.width * scaleFactor,
@@ -165,7 +165,7 @@ public extension ImageTools {
   /// ```
   /// - Throws: `ImageError.compression` if the compression operation fails.
   func compress(image: UIImage, withFormat format: ImageFormat) async throws -> Data {
-    try await Task.detached(priority: .high) {
+    try await Task(priority: .high) {
       let compressedImage: Data?
       switch format {
       case .jpeg(let compressionRatio):
@@ -204,7 +204,7 @@ public extension ImageTools {
   func compress(image: UIImage, toMaxKbSize maxKbSize: CGFloat) async throws -> Data {
     guard maxKbSize > 0 else { throw ImageError.invalidSize }
     
-    return try await Task.detached(priority: .high) {
+    return try await Task(priority: .high) {
       let maxBytes = Int(maxKbSize * 1024)
       let compressionStep: CGFloat = 0.05
       var compression: CGFloat = 1.0
