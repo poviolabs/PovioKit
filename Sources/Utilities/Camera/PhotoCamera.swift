@@ -36,6 +36,11 @@ public extension PhotoCamera {
     guard cameraPosition != position else { return }
     cameraPosition = position
     try self.configure()
+  
+  func setDeviceType(_ type: AVCaptureDevice.DeviceType) throws {
+    guard deviceType != type, isCameraAvailable(for: type, position: cameraPosition) else { return }
+    deviceType = type
+    try configure()
   }
   
   func takePhoto(
