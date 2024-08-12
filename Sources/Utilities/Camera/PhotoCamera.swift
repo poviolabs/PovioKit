@@ -29,13 +29,14 @@ public class PhotoCamera: Camera {
 // MARK: - Public Methods
 public extension PhotoCamera {
   func prepare() async throws {
-    try self.configure()
+    try configure()
   }
   
   func setCameraPosition(_ position: CameraPosition) throws {
     guard cameraPosition != position else { return }
     cameraPosition = position
-    try self.configure()
+    try configure()
+  }
   
   func setDeviceType(_ type: AVCaptureDevice.DeviceType) throws {
     guard deviceType != type, isCameraAvailable(for: type, position: cameraPosition) else { return }
@@ -49,10 +50,14 @@ public extension PhotoCamera {
     flashMode: AVCaptureDevice.FlashMode = .auto,
     videoOrientation: AVCaptureVideoOrientation? = nil
   ) {
-    let videoOrientation = (videoOrientation != nil) ? videoOrientation : previewLayer.connection?.videoOrientation
+    let videoOrientation = (videoOrientation != nil) 
+    ? videoOrientation
+    : previewLayer.connection?.videoOrientation
     sessionQueue.async {
       guard self.session.isRunning else {
-        DispatchQueue.main.async { self.delegate?.photoCamera(self, didTriggerError: .missingSession) }
+        DispatchQueue.main.async {
+          self.delegate?.photoCamera(self, didTriggerError: .missingSession)
+        }
         return
       }
       
@@ -73,7 +78,10 @@ public extension PhotoCamera {
     }
   }
   
-  func takePhoto(with photoSettings: AVCapturePhotoSettings, videoOrientation: AVCaptureVideoOrientation? = nil) {
+  func takePhoto(
+    with photoSettings: AVCapturePhotoSettings,
+    videoOrientation: AVCaptureVideoOrientation? = nil
+  ) {
     let videoOrientation = (videoOrientation != nil) ? videoOrientation : previewLayer.connection?.videoOrientation
     sessionQueue.async {
       guard self.session.isRunning else {
@@ -92,7 +100,11 @@ public extension PhotoCamera {
 
 // MARK: - AVCapturePhotoCapture Delegate
 extension PhotoCamera: AVCapturePhotoCaptureDelegate {
-  public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Swift.Error?) {
+  public func photoOutput(
+    _ output: AVCapturePhotoOutput,
+    didFinishProcessingPhoto photo: AVCapturePhoto,
+    error: Swift.Error?
+  ) {
     guard let data = photo.fileDataRepresentation(), let image = UIImage(data: data) else {
       DispatchQueue.main.async { self.delegate?.photoCamera(self, didTriggerError: .invalidImage) }
       return

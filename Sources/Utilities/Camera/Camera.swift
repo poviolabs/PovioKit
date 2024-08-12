@@ -98,8 +98,10 @@ public extension Camera {
 #endif
   
   /// Check if camera is available on device
-  func isCameraAvailable(for deviceType: AVCaptureDevice.DeviceType,
-                         position: Camera.CameraPosition) -> Bool {
+  func isCameraAvailable(
+    for deviceType: AVCaptureDevice.DeviceType,
+    position: Camera.CameraPosition
+  ) -> Bool {
     !AVCaptureDevice
       .DiscoverySession(
         deviceTypes: [deviceType],
