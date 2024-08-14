@@ -11,14 +11,26 @@ import SwiftUI
 
 @available(iOS 14.0, *)
 public struct PhotoPreview: View {
+  public typealias VoidHandler = () -> Swift.Void
   let items: [PhotoPreviewItem]
+  let dismiss: VoidHandler
   @State var currentIndex = 0
   @State var offset: CGFloat = 0
+  @State var verticalOffset: CGFloat = 0
   @State var imageViewDragEnabled: Bool = false
   @State var imageViewLastOffset: CGFloat = 0
+  @State var dragDirection: Direction = .none
+  @State var dragVelocity: CGFloat = 0
+  @State var shouldSwitchDragDirection: Bool = true
+  let velocityThreshold: CGSize = .init(width: 200, height: 1000)
+  let offsetThreshold: CGFloat = 80
   
-  public init(items: [PhotoPreviewItem]) {
+  public init(
+    items: [PhotoPreviewItem],
+    dismiss: @escaping VoidHandler
+  ) {
     self.items = items
+    self.dismiss = dismiss
   }
   
   public var body: some View {
@@ -29,15 +41,15 @@ public struct PhotoPreview: View {
             PhotoPreviewItemView(
               dragEnabled: $imageViewDragEnabled,
               currentIndex: $currentIndex,
+              verticalOffset: $verticalOffset,
               item: items[index],
               myIndex: index
             ) { newValue in
               imageViewLastOffset = newValue
             } onDragEnded: {
-              dragEnded(with: geometry.size.width)
+              horizontalDragEnded(with: geometry.size.width)
             }
             .frame(width: geometry.size.width)
-            .clipped()
             .id(index)
           }
         }
@@ -52,6 +64,12 @@ public struct PhotoPreview: View {
 // MARK: - Helpers
 @available(iOS 14.0, *)
 extension PhotoPreview {
+  enum Direction {
+    case vertical
+    case horizontal
+    case none
+  }
+  
   func contentOffset(for geometry: GeometryProxy) -> CGFloat {
     -CGFloat(currentIndex) * geometry.size.width + offset
   }
@@ -60,7 +78,15 @@ extension PhotoPreview {
     offset = 0
   }
   
-  func dragEnded(with pageWidth: CGFloat) {
+  func horizontalDragChanged(with value: DragGesture.Value) {
+    offset = value.translation.width - imageViewLastOffset
+    if imageViewLastOffset == .zero {
+      dragVelocity = value.predictedEndLocation.x - value.location.x
+    }
+  }
+  
+  func horizontalDragEnded(with pageWidth: CGFloat) {
+    dragDirection = .none
     let threshold = pageWidth / 3
     if offset < -threshold && currentIndex < items.count - 1 {
       withAnimation {
@@ -72,10 +98,46 @@ extension PhotoPreview {
         currentIndex -= 1
         resetOffset()
       }
+    } else if !imageViewDragEnabled, abs(dragVelocity) > velocityThreshold.width {
+      withAnimation {
+        currentIndex += dragVelocity > .zero ? -1 : 1
+        resetOffset()
+      }
     } else {
       withAnimation {
         resetOffset()
       }
+    }
+  }
+  
+  func verticalDragChanged(with value: DragGesture.Value) {
+    dragDirection = .vertical
+    verticalOffset = value.translation.height
+    dragVelocity = value.predictedEndLocation.y - value.location.y
+  }
+  
+  func verticalDragEnded() {
+    shouldSwitchDragDirection = true
+    dragDirection = .none
+    if dragVelocity > velocityThreshold.height || verticalOffset > offsetThreshold {
+      dismiss()
+      return
+    }
+    withAnimation {
+      verticalOffset = 0
+    }
+  }
+  
+  func dragEnded(with pageWidth: CGFloat) {
+    if imageViewLastOffset != 0 {
+      imageViewDragEnabled = true
+    }
+    imageViewLastOffset = 0
+    
+    if dragDirection == .horizontal {
+      horizontalDragEnded(with: pageWidth)
+    } else {
+      verticalDragEnded()
     }
   }
 }
@@ -87,13 +149,19 @@ extension PhotoPreview {
     DragGesture()
       .onChanged { value in
         guard !imageViewDragEnabled else { return }
-        offset = value.translation.width - imageViewLastOffset
-      }
-      .onEnded { value in
-        if imageViewLastOffset != 0 {
-          imageViewDragEnabled = true
+        if offset > 30 || verticalOffset > 30 {
+          shouldSwitchDragDirection = false
         }
-        imageViewLastOffset = 0
+        if dragDirection == .none || shouldSwitchDragDirection {
+          dragDirection = abs(value.translation.width) > abs(value.translation.height) ? .horizontal : .vertical
+        }
+        if dragDirection == .horizontal {
+          horizontalDragChanged(with: value)
+        } else if imageViewLastOffset == .zero, offset == 0 {
+          verticalDragChanged(with: value)
+        }
+      }
+      .onEnded { _ in
         dragEnded(with: geometry.size.width)
       }
   }

@@ -18,6 +18,7 @@ struct PhotoPreviewItemView: View {
   
   @Binding var dragEnabled: Bool
   @Binding var currentIndex: Int
+  @Binding var verticalOffset: CGFloat
   @State var scale: CGFloat = 1.0
   @State var lastScaleValue: CGFloat = 1.0
   @State var offset = CGSize.zero
@@ -33,6 +34,7 @@ struct PhotoPreviewItemView: View {
     imageView
       .scaleEffect(scale)
       .offset(offset)
+      .offset(y: verticalOffset)
       .gesture(magnificationGesture)
       .simultaneousGesture(dragEnabled ? dragGesture : nil)
       .onTapGesture(count: 2) {
