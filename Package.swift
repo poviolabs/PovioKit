@@ -47,7 +47,7 @@ let package = Package(
     .target(
       name: "PovioKitCore",
       path: "Sources/Core",
-      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitNetworking",
@@ -56,13 +56,13 @@ let package = Package(
         "PovioKitPromise",
       ],
       path: "Sources/Networking",
-      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitPromise",
       dependencies: [],
       path: "Sources/PromiseKit",
-      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitUIKit",
@@ -71,7 +71,7 @@ let package = Package(
         "PovioKitUtilities",
       ],
       path: "Sources/UI/UIKit",
-      resources: [.copy("../../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitSwiftUI",
@@ -79,7 +79,7 @@ let package = Package(
         "PovioKitCore",
       ],
       path: "Sources/UI/SwiftUI",
-      resources: [.copy("../../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitUtilities",
@@ -87,13 +87,13 @@ let package = Package(
         "PovioKitCore",
       ],
       path: "Sources/Utilities",
-      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")]
     ),
     .target(
       name: "PovioKitAsync",
       dependencies: [],
       path: "Sources/Async",
-      resources: [.copy("../../Resources/PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")]
     ),
     .testTarget(
       name: "Tests",
