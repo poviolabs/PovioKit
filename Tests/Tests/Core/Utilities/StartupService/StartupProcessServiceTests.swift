@@ -11,11 +11,13 @@ import PovioKitCore
 import PovioKitUtilities
 
 class StartupProcessServiceTests: XCTestCase {
+  let sut = StartupProcessService()
+  
   func testShouldCompleteProccesWhenCallExecution() {
     let mock = MockedStartupProcess()
     let mockPersisted = MockedPersistedStartupProcess()
     
-    let sut = StartupProcessService()
+    sut
       .execute(process: mock)
       .execute(process: mockPersisted)
 
