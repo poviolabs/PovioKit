@@ -12,24 +12,32 @@ import PovioKitUtilities
 
 class StartupProcessServiceTests: XCTestCase {
   func testShouldCompleteProccesWhenCallExecution() {
-    let sut = StartupProcessService()
-    let mock = MockedStartupService()
-    sut.execute(process: mock)
-    XCTAssertEqual(mock.completed, true)
-  }
-  
-  func test_id_isUniqueForDifferentInstances() {
-    let process1 = MockedStartupService()
-    let process2 = MockedStartupService()
+    let mock = MockedStartupProcess()
+    let mockPersisted = MockedPersistedStartupProcess()
     
-    XCTAssertNotEqual(process1.id, process2.id)
+    let sut = StartupProcessService()
+      .execute(process: mock)
+      .execute(process: mockPersisted)
+
+    XCTAssertEqual(MockedStartupProcess.completed, true)
+    XCTAssertEqual(MockedPersistedStartupProcess.completed, true)
+    
+    XCTAssertTrue(sut.persistingProcesses.contains(where: { $0 is MockedPersistedStartupProcess }))
   }
 }
 
-private class MockedStartupService: StartupProcess {
-  var completed: Bool = false
-  func run(completion: @escaping (Bool) -> Void) {
-    completed = true
-    return
+private struct MockedStartupProcess: StartupableProcess {
+  static var completed = false
+
+  func run() {
+    MockedStartupProcess.completed = true
+  }
+}
+
+private struct MockedPersistedStartupProcess: StartupableProcess, PersistableProcess {
+  static var completed = false
+  
+  func run() {
+    MockedPersistedStartupProcess.completed = true
   }
 }

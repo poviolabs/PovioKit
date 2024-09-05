@@ -9,12 +9,13 @@
 import Foundation
 
 /// An abstraction for a predefined set of functionality, aimed to be ran once, at app startup.
+@available(*, deprecated, message: "The `StartupProcess` protocol with `run(:completion)` is deprecated. Instead, use `StartupableProcess` with `run()` only.")
 public protocol StartupProcess {
   func run(completion: @escaping (Bool) -> Void)
 }
 
-extension StartupProcess {
-  public var id: String {
-    UUID().uuidString
-  }
+public protocol StartupableProcess {
+  func run()
 }
+
+public protocol PersistableProcess {}
