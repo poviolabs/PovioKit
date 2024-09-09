@@ -23,6 +23,7 @@ public struct PhotoPreview: View {
   @State var dragDirection: Direction = .none
   @State var dragVelocity: CGFloat = 0
   @State var shouldSwitchDragDirection: Bool = true
+  @State var backgroundOpacity: CGFloat = 1
   
   public init(
     items: [PhotoPreviewItem],
@@ -42,7 +43,12 @@ public struct PhotoPreview: View {
         dismissView
       }
     }
-    .background(configuration.backgroundColor.ignoresSafeArea())
+    .background(
+      configuration
+        .backgroundColor
+        .ignoresSafeArea()
+        .opacity(backgroundOpacity)
+    )
   }
 }
 
@@ -152,6 +158,7 @@ extension PhotoPreview {
     dragDirection = .vertical
     verticalOffset = value.translation.height
     dragVelocity = value.predictedEndLocation.y - value.location.y
+    updateBackgroundOpacity()
   }
   
   func verticalDragEnded() {
@@ -163,6 +170,7 @@ extension PhotoPreview {
     }
     withAnimation {
       verticalOffset = 0
+      backgroundOpacity = 1
     }
   }
   
@@ -176,6 +184,14 @@ extension PhotoPreview {
       horizontalDragEnded(with: pageWidth)
     } else {
       verticalDragEnded()
+    }
+  }
+  
+  func updateBackgroundOpacity() {
+    let height = UIScreen.main.bounds.height / 2
+    let progress = verticalOffset / height
+    withAnimation {
+      backgroundOpacity = 1.0 - progress
     }
   }
 }
