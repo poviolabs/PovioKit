@@ -83,6 +83,7 @@ extension PhotoPreviewItemView {
         (item.placeholder ?? Image(uiImage: UIImage()))
           .resizable()
       }
+      .scaledToFit()
     #else
     URLImageView(from: item.url, placeholder: item.placeholder)
     #endif
