@@ -17,6 +17,8 @@ class UserDefaultTests: XCTestCase {
     try super.tearDownWithError()
     userDefaults.removeObject(forKey: Defaults.testBoolKey)
     userDefaults.removeObject(forKey: Defaults.testStringKey)
+    userDefaults.removeObject(forKey: Defaults.testDataKey)
+    userDefaults.removeObject(forKey: Defaults.testDataModelKey)
   }
   
   func testSaveStringValue() {
@@ -52,19 +54,45 @@ class UserDefaultTests: XCTestCase {
   }
   
   func testSaveDataValue() {
+    // Given
     let givenValue: Data = .init()
-    
+    // When
     Defaults.profileData = givenValue
-    
+    // Then
     XCTAssertNotNil(Defaults.profileData)
   }
   
   func testSaveDataNullValue() {
+    // Given
     let givenValue: Data? = nil
-    
+    // When
     Defaults.profileData = givenValue
-    
+    // Then
     XCTAssertNil(Defaults.profileData)
+  }
+  
+  func testSaveCodable() {
+    // Given
+    let givenValue = TestDataModel(id: UUID().uuidString, number: 123)
+    // When
+    Defaults.dataModel = givenValue
+    // Then
+    XCTAssertEqual(givenValue, Defaults.dataModel)
+  }
+  
+  func testResetValueForCodable() {
+    // Given
+    let givenValue = TestDataModel(id: UUID().uuidString, number: 123)
+
+    // Set an initial value
+    Defaults.dataModel = givenValue
+    
+    // When
+    Defaults.$dataModel.resetValue()
+    
+    // Then
+    XCTAssertEqual(Defaults.dataModel.id, "1")
+    XCTAssertEqual(Defaults.dataModel.number, 1)
   }
 }
 
@@ -73,6 +101,7 @@ extension UserDefaultTests {
     static var testBoolKey = "test_bool_key"
     static var testStringKey = "test_string_key"
     static var testDataKey = "test_data_key"
+    static var testDataModelKey = "test_data_model_key"
     
     @UserDefault(defaultValue: false, key: testBoolKey)
     static var isAuthenticated: Bool
@@ -82,5 +111,13 @@ extension UserDefaultTests {
     
     @UserDefault(defaultValue: nil, key: testDataKey)
     static var profileData: Data?
+    
+    @UserDefault(defaultValue: TestDataModel(id: "1", number: 1), key: testDataModelKey)
+    static var dataModel: TestDataModel
+  }
+  
+  struct TestDataModel: Codable, Equatable {
+    let id: String
+    let number: Int
   }
 }
