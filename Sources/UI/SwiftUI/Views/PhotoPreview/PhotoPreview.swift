@@ -13,6 +13,7 @@ import SwiftUI
 public struct PhotoPreview: View {
   public typealias VoidHandler = () -> Swift.Void
   let items: [PhotoPreviewItem]
+  let configuration: PhotoPreviewConfiguration
   let dismiss: VoidHandler
   @State var currentIndex = 0
   @State var offset: CGFloat = 0
@@ -22,14 +23,14 @@ public struct PhotoPreview: View {
   @State var dragDirection: Direction = .none
   @State var dragVelocity: CGFloat = 0
   @State var shouldSwitchDragDirection: Bool = true
-  let velocityThreshold: CGSize = .init(width: 200, height: 1000)
-  let offsetThreshold: CGFloat = 80
   
   public init(
     items: [PhotoPreviewItem],
+    configuration: PhotoPreviewConfiguration,
     dismiss: @escaping VoidHandler
   ) {
     self.items = items
+    self.configuration = configuration
     self.dismiss = dismiss
   }
   
@@ -98,7 +99,7 @@ extension PhotoPreview {
         currentIndex -= 1
         resetOffset()
       }
-    } else if !imageViewDragEnabled, abs(dragVelocity) > velocityThreshold.width {
+    } else if !imageViewDragEnabled, abs(dragVelocity) > configuration.velocityThreshold.width {
       withAnimation {
         let dragDirection = dragVelocity > .zero ? -1 : 1
         var updatedIndex = currentIndex + dragDirection
@@ -123,7 +124,7 @@ extension PhotoPreview {
   func verticalDragEnded() {
     shouldSwitchDragDirection = true
     dragDirection = .none
-    if dragVelocity > velocityThreshold.height || verticalOffset > offsetThreshold {
+    if dragVelocity > configuration.velocityThreshold.height || verticalOffset > configuration.offsetThreshold {
       dismiss()
       return
     }
