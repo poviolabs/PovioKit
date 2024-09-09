@@ -23,7 +23,6 @@ struct PhotoPreviewModifier: ViewModifier {
           presented.toggle()
           onDismiss?()
         }
-        .ignoresSafeArea()
       }
   }
 }

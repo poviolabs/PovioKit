@@ -35,6 +35,22 @@ public struct PhotoPreview: View {
   }
   
   public var body: some View {
+    ZStack {
+      scrollView
+        .ignoresSafeArea()
+      if configuration.showDismissButton {
+        dismissView
+      }
+    }
+    .background(configuration.backgroundColor.ignoresSafeArea())
+  }
+}
+
+// MARK: - ViewBuilders
+@available(iOS 14.0, *)
+extension PhotoPreview {
+  @ViewBuilder
+  var scrollView: some View {
     GeometryReader { geometry in
       ScrollView(.horizontal, showsIndicators: false) {
         LazyHStack(spacing: 0) {
@@ -59,6 +75,23 @@ public struct PhotoPreview: View {
       .offset(x: contentOffset(for: geometry))
       .simultaneousGesture(dragGesture(with: geometry))
     }
+  }
+  
+  var dismissView: some View {
+    VStack {
+      Button {
+        dismiss()
+      } label: {
+        Image(systemName: "xmark.circle.fill")
+          .resizable()
+          .foregroundColor(.white)
+          .frame(width: 30, height: 30)
+          .padding(.trailing, 24)
+      }
+      .shadow(radius: 2)
+      Spacer()
+    }
+    .frame(maxWidth: .infinity, alignment: .trailing)
   }
 }
 
