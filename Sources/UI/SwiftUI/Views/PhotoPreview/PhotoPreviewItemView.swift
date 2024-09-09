@@ -151,13 +151,13 @@ extension PhotoPreviewItemView {
   var magnificationGesture: some Gesture {
     MagnificationGesture()
       .onChanged { value in
-        let delta = value / self.lastScaleValue
-        self.lastScaleValue = value
-        self.scale *= delta
+        let delta = value / lastScaleValue
+        lastScaleValue = value
+        scale = min(scale * delta, 4.0)
       }
       .onEnded { _ in
-        self.lastScaleValue = 1.0
-        if self.scale < 1.0 {
+        lastScaleValue = 1.0
+        if scale < 1.0 {
           withAnimation {
             resetScaleAndPosition()
           }
@@ -182,7 +182,7 @@ extension PhotoPreviewItemView {
         }
         offset = CGSize(
           width: newXOffset,
-          height: self.lastOffset.height + value.translation.height
+          height: lastOffset.height + value.translation.height
         )
       }
       .onEnded { value in
