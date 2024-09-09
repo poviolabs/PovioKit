@@ -187,6 +187,16 @@ extension PhotoPreviewItemView {
       }
       .onEnded { value in
         guard scale > 1.0 else { return }
+        // Vertical limit handling
+        let imageHeight = screenSize.height * scale
+        let maxYOffset = max((imageHeight - screenSize.height) / 2, 0) + dragHorizontalPadding
+        
+        // Animate to the middle if out of bounds
+        if offset.height >= maxYOffset || offset.height <= -maxYOffset {
+          withAnimation {
+            offset.height = 0
+          }
+        }
         endDrag()
       }
   }
