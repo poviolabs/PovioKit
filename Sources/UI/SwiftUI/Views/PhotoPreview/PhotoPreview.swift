@@ -100,7 +100,11 @@ extension PhotoPreview {
       }
     } else if !imageViewDragEnabled, abs(dragVelocity) > velocityThreshold.width {
       withAnimation {
-        currentIndex += dragVelocity > .zero ? -1 : 1
+        let dragDirection = dragVelocity > .zero ? -1 : 1
+        var updatedIndex = currentIndex + dragDirection
+        // Ensure the new index is within bounds
+        updatedIndex = min(max(updatedIndex, 0), items.count - 1)
+        currentIndex = updatedIndex
         resetOffset()
       }
     } else {
