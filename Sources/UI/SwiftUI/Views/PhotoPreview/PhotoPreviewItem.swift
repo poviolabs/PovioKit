@@ -9,9 +9,9 @@
 import SwiftUI
 
 public struct PhotoPreviewItem {
-  let image: Image?
-  let url: URL?
-  let placeholder: Image?
+  public var image: Image?
+  public var url: URL?
+  public var placeholder: Image?
   
   public init(
     image: Image? = nil,

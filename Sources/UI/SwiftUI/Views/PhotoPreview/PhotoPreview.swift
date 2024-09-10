@@ -11,10 +11,9 @@ import SwiftUI
 
 @available(iOS 14.0, *)
 public struct PhotoPreview: View {
-  public typealias VoidHandler = () -> Swift.Void
   let items: [PhotoPreviewItem]
   let configuration: PhotoPreviewConfiguration
-  let dismiss: VoidHandler
+  @Binding var presented: Bool
   @State var currentIndex = 0
   @State var offset: CGFloat = 0
   @State var verticalOffset: CGFloat = 0
@@ -28,11 +27,11 @@ public struct PhotoPreview: View {
   public init(
     items: [PhotoPreviewItem],
     configuration: PhotoPreviewConfiguration,
-    dismiss: @escaping VoidHandler
+    presented: Binding<Bool>
   ) {
     self.items = items
     self.configuration = configuration
-    self.dismiss = dismiss
+    _presented = presented
   }
   
   public var body: some View {
@@ -86,7 +85,7 @@ extension PhotoPreview {
   var dismissView: some View {
     VStack {
       Button {
-        dismiss()
+        presented.toggle()
       } label: {
         Image(systemName: "xmark.circle.fill")
           .resizable()
@@ -165,7 +164,7 @@ extension PhotoPreview {
     shouldSwitchDragDirection = true
     dragDirection = .none
     if dragVelocity > configuration.velocityThreshold.height || verticalOffset > configuration.offsetThreshold {
-      dismiss()
+      presented.toggle()
       return
     }
     withAnimation {

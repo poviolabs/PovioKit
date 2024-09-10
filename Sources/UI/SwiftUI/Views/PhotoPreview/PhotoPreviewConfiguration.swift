@@ -9,14 +9,26 @@
 import SwiftUI
 
 public struct PhotoPreviewConfiguration {
-  let backgroundColor: Color
-  let showDismissButton: Bool
-  let velocityThreshold: CGSize
-  let offsetThreshold: CGFloat
+  public var backgroundColor: Color
+  public var showDismissButton: Bool
+  public var velocityThreshold: CGSize
+  public var offsetThreshold: CGFloat
+  
+  public init(
+    backgroundColor: Color,
+    showDismissButton: Bool,
+    velocityThreshold: CGSize,
+    offsetThreshold: CGFloat
+  ) {
+    self.backgroundColor = backgroundColor
+    self.showDismissButton = showDismissButton
+    self.velocityThreshold = velocityThreshold
+    self.offsetThreshold = offsetThreshold
+  }
 }
 
 public extension PhotoPreviewConfiguration {
-  static var defaultConfiguration: PhotoPreviewConfiguration {
+  static var `default`: PhotoPreviewConfiguration {
     .init(
       backgroundColor: .black,
       showDismissButton: true,
