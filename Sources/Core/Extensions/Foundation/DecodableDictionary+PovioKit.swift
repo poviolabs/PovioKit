@@ -89,7 +89,7 @@ public extension UnkeyedDecodingContainer {
 // MARK: - Private Model
 private struct AnyCodingKey: CodingKey {
   let stringValue: String
-  private (set) var intValue: Int?
+  private(set) var intValue: Int?
   
   init?(stringValue: String) { self.stringValue = stringValue }
   init?(intValue: Int) {

@@ -13,7 +13,7 @@ public extension SKStoreReviewController {
   /// Request a review popup on the current scene.
   ///
   /// Example: `SKStoreReviewController.requestReviewInCurrentScene()`
-  static func requestReviewInCurrentScene() {
+  @MainActor static func requestReviewInCurrentScene() {
     if #available(iOS 14.0, *) {
       (UIApplication
         .shared
