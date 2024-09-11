@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:6.0
 import PackageDescription
 
 let package = Package(
@@ -47,7 +47,8 @@ let package = Package(
     .target(
       name: "PovioKitCore",
       path: "Sources/Core",
-      resources: [.copy("../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitNetworking",
@@ -108,5 +109,5 @@ let package = Package(
       ]
     ),
   ],
-  swiftLanguageVersions: [.v5]
+  swiftLanguageModes: [.v5]
 )
