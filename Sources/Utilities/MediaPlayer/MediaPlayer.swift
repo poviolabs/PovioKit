@@ -94,17 +94,17 @@ public class MediaPlayer: AVPlayer {
   
   override public init() {
     super.init()
-    setupPlayerItemObserver()
+    Task { await setupPlayerItemObserver() }
   }
   
   public override init(url: URL) {
     super.init(playerItem: AVPlayerItem(url: url))
-    setupPlayerItemObserver()
+    Task { await setupPlayerItemObserver() }
   }
   
   public override init(playerItem item: AVPlayerItem?) {
     super.init(playerItem: item)
-    setupPlayerItemObserver()
+    Task { await setupPlayerItemObserver() }
   }
   
   convenience public init(asset: AVURLAsset) {
@@ -215,8 +215,10 @@ public class MediaPlayer: AVPlayer {
   /// This does not automatically play the item. To play the replaced item, call the method`play()`-
   public override func replaceCurrentItem(with item: AVPlayerItem?) {
     super.replaceCurrentItem(with: item)
-    playbackInterval = (0, duration)
-    setupPlayerItemObserver()
+    Task { @MainActor in
+      playbackInterval = (0, duration)
+      setupPlayerItemObserver()
+    }
   }
   
   /// Updates the playback interval with the new range.
@@ -258,23 +260,25 @@ private extension MediaPlayer {
     removePeriodicTimeObserver()
     playerItemObserver = currentItem?.observe(\.status, options: [.new, .old]) { [weak self] playerItem, _ in
       guard let self else { return }
-      switch playerItem.status {
-      case .readyToPlay:
-        canPlayVideo = true
-        state = .readyToPlay
-        setupPeriodicTimeObserver()
-        if playWhenReady {
-          play()
+      Task { @MainActor in
+        switch playerItem.status {
+        case .readyToPlay:
+          canPlayVideo = true
+          state = .readyToPlay
+          setupPeriodicTimeObserver()
+          if playWhenReady {
+            play()
+          }
+        case .unknown:
+          canPlayVideo = false
+          state = .failed(error: Error.undefinedState)
+        case .failed:
+          canPlayVideo = false
+          state = .failed(error: playerItem.error ?? Error.undefinedError)
+        @unknown default:
+          canPlayVideo = false
+          state = .failed(error: Error.undefinedState)
         }
-      case .unknown:
-        canPlayVideo = false
-        state = .failed(error: Error.undefinedState)
-      case .failed:
-        canPlayVideo = false
-        state = .failed(error: playerItem.error ?? Error.undefinedError)
-      @unknown default:
-        canPlayVideo = false
-        state = .failed(error: Error.undefinedState)
       }
     }
   }
@@ -286,21 +290,22 @@ private extension MediaPlayer {
       queue: .main
     ) { [weak self] time in
       guard let self, time.isValid else { return }
-      
-      if currentItem?.status == .failed, let error = currentItem?.error {
-        state = .failed(error: error)
-        removePeriodicTimeObserver()
-        return
+      Task { @MainActor in
+        if currentItem?.status == .failed, let error = currentItem?.error {
+          state = .failed(error: error)
+          removePeriodicTimeObserver()
+          return
+        }
+        
+        delegate?.mediaPlayer(self, didProgressToTime: time.seconds)
+        delegate?.mediaPlayer(self, onProgressUpdate: Float(time.seconds / duration))
+        timeObserverCallback(time: time)
+        
+        guard let currentItem = self.currentItem, currentItem.status == .readyToPlay else { return }
+        currentItem.isPlaybackLikelyToKeepUp
+        ? delegate?.mediaPlayer(didEndBuffering: self)
+        : delegate?.mediaPlayer(didBeginBuffering: self)
       }
-      
-      delegate?.mediaPlayer(self, didProgressToTime: time.seconds)
-      delegate?.mediaPlayer(self, onProgressUpdate: Float(time.seconds / duration))
-      timeObserverCallback(time: time)
-      
-      guard let currentItem = self.currentItem, currentItem.status == .readyToPlay else { return }
-      currentItem.isPlaybackLikelyToKeepUp
-      ? delegate?.mediaPlayer(didEndBuffering: self)
-      : delegate?.mediaPlayer(didBeginBuffering: self)
     }
   }
   

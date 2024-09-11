@@ -38,7 +38,7 @@ class BroadcastTests: XCTestCase {
     let sut = Broadcast<MockedProtocol>()
     let listener = MockedListener()
     let expectation = self.expectation(description: "delay")
-    var invokedOnMainThread = false
+    nonisolated(unsafe) var invokedOnMainThread = false
     sut.add(observer: listener)
     sut.invoke(on: .main) {
       $0.run()

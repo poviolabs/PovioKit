@@ -8,7 +8,7 @@
 
 import AVFoundation
 
-public class Camera: NSObject {
+public class Camera: NSObject, @unchecked Sendable {
   var device: AVCaptureDevice? {
     switch cameraPosition {
     case .back:

@@ -9,6 +9,6 @@
 #if os(iOS)
 import UIKit
 
-extension UILabel: BuilderCompatible {}
+extension UILabel: @preconcurrency BuilderCompatible {}
 
 #endif

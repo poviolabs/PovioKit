@@ -9,6 +9,6 @@
 #if os(iOS)
 import UIKit
 
-extension UITextField: BuilderCompatible {}
+extension UITextField: @preconcurrency BuilderCompatible {}
 
 #endif

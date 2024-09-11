@@ -17,4 +17,4 @@ public extension Money {
 }
 
 // NOTE: - Not thread safe! Previous instances won't be affected.
-public var defaults = Money.Defaults()
+public nonisolated(unsafe) var defaults = Money.Defaults()
