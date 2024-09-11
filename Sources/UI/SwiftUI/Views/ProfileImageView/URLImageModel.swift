@@ -14,34 +14,32 @@ public typealias ImageContainer = NSImage
 #endif
 import SwiftUI
 
+@MainActor
 class URLImageModel: ObservableObject {
   @Published var image: ImageContainer?
   var url: URL?
   
   init(url: URL?) {
     self.url = url
-    loadImage()
+    Task { await loadImage() }
   }
   
-  func loadImage() {
-    guard let url = url else {
-      return
-    }
+  func loadImage() async {
+    guard let url = url else { return }
     
     let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
-    let task = URLSession.shared.dataTask(with: request, completionHandler: getImageFromResponse(data:response:error:))
-    task.resume()
+    do {
+      let (data, _) = try await URLSession.shared.data(for: request)
+      await getImageFrom(data: data)
+    } catch {
+      debugPrint("Failed to load image: \(error.localizedDescription)")
+    }
   }
   
-  
-  func getImageFromResponse(data: Data?, response: URLResponse?, error: Error?) {
-    guard let data = data, error == nil else { return }
-    
-    DispatchQueue.main.async {
-      guard let loadedImage = ImageContainer(data: data) else {
-        return
-      }
-      self.image = loadedImage
+  func getImageFrom(data: Data) async {
+    guard let loadedImage = ImageContainer(data: data) else {
+      return
     }
+    self.image = loadedImage
   }
 }

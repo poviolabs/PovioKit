@@ -72,7 +72,8 @@ let package = Package(
         "PovioKitUtilities",
       ],
       path: "Sources/UI/UIKit",
-      resources: [.copy("../../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitSwiftUI",
@@ -80,7 +81,8 @@ let package = Package(
         "PovioKitCore",
       ],
       path: "Sources/UI/SwiftUI",
-      resources: [.copy("../../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitUtilities",
