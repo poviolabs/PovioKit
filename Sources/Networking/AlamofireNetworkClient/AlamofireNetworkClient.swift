@@ -272,9 +272,9 @@ public extension AlamofireNetworkClient.Error {
     case other(Int)
   }
   
-  struct ErrorInfo: CustomStringConvertible {
+  struct ErrorInfo: CustomStringConvertible, Sendable {
     public var method: HTTPMethod?
-    public var endpoint: URLConvertible?
+    public nonisolated(unsafe) var endpoint: URLConvertible?
     public var headers: HTTPHeaders?
     public var body: Data?
     public var response: Data?

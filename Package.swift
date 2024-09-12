@@ -57,7 +57,8 @@ let package = Package(
         "PovioKitPromise",
       ],
       path: "Sources/Networking",
-      resources: [.copy("../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitPromise",
