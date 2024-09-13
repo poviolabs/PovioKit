@@ -49,8 +49,8 @@ public func concurrentlyDispatch<T>(
   .init { seal in
     let barrier = DispatchQueue(label: "com.poviokit.promisekit.barrier", attributes: .concurrent)
     
-    var segmentIndex = concurrent
-    var activePromises = [(promise: Promise<T>, retryCount: Int, segmentIndex: Int)]()
+    nonisolated(unsafe) var segmentIndex = concurrent
+    nonisolated(unsafe) var activePromises = [(promise: Promise<T>, retryCount: Int, segmentIndex: Int)]()
     activePromises.reserveCapacity(concurrent)
     
     for segmentIndex in 0..<concurrent {
