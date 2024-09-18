@@ -12,9 +12,13 @@ public class Camera: NSObject {
   var device: AVCaptureDevice? {
     switch cameraPosition {
     case .back:
-      return isCameraAvailable(for: deviceType, position: .back) ? AVCaptureDevice.default(deviceType, for: .video, position: .back) : nil
+      return isCameraAvailable(for: deviceType, position: .back) 
+      ? AVCaptureDevice.default(deviceType, for: .video, position: .back)
+      : nil
     case .front:
-      return isCameraAvailable(for: deviceType, position: .front) ? AVCaptureDevice.default(deviceType, for: .video, position: .front) : nil
+      return isCameraAvailable(for: deviceType, position: .front) 
+      ? AVCaptureDevice.default(deviceType, for: .video, position: .front)
+      : nil
     }
   }
   let session = AVCaptureSession()
@@ -94,8 +98,10 @@ public extension Camera {
 #endif
   
   /// Check if camera is available on device
-  func isCameraAvailable(for deviceType: AVCaptureDevice.DeviceType,
-                         position: Camera.CameraPosition) -> Bool {
+  func isCameraAvailable(
+    for deviceType: AVCaptureDevice.DeviceType,
+    position: Camera.CameraPosition
+  ) -> Bool {
     !AVCaptureDevice
       .DiscoverySession(
         deviceTypes: [deviceType],
