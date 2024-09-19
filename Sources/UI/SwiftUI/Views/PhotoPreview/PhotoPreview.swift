@@ -9,7 +9,7 @@
 #if os(iOS)
 import SwiftUI
 
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 public struct PhotoPreview: View {
   let items: [PhotoPreviewItem]
   let configuration: PhotoPreviewConfiguration
@@ -35,26 +35,24 @@ public struct PhotoPreview: View {
   }
   
   public var body: some View {
-    ZStack {
-      scrollView
-        .ignoresSafeArea()
-      if configuration.showDismissButton {
-        dismissView
+    scrollView
+      .ignoresSafeArea()
+      .overlay {
+        if configuration.showDismissButton {
+          dismissView
+        }
       }
-    }
-    .background(
-      configuration
-        .backgroundColor
-        .ignoresSafeArea()
-        .opacity(backgroundOpacity)
-    )
+      .background(
+        configuration
+          .backgroundColor
+          .opacity(backgroundOpacity)
+      )
   }
 }
 
 // MARK: - ViewBuilders
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 extension PhotoPreview {
-  @ViewBuilder
   var scrollView: some View {
     GeometryReader { geometry in
       ScrollView(.horizontal, showsIndicators: false) {
@@ -101,7 +99,7 @@ extension PhotoPreview {
 }
 
 // MARK: - Helpers
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 extension PhotoPreview {
   enum Direction {
     case vertical
@@ -196,7 +194,7 @@ extension PhotoPreview {
 }
 
 // MARK: - Gestures
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 extension PhotoPreview {
   func dragGesture(with geometry: GeometryProxy) -> some Gesture {
     DragGesture()

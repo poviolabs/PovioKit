@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 struct PhotoPreviewModifier: ViewModifier {
   @Binding var presented: Bool
   let items: [PhotoPreviewItem]
@@ -26,7 +26,7 @@ struct PhotoPreviewModifier: ViewModifier {
   }
 }
 
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 public extension View {
   func photoPreview(
     present: Binding<Bool>,

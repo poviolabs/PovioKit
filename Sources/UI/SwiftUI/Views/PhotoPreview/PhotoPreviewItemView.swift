@@ -11,7 +11,7 @@ import Kingfisher
 #endif
 import SwiftUI
 
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 struct PhotoPreviewItemView: View {
   typealias VoidHandler = () -> Swift.Void
   typealias DragHandler = (CGFloat) -> Swift.Void
@@ -60,7 +60,7 @@ struct PhotoPreviewItemView: View {
 }
 
 // MARK: - Views
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 extension PhotoPreviewItemView {
   var imageView: some View {
     Group {
@@ -91,7 +91,7 @@ extension PhotoPreviewItemView {
 }
 
 // MARK: - Helper methods
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 extension PhotoPreviewItemView {
   func endDrag(animated: Bool = true) {
     let imageWidth = screenSize.width * scale
@@ -147,7 +147,7 @@ extension PhotoPreviewItemView {
 }
 
 // MARK: - Gestures
-@available(iOS 14.0, *)
+@available(iOS 15.0, *)
 extension PhotoPreviewItemView {
   var magnificationGesture: some Gesture {
     MagnificationGesture()
