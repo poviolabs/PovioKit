@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		990B5C8D2D2C0C7C00F2963F /* PovioKitSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 990B5C8C2D2C0C7C00F2963F /* PovioKitSwiftUI */; };
 		990B5C8F2D2C0CED00F2963F /* PhotoPickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */; };
+		2D6768C32C9C4606007CC431 /* PhotoPreviewComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6768C22C9C4606007CC431 /* PhotoPreviewComponentView.swift */; };
 		990C176E297E98C2005EC7B7 /* PaddingLabelComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990C176C297E98C2005EC7B7 /* PaddingLabelComponentView.swift */; };
 		998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6EF6297E82F700D33909 /* StorybookApp.swift */; };
 		998E6EF9297E82F700D33909 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6EF8297E82F700D33909 /* ContentView.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerComponent.swift; sourceTree = "<group>"; };
+		2D6768C22C9C4606007CC431 /* PhotoPreviewComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewComponentView.swift; sourceTree = "<group>"; };
 		990C176C297E98C2005EC7B7 /* PaddingLabelComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingLabelComponentView.swift; sourceTree = "<group>"; };
 		990C1776297E9D54005EC7B7 /* PovioKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PovioKit; path = ../..; sourceTree = "<group>"; };
 		998E6EF3297E82F700D33909 /* Storybook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Storybook.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,7 @@
 			children = (
 				990C176C297E98C2005EC7B7 /* PaddingLabelComponentView.swift */,
 				990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */,
+				2D6768C22C9C4606007CC431 /* PhotoPreviewComponentView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 				998E6EF9297E82F700D33909 /* ContentView.swift in Sources */,
 				990B5C8F2D2C0CED00F2963F /* PhotoPickerComponent.swift in Sources */,
 				998E6F08297E8AE000D33909 /* Component.swift in Sources */,
+				2D6768C32C9C4606007CC431 /* PhotoPreviewComponentView.swift in Sources */,
 				998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */,
 				990C176E297E98C2005EC7B7 /* PaddingLabelComponentView.swift in Sources */,
 			);
