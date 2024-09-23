@@ -197,11 +197,11 @@ extension PhotoPreviewItemView {
       .onChanged { value in
         let delta = value / lastScaleValue
         lastScaleValue = value
-        scale = min(scale * delta, 4.0)
+        scale = min(max(scale * delta, 1.0), 4.0)
       }
       .onEnded { _ in
         lastScaleValue = 1.0
-        if scale < 1.0 {
+        if scale <= 1.0 {
           withAnimation {
             resetScaleAndPosition()
           }
