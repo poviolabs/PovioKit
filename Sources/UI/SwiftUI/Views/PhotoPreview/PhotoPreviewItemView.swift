@@ -89,7 +89,7 @@ extension PhotoPreviewItemView {
     Group {
       switch imageLoader.state {
       case .loading:
-        Color.clear
+        loadingView
           .task {
             await imageLoader.loadImage(from: item.url)
           }
@@ -108,6 +108,19 @@ extension PhotoPreviewItemView {
       }
     }
     #endif
+  }
+  
+  var loadingView: some View {
+    Circle()
+      .trim(from: 0.0, to: 0.5)
+      .stroke(style: StrokeStyle(lineWidth: 8, lineCap: .round))
+      .foregroundColor(.white)
+      .rotationEffect(Angle(degrees: loadingViewRotation))
+      .animation(
+        Animation.linear(duration: 1.0).repeatForever(autoreverses: false),
+        value: imageLoader.state
+      )
+      .frame(width: 50, height: 50)
   }
 }
 
@@ -164,6 +177,15 @@ extension PhotoPreviewItemView {
     scale = 1.0
     offset = .zero
     lastOffset = .zero
+  }
+  
+  var loadingViewRotation: Double {
+    switch imageLoader.state {
+    case .loading:
+      return -360
+    default:
+      return 0
+    }
   }
 }
 

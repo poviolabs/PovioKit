@@ -34,7 +34,7 @@ class PhotoPreviewImageLoader: ObservableObject {
 
 // MARK: - State
 extension PhotoPreviewImageLoader {
-  enum State {
+  enum State: Equatable {
     case loading
     case loaded(UIImage)
     case failed
