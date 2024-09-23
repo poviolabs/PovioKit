@@ -78,6 +78,11 @@ extension PhotoPreview {
       .content
       .offset(x: contentOffset(for: geometry))
       .simultaneousGesture(dragGesture(with: geometry))
+      .background {
+        Color.clear
+          .contentShape(Rectangle())
+          .simultaneousGesture(dragGesture(with: geometry))
+      }
     }
   }
   
