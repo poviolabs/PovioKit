@@ -89,9 +89,7 @@ extension PhotoPreviewItemView {
     Group {
       switch imageLoader.state {
       case .loading:
-        ProgressView()
-          .progressViewStyle(.circular)
-          .frame(width: 50, height: 50)
+        Color.clear
           .task {
             await imageLoader.loadImage(from: item.url)
           }

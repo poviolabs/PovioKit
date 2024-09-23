@@ -73,6 +73,7 @@ extension PhotoPreview {
             .id(index)
           }
         }
+        .drawingGroup()
       }
       .content
       .offset(x: contentOffset(for: geometry))
