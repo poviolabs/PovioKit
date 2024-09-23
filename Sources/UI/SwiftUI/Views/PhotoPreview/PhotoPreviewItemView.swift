@@ -16,6 +16,7 @@ struct PhotoPreviewItemView: View {
   typealias VoidHandler = () -> Swift.Void
   typealias DragHandler = (CGFloat) -> Swift.Void
   
+  @StateObject var imageLoader = PhotoPreviewImageLoader()
   @Binding var dragEnabled: Bool
   @Binding var currentIndex: Int
   @Binding var verticalOffset: CGFloat
@@ -85,7 +86,29 @@ extension PhotoPreviewItemView {
       }
       .scaledToFit()
     #else
-    URLImageView(from: item.url, placeholder: item.placeholder)
+    Group {
+      switch imageLoader.state {
+      case .loading:
+        ProgressView()
+          .progressViewStyle(.circular)
+          .frame(width: 50, height: 50)
+          .task {
+            await imageLoader.loadImage(from: item.url)
+          }
+      case .loaded(let image):
+        Image(uiImage: image)
+          .resizable()
+          .scaledToFit()
+      case .failed:
+        if let placeholder = item.placeholder {
+          placeholder
+            .resizable()
+            .scaledToFit()
+        } else {
+          Color.clear
+        }
+      }
+    }
     #endif
   }
 }
