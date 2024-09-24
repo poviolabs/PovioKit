@@ -22,7 +22,7 @@ struct PhotoPreviewModifier: ViewModifier {
           configuration: configuration,
           presented: $presented
         )
-        .presentationBackgroundIfAvailable(.clear)
+        .presentationBackgroundIfAvailable(.black.opacity(0.01))
       }
   }
 }

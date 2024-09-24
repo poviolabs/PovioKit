@@ -40,6 +40,7 @@ public struct PhotoPreview: View {
       .overlay {
         if configuration.showDismissButton {
           dismissView
+            .opacity(hideDismissButton ? 0 : 1)
         }
       }
       .background(
@@ -196,6 +197,10 @@ extension PhotoPreview {
     withAnimation {
       backgroundOpacity = 1.0 - progress
     }
+  }
+  
+  var hideDismissButton: Bool {
+    backgroundOpacity < 1.0
   }
 }
 
