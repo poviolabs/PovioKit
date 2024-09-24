@@ -10,10 +10,11 @@ import SwiftUI
 
 @MainActor
 class PhotoPreviewImageLoader: ObservableObject {
-  @Published private(set) var state: State = .loading
+  @Published private(set) var state: State = .initial
   
   func loadImage(from url: URL?) async {
     guard let url else { return }
+    state = .loading
     let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
     do {
       let (data, _) = try await URLSession.shared.data(for: request)
@@ -28,13 +29,16 @@ class PhotoPreviewImageLoader: ObservableObject {
       state = .failed
       return
     }
-    state = .loaded(loadedImage)
+    withAnimation(.linear(duration: 1)) {
+      state = .loaded(loadedImage)
+    }
   }
 }
 
 // MARK: - State
 extension PhotoPreviewImageLoader {
   enum State: Equatable {
+    case initial
     case loading
     case loaded(UIImage)
     case failed

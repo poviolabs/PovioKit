@@ -88,7 +88,7 @@ extension PhotoPreviewItemView {
     #else
     Group {
       switch imageLoader.state {
-      case .loading:
+      case .loading, .initial:
         loadingView
           .task {
             await imageLoader.loadImage(from: item.url)
