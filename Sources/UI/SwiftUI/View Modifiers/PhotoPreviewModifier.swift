@@ -22,6 +22,7 @@ struct PhotoPreviewModifier: ViewModifier {
           configuration: configuration,
           presented: $presented
         )
+        .presentationBackgroundIfAvailable(.clear)
       }
   }
 }
@@ -38,5 +39,28 @@ public extension View {
       items: items,
       configuration: configuration
     ))
+  }
+}
+
+@available(iOS 15.0, *)
+extension PhotoPreviewModifier {
+  struct PresentationBackgroundModifier: ViewModifier {
+    let color: Color
+    
+    func body(content: Content) -> some View {
+      if #available(iOS 16.4, *) {
+        content
+          .presentationBackground(color)
+      } else {
+        content
+      }
+    }
+  }
+}
+
+@available(iOS 15.0, *)
+extension View {
+  func presentationBackgroundIfAvailable(_ color: Color) -> some View {
+    modifier(PhotoPreviewModifier.PresentationBackgroundModifier(color: color))
   }
 }
