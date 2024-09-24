@@ -1,5 +1,5 @@
 //
-//  ImageLoader.swift
+//  PhotoPreview+ImageLoader.swift
 //  PovioKit
 //
 //  Created by Ndriqim Nagavci on 23/09/2024.

@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  PhotoPreview+Item.swift
 //  PovioKit
 //
 //  Created by Ndriqim Nagavci on 12/08/2024.

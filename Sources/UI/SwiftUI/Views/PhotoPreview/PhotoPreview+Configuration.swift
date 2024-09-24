@@ -1,5 +1,5 @@
 //
-//  Configuration.swift
+//  PhotoPreview+Configuration.swift
 //  PovioKit
 //
 //  Created by Ndriqim Nagavci on 09/09/2024.
