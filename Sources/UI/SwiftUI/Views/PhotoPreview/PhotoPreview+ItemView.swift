@@ -25,6 +25,7 @@ extension PhotoPreview {
     @State var lastScaleValue: CGFloat = 1.0
     @State var offset = CGSize.zero
     @State var lastOffset = CGSize.zero
+    @State var initialDragOffset: CGSize = .zero
     let item: Item
     let myIndex: Int
     let onDragChanged: DragHandler
@@ -130,6 +131,7 @@ extension PhotoPreview.ItemView {
 @available(iOS 15.0, *)
 extension PhotoPreview.ItemView {
   func endDrag(animated: Bool = true) {
+    initialDragOffset = .zero
     let imageWidth = screenSize.width * scale
     let imageHeight = screenSize.height * scale
     let maxXOffset = max((imageWidth - screenSize.width) / 2, 0)
@@ -216,19 +218,25 @@ extension PhotoPreview.ItemView {
       .onChanged { value in
         guard scale > 1.0 else {
           dragEnabled = false
+          initialDragOffset = .zero
           return
+        }
+        if initialDragOffset == .zero {
+          initialDragOffset = value.translation
         }
         let imageWidth = screenSize.width * scale
         let maxXOffset = max((imageWidth - screenSize.width) / 2, 0) + dragHorizontalPadding
-        let newXOffset = lastOffset.width + value.translation.width
+        let newXOffset = lastOffset.width + value.translation.width - initialDragOffset.width
         if offset.width >= maxXOffset || offset.width <= -maxXOffset {
           onDragChanged(value.translation.width)
           dragEnabled = false
+          initialDragOffset = .zero
           return
         }
+        let newYOffset = lastOffset.height + value.translation.height - initialDragOffset.height
         offset = CGSize(
           width: newXOffset,
-          height: lastOffset.height + value.translation.height
+          height: newYOffset
         )
       }
       .onEnded { value in

@@ -23,6 +23,7 @@ public struct PhotoPreview: View {
   @State var dragVelocity: CGFloat = 0
   @State var shouldSwitchDragDirection: Bool = true
   @State var backgroundOpacity: CGFloat = 1
+  @State var initialDragOffset: CGFloat = .zero
   
   public init(
     items: [Item],
@@ -123,7 +124,11 @@ extension PhotoPreview {
   }
   
   func horizontalDragChanged(with value: DragGesture.Value) {
-    offset = value.translation.width - imageViewLastOffset
+    if initialDragOffset == .zero && imageViewLastOffset == .zero {
+      // we store the initial offset to avoid views from jumping
+      initialDragOffset = value.translation.width
+    }
+    offset = value.translation.width - imageViewLastOffset - initialDragOffset
     if imageViewLastOffset == .zero {
       dragVelocity = value.predictedEndLocation.x - value.location.x
     }
@@ -131,6 +136,7 @@ extension PhotoPreview {
   
   func horizontalDragEnded(with pageWidth: CGFloat) {
     dragDirection = .none
+    initialDragOffset = .zero
     let threshold = pageWidth / 3
     if offset < -threshold && currentIndex < items.count - 1 {
       withAnimation {
