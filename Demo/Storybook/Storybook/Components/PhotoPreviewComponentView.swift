@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PhotoPreviewComponentView: View {
   @State private var showPhotoPreview = false
-  private var items: [PhotoPreviewItem] = [
+  private var items: [PhotoPreview.Item] = [
     .init(image: Image("PovioKit")),
     .init(url: .init(string: "https://raw.githubusercontent.com/poviolabs/PovioKit/develop/Resources/PovioKit.png"))
   ]

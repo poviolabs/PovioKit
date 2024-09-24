@@ -11,8 +11,8 @@ import SwiftUI
 
 @available(iOS 15.0, *)
 public struct PhotoPreview: View {
-  let items: [PhotoPreviewItem]
-  let configuration: PhotoPreviewConfiguration
+  let items: [Item]
+  let configuration: Configuration
   @Binding var presented: Bool
   @State var currentIndex = 0
   @State var offset: CGFloat = 0
@@ -25,8 +25,8 @@ public struct PhotoPreview: View {
   @State var backgroundOpacity: CGFloat = 1
   
   public init(
-    items: [PhotoPreviewItem],
-    configuration: PhotoPreviewConfiguration,
+    items: [Item],
+    configuration: Configuration,
     presented: Binding<Bool>
   ) {
     self.items = items
@@ -58,7 +58,7 @@ extension PhotoPreview {
       ScrollView(.horizontal, showsIndicators: false) {
         LazyHStack(spacing: 0) {
           ForEach(0..<items.count, id: \.self) { index in
-            PhotoPreviewItemView(
+            ItemView(
               dragEnabled: $imageViewDragEnabled,
               currentIndex: $currentIndex,
               verticalOffset: $verticalOffset,

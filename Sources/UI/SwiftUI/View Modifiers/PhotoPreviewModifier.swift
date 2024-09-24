@@ -11,8 +11,8 @@ import SwiftUI
 @available(iOS 15.0, *)
 struct PhotoPreviewModifier: ViewModifier {
   @Binding var presented: Bool
-  let items: [PhotoPreviewItem]
-  let configuration: PhotoPreviewConfiguration
+  let items: [PhotoPreview.Item]
+  let configuration: PhotoPreview.Configuration
   
   public func body(content: Content) -> some View {
     content
@@ -30,8 +30,8 @@ struct PhotoPreviewModifier: ViewModifier {
 public extension View {
   func photoPreview(
     present: Binding<Bool>,
-    items: [PhotoPreviewItem],
-    configuration: PhotoPreviewConfiguration = .default
+    items: [PhotoPreview.Item],
+    configuration: PhotoPreview.Configuration = .default
   ) -> some View {
     modifier(PhotoPreviewModifier(
       presented: present,

@@ -1,5 +1,5 @@
 //
-//  PhotoPreviewItemView.swift
+//  ItemView.swift
 //  PovioKit
 //
 //  Created by Ndriqim Nagavci on 12/08/2024.
@@ -12,57 +12,59 @@ import Kingfisher
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct PhotoPreviewItemView: View {
-  typealias VoidHandler = () -> Swift.Void
-  typealias DragHandler = (CGFloat) -> Swift.Void
-  
-  @StateObject var imageLoader = PhotoPreviewImageLoader()
-  @Binding var dragEnabled: Bool
-  @Binding var currentIndex: Int
-  @Binding var verticalOffset: CGFloat
-  @State var scale: CGFloat = 1.0
-  @State var lastScaleValue: CGFloat = 1.0
-  @State var offset = CGSize.zero
-  @State var lastOffset = CGSize.zero
-  let item: PhotoPreviewItem
-  let myIndex: Int
-  let onDragChanged: DragHandler
-  let onDragEnded: VoidHandler
-  let dragHorizontalPadding: CGFloat = 24
-  let screenSize: CGSize = UIScreen.main.bounds.size
-  
-  var body: some View {
-    imageView
-      .scaleEffect(scale)
-      .offset(offset)
-      .offset(y: verticalOffset)
-      .gesture(magnificationGesture)
-      .simultaneousGesture(dragEnabled ? dragGesture : nil)
-      .onTapGesture(count: 2) {
-        handleDoubleTap()
-      }
-      .onChange(of: scale) { value in
-        dragEnabled = value != 1.0
-      }
-      .onChange(of: dragEnabled) { value in
-        guard value, offset != .zero else {
-          return
+extension PhotoPreview {
+  struct ItemView: View {
+    typealias VoidHandler = () -> Swift.Void
+    typealias DragHandler = (CGFloat) -> Swift.Void
+    
+    @StateObject var imageLoader = ImageLoader()
+    @Binding var dragEnabled: Bool
+    @Binding var currentIndex: Int
+    @Binding var verticalOffset: CGFloat
+    @State var scale: CGFloat = 1.0
+    @State var lastScaleValue: CGFloat = 1.0
+    @State var offset = CGSize.zero
+    @State var lastOffset = CGSize.zero
+    let item: Item
+    let myIndex: Int
+    let onDragChanged: DragHandler
+    let onDragEnded: VoidHandler
+    let dragHorizontalPadding: CGFloat = 24
+    let screenSize: CGSize = UIScreen.main.bounds.size
+    
+    var body: some View {
+      imageView
+        .scaleEffect(scale)
+        .offset(offset)
+        .offset(y: verticalOffset)
+        .gesture(magnificationGesture)
+        .simultaneousGesture(dragEnabled ? dragGesture : nil)
+        .onTapGesture(count: 2) {
+          handleDoubleTap()
         }
-        endDrag(animated: true)
-      }
-      .onChange(of: currentIndex) { index in
-        if index != myIndex {
-          withAnimation {
-            resetScaleAndPosition()
+        .onChange(of: scale) { value in
+          dragEnabled = value != 1.0
+        }
+        .onChange(of: dragEnabled) { value in
+          guard value, offset != .zero else {
+            return
+          }
+          endDrag(animated: true)
+        }
+        .onChange(of: currentIndex) { index in
+          if index != myIndex {
+            withAnimation {
+              resetScaleAndPosition()
+            }
           }
         }
-      }
+    }
   }
 }
 
 // MARK: - Views
 @available(iOS 15.0, *)
-extension PhotoPreviewItemView {
+extension PhotoPreview.ItemView {
   var imageView: some View {
     Group {
       if let image = item.image {
@@ -126,7 +128,7 @@ extension PhotoPreviewItemView {
 
 // MARK: - Helper methods
 @available(iOS 15.0, *)
-extension PhotoPreviewItemView {
+extension PhotoPreview.ItemView {
   func endDrag(animated: Bool = true) {
     let imageWidth = screenSize.width * scale
     let imageHeight = screenSize.height * scale
@@ -191,7 +193,7 @@ extension PhotoPreviewItemView {
 
 // MARK: - Gestures
 @available(iOS 15.0, *)
-extension PhotoPreviewItemView {
+extension PhotoPreview.ItemView {
   var magnificationGesture: some Gesture {
     MagnificationGesture()
       .onChanged { value in
