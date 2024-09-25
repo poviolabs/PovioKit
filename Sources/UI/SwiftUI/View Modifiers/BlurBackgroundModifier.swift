@@ -23,7 +23,7 @@ extension View {
     material: NSVisualEffectView.Material = .hudWindow,
     blendingMode: NSVisualEffectView.BlendingMode = .behindWindow
   ) -> some View {
-    modifier(BlurBackgroundModifier())
+    modifier(BlurBackgroundModifier(material: material, blendingMode: blendingMode))
   }
 }
 #endif
