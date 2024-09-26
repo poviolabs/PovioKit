@@ -9,12 +9,13 @@
 #if os(iOS)
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 public struct PhotoPreview: View {
   let items: [Item]
   let configuration: Configuration
   @Binding var presented: Bool
-  @State var currentIndex = 0
+  @State var position: Int?
+  @State var currentIndex: Int = 0
   @State var offset: CGFloat = 0
   @State var verticalOffset: CGFloat = 0
   @State var imageViewDragEnabled: Bool = false
@@ -24,6 +25,7 @@ public struct PhotoPreview: View {
   @State var shouldSwitchDragDirection: Bool = true
   @State var backgroundOpacity: CGFloat = 1
   @State var initialDragOffset: CGFloat = .zero
+  @State var horizontalOffset: CGFloat = .zero
   
   public init(
     items: [Item],
@@ -53,38 +55,30 @@ public struct PhotoPreview: View {
 }
 
 // MARK: - ViewBuilders
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview {
   var scrollView: some View {
     GeometryReader { geometry in
-      ScrollView(.horizontal, showsIndicators: false) {
-        LazyHStack(spacing: 0) {
-          ForEach(0..<items.count, id: \.self) { index in
-            ItemView(
-              dragEnabled: $imageViewDragEnabled,
-              currentIndex: $currentIndex,
-              verticalOffset: $verticalOffset,
-              item: items[index],
-              myIndex: index
-            ) { newValue in
-              imageViewLastOffset = newValue
-            } onDragEnded: {
-              horizontalDragEnded(with: geometry.size.width)
-            }
-            .frame(width: geometry.size.width)
-            .id(index)
+      TabView {
+        ForEach(0..<items.count, id: \.self) { index in
+          ItemView(
+            dragEnabled: $imageViewDragEnabled,
+            currentIndex: $currentIndex,
+            verticalOffset: $verticalOffset,
+            item: items[index],
+            myIndex: index
+          ) { newValue in
+            imageViewLastOffset = newValue
+          } onDragEnded: {
+            horizontalDragEnded(with: geometry.size.width)
           }
+          .frame(width: geometry.size.width)
+          .id(index)
         }
-        .drawingGroup()
       }
-      .content
-      .offset(x: contentOffset(for: geometry))
-      .simultaneousGesture(dragGesture(with: geometry))
-      .background {
-        Color.clear
-          .contentShape(Rectangle())
-          .simultaneousGesture(dragGesture(with: geometry))
-      }
+      .simultaneousGesture(!imageViewDragEnabled ? dragGesture(with: geometry) : nil)
+      .tabViewStyle(.page(indexDisplayMode: .never))
+      .scrollDisabled(imageViewDragEnabled)
     }
   }
   
@@ -107,7 +101,7 @@ extension PhotoPreview {
 }
 
 // MARK: - Helpers
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview {
   enum Direction {
     case vertical
@@ -191,7 +185,7 @@ extension PhotoPreview {
     imageViewLastOffset = 0
     
     if dragDirection == .horizontal {
-      horizontalDragEnded(with: pageWidth)
+//      horizontalDragEnded(with: pageWidth)
     } else {
       verticalDragEnded()
     }
@@ -211,7 +205,7 @@ extension PhotoPreview {
 }
 
 // MARK: - Gestures
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview {
   func dragGesture(with geometry: GeometryProxy) -> some Gesture {
     DragGesture()
@@ -224,7 +218,7 @@ extension PhotoPreview {
           dragDirection = abs(value.translation.width) > abs(value.translation.height) ? .horizontal : .vertical
         }
         if dragDirection == .horizontal {
-          horizontalDragChanged(with: value)
+//          horizontalDragChanged(with: value)
         } else if imageViewLastOffset == .zero, offset == 0 {
           verticalDragChanged(with: value)
         }

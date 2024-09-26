@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview {
   @MainActor
   class ImageLoader: ObservableObject {
@@ -39,7 +39,7 @@ extension PhotoPreview {
 }
 
 // MARK: - State
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview.ImageLoader {
   enum State: Equatable {
     case initial

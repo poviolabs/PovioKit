@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 public extension PhotoPreview {
   struct Configuration {
     public var backgroundColor: Color
@@ -30,7 +30,7 @@ public extension PhotoPreview {
   }
 }
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 public extension PhotoPreview.Configuration {
   static var `default`: PhotoPreview.Configuration {
     .init(

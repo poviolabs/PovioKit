@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 struct PhotoPreviewModifier: ViewModifier {
   @Binding var presented: Bool
   let items: [PhotoPreview.Item]
@@ -27,7 +27,7 @@ struct PhotoPreviewModifier: ViewModifier {
   }
 }
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 public extension View {
   func photoPreview(
     present: Binding<Bool>,
@@ -42,7 +42,7 @@ public extension View {
   }
 }
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreviewModifier {
   struct PresentationBackgroundModifier: ViewModifier {
     let color: Color
@@ -58,7 +58,7 @@ extension PhotoPreviewModifier {
   }
 }
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension View {
   func presentationBackgroundIfAvailable(_ color: Color) -> some View {
     modifier(PhotoPreviewModifier.PresentationBackgroundModifier(color: color))

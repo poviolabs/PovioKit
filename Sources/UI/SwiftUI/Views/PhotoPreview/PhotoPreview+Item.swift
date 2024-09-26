@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 public extension PhotoPreview {
   struct Item {
     public var image: Image?

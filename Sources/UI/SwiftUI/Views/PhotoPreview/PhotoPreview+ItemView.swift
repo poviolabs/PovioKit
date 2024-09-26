@@ -11,7 +11,7 @@ import Kingfisher
 #endif
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview {
   struct ItemView: View {
     typealias VoidHandler = () -> Swift.Void
@@ -64,7 +64,7 @@ extension PhotoPreview {
 }
 
 // MARK: - Views
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview.ItemView {
   var imageView: some View {
     Group {
@@ -89,26 +89,14 @@ extension PhotoPreview.ItemView {
       }
       .scaledToFit()
     #else
-    Group {
-      switch imageLoader.state {
-      case .loading, .initial:
-        loadingView
-          .task {
-            await imageLoader.loadImage(from: item.url)
-          }
-      case .loaded(let image):
-        Image(uiImage: image)
-          .resizable()
-          .scaledToFit()
-      case .failed:
-        if let placeholder = item.placeholder {
-          placeholder
-            .resizable()
-            .scaledToFit()
-        } else {
-          Color.clear
-        }
-      }
+    AsyncImage(url: item.url) { image in
+      image
+        .resizable()
+        .scaledToFit()
+    } placeholder: {
+      ProgressView()
+        .tint(.white)
+        .controlSize(.large)
     }
     #endif
   }
@@ -128,7 +116,7 @@ extension PhotoPreview.ItemView {
 }
 
 // MARK: - Helper methods
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview.ItemView {
   func endDrag(animated: Bool = true) {
     initialDragOffset = .zero
@@ -194,7 +182,7 @@ extension PhotoPreview.ItemView {
 }
 
 // MARK: - Gestures
-@available(iOS 15.0, *)
+@available(iOS 16.0, *)
 extension PhotoPreview.ItemView {
   var magnificationGesture: some Gesture {
     MagnificationGesture()
@@ -224,15 +212,7 @@ extension PhotoPreview.ItemView {
         if initialDragOffset == .zero {
           initialDragOffset = value.translation
         }
-        let imageWidth = screenSize.width * scale
-        let maxXOffset = max((imageWidth - screenSize.width) / 2, 0) + dragHorizontalPadding
         let newXOffset = lastOffset.width + value.translation.width - initialDragOffset.width
-        if offset.width >= maxXOffset || offset.width <= -maxXOffset {
-          onDragChanged(value.translation.width)
-          dragEnabled = false
-          initialDragOffset = .zero
-          return
-        }
         let newYOffset = lastOffset.height + value.translation.height - initialDragOffset.height
         offset = CGSize(
           width: newXOffset,
