@@ -7,7 +7,7 @@
 //
 
 #if os(iOS)
-import AVFoundation
+@preconcurrency import AVFoundation
 import UIKit
 
 public protocol PhotoCameraDelegate: AnyObject {
@@ -15,7 +15,7 @@ public protocol PhotoCameraDelegate: AnyObject {
   func photoCamera(_ photoCamera: PhotoCamera, didTriggerError error: Camera.Error)
 }
 
-public class PhotoCamera: Camera {
+public class PhotoCamera: Camera, @unchecked Sendable {
   public weak var delegate: PhotoCameraDelegate?
   private let photoOutput = AVCapturePhotoOutput()
   private var deviceInput: AVCaptureDeviceInput?

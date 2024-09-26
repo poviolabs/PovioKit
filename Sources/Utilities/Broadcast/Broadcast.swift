@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class Broadcast<T> {
+public final class Broadcast<T>: @unchecked Sendable {
   private(set) var observers = [Weak]()
 
   public init() {}
@@ -41,7 +41,7 @@ public final class Broadcast<T> {
   
   public func invoke(
     on queue: DispatchQueue = .main,
-    invocation: @escaping (T) -> Void
+    invocation: @escaping @Sendable (T) -> Void
   ) {
     queue.async {
       self.invoke(invocation: invocation)

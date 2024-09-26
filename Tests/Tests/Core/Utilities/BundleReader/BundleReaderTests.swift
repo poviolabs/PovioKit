@@ -40,7 +40,7 @@ private extension BundleReaderTests {
     return (sut, reader)
   }
 }
-private class BundleSpy: Bundle {
+private class BundleSpy: Bundle, @unchecked Sendable {
   private(set) var capturedRead: String?
   private var internalDictionary: [String: String] = [:]
   override func object(forInfoDictionaryKey key: String) -> Any? {

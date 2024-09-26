@@ -11,7 +11,7 @@ import PovioKitCore
 import StoreKit
 
 @available(iOS 15.0, *)
-public final class InAppPurchaseService: NSObject {
+public final class InAppPurchaseService: NSObject, @unchecked Sendable {
   public typealias IAPProduct = String
   public typealias IAPReceipt = String
   

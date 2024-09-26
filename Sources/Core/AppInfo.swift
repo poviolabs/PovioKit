@@ -34,8 +34,10 @@ public enum AppInfo {
   /// Opens given `url` if `canOpenURL` method returns true.
   public static func openUrl(_ url: URL) {
 #if os(iOS)
-    guard UIApplication.shared.canOpenURL(url) else { return }
-    UIApplication.shared.open(url, options: [:])
+    Task { @MainActor in
+      guard UIApplication.shared.canOpenURL(url) else { return }
+      UIApplication.shared.open(url, options: [:])
+    }
 #elseif os(macOS)
     guard NSWorkspace.shared.urlForApplication(toOpen: url) != nil else { return }
     NSWorkspace.shared.open(url)

@@ -14,7 +14,7 @@ public protocol QRCodeScannerDelegate: AnyObject {
 }
 
 @available(macOS 13.0, *)
-public class QRCodeScanner: Camera {
+public class QRCodeScanner: Camera, @unchecked Sendable {
   public weak var delegate: QRCodeScannerDelegate?
   private let metadataOutput = AVCaptureMetadataOutput()
   

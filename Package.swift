@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:6.0
 import PackageDescription
 
 let package = Package(
@@ -47,7 +47,8 @@ let package = Package(
     .target(
       name: "PovioKitCore",
       path: "Sources/Core",
-      resources: [.copy("../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitNetworking",
@@ -56,7 +57,8 @@ let package = Package(
         "PovioKitPromise",
       ],
       path: "Sources/Networking",
-      resources: [.copy("../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitPromise",
@@ -71,7 +73,8 @@ let package = Package(
         "PovioKitUtilities",
       ],
       path: "Sources/UI/UIKit",
-      resources: [.copy("../../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitSwiftUI",
@@ -79,7 +82,8 @@ let package = Package(
         "PovioKitCore",
       ],
       path: "Sources/UI/SwiftUI",
-      resources: [.copy("../../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitUtilities",
@@ -87,7 +91,8 @@ let package = Package(
         "PovioKitCore",
       ],
       path: "Sources/Utilities",
-      resources: [.copy("../PrivacyInfo.xcprivacy")]
+      resources: [.copy("../PrivacyInfo.xcprivacy")],
+      swiftSettings: [.swiftLanguageMode(.v6)]
     ),
     .target(
       name: "PovioKitAsync",
@@ -108,5 +113,5 @@ let package = Package(
       ]
     ),
   ],
-  swiftLanguageVersions: [.v5]
+  swiftLanguageModes: [.v5]
 )

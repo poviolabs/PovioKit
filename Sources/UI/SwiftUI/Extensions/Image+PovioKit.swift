@@ -16,7 +16,7 @@ import Kingfisher
 
 @available(iOS 14, *)
 private extension Image {
-  func resolveWithKingFisher(from url: URL?, placeholder: Image?) -> some View {
+  @MainActor func resolveWithKingFisher(from url: URL?, placeholder: Image?) -> some View {
     KFImage(url)
       .resizable()
       .placeholder {
@@ -28,7 +28,7 @@ private extension Image {
 #endif
 
 extension Image {
-  func resolve(from url: URL?, placeholder: Image?) -> some View {
+  @MainActor func resolve(from url: URL?, placeholder: Image?) -> some View {
     #if canImport(KingFisher)
       return resolveWithKingFisher(from: url, placeholder: placeholder)
     #else

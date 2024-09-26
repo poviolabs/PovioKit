@@ -10,7 +10,7 @@ import OSLog
 
 public final class Logger {
   public typealias Parameters = [String: Any]
-  public static let shared = Logger()
+  public nonisolated(unsafe) static let shared = Logger()
   public var logLevel: LogLevel = .none
   
   private init() {}
