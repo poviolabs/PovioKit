@@ -14,7 +14,9 @@ public extension URL {
     self.init(string: string)
   }
   
-  /// Append parameter to the URL
+  /// Append parameter to the URL.
+  ///
+  /// ## Example
   /// ```
   /// let someURL: URL = "https://povio.com"
   /// let newURL = someURL
@@ -32,9 +34,24 @@ public extension URL {
     components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
     return components.url ?? absoluteURL
   }
+  
+  /// Retrieves the query parameters from the URL as a dictionary.
+  ///
+  /// - Returns: An optional dictionary where the keys are `AnyHashable` representing the query parameter names,
+  ///            and the values are `Any` representing the corresponding query parameter values.
+  ///            Returns nil if the URL is invalid or has no query parameters.
+  var queryParameters: [AnyHashable: Any]? {
+    guard let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
+          let queryItems = components.queryItems else { return nil }
+    var params: [AnyHashable: Any] = [:]
+    queryItems.forEach { queryItem in
+      queryItem.value.map { params[queryItem.name] = $0 }
+    }
+    return params
+  }
 }
 
-extension URL: ExpressibleByStringLiteral {
+extension URL: @retroactive ExpressibleByStringLiteral {
   public init(stringLiteral value: String) {
     guard let url = URL(string: value) else {
       fatalError("Invalid URL string!")
