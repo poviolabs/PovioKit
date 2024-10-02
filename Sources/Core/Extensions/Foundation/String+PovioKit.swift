@@ -31,6 +31,16 @@ public extension String {
     data(using: .utf8)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
   }
   
+  /// Returns an array of strings, where each string represents a line from the original string, split at newline characters.
+  var lines: [String] {
+    split(whereSeparator: \.isNewline).map(String.init)
+  }
+  
+  /// Returns a boolean value indicating whether the string contains any emoji characters.
+  var containsEmoji: Bool {
+    unicodeScalars.contains { $0.properties.isEmojiPresentation }
+  }
+  
   /// Email validation
   var isEmail: Bool {
     let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -39,7 +49,9 @@ public extension String {
   }
   
   /// Returns initials from string
+  ///
   /// `John Doe` -> `JD`
+  ///
   /// `Elena Wayne Gomez` -> `EWG`
   var initials: String {
     let formatter = PersonNameComponentsFormatter()
