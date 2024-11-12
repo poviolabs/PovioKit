@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-extension UIKit {
+public extension UIImage {
   struct PrefetchResult {
     let skipped: Int
     let failed: Int
@@ -30,16 +30,16 @@ extension UIKit {
   /// ```swift
   /// do {
   ///   let url = URL(string: "https://example.com/image.jpg")!
-  ///   let downloadedImage = try await download(from: url)
+  ///   let downloadedImage = try await UIImage.download(from: url)
   ///   imageView.image = downloadedImage
   /// } catch {
-  ///   print("Failed to download image: \(error)")
+  ///   Logger.error("Failed to download image: \(error)")
   /// }
   /// ```
   ///
   /// - Note: This function should be called from an asynchronous context using `await`.
   /// - Throws: An error if the download operation fails.
-  func download(from url: URL) async throws -> UIImage {
+  static func download(from url: URL) async throws -> UIImage {
     try await withCheckedThrowingContinuation { continuation in
       KingfisherManager.shared.retrieveImage(with: url, options: nil, progressBlock: nil, downloadTaskUpdated: nil) {
         switch $0 {
@@ -63,18 +63,20 @@ extension UIKit {
   /// - Parameters:
   ///   - urls: An array of URLs from which to prefetch images.
   /// - Returns: A `PrefetchResult` containing the counts of skipped, failed, and completed prefetch operations.
+  ///
   /// - Example:
   /// ```swift
   /// let urls = [
-  ///     URL(string: "https://example.com/image1.jpg")!,
-  ///     URL(string: "https://example.com/image2.jpg")!
+  ///   URL(string: "https://example.com/image1.jpg")!,
+  ///   URL(string: "https://example.com/image2.jpg")!
   /// ]
-  /// let result = await prefetch(urls: urls)
-  /// print("Skipped: \(result.skipped), Failed: \(result.failed), Completed: \(result.completed)")
+  /// let result = await UIImage.prefetch(urls: urls)
+  /// Logger.info("Skipped: \(result.skipped), Failed: \(result.failed), Completed: \(result.completed)")
   /// ```
+  /// 
   /// - Note: This function should be called from an asynchronous context using `await`.
   @discardableResult
-  func prefetch(from urls: [URL]) async -> PrefetchResult {
+  static func prefetch(from urls: [URL]) async -> PrefetchResult {
     await withCheckedContinuation { continuation in
       let prefetcher = ImagePrefetcher(urls: urls, options: nil) { skipped, failed, completed in
         let result = PrefetchResult(
@@ -99,13 +101,13 @@ extension UIKit {
   /// - Example:
   /// ```swift
   /// // Clear the default shared cache
-  /// clearCache()
+  /// UIImage.clearCache()
   ///
   /// // Clear a specific cache instance
   /// let customCache = ImageCache(name: "customCache")
-  /// clearCache(customCache)
+  /// UIImage.clearCache(customCache)
   /// ```
-  func clear(cache: ImageCache = KingfisherManager.shared.cache) {
+  public static func clearCache(_ cache: ImageCache = KingfisherManager.shared.cache) {
     cache.clearCache()
   }
 }
