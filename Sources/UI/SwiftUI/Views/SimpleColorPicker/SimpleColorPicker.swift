@@ -11,11 +11,16 @@ import SwiftUI
 import Combine
 
 /// SwiftUI wrapper for NSColorWell, allowing the selection of colors with a customizable size.
-struct SimpleColorPicker: NSViewRepresentable {
+public struct SimpleColorPicker: NSViewRepresentable {
   @Binding var selection: Color
   var size: CGSize?
   
-  func makeNSView(context: Context) -> NSColorWell {
+  public init(selection: Binding<Color>, size: CGSize? = nil) {
+    self._selection = selection
+    self.size = size
+  }
+  
+  public func makeNSView(context: Context) -> NSColorWell {
     let colorWell: NSColorWell
     if #available(macOS 13.0, *) {
       colorWell = NSColorWell(style: .minimal)
@@ -38,7 +43,7 @@ struct SimpleColorPicker: NSViewRepresentable {
     return colorWell
   }
   
-  func updateNSView(_ nsView: NSColorWell, context: Context) {
+  public func updateNSView(_ nsView: NSColorWell, context: Context) {
     context.coordinator.colorDidChange = {
       selection = Color(nsColor: $0)
     }
@@ -54,12 +59,12 @@ struct SimpleColorPicker: NSViewRepresentable {
     }
   }
   
-  func makeCoordinator() -> Coordinator {
+  public func makeCoordinator() -> Coordinator {
     Coordinator()
   }
   
   @MainActor
-  class Coordinator: NSObject {
+  public class Coordinator: NSObject {
     var colorDidChange: ((NSColor) -> Void)?
     
     private var cancellable: AnyCancellable?
