@@ -14,6 +14,11 @@ public extension View {
     frame(width: size, height: size, alignment: alignment)
   }
   
+  /// Returns square frame for given CGSize.
+  func frame(size: CGSize, alignment: Alignment = .center) -> some View {
+    frame(width: size.width, height: size.height, alignment: alignment)
+  }
+  
   /// Hides view using opacity.
   func hidden(_ hidden: Bool) -> some View {
     opacity(hidden ? 0 : 1)
