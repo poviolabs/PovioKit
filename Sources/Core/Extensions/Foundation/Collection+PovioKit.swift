@@ -10,15 +10,27 @@ import Foundation
 
 public extension Collection {
   /// Returns the element at the specified `index` if it is within bounds, otherwise `nil`.
-  subscript (safe index: Index) -> Element? {
+  /// Returns the element at the specified `index` if it is within bounds, otherwise `nil`.
+  ///
+  /// This subscript safely accesses an element in the collection at the given index. If the index is out of bounds, it returns `nil` instead of causing a runtime error.
+  ///
+  /// - Parameter index: The index of the element to retrieve.
+  /// - Returns: The element at the specified index if within bounds, otherwise `nil`.
+  ///
+  /// ## Example:
+  /// ```swift
+  /// let array = [1, 2, 3, 4]
+  /// let element = array[safe: 2] // returns 3
+  /// let outOfBounds = array[safe: 10] // returns nil
+  /// ```
+  subscript(safe index: Index) -> Element? {
     if startIndex <= index && index < endIndex { self[index] } else { nil }
   }
 }
 
 public extension Collection {
   /// Returns the count of elements in the collection that satisfy the given predicate.
-  ///
-  /// https://forums.swift.org/t/refresh-review-se-0220-count-where/66235/4
+  /// Check for [Reference](https://forums.swift.org/t/refresh-review-se-0220-count-where/66235/4).
   ///
   /// This method applies the provided `predicate` closure to each element in the collection and counts how many elements satisfy the condition.
   ///
