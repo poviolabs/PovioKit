@@ -26,8 +26,11 @@ public extension Data {
   }
   
   /// Decodes data to given `type` using given `decoder`.
-  /// ```
-  /// let decodedUser = responseData.decode(UserResponse.self, with: JSONDecoder())
+  ///
+  /// # Example
+  /// ```swift
+  /// let decodedUser = try responseData.decode(UserResponse.self, with: JSONDecoder())
+  /// let decodedUser = try JSONDecoder().decode(UserResponse.self, from: responseData)
   /// ```
   func decode<D: Decodable>(_ type: D.Type, with decoder: JSONDecoder) throws -> D {
     try decoder.decode(type, from: self)

@@ -31,9 +31,9 @@ public extension String {
     data(using: .utf8)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
   }
   
-  /// Returns an array of strings, where each string represents a line from the original string, split at newline characters.
-  var lines: [String] {
-    split(whereSeparator: \.isNewline).map(String.init)
+  /// Returns an array of substrings, where each string represents a line from the original string, split by a newline character.
+  var lines: [Substring] {
+    split(whereSeparator: \.isNewline)
   }
   
   /// Returns a boolean value indicating whether the string contains any emoji characters.
@@ -75,10 +75,11 @@ public extension String {
   func safeSuffix(_ maxLength: UInt) -> Substring {
     suffix(Int(maxLength))
   }
-
+  
   /// Converts the string into a markdown formatted AttributedString.
   ///
-  /// If the conversion fails (e.g., due to invalid markdown syntax), it returns the original string as an AttributedString. Requires iOS 15 and above.
+  /// If the conversion fails (e.g., due to invalid markdown syntax), it returns the original string as an AttributedString.
+  /// - Precondition: Requires iOS 15 and above.
   @available(iOS 15, *)
   func toMarkdown() -> AttributedString {
     do {

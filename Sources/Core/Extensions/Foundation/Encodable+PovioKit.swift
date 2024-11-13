@@ -10,7 +10,9 @@ import Foundation
 
 public extension Encodable {
   /// Encodes given encodable object into json/dictionary.
-  /// ```
+  ///
+  /// ## Example
+  /// ```swift
   /// struct Request: Encodable {}
   ///
   /// do {

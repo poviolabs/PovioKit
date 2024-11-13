@@ -25,7 +25,7 @@ extension DateFormatter {
   static let time24Hour: DateFormatter = {
     let dateFormatter = DateFormatter()
     dateFormatter.locale = .autoupdatingCurrent
-    dateFormatter.dateFormat = "h:mm"
+    dateFormatter.dateFormat = "H:mm"
     return dateFormatter
   }()
   
