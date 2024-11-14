@@ -20,6 +20,8 @@ public typealias Parameters = [String: Any]
 public typealias MultipartBuilder = (MultipartFormData) -> Void
 public typealias ProgressHandler = Alamofire.Request.ProgressHandler
 public typealias ErrorHandler = (Swift.Error, Data) throws -> Swift.Error
+public typealias RequestModifier = Session.RequestModifier
+public typealias DataStreamRequestHandler = DataStreamRequest.Handler
 
 open class AlamofireNetworkClient {
   private let session: Alamofire.Session
@@ -99,6 +101,33 @@ public extension AlamofireNetworkClient {
         encoder: parameterEncoder,
         headers: headers,
         interceptor: interceptor)
+    _ = uploadProgress.map { request.uploadProgress(closure: $0) }
+    _ = downloadProgress.map { request.downloadProgress(closure: $0) }
+    return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
+  }
+  
+  func streamingRequest<E: Encodable>(
+    method: HTTPMethod,
+    endpoint: URLConvertible,
+    headers: HTTPHeaders? = nil,
+    encode: E,
+    parameterEncoder: ParameterEncoder,
+    automaticallyCancelOnStreamError: Bool = false,
+    interceptor: RequestInterceptor? = nil,
+    requestModifier: RequestModifier? = nil,
+    uploadProgress: ProgressHandler? = nil,
+    downloadProgress: ProgressHandler? = nil
+  ) -> DataStreamRequest {
+    let request = session
+      .streamRequest(
+        endpoint,
+        method: method,
+        parameters: encode,
+        encoder: parameterEncoder,
+        headers: headers,
+        automaticallyCancelOnStreamError: automaticallyCancelOnStreamError,
+        interceptor: interceptor,
+        requestModifier: requestModifier)
     _ = uploadProgress.map { request.uploadProgress(closure: $0) }
     _ = downloadProgress.map { request.downloadProgress(closure: $0) }
     return .init(with: request, eventMonitors: eventMonitors, defaultErrorHandler: defaultErrorHandler)
@@ -258,6 +287,22 @@ public extension AlamofireNetworkClient {
       defaultErrorHandler: ErrorHandler?
     ) {
       self.downloadRequest = downloadRequest
+      self.eventMonitors = eventMonitors
+      self.errorHandler = defaultErrorHandler
+    }
+  }
+  
+  class DataStreamRequest {
+    private let dataStreamRequest: Alamofire.DataStreamRequest
+    private var errorHandler: ErrorHandler?
+    private let eventMonitors: [RequestMonitor]
+    
+    init(
+      with dataStreamRequest: Alamofire.DataStreamRequest,
+      eventMonitors: [RequestMonitor],
+      defaultErrorHandler: ErrorHandler?
+    ) {
+      self.dataStreamRequest = dataStreamRequest
       self.eventMonitors = eventMonitors
       self.errorHandler = defaultErrorHandler
     }
@@ -594,6 +639,46 @@ public extension AlamofireNetworkClient.DownloadRequest {
     get async throws {
       try await asOptionalURL.asAsync
     }
+  }
+}
+
+// MARK: - Data Request API
+public extension AlamofireNetworkClient.DataStreamRequest {
+  func responseStream(on queue: DispatchQueue = .main, stream: @escaping DataStreamRequestHandler<Data, Never>) {
+    dataStreamRequest.responseStream(on: queue, stream: stream)
+  }
+  
+  func responseStreamString(on queue: DispatchQueue = .main, stream: @escaping DataStreamRequestHandler<String, Never>) {
+    dataStreamRequest.responseStreamString(on: queue, stream: stream)
+  }
+  
+  func responseStreamDecodable<D: Decodable>(of type: D.Type = D.self, on queue: DispatchQueue = .main, stream: @escaping DataStreamRequestHandler<D, AFError>) {
+    dataStreamRequest.responseStreamDecodable(of: type, stream: stream)
+  }
+  
+  func resume() -> Self {
+    dataStreamRequest.resume()
+    return self
+  }
+  
+  func suspend() -> Self {
+    dataStreamRequest.suspend()
+    return self
+  }
+  
+  func cancel() -> Self {
+    dataStreamRequest.cancel()
+    return self
+  }
+  
+  func validate() -> Self {
+    dataStreamRequest.validate()
+    return self
+  }
+  
+  func validate<S: Sequence>(statusCode: S) -> Self where S.Iterator.Element == Int {
+    dataStreamRequest.validate(statusCode: statusCode)
+    return self
   }
 }
 
