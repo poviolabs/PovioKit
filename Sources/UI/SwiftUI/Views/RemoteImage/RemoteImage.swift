@@ -6,36 +6,58 @@
 //  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+import SwiftUI
 #if canImport(Kingfisher)
 import Kingfisher
-import SwiftUI
+#endif
 
 @available(iOS 15.0, *)
 public struct RemoteImage<Placeholder: View>: View {
   private let url: URL?
-  private let placeholder: Placeholder?
+  private var placeholder: Placeholder?
   
-  public init(url: URL?, @ViewBuilder _ placeholder: @escaping () -> Placeholder) {
+  public init(url: URL?) where Placeholder == EmptyView {
     self.url = url
-    self.placeholder = placeholder()
+    self.placeholder = EmptyView()
   }
   
-  public init(url: URL?) {
+  private init(url: URL?, placeholder: Placeholder?) {
     self.url = url
-    self.placeholder = nil
+    self.placeholder = placeholder
   }
   
   public var body: some View {
     if let url {
+#if canImport(Kingfisher)
       KFImage(url)
         .placeholder {
           placeholder
         }
         .resizable()
         .scaledToFill()
+#else
+      AsyncImage(url: url) { image in
+        image
+          .resizable()
+          .scaledToFill()
+      } placeholder: {
+        placeholder
+      }
+#endif
     } else {
       placeholder
     }
   }
 }
-#endif
+
+@available(iOS 15.0, *)
+public extension RemoteImage {
+  func placeholder<NewPlaceholder: View>(
+    @ViewBuilder placeholder: () -> NewPlaceholder
+  ) -> RemoteImage<NewPlaceholder> {
+    RemoteImage<NewPlaceholder>(
+      url: url,
+      placeholder: placeholder()
+    )
+  }
+}
