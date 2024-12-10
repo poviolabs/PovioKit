@@ -70,7 +70,7 @@ public extension Camera {
   }
   
   func stopSession() {
-    sessionQueue.async {
+    sessionQueue.sync {
       guard self.session.isRunning else { return }
       self.session.stopRunning()
     }
