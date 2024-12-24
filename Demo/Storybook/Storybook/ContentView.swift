@@ -38,10 +38,6 @@ struct ContentView: View {
             .navigationTitle("Components")
             .navigationDestination(for: Component.self) { component in
               switch component {
-              case .actionButton:
-                ActionButtonComponentView()
-                  .navigationTitle(component.name)
-                  .navigationBarTitleDisplayMode(.large)
               case .paddingLabel:
                 PaddingLabelComponentView()
                   .navigationTitle(component.name)
