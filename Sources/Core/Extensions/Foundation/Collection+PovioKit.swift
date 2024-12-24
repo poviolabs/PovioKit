@@ -24,7 +24,7 @@ public extension Collection {
   /// let outOfBounds = array[safe: 10] // returns nil
   /// ```
   subscript(safe index: Index) -> Element? {
-    if startIndex <= index && index < endIndex { self[index] } else { nil }
+    indices.contains(index) ? self[index] : nil
   }
 }
 

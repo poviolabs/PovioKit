@@ -22,7 +22,7 @@ public extension Data {
   /// let data = Data([0x01, 0xAB, 0xFF])
   /// Logger.debug(data.hexadecimalString) // "01abff"
   /// ```
-  var hexadecialString: String {
+  var hexadecimalString: String {
     map { String(format: "%02x", $0) }.joined()
   }
   
