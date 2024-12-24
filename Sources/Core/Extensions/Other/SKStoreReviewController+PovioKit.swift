@@ -12,7 +12,10 @@ import StoreKit
 public extension SKStoreReviewController {
   /// Request a review popup on the current scene.
   ///
-  /// Example: `SKStoreReviewController.requestReviewInCurrentScene()`
+  /// ## Example
+  /// ```swift
+  /// SKStoreReviewController.requestReviewInCurrentScene()
+  /// ```
   static func requestReviewInCurrentScene() {
     if #available(iOS 14.0, *) {
       (UIApplication

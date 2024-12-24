@@ -10,7 +10,9 @@ import Foundation
 
 /// Decodable dictionary that can be used in case where the structure of given value is unknown.
 /// Based on https://github.com/levantAJ/AnyCodable
-/// ```
+///
+/// ## Example
+/// ```swift
 /// struct MyResponse: Decodable {
 ///   let id: Int
 ///   let configuration: DecodableDictionary // dictionary with unknown key/value pairs
@@ -28,6 +30,36 @@ public struct DecodableDictionary: Decodable {
 }
 
 public extension KeyedDecodingContainer {
+  /// Decodes a collection of key-value pairs where the keys are strings and the values can be of any type.
+  ///
+  /// This method attempts to decode each key-value pair from a keyed container (e.g., `KeyedDecodingContainer`).
+  /// For each key in the container, it tries to decode the value into different types (such as `Bool`, `String`, `Int`, `Double`, etc.),
+  /// and stores the result in a dictionary with string keys and any type of values. If the value cannot be decoded into any
+  /// of the known types, it moves on to the next type check.
+  ///
+  /// - Parameter type: The type to decode. This parameter is used to define the expected type of the decoded object.
+  /// - Returns: A dictionary of key-value pairs where the key is a string and the value can be of any type.
+  /// - Throws: It throws an error if the decoding process fails for any of the keys.
+  ///
+  /// ## Example
+  /// ```swift
+  /// let jsonString = """
+  /// {
+  ///   "name": "John Doe",
+  ///   "age": 30,
+  ///   "tags": ["developer", "swift"]
+  /// }
+  /// """
+  /// let jsonData = jsonString.data(using: .utf8)!
+  ///
+  /// do {
+  ///   let container = try JSONDecoder().container(keyedBy: CodingKeys.self, from: jsonData)
+  ///   let decodedDictionary = try container.decode([String: Any].self)
+  ///   Logger.debug(decodedDictionary)
+  /// } catch {
+  ///   Logger.error("Decoding error: \(error)")
+  /// }
+  /// ```
   func decode(_ type: [String: Any].Type) throws -> [String: Any] {
     var dictionary: [String: Any] = [:]
     for key in allKeys {
@@ -61,6 +93,29 @@ public extension KeyedDecodingContainer {
 }
 
 public extension UnkeyedDecodingContainer {
+  /// Decodes an array of elements of various types, including `Int`, `Bool`, `Double`, `String`,
+  /// dictionaries (`[String: Any]`), and arrays (`[Any]`), from an unkeyed container.
+  ///
+  /// This method attempts to decode each element from the unkeyed container and appends it to an array.
+  /// It supports a variety of types, including primitive types, nested dictionaries, and nested arrays.
+  ///
+  /// - Parameter type: The type to decode. This parameter is used to define the expected type of the decoded object.
+  /// - Returns: An array of decoded elements, where each element can be of any type (e.g., `Int`, `Bool`, `String`, `[String: Any]`, etc.).
+  /// - Throws: It throws an error if the decoding process fails for any of the elements in the unkeyed container.
+  ///
+  /// ## Example
+  /// ```swift
+  /// let jsonString = "[1, true, 2.5, "Hello", {"key": "value"}, [1, 2, 3]]"
+  /// let jsonData = jsonString.data(using: .utf8)!
+  /// 
+  /// do {
+  /// let container = try JSONDecoder().unkeyedContainer(from: jsonData)
+  /// let decodedArray = try container.decode([Any].self)
+  ///   Logger.debug(decodedArray)
+  /// } catch {
+  ///   Logger.error("Decoding error: \(error)")
+  /// }
+  /// ```
   mutating func decode(_ type: [Any].Type) throws -> [Any] {
     var elements: [Any] = []
     while !isAtEnd {

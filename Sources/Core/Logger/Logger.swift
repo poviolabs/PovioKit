@@ -85,7 +85,7 @@ private extension Logger {
       messagePrint += "\(nl)\(groupedParams)"
     }
     
-    if #available(iOS 14.0, *) {
+    if #available(iOS 14.0, macOS 12.0, *) {
       let category = "\(fileName) - \(function) - line \(line)"
       let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "povioKit.logger", category: category)
       switch level {

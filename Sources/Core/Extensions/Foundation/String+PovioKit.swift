@@ -31,6 +31,16 @@ public extension String {
     data(using: .utf8)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
   }
   
+  /// Returns an array of substrings, where each string represents a line from the original string, split by a newline character.
+  var lines: [Substring] {
+    split(whereSeparator: \.isNewline)
+  }
+  
+  /// Returns a boolean value indicating whether the string contains any emoji characters.
+  var containsEmoji: Bool {
+    unicodeScalars.contains { $0.properties.isEmojiPresentation }
+  }
+  
   /// Email validation
   var isEmail: Bool {
     let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -39,7 +49,9 @@ public extension String {
   }
   
   /// Returns initials from string
+  ///
   /// `John Doe` -> `JD`
+  ///
   /// `Elena Wayne Gomez` -> `EWG`
   var initials: String {
     let formatter = PersonNameComponentsFormatter()
@@ -63,10 +75,11 @@ public extension String {
   func safeSuffix(_ maxLength: UInt) -> Substring {
     suffix(Int(maxLength))
   }
-
+  
   /// Converts the string into a markdown formatted AttributedString.
   ///
-  /// If the conversion fails (e.g., due to invalid markdown syntax), it returns the original string as an AttributedString. Requires iOS 15 and above.
+  /// If the conversion fails (e.g., due to invalid markdown syntax), it returns the original string as an AttributedString.
+  /// - Precondition: Requires iOS 15 and above.
   @available(iOS 15, *)
   func toMarkdown() -> AttributedString {
     do {
