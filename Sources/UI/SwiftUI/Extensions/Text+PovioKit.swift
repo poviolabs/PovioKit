@@ -6,6 +6,7 @@
 //  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+import PovioKitCore
 import SwiftUI
 
 public extension Text {
