@@ -15,7 +15,6 @@ public struct PhotoPickerModifier: ViewModifier {
   public typealias ImageHandler = (UIImage) -> Swift.Void
   
   @Binding var present: Bool
-  var canRemove: Bool = true
   var configuration: Configuration = .init()
   var removeHandler: VoidHandler?
   let imageHandler: ImageHandler
@@ -32,8 +31,8 @@ public struct PhotoPickerModifier: ViewModifier {
         Button(configuration.chooseFromLibrary) {
           showPhotoLibrary.toggle()
         }
-        if canRemove {
-          Button(configuration.removePhoto, role: .destructive) {
+        if let removePhoto = configuration.removePhoto, removeHandler != nil {
+          Button(removePhoto, role: .destructive) {
             removeHandler?()
           }
         }
@@ -52,10 +51,20 @@ public struct PhotoPickerModifier: ViewModifier {
       }
   }
   
-  struct Configuration {
-    var takePhoto: String = "Take a Photo"
-    var chooseFromLibrary: String = "Choose from Library"
-    var removePhoto: String = "Remove Photo"
+  public struct Configuration {
+    let takePhoto: String
+    let chooseFromLibrary: String
+    let removePhoto: String?
+    
+    public init(
+      takePhoto: String = "Take a Photo",
+      chooseFromLibrary: String = "Choose from Library",
+      removePhoto: String? = "Remove Photo"
+    ) {
+      self.takePhoto = takePhoto
+      self.chooseFromLibrary = chooseFromLibrary
+      self.removePhoto = removePhoto
+    }
   }
 }
 
@@ -63,13 +72,13 @@ public struct PhotoPickerModifier: ViewModifier {
 public extension View {
   func photoPicker(
     present: Binding<Bool>,
-    canRemove: Bool = true,
+    configuration: PhotoPickerModifier.Configuration = .init(),
     removeHandler: PhotoPickerModifier.VoidHandler?,
     imageHandler: @escaping PhotoPickerModifier.ImageHandler
   ) -> some View {
     modifier(PhotoPickerModifier(
       present: present,
-      canRemove: canRemove,
+      configuration: configuration,
       removeHandler: removeHandler,
       imageHandler: imageHandler
     ))
