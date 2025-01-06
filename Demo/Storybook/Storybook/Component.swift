@@ -8,14 +8,14 @@
 import Foundation
 
 enum Component: CaseIterable {
-  case paddingLabel
+  case photoPicker
 }
 
 extension Component {
   var name: String {
     switch self {
-    case .paddingLabel:
-      return "Padding Label"
+    case .photoPicker:
+      return "Photo Picker"
     }
   }
 }

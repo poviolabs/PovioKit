@@ -13,8 +13,6 @@ struct PaddingLabelComponentView: View {
   }
 }
 
-struct PaddingLabelComponentView_Previews: PreviewProvider {
-  static var previews: some View {
-    PaddingLabelComponentView()
-  }
+#Preview {
+  PaddingLabelComponentView()
 }

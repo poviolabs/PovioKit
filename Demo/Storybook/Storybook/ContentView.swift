@@ -38,8 +38,8 @@ struct ContentView: View {
             .navigationTitle("Components")
             .navigationDestination(for: Component.self) { component in
               switch component {
-              case .paddingLabel:
-                PaddingLabelComponentView()
+              case .photoPicker:
+                PhotoPickerComponent()
                   .navigationTitle(component.name)
                   .navigationBarTitleDisplayMode(.large)
               }
@@ -53,8 +53,6 @@ struct ContentView: View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-  }
+#Preview {
+  ContentView()
 }
