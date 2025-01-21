@@ -55,13 +55,11 @@ private extension QRCodeScanner {
     guard let device = device else { throw Camera.Error.unavailable }
 
     if device.isFocusModeSupported(.continuousAutoFocus) {
-      do {
-        try device.lockForConfiguration()
-        device.focusMode = .continuousAutoFocus
-        device.unlockForConfiguration()
-      }
+      try device.lockForConfiguration()
+      device.focusMode = .continuousAutoFocus
+      device.unlockForConfiguration()
     }
-    
+
     session.beginConfiguration()
     
     // add input
