@@ -53,7 +53,13 @@ extension QRCodeScanner: AVCaptureMetadataOutputObjectsDelegate {
 private extension QRCodeScanner {
   func configure() throws {
     guard let device = device else { throw Camera.Error.unavailable }
-    
+
+    if device.isFocusModeSupported(.continuousAutoFocus) {
+      try device.lockForConfiguration()
+      device.focusMode = .continuousAutoFocus
+      device.unlockForConfiguration()
+    }
+
     session.beginConfiguration()
     
     // add input
