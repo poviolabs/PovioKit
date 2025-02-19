@@ -1,5 +1,5 @@
 //
-//  ProgressStyle.swift
+//  LinearProgressStyle.swift
 //  PovioKit
 //
 //  Created by Borut Tomazin on 02/03/2024.
@@ -9,7 +9,7 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-public struct ProgressStyle: ProgressViewStyle {
+public struct LinearProgressStyle: ProgressViewStyle {
   var trackColor: Color = .gray
   var progressColor: Color = .black
   var cornerRadius: CGFloat = 8
@@ -30,8 +30,17 @@ public struct ProgressStyle: ProgressViewStyle {
 
 @available(iOS 15.0, *)
 #Preview {
-  ProgressView(value: 0.5)
-    .progressViewStyle(ProgressStyle())
-    .frame(height: 5)
-    .padding(.horizontal, 20)
+  VStack {
+    ProgressView(value: 0.5)
+      .progressViewStyle(LinearProgressStyle())
+      .frame(height: 5)
+    
+    ProgressView(value: 0.8)
+      .progressViewStyle(LinearProgressStyle(
+        progressColor: .red,
+        cornerRadius: 10
+      ))
+      .frame(height: 20)
+  }
+  .padding(.horizontal, 20)
 }

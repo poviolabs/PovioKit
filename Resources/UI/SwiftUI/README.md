@@ -6,9 +6,7 @@ A package including components to help you out developing for SwiftUI framework.
 
 | Views | Platform | |
 | :--- | :--- | :--- |
-| [ActionButton](ActionButton) | all | Generic and customizable CTA button |
 | [PhotoPickerView](/Sources/UI/SwiftUI/Views/PhotoPickerView/PhotoPickerView.swift) | iOS | Photo and Camera picker view used in combination with `PhotoPickerModifier` |
-| [ProfileImageView](ProfileImageView) | all | Generic and customizable profile image view component |
 | [ProgressStyle](/Sources/UI/SwiftUI/Views/ProgressStyle/ProgressStyle.swift) | all | Customizable ProgressViewStyle |
 | [RemoteImage](/Sources/UI/SwiftUI/Views/RemoteImage/RemoteImage.swift) | all | Fetching remote images using Kingfisher |
 | [ScrollViewWithOffset](/Sources/UI/SwiftUI/Views/ScrollViewWithOffset/ScrollViewWithOffset.swift) | all | ScrollView that expose offset as we scroll |
