@@ -17,7 +17,6 @@ extension PhotoPreview {
     typealias VoidHandler = () -> Swift.Void
     typealias DragHandler = (CGFloat) -> Swift.Void
     
-    @StateObject var imageLoader = ImageLoader()
     @Binding var dragEnabled: Bool
     @Binding var currentIndex: Int
     @Binding var verticalOffset: CGFloat
@@ -26,10 +25,9 @@ extension PhotoPreview {
     @State var offset = CGSize.zero
     @State var lastOffset = CGSize.zero
     @State var initialDragOffset: CGSize = .zero
+    
     let item: Item
     let myIndex: Int
-    let onDragChanged: DragHandler
-    let onDragEnded: VoidHandler
     let dragHorizontalPadding: CGFloat = 24
     let screenSize: CGSize = UIScreen.main.bounds.size
     
@@ -39,7 +37,7 @@ extension PhotoPreview {
         .offset(offset)
         .offset(y: verticalOffset)
         .gesture(magnificationGesture)
-        .simultaneousGesture(dragEnabled ? dragGesture : nil)
+        .highPriorityGesture(dragEnabled ? dragGesture : nil)
         .onTapGesture(count: 2) {
           handleDoubleTap()
         }
@@ -50,7 +48,7 @@ extension PhotoPreview {
           guard value, offset != .zero else {
             return
           }
-          endDrag(animated: true)
+          endDrag()
         }
         .onChange(of: currentIndex) { index in
           if index != myIndex {
@@ -98,27 +96,14 @@ extension PhotoPreview.ItemView {
         .tint(.white)
         .controlSize(.large)
     }
-    #endif
-  }
-  
-  var loadingView: some View {
-    Circle()
-      .trim(from: 0.0, to: 0.5)
-      .stroke(style: StrokeStyle(lineWidth: 8, lineCap: .round))
-      .foregroundColor(.white)
-      .rotationEffect(Angle(degrees: loadingViewRotation))
-      .animation(
-        Animation.linear(duration: 1.0).repeatForever(autoreverses: false),
-        value: imageLoader.state
-      )
-      .frame(width: 50, height: 50)
+#endif
   }
 }
 
 // MARK: - Helper methods
 @available(iOS 16.0, *)
 extension PhotoPreview.ItemView {
-  func endDrag(animated: Bool = true) {
+  func endDrag() {
     initialDragOffset = .zero
     let imageWidth = screenSize.width * scale
     let imageHeight = screenSize.height * scale
@@ -141,10 +126,6 @@ extension PhotoPreview.ItemView {
       finalOffset.height = -maxYOffset
     }
     
-    guard animated else {
-      setOffset(finalOffset)
-      return
-    }
     withAnimation {
       setOffset(finalOffset)
     }
@@ -169,15 +150,6 @@ extension PhotoPreview.ItemView {
     scale = 1.0
     offset = .zero
     lastOffset = .zero
-  }
-  
-  var loadingViewRotation: Double {
-    switch imageLoader.state {
-    case .loading:
-      return -360
-    default:
-      return 0
-    }
   }
 }
 

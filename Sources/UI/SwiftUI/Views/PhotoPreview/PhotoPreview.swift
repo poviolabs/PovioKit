@@ -14,18 +14,13 @@ public struct PhotoPreview: View {
   let items: [Item]
   let configuration: Configuration
   @Binding var presented: Bool
-  @State var position: Int?
   @State var currentIndex: Int = 0
-  @State var offset: CGFloat = 0
   @State var verticalOffset: CGFloat = 0
   @State var imageViewDragEnabled: Bool = false
-  @State var imageViewLastOffset: CGFloat = 0
   @State var dragDirection: Direction = .none
   @State var dragVelocity: CGFloat = 0
   @State var shouldSwitchDragDirection: Bool = true
   @State var backgroundOpacity: CGFloat = 1
-  @State var initialDragOffset: CGFloat = .zero
-  @State var horizontalOffset: CGFloat = .zero
   
   public init(
     items: [Item],
@@ -59,7 +54,7 @@ public struct PhotoPreview: View {
 extension PhotoPreview {
   var scrollView: some View {
     GeometryReader { geometry in
-      TabView {
+      TabView(selection: $currentIndex) {
         ForEach(0..<items.count, id: \.self) { index in
           ItemView(
             dragEnabled: $imageViewDragEnabled,
@@ -67,18 +62,13 @@ extension PhotoPreview {
             verticalOffset: $verticalOffset,
             item: items[index],
             myIndex: index
-          ) { newValue in
-            imageViewLastOffset = newValue
-          } onDragEnded: {
-            horizontalDragEnded(with: geometry.size.width)
-          }
+          )
           .frame(width: geometry.size.width)
           .id(index)
         }
       }
-      .simultaneousGesture(!imageViewDragEnabled ? dragGesture(with: geometry) : nil)
       .tabViewStyle(.page(indexDisplayMode: .never))
-      .scrollDisabled(imageViewDragEnabled)
+      .simultaneousGesture(dragGesture(with: geometry))
     }
   }
   
@@ -109,55 +99,6 @@ extension PhotoPreview {
     case none
   }
   
-  func contentOffset(for geometry: GeometryProxy) -> CGFloat {
-    -CGFloat(currentIndex) * geometry.size.width + offset
-  }
-  
-  func resetOffset() {
-    offset = 0
-  }
-  
-  func horizontalDragChanged(with value: DragGesture.Value) {
-    if initialDragOffset == .zero && imageViewLastOffset == .zero {
-      // we store the initial offset to avoid views from jumping
-      initialDragOffset = value.translation.width
-    }
-    offset = value.translation.width - imageViewLastOffset - initialDragOffset
-    if imageViewLastOffset == .zero {
-      dragVelocity = value.predictedEndLocation.x - value.location.x
-    }
-  }
-  
-  func horizontalDragEnded(with pageWidth: CGFloat) {
-    dragDirection = .none
-    initialDragOffset = .zero
-    let threshold = pageWidth / 3
-    if offset < -threshold && currentIndex < items.count - 1 {
-      withAnimation {
-        currentIndex += 1
-        resetOffset()
-      }
-    } else if offset > threshold && currentIndex > 0 {
-      withAnimation {
-        currentIndex -= 1
-        resetOffset()
-      }
-    } else if !imageViewDragEnabled, abs(dragVelocity) > configuration.velocityThreshold.width {
-      withAnimation {
-        let dragDirection = dragVelocity > .zero ? -1 : 1
-        var updatedIndex = currentIndex + dragDirection
-        // Ensure the new index is within bounds
-        updatedIndex = min(max(updatedIndex, 0), items.count - 1)
-        currentIndex = updatedIndex
-        resetOffset()
-      }
-    } else {
-      withAnimation {
-        resetOffset()
-      }
-    }
-  }
-  
   func verticalDragChanged(with value: DragGesture.Value) {
     dragDirection = .vertical
     verticalOffset = value.translation.height
@@ -179,16 +120,8 @@ extension PhotoPreview {
   }
   
   func dragEnded(with pageWidth: CGFloat) {
-    if imageViewLastOffset != 0 {
-      imageViewDragEnabled = true
-    }
-    imageViewLastOffset = 0
-    
-    if dragDirection == .horizontal {
-//      horizontalDragEnded(with: pageWidth)
-    } else {
-      verticalDragEnded()
-    }
+    guard dragDirection == .vertical else { return }
+    verticalDragEnded()
   }
   
   func updateBackgroundOpacity() {
@@ -211,15 +144,13 @@ extension PhotoPreview {
     DragGesture()
       .onChanged { value in
         guard !imageViewDragEnabled else { return }
-        if offset > 30 || verticalOffset > 30 {
+        if verticalOffset > 30 {
           shouldSwitchDragDirection = false
         }
         if dragDirection == .none || shouldSwitchDragDirection {
           dragDirection = abs(value.translation.width) > abs(value.translation.height) ? .horizontal : .vertical
         }
-        if dragDirection == .horizontal {
-//          horizontalDragChanged(with: value)
-        } else if imageViewLastOffset == .zero, offset == 0 {
+        if dragDirection == .vertical {
           verticalDragChanged(with: value)
         }
       }
