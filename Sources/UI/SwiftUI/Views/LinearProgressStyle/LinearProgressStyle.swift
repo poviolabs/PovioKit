@@ -14,6 +14,16 @@ public struct LinearProgressStyle: ProgressViewStyle {
   var progressColor: Color = .black
   var cornerRadius: CGFloat = 8
   
+  public init(
+    trackColor: Color = .gray,
+    progressColor: Color = .black,
+    cornerRadius: CGFloat = 8
+  ) {
+    self.trackColor = trackColor
+    self.progressColor = progressColor
+    self.cornerRadius = cornerRadius
+  }
+  
   public func makeBody(configuration: Configuration) -> some View {
     let completed = configuration.fractionCompleted ?? 0
     return GeometryReader { geo in
