@@ -15,6 +15,14 @@ public struct PhotoPickerView: UIViewControllerRepresentable {
   let sourceType: UIImagePickerController.SourceType
   let onComplete: (UIImage) -> Void
   
+  public init(
+    sourceType: UIImagePickerController.SourceType,
+    onComplete: @escaping (UIImage) -> Void
+  ) {
+    self.sourceType = sourceType
+    self.onComplete = onComplete
+  }
+  
   public func makeUIViewController(context: Context) -> UIImagePickerController {
     let imagePicker = UIImagePickerController()
     imagePicker.sourceType = sourceType

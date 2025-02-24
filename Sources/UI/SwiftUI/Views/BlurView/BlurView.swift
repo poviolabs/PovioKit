@@ -10,11 +10,19 @@
 import AppKit
 import SwiftUI
 
-struct BlurView: NSViewRepresentable {
+public struct BlurView: NSViewRepresentable {
   var material: NSVisualEffectView.Material = .hudWindow
   var blendingMode: NSVisualEffectView.BlendingMode = .behindWindow
   
-  func makeNSView(context: Context) -> NSVisualEffectView {
+  public init(
+    material: NSVisualEffectView.Material,
+    blendingMode: NSVisualEffectView.BlendingMode
+  ) {
+    self.material = material
+    self.blendingMode = blendingMode
+  }
+  
+  public func makeNSView(context: Context) -> NSVisualEffectView {
     let view = NSVisualEffectView()
     view.material = material
     view.blendingMode = blendingMode
@@ -22,7 +30,7 @@ struct BlurView: NSViewRepresentable {
     return view
   }
   
-  func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
+  public func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
     nsView.material = material
     nsView.blendingMode = blendingMode
   }

@@ -18,7 +18,7 @@ struct BlurBackgroundModifier: ViewModifier {
   }
 }
 
-extension View {
+public extension View {
   func blurBackground(
     material: NSVisualEffectView.Material = .hudWindow,
     blendingMode: NSVisualEffectView.BlendingMode = .behindWindow
