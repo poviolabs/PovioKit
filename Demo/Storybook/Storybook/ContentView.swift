@@ -42,6 +42,10 @@ struct ContentView: View {
                 PhotoPickerComponent()
                   .navigationTitle(component.name)
                   .navigationBarTitleDisplayMode(.large)
+              case .animatedImage:
+                AnimatedImageComponent()
+                  .navigationTitle(component.name)
+                  .navigationBarTitleDisplayMode(.large)
               }
             }
           }

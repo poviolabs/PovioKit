@@ -9,6 +9,7 @@ import Foundation
 
 enum Component: CaseIterable {
   case photoPicker
+  case animatedImage
 }
 
 extension Component {
@@ -16,6 +17,8 @@ extension Component {
     switch self {
     case .photoPicker:
       return "Photo Picker"
+    case .animatedImage:
+      return "Animated Image / GIF"
     }
   }
 }
