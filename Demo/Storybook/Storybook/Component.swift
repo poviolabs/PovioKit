@@ -11,6 +11,7 @@ enum Component: CaseIterable {
   case photoPicker
   case animatedImage
   case remoteImage
+  case materialBlur
 }
 
 extension Component {
@@ -22,6 +23,8 @@ extension Component {
       return "Animated Image / GIF"
     case .remoteImage:
       return "Remote Image"
+    case .materialBlur:
+      return "Material Blur"
     }
   }
 }

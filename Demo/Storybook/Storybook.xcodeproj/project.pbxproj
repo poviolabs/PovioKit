@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		990B5C8D2D2C0C7C00F2963F /* PovioKitSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 990B5C8C2D2C0C7C00F2963F /* PovioKitSwiftUI */; };
 		990B5C8F2D2C0CED00F2963F /* PhotoPickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */; };
+		993A4F7A2D6E0A6300AC2273 /* MaterialBlurComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993A4F792D6E0A6300AC2273 /* MaterialBlurComponent.swift */; };
 		998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6EF6297E82F700D33909 /* StorybookApp.swift */; };
 		998E6EF9297E82F700D33909 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6EF8297E82F700D33909 /* ContentView.swift */; };
 		998E6EFB297E82F800D33909 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 998E6EFA297E82F800D33909 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerComponent.swift; sourceTree = "<group>"; };
 		990C1776297E9D54005EC7B7 /* PovioKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PovioKit; path = ../..; sourceTree = "<group>"; };
+		993A4F792D6E0A6300AC2273 /* MaterialBlurComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialBlurComponent.swift; sourceTree = "<group>"; };
 		998E6EF3297E82F700D33909 /* Storybook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Storybook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		998E6EF6297E82F700D33909 /* StorybookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorybookApp.swift; sourceTree = "<group>"; };
 		998E6EF8297E82F700D33909 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */,
 				999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */,
 				999EF7C72D6E081800F280E8 /* LinearProgressStyleComponent.swift */,
+				993A4F792D6E0A6300AC2273 /* MaterialBlurComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				999EF5532D6E02F500F280E8 /* AnimatedImageComponent.swift in Sources */,
 				999EF7C62D6E069800F280E8 /* RemoteImageComponent.swift in Sources */,
 				998E6F08297E8AE000D33909 /* Component.swift in Sources */,
+				993A4F7A2D6E0A6300AC2273 /* MaterialBlurComponent.swift in Sources */,
 				999EF7C82D6E081800F280E8 /* LinearProgressStyleComponent.swift in Sources */,
 				998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */,
 			);

@@ -41,17 +41,18 @@ struct ContentView: View {
               case .photoPicker:
                 PhotoPickerComponent()
                   .navigationTitle(component.name)
-                  .navigationBarTitleDisplayMode(.large)
               case .animatedImage:
                 AnimatedImageComponent()
                   .navigationTitle(component.name)
-                  .navigationBarTitleDisplayMode(.large)
               case .remoteImage:
                 RemoteImageComponent()
                   .navigationTitle(component.name)
-                  .navigationBarTitleDisplayMode(.large)
+              case .materialBlur:
+                MaterialBlurComponent()
+                  .navigationTitle(component.name)
               }
             }
+            .navigationBarTitleDisplayMode(.large)
           }
       }
       .navigationTitle("Home")

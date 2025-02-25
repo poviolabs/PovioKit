@@ -76,10 +76,10 @@ public struct MaterialBlurView: NSViewRepresentable {
 ///   .background(MaterialBlurView(style: .systemUltraThinMaterialLight))
 /// ```
 public struct MaterialBlurView: UIViewRepresentable {
-  var style: UIBlurEffect.Style
-  var animated: Bool = false
+  private let style: UIBlurEffect.Style
+  private let animated: Bool
   
-  public init(style: UIBlurEffect.Style, animated: Bool) {
+  public init(style: UIBlurEffect.Style, animated: Bool = false) {
     self.style = style
     self.animated = animated
   }
