@@ -14,15 +14,18 @@ import Kingfisher
 @available(iOS 15.0, *)
 public struct RemoteImage<Placeholder: View>: View {
   private let url: URL?
+  private let animated: Bool
   private var placeholder: Placeholder?
   
-  public init(url: URL?) where Placeholder == EmptyView {
+  public init(url: URL?, animated: Bool = false) where Placeholder == EmptyView {
     self.url = url
+    self.animated = animated
     self.placeholder = EmptyView()
   }
   
-  private init(url: URL?, placeholder: Placeholder?) {
+  private init(url: URL?, animated: Bool = false, placeholder: Placeholder?) {
     self.url = url
+    self.animated = animated
     self.placeholder = placeholder
   }
   
@@ -33,6 +36,7 @@ public struct RemoteImage<Placeholder: View>: View {
         .placeholder {
           placeholder
         }
+        .fade(duration: animated ? 0.25 : 0)
         .resizable()
         .scaledToFill()
 #else
@@ -57,6 +61,7 @@ public extension RemoteImage {
   ) -> RemoteImage<NewPlaceholder> {
     RemoteImage<NewPlaceholder>(
       url: url,
+      animated: animated,
       placeholder: placeholder()
     )
   }
