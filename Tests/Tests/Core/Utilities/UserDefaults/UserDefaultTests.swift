@@ -38,6 +38,16 @@ class UserDefaultTests: XCTestCase {
     // Then
     XCTAssertEqual(givenValue, Defaults.isAuthenticated)
   }
+  
+  func testMigration() {
+    var isAuth = UserDefaults.standard.bool(forKey: Defaults.testBoolKey)
+    XCTAssertFalse(isAuth) // on first run this must be false
+    
+    UserDefaults.standard.set(true, forKey: Defaults.testBoolKey)
+    isAuth = UserDefaults.standard.bool(forKey: Defaults.testBoolKey)
+    XCTAssertTrue(isAuth) // not it should be true
+    XCTAssertTrue(Defaults.isAuthenticated) // after migration value should also be true
+  }
 
   func testResetValue() {
     // Given

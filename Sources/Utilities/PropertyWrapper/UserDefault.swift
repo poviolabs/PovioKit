@@ -17,9 +17,24 @@ public struct UserDefault<Value: Codable> {
   
   public var wrappedValue: Value {
     get {
-      guard let data = storage.data(forKey: keyObject.key) else { return keyObject.defaultValue }
-      let value = try? decoder.decode(Value.self, from: data)
-      return value ?? keyObject.defaultValue
+      if let data = storage.data(forKey: keyObject.key) {
+        // check if value is already encoded as JSON, as expected
+        if let value = try? decoder.decode(Value.self, from: data) {
+          return value
+        }
+      } else {
+        // check for non-encoded stored value such as Bool, Int, etc.
+        if let oldValue = storage.object(forKey: keyObject.key) as? Value {
+          // migrate the old value to the new JSON encoded format
+          if let encoded = try? encoder.encode(oldValue) {
+            storage.set(encoded, forKey: keyObject.key)
+            return oldValue
+          }
+        }
+      }
+      
+      // return default value if no value is set
+      return keyObject.defaultValue
     }
     set {
       if let encoded = try? encoder.encode(newValue) {
@@ -28,18 +43,22 @@ public struct UserDefault<Value: Codable> {
     }
   }
   
-  public init(defaultValue: Value,
-              key: String,
-              storage: UserDefaults = .standard,
-              encoder: JSONEncoder = .init(),
-              decoder: JSONDecoder = .init()) {
+  public init(
+    defaultValue: Value,
+    key: String,
+    storage: UserDefaults = .standard,
+    encoder: JSONEncoder = .init(),
+    decoder: JSONDecoder = .init()
+  ) {
     self.storage = storage
     self.encoder = encoder
     self.decoder = decoder
-    self.keyObject = UserDefaultKey(key: key,
-                                    defaultValue: defaultValue,
-                                    storage: storage,
-                                    encoder: encoder)
+    self.keyObject = UserDefaultKey(
+      key: key,
+      defaultValue: defaultValue,
+      storage: storage,
+      encoder: encoder
+    )
   }
   
   public var projectedValue: UserDefaultKey<Value> {
@@ -53,10 +72,12 @@ public class UserDefaultKey<Value: Codable> {
   let storage: UserDefaults
   let encoder: JSONEncoder
   
-  init(key: String,
-       defaultValue: Value,
-       storage: UserDefaults,
-       encoder: JSONEncoder) {
+  init(
+    key: String,
+    defaultValue: Value,
+    storage: UserDefaults,
+    encoder: JSONEncoder
+  ) {
     self.key = key
     self.defaultValue = defaultValue
     self.storage = storage
