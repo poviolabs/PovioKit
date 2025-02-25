@@ -17,6 +17,7 @@
 		999EF5532D6E02F500F280E8 /* AnimatedImageComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */; };
 		999EF7C42D6E041600F280E8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 999EF7C32D6E041600F280E8 /* Kingfisher */; };
 		999EF7C62D6E069800F280E8 /* RemoteImageComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */; };
+		999EF7C82D6E081800F280E8 /* LinearProgressStyleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF7C72D6E081800F280E8 /* LinearProgressStyleComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		998E6F07297E8AE000D33909 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageComponent.swift; sourceTree = "<group>"; };
 		999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageComponent.swift; sourceTree = "<group>"; };
+		999EF7C72D6E081800F280E8 /* LinearProgressStyleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearProgressStyleComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */,
 				999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */,
 				999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */,
+				999EF7C72D6E081800F280E8 /* LinearProgressStyleComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				999EF5532D6E02F500F280E8 /* AnimatedImageComponent.swift in Sources */,
 				999EF7C62D6E069800F280E8 /* RemoteImageComponent.swift in Sources */,
 				998E6F08297E8AE000D33909 /* Component.swift in Sources */,
+				999EF7C82D6E081800F280E8 /* LinearProgressStyleComponent.swift in Sources */,
 				998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
