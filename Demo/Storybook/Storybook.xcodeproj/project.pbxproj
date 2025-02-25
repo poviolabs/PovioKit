@@ -16,6 +16,7 @@
 		998E6F08297E8AE000D33909 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6F07297E8AE000D33909 /* Component.swift */; };
 		999EF5532D6E02F500F280E8 /* AnimatedImageComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */; };
 		999EF7C42D6E041600F280E8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 999EF7C32D6E041600F280E8 /* Kingfisher */; };
+		999EF7C62D6E069800F280E8 /* RemoteImageComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		998E6EFE297E82F800D33909 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		998E6F07297E8AE000D33909 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageComponent.swift; sourceTree = "<group>"; };
+		999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			children = (
 				990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */,
 				999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */,
+				999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				998E6EF9297E82F700D33909 /* ContentView.swift in Sources */,
 				990B5C8F2D2C0CED00F2963F /* PhotoPickerComponent.swift in Sources */,
 				999EF5532D6E02F500F280E8 /* AnimatedImageComponent.swift in Sources */,
+				999EF7C62D6E069800F280E8 /* RemoteImageComponent.swift in Sources */,
 				998E6F08297E8AE000D33909 /* Component.swift in Sources */,
 				998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */,
 			);

@@ -46,6 +46,10 @@ struct ContentView: View {
                 AnimatedImageComponent()
                   .navigationTitle(component.name)
                   .navigationBarTitleDisplayMode(.large)
+              case .remoteImage:
+                RemoteImageComponent()
+                  .navigationTitle(component.name)
+                  .navigationBarTitleDisplayMode(.large)
               }
             }
           }
