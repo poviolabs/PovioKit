@@ -9,18 +9,22 @@
 /* Begin PBXBuildFile section */
 		990B5C8D2D2C0C7C00F2963F /* PovioKitSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 990B5C8C2D2C0C7C00F2963F /* PovioKitSwiftUI */; };
 		990B5C8F2D2C0CED00F2963F /* PhotoPickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */; };
-		990C176E297E98C2005EC7B7 /* PaddingLabelComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990C176C297E98C2005EC7B7 /* PaddingLabelComponentView.swift */; };
+		993A4F7A2D6E0A6300AC2273 /* MaterialBlurComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993A4F792D6E0A6300AC2273 /* MaterialBlurComponent.swift */; };
 		998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6EF6297E82F700D33909 /* StorybookApp.swift */; };
 		998E6EF9297E82F700D33909 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6EF8297E82F700D33909 /* ContentView.swift */; };
 		998E6EFB297E82F800D33909 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 998E6EFA297E82F800D33909 /* Assets.xcassets */; };
 		998E6EFF297E82F800D33909 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 998E6EFE297E82F800D33909 /* Preview Assets.xcassets */; };
 		998E6F08297E8AE000D33909 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998E6F07297E8AE000D33909 /* Component.swift */; };
+		999EF5532D6E02F500F280E8 /* AnimatedImageComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */; };
+		999EF7C42D6E041600F280E8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 999EF7C32D6E041600F280E8 /* Kingfisher */; };
+		999EF7C62D6E069800F280E8 /* RemoteImageComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */; };
+		999EF7C82D6E081800F280E8 /* LinearProgressStyleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999EF7C72D6E081800F280E8 /* LinearProgressStyleComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerComponent.swift; sourceTree = "<group>"; };
-		990C176C297E98C2005EC7B7 /* PaddingLabelComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingLabelComponentView.swift; sourceTree = "<group>"; };
 		990C1776297E9D54005EC7B7 /* PovioKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PovioKit; path = ../..; sourceTree = "<group>"; };
+		993A4F792D6E0A6300AC2273 /* MaterialBlurComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialBlurComponent.swift; sourceTree = "<group>"; };
 		998E6EF3297E82F700D33909 /* Storybook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Storybook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		998E6EF6297E82F700D33909 /* StorybookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorybookApp.swift; sourceTree = "<group>"; };
 		998E6EF8297E82F700D33909 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -28,6 +32,9 @@
 		998E6EFC297E82F800D33909 /* Storybook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Storybook.entitlements; sourceTree = "<group>"; };
 		998E6EFE297E82F800D33909 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		998E6F07297E8AE000D33909 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
+		999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageComponent.swift; sourceTree = "<group>"; };
+		999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageComponent.swift; sourceTree = "<group>"; };
+		999EF7C72D6E081800F280E8 /* LinearProgressStyleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearProgressStyleComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				999EF7C42D6E041600F280E8 /* Kingfisher in Frameworks */,
 				990B5C8D2D2C0C7C00F2963F /* PovioKitSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,8 +108,11 @@
 		998E6F0B297E936D00D33909 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				990C176C297E98C2005EC7B7 /* PaddingLabelComponentView.swift */,
 				990B5C8E2D2C0CED00F2963F /* PhotoPickerComponent.swift */,
+				999EF5522D6E02F500F280E8 /* AnimatedImageComponent.swift */,
+				999EF7C52D6E069800F280E8 /* RemoteImageComponent.swift */,
+				999EF7C72D6E081800F280E8 /* LinearProgressStyleComponent.swift */,
+				993A4F792D6E0A6300AC2273 /* MaterialBlurComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -124,6 +135,7 @@
 			name = Storybook;
 			packageProductDependencies = (
 				990B5C8C2D2C0C7C00F2963F /* PovioKitSwiftUI */,
+				999EF7C32D6E041600F280E8 /* Kingfisher */,
 			);
 			productName = Storybook;
 			productReference = 998E6EF3297E82F700D33909 /* Storybook.app */;
@@ -153,6 +165,9 @@
 				Base,
 			);
 			mainGroup = 998E6EEA297E82F700D33909;
+			packageReferences = (
+				999EF7C22D6E041600F280E8 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 998E6EF4297E82F700D33909 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -181,9 +196,12 @@
 			files = (
 				998E6EF9297E82F700D33909 /* ContentView.swift in Sources */,
 				990B5C8F2D2C0CED00F2963F /* PhotoPickerComponent.swift in Sources */,
+				999EF5532D6E02F500F280E8 /* AnimatedImageComponent.swift in Sources */,
+				999EF7C62D6E069800F280E8 /* RemoteImageComponent.swift in Sources */,
 				998E6F08297E8AE000D33909 /* Component.swift in Sources */,
+				993A4F7A2D6E0A6300AC2273 /* MaterialBlurComponent.swift in Sources */,
+				999EF7C82D6E081800F280E8 /* LinearProgressStyleComponent.swift in Sources */,
 				998E6EF7297E82F700D33909 /* StorybookApp.swift in Sources */,
-				990C176E297E98C2005EC7B7 /* PaddingLabelComponentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,10 +424,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		999EF7C22D6E041600F280E8 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		990B5C8C2D2C0C7C00F2963F /* PovioKitSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PovioKitSwiftUI;
+		};
+		999EF7C32D6E041600F280E8 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 999EF7C22D6E041600F280E8 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
