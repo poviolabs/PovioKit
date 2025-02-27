@@ -1,5 +1,8 @@
 ## Migration Guides
 
+### Migration from versions < 5.0.0
+* [UI] Removed `ActionButton`, `ProfileImageView`.
+
 ### Migration from versions < 4.0.0
 * [Core] If you have used any utilities referencing to PovioKitCore package, you'll need to replace it. They've been moved to PovioKitUtilities.
 * [UI] PovioKitUI package has been replaced by PovioKitUIKit and/or PovioKitSwiftUI. Replace depending on the type of UI code you were depending on.

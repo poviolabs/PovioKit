@@ -11,7 +11,7 @@ import XCTest
 class DataTests: XCTestCase {
   func testHexadecialString() {
     let data = "this is a text string".data(using: .utf8)
-    XCTAssertEqual(data?.hexadecialString, "746869732069732061207465787420737472696e67")
+    XCTAssertEqual(data?.hexadecimalString, "746869732069732061207465787420737472696e67")
   }
   
   func testDecode() {

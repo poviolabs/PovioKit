@@ -38,16 +38,21 @@ struct ContentView: View {
             .navigationTitle("Components")
             .navigationDestination(for: Component.self) { component in
               switch component {
-              case .actionButton:
-                ActionButtonComponentView()
+              case .photoPicker:
+                PhotoPickerComponent()
                   .navigationTitle(component.name)
-                  .navigationBarTitleDisplayMode(.large)
-              case .paddingLabel:
-                PaddingLabelComponentView()
+              case .animatedImage:
+                AnimatedImageComponent()
                   .navigationTitle(component.name)
-                  .navigationBarTitleDisplayMode(.large)
+              case .remoteImage:
+                RemoteImageComponent()
+                  .navigationTitle(component.name)
+              case .materialBlur:
+                MaterialBlurComponent()
+                  .navigationTitle(component.name)
               }
             }
+            .navigationBarTitleDisplayMode(.large)
           }
       }
       .navigationTitle("Home")
@@ -57,8 +62,6 @@ struct ContentView: View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-  }
+#Preview {
+  ContentView()
 }

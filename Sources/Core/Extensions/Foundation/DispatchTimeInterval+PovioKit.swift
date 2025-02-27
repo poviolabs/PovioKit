@@ -11,7 +11,9 @@ import Foundation
 public extension DispatchTimeInterval {
   /// Returns `TimeInterval`.
   /// Useful when there is a need to convert from `DispatchTimeInterval`.
-  /// ```
+  ///
+  /// ## Example
+  /// ```swift
   /// let duration: DispatchTimeInterval = .seconds(1)
   /// UIView.animate(withDuration: duration.timeInterval, delay: 0) {}
   /// ```

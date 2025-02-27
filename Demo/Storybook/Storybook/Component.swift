@@ -8,17 +8,23 @@
 import Foundation
 
 enum Component: CaseIterable {
-  case actionButton
-  case paddingLabel
+  case photoPicker
+  case animatedImage
+  case remoteImage
+  case materialBlur
 }
 
 extension Component {
   var name: String {
     switch self {
-    case .actionButton:
-      return "Action Button"
-    case .paddingLabel:
-      return "Padding Label"
+    case .photoPicker:
+      return "Photo Picker"
+    case .animatedImage:
+      return "Animated Image / GIF"
+    case .remoteImage:
+      return "Remote Image"
+    case .materialBlur:
+      return "Material Blur"
     }
   }
 }

@@ -27,5 +27,4 @@ public extension UIWindow {
     return topViewController(with: rootViewController)
   }
 }
-
 #endif

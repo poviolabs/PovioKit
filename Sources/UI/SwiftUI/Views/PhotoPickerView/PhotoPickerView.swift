@@ -6,6 +6,7 @@
 //  Copyright © 2024 Povio Inc. All rights reserved.
 //
 
+#if os(iOS)
 import SwiftUI
 import UIKit
 
@@ -13,6 +14,14 @@ import UIKit
 public struct PhotoPickerView: UIViewControllerRepresentable {
   let sourceType: UIImagePickerController.SourceType
   let onComplete: (UIImage) -> Void
+  
+  public init(
+    sourceType: UIImagePickerController.SourceType,
+    onComplete: @escaping (UIImage) -> Void
+  ) {
+    self.sourceType = sourceType
+    self.onComplete = onComplete
+  }
   
   public func makeUIViewController(context: Context) -> UIImagePickerController {
     let imagePicker = UIImagePickerController()
@@ -52,3 +61,5 @@ public extension PhotoPickerView {
     }
   }
 }
+
+#endif
