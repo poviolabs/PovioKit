@@ -83,7 +83,8 @@ public extension String {
   @available(iOS 15, *)
   func toMarkdown() -> AttributedString {
     do {
-      return try AttributedString(markdown: self)
+      let options = AttributedString.MarkdownParsingOptions(interpretedSyntax: .full)
+      return try AttributedString(markdown: self, options: options)
     } catch {
       return AttributedString(self)
     }
