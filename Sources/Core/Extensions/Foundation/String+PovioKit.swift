@@ -79,11 +79,17 @@ public extension String {
   /// Converts the string into a markdown formatted AttributedString.
   ///
   /// If the conversion fails (e.g., due to invalid markdown syntax), it returns the original string as an AttributedString.
+  /// - Parameter options: Configures the markdown parsing behavior. Some developers have reported that the full parsing is too strict and sometimes
+  /// doesn't render new lines. Use `.inlineOnlyPreservingWhitespace` for a more lenient parsing.
   /// - Precondition: Requires iOS 15 and above.
   @available(iOS 15, *)
-  func toMarkdown() -> AttributedString {
+  func toMarkdown(
+    options: AttributedString.MarkdownParsingOptions = AttributedString.MarkdownParsingOptions(
+      interpretedSyntax: .full
+    )
+  ) -> AttributedString {
     do {
-      return try AttributedString(markdown: self)
+      return try AttributedString(markdown: self, options: options)
     } catch {
       return AttributedString(self)
     }
