@@ -20,9 +20,9 @@ public enum AppInfo {
   }
 #endif
   
-  /// Opens `App Store` and deep linking to the app with provided id.
-  public static func openAppStore(appName: String, appleAppId: String) {
-    guard let url = URL(string: "itms-apps://apps.apple.com/us/app/\(appName)/id\(appleAppId)") else { return }
+  /// Opens `App Store` deep linking to the app with provided id.
+  public static func openAppStore(appId: String) {
+    guard let url = URL(string: "itms-apps://apps.apple.com/app/id\(appId)") else { return }
     openUrl(url)
   }
   
