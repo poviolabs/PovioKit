@@ -13,16 +13,22 @@ import AppKit
 #endif
 
 public enum AppInfo {
-  /// Opens `Settings` app for current app.
 #if os(iOS)
+  /// Opens `Settings` app for current app.
   public static func openSettings() {
-    URL(string: UIApplication.openSettingsURLString).map(openUrl)
+    URL(string: UIApplication.openSettingsURLString).map { openUrl($0) }
+  }
+  
+  /// Opens `Notifications` section in `Settings` app.
+  @available(iOS 16.0, *)
+  public static func openNotificationSettings() {
+    URL(string: UIApplication.openNotificationSettingsURLString).map { openUrl($0) }
   }
 #endif
   
-  /// Opens `App Store` and deep linking to the app with provided id.
-  public static func openAppStore(appName: String, appleAppId: String) {
-    guard let url = URL(string: "itms-apps://apps.apple.com/us/app/\(appName)/id\(appleAppId)") else { return }
+  /// Opens `App Store` deep linking to the app with provided id.
+  public static func openAppStore(appId: String) {
+    guard let url = URL(string: "itms-apps://apps.apple.com/app/id\(appId)") else { return }
     openUrl(url)
   }
   
@@ -31,14 +37,23 @@ public enum AppInfo {
     URL(string: "tel://" + number).map { openUrl($0) }
   }
   
-  /// Opens given `url` if `canOpenURL` method returns true.
-  public static func openUrl(_ url: URL) {
+  /// Opens given `url` in the default browser, if `canOpenURL` method returns true.
+  ///
+  /// If `isSafari` param is true, url will be opened in the Safari instead, overriding the default selected browser.
+  public static func openUrl(_ url: URL, inSafari: Bool = false) {
+    var targetUrl = url
 #if os(iOS)
-    guard UIApplication.shared.canOpenURL(url) else { return }
-    UIApplication.shared.open(url, options: [:])
+    if inSafari, #available(iOS 17.0, *) {
+      targetUrl = URL(string: "x-safari-\(url.absoluteString)")!
+    }
+    guard UIApplication.shared.canOpenURL(targetUrl) else { return }
+    UIApplication.shared.open(targetUrl, options: [:])
 #elseif os(macOS)
-    guard NSWorkspace.shared.urlForApplication(toOpen: url) != nil else { return }
-    NSWorkspace.shared.open(url)
+    if inSafari, let safariUrl = URL(string: "safari://\(url.absoluteString)") {
+      targetUrl = safariUrl
+    }
+    guard NSWorkspace.shared.urlForApplication(toOpen: targetUrl) != nil else { return }
+    NSWorkspace.shared.open(targetUrl)
 #endif
   }
   
