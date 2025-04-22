@@ -13,10 +13,16 @@ import AppKit
 #endif
 
 public enum AppInfo {
-  /// Opens `Settings` app for current app.
 #if os(iOS)
+  /// Opens `Settings` app for current app.
   public static func openSettings() {
     URL(string: UIApplication.openSettingsURLString).map(openUrl)
+  }
+  
+  /// Opens `Notifications` section in `Settings` app.
+  @available(iOS 16.0, *)
+  public static func openNotificationSettings() {
+    URL(string: UIApplication.openNotificationSettingsURLString).map(openUrl)
   }
 #endif
   
