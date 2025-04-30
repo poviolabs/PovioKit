@@ -43,7 +43,7 @@ public enum AppInfo {
   public static func openUrl(_ url: URL, inSafari: Bool = false) {
     var targetUrl = url
 #if os(iOS)
-    if inSafari, #available(iOS 17.0, *) {
+    if inSafari, #available(iOS 17.5, *) {
       targetUrl = URL(string: "x-safari-\(url.absoluteString)")!
     }
     guard UIApplication.shared.canOpenURL(targetUrl) else { return }
