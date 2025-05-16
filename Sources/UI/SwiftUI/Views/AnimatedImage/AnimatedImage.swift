@@ -5,7 +5,6 @@
 //  Created by Borut Tomazin on 25/02/2025.
 //
 
-#if canImport(Kingfisher)
 import Kingfisher
 import SwiftUI
 
@@ -43,4 +42,3 @@ public extension AnimatedImage {
     case remote(url: URL?)
   }
 }
-#endif
